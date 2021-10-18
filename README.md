@@ -67,7 +67,7 @@ svn checkout https://github.com/PrefectHQ/cs-templates/trunk/<dir>
 - [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) to pass Secrets in $\lambda$ invocations
 
 - **ETL Templates**:
-    - Well-documented API $\longrightarrow$ SQL-Engine agnostic destination
+    - Well-documented API to SQL-Engine agnostic destination
     - General ETL using Orion functionality
     - Massively parallel ETL / ELT
 
