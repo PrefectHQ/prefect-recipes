@@ -10,7 +10,7 @@
 <h2 align="center">Customer Success Templates</h2>
 
   <p align="center">
-    Common and extensible, Prefect-oriented patterns to enable customer adoption through proficiency. 
+    Common and extensible, Prefect-oriented patterns to drive customer adoption through proficiency. 
     <!-- <br />
     <a href="??"><strong>Explore prod use-cases »</strong></a>
     <br /> -->
