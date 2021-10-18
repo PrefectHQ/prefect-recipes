@@ -60,7 +60,7 @@ Sparse checkout suggestions welcome!
 <!-- ROADMAP -->
 ## Roadmap
 
-- [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) to pass Secrets in $\lambda$ invocations
+- [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) to pass Secrets in Lambda invocations
 
 - **ETL Templates**:
     - Well-documented API to SQL-Engine agnostic destination
