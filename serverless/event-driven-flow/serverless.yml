@@ -41,7 +41,7 @@ functions:
       - { Ref: PythonRequirementsLambdaLayer }
     events:
       - s3:
-          bucket: grc-dispatch-emails
+          bucket: my-random-s3-bucket
           event: s3:ObjectCreated:*
           existing: true
 

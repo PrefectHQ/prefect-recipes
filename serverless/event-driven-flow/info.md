@@ -22,13 +22,16 @@ See [installation](https://www.serverless.com/framework/docs/providers/aws/guide
         - IAM resource policies
     - functions
         - handler (i.e. what code should our $\lambda$ consist of?)
-            - `module.function` to deploy as a $\lambda$ (e.g. `handler.run`)
+            - `module.function` (e.g. `handler.run`)
         - layers
             - `{ Ref: PythonRequirementsLambdaLayer }`
         - events (i.e. what should trigger our $\lambda$?)
+            - service (e.g. S3)
+                - key: value (e.g. `bucket: my-random-s3-bucket`)
     - plugins
       - `serverless-python-requirements` (for `python` runtimes)
 
+<br>
 
 - Write the `handler.py` to handle the `event` given its `JSON` structure.
 
