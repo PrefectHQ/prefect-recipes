@@ -52,12 +52,8 @@
 ```console 
 git clone git@github.com:PrefectHQ/cs-templates.git
 ```
-or for a sparse checkout
 
-```console 
-svn checkout https://github.com/PrefectHQ/cs-templates/trunk/<dir>
-```
-
+Sparse checkout suggestions welcome!
 
 <hr>
 
