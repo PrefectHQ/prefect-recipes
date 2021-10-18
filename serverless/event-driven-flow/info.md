@@ -1,10 +1,10 @@
-# $\lambda$ for event-driven Prefect flows
+# Lambda for event-driven Prefect flows
 
 
 ## Setup 
 Check your `serverless` framework installation:
 ```console
-❯ sls --version
+sls --version
 ```
 
 See [installation](https://www.serverless.com/framework/docs/providers/aws/guide/installation) and [provider authentication](https://www.serverless.com/framework/docs/providers/aws/guide/credentials) instructions.
@@ -18,14 +18,14 @@ See [installation](https://www.serverless.com/framework/docs/providers/aws/guide
         - stage
         - region
         - runtime
-        - $\lambda$ hashing version
+        - Lambda hashing version
         - IAM resource policies
     - functions
-        - handler (i.e. what code should our $\lambda$ consist of?)
+        - handler (i.e. what code should our Lambda consist of?)
             - `module.function` (e.g. `handler.run`)
         - layers
             - `{ Ref: PythonRequirementsLambdaLayer }`
-        - events (i.e. what should trigger our $\lambda$?)
+        - events (i.e. what should trigger our Lambda?)
             - service (e.g. S3)
                 - key: value (e.g. `bucket: my-random-s3-bucket`)
     - plugins
@@ -39,6 +39,6 @@ See [installation](https://www.serverless.com/framework/docs/providers/aws/guide
 To deploy a new version of this Lambda, run the following with the relevant `aws` authentication:
 
 ```console
-❯ sls deploy
+sls deploy
 ```
 
