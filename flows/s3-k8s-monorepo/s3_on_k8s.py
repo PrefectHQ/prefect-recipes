@@ -15,7 +15,7 @@ storage = S3(
 )
 
 run_config = KubernetesRun(
-    image=get_key_value("BASE_IMAGE_TEST") # need to define as tenant kv pair
+    image=get_key_value("TPS_BASE_IMAGE_TEST") # need to define as tenant kv pair
 )
 
 @task(name="General import", log_stdout=True)
