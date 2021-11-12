@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "s3-storage"
+name = "s3-k8s-monorepo"
 version = "0.1.0"
 description = "Templates for prefect flows using S3 storage"
 authors = ["Nathan Nowack"]
