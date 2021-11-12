@@ -1,22 +1,18 @@
 from prefect import Flow, task
-from prefect.backend import get_key_value
 from prefect.core.task import Parameter
-from prefect.run_configs import KubernetesRun
 from prefect.storage.s3 import S3
 
-# K8s exec
 # S3 storage
 
+PROJECT = "test-project"
+
 storage = S3(
-    bucket = "prefect-flow-bucket",
-    key = "my_import_job",
+    bucket = "cs-template-s3-flow-storage",
+    key = f"{PROJECT}/my_import_job",
     stored_as_script = True,
     local_script_path = "s3_on_k8s.py",
 )
 
-run_config = KubernetesRun(
-    image=get_key_value("TPS_BASE_IMAGE_TEST") # need to define as tenant kv pair
-)
 
 @task(name="General import", log_stdout=True)
 def ImportJob(i: str):
@@ -24,7 +20,6 @@ def ImportJob(i: str):
 
 with Flow(
     name='Import Some Sources',
-    run_config=run_config,
     storage=storage,
 
 ) as flow:
