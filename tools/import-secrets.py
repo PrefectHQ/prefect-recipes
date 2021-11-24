@@ -3,7 +3,7 @@ import toml
 
 client = Client()
 
-CONFIG = '~/.prefect/config.toml'
+CONFIG = 'config.toml' # probably this in practice: '~/.prefect/config.toml'
 
 secrets = toml.load(CONFIG)['context']['secrets']
 
