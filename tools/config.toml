@@ -5,3 +5,8 @@ use_local_secrets = false
 sample_key1 = "sample_value1"
 sample_key2 = "sample_value2"
 sample_key3 = "sample_value3"
+
+#
+sdlkfj = 'lksjdfldsk'
+EXTRA_SECRET_SECRET1 = 'slkjfhkjsdfhskd'
+EXTRA_SECRET_SECRET2 = 'ksjhfjksd'
