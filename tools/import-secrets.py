@@ -10,13 +10,13 @@ CONFIG = '~/.prefect/config.toml'
 secrets = toml.load(CONFIG)['context']['secrets']
 
 # the only secret names you want to sync to your cloud tenant
-whitelist = ['SPECIFIC_SECRET_TO_SYNC']
+allow_list = ['SPECIFIC_SECRET_TO_SYNC']
 
 # secret names you don't want to sync to your cloud tenant
-blacklist = ['EXTRA_SECRET_SECRET1', 'EXTRA_SECRET_SECRET2']
+deny_list = ['EXTRA_SECRET_SECRET1', 'EXTRA_SECRET_SECRET2']
 
 # sync desired local secrets to the current cloud tenant
 for n, v in secrets.items():
-    if n in whitelist: # OR if n not in blacklist: 
+    if n in allow_list: # OR if n not in deny_list: 
         print(f'Setting cloud secret: {n}')
         client.set_secret(name=n, value=v)
