@@ -27,6 +27,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
+    <li><a href="#templates">Templates</a> </li>
     <li>
       <a href="#tools">Tools</a>
     </li>
@@ -38,11 +39,15 @@
 
 <hr>
 
+## Templates
+- [Serverless Lambda to trigger Prefect flows](https://github.com/PrefectHQ/cs-templates/tree/main/serverless/event-driven-flow)
+- [General flow template using k8s and S3 storage](https://github.com/PrefectHQ/cs-templates/tree/main/flows/s3-storage/demo-project)
+- [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/cs-templates/tree/main/tools)
+
 <!-- TOOLS -->
 ## Tools
 
 - [Severless Framework for AWS Lambda](https://www.serverless.com/framework/docs)
-
 
 <hr>
 
