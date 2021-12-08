@@ -58,8 +58,6 @@
 git clone git@github.com:PrefectHQ/customer-success-recipes.git
 ```
 
-Sparse checkout suggestions welcome!
-
 <hr>
 
 <!-- ROADMAP -->

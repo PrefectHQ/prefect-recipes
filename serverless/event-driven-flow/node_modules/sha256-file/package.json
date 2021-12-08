@@ -1,0 +1,37 @@
+{
+  "name": "sha256-file",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "test.js",
+    "LICENSE.md",
+    "README.md"
+  ],
+  "version": "1.0.0",
+  "description": "return an sha256sum of a given file",
+  "keywords": [
+    "sha256",
+    "sha256sum",
+    "checksum"
+  ],
+  "homepage": "https://github.com/so-ta/sha256-file",
+  "author": {
+    "name": "Souta Ozaki",
+    "email": "souta.ozaki@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/so-ta/sha256-file.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "http://github.com/so-ta/sha256-file/issues",
+    "email": "souta.ozaki@gmail.com"
+  },
+  "scripts": {
+    "test": "standard && node test"
+  },
+  "devDependencies": {
+    "standard": "^3.8.0"
+  }
+}
