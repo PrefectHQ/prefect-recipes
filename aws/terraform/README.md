@@ -14,19 +14,12 @@
 
 ## Module Readme Structure
 ```
-<<<<<<< HEAD
 ## Module Name
 
 #### Inputs:
 | Variable Name | Type | Description | Required/Optional | Default Value |
 |-------------|-------------|-------------|-------------|-------------|
 | variable_name | type of variable | description of input | Required | none |
-=======
-#### Inputs:
-| Variable Name | Type | Description | Required/Optional | Default Value |
-|-------------|-------------|-------------|-------------|-------------|
-| variable_name | type of variable | description of input | none |
->>>>>>> 0fc46db11a924de9a586da749e76d7768bb1ac06
 
 #### Outputs:
 | Output Name | Description |
