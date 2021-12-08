@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/PrefectHQ/cs-templates">
+  <a href="https://github.com/PrefectHQ/customer-success-recipes">
     <img src="imgs/prefect_logo.png" alt="Logo">
   </a>
 
@@ -15,9 +15,9 @@
     <a href="??"><strong>Explore prod use-cases »</strong></a>
     <br /> -->
     <br />
-    <a href="https://github.com/PrefectHQ/cs-templates/issues">Report Bug</a>
+    <a href="https://github.com/PrefectHQ/customer-success-recipes/issues">Report Bug</a>
     ·
-    <a href="https://github.com/PrefectHQ/cs-templates/issues">Request Feature</a>
+    <a href="https://github.com/PrefectHQ/customer-success-recipes/issues">Request Feature</a>
   </p>
 </div>
 
@@ -40,9 +40,9 @@
 <hr>
 
 ## Templates
-- [Serverless Lambda to trigger Prefect flows](https://github.com/PrefectHQ/cs-templates/tree/main/serverless/event-driven-flow)
-- [General flow template using k8s and S3 storage](https://github.com/PrefectHQ/cs-templates/tree/main/flows/s3-storage/demo-project)
-- [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/cs-templates/tree/main/tools)
+- [Serverless Lambda to trigger Prefect flows](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/serverless/event-driven-flow)
+- [General flow template using k8s and S3 storage](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/flows/s3-storage/demo-project)
+- [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/tools/)
 
 <!-- TOOLS -->
 ## Tools
@@ -55,7 +55,7 @@
 ## Usage
 
 ```console 
-git clone git@github.com:PrefectHQ/cs-templates.git
+git clone git@github.com:PrefectHQ/customer-success-recipes.git
 ```
 
 Sparse checkout suggestions welcome!
@@ -80,7 +80,7 @@ Sparse checkout suggestions welcome!
 
 <br>
 
-See the [open issues](https://github.com/PrefectHQ/cs-templates/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/PrefectHQ/customer-success-recipes/issues) for a full list of proposed features (and known issues).
 
 
 <hr>
@@ -88,6 +88,8 @@ See the [open issues](https://github.com/PrefectHQ/cs-templates/issues) for a fu
 <!-- CONTACT -->
 ## Contact
 - George Coyne : george@prefect.io
+
+- Jamie Dick : jamie@prefect.io
 
 - Nathan Nowack : nate@prefect.io
 
