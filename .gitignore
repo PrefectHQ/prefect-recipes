@@ -4,3 +4,6 @@
 ## terraform files
 .terraform 
 .terraform.lock.hcl
+
+# jamie
+jamie.txt

@@ -1,4 +1,5 @@
 ## Delete Default VPCs Script
+Removes the default VPC across all AWS regions
 
 #### Inputs:
 | Variable Name | Type | Description | Required/Optional | Default Value |

@@ -35,13 +35,13 @@ Deploy private networking infrastructure
 module "network" {
   source      = "path/to/network"
 
-  vpc_name = "vpc-name"
+  vpc_name    = "vpc-name"
   environment = "dev"
 
   azs = ["us-east-1b", "us-east-1c"]
 
-  vpc_cidr = "10.0.0.0/16"
+  vpc_cidr             = "10.0.0.0/16"
   private_subnet_cidrs = ["10.0.0.0/24","10.0.1.0/24"]
-  public_subnet_cidrs = ["10.0.3.0/24","10.0.4.0/24"]
+  public_subnet_cidrs  = ["10.0.3.0/24","10.0.4.0/24"]
 }
 ```
