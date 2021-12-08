@@ -52,7 +52,7 @@ module "vpc_endpoints" {
       tags    = { Name = "s3-vpc-endpoint" }
     }
     ecr = {
-      service_name = "com.amazonaws.${aws_region.current.name}.ecr.dkr"
+      service_name = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
       tags         = { Name = "ecr-vpc-endpoint" }
     }
   }
