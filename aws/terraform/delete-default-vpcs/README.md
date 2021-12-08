@@ -4,7 +4,7 @@ Removes the default VPC across all AWS regions
 #### Inputs:
 | Variable Name | Type | Description | Required/Optional | Default Value |
 |-------------|-------------|-------------|-------------|-------------|
-| function_name | string | unique name of the lambda function | Required | delete-default-vpcs |
+| function_name | string | unique name of the lambda function | Optional | delete-default-vpcs |
 
 #### Outputs:
 None
