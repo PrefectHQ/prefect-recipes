@@ -42,12 +42,8 @@
 ## Templates
 - [Serverless Lambda to trigger Prefect flows](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/serverless/event-driven-flow)
 - [General flow template using k8s and S3 storage](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/flows/s3-storage/demo-project)
-- [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/tools/)
-
-<!-- TOOLS -->
-## Tools
-
-- [Severless Framework for AWS Lambda](https://www.serverless.com/framework/docs)
+- [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/tools/import-secrets-to-cloud)
+- [Deploy prefect agent on AWS EC2 instance](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/terraform/prefect-agent-on-ec2)
 
 <hr>
 
@@ -65,18 +61,7 @@ Sparse checkout suggestions welcome!
 <!-- ROADMAP -->
 ## Roadmap
 
-- [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) to pass Secrets in Lambda invocations
-
-- **ETL Templates**:
-    - Well-documented API to SQL-Engine agnostic destination
-    - General ETL using Orion functionality
-    - Massively parallel ETL / ELT
-
-- **Common Terraform recipes**
-
-- **Documentation Crawlers**
-
-
+- to be determined...
 
 <br>
 
