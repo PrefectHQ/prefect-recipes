@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/PrefectHQ/customer-success-recipes">
-    <img src="imgs/prefect_logo.png" alt="Logo">
+    <img src="imgs/prefect_logo.png" alt="Logo" width="200">
   </a>
 
 <h2 align="center">Customer Success Templates</h2>
