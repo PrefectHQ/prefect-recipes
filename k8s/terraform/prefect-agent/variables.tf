@@ -1,12 +1,28 @@
-variable "api" { default = "api.prefect.io" }
+variable "api" {
+  default     = "api.prefect.io"
+  description = "Prefect backend API, defaults to Prefect cloud at ap.prefect.io"
+}
 variable "api_key" {
   description = "Prefect Cloud api key or (deprecated) token"
 }
-variable "create_namespace" { default = true }
-variable "use_existing_role" { default = false }
-variable "use_existing_secret" { default = false }
-variable "api_key_secret_name" { default = "prefect-cloud-api-key" }
+variable "create_namespace" {
+  default     = true
+  description = "Indicates whether to create a new namespace should be created"
+}
+variable "use_existing_role" {
+  default     = false
+  description = "Indicates whether to use an existing role or not"
+}
+variable "use_existing_secret" {
+  default     = false
+  description = "Indicates whether to use an existing kubernetes secret fot the prefect cloud API Key, requires `api_secret_name`"
+}
+variable "api_key_secret_name" {
+  default     = "prefect-cloud-api-key"
+  description = "Name of the kubernetes secret, requires `use_existing_secret` to be `True`"
+}
 variable "node_affinity" {
+  description = "Node affinity settings"
   type = object({
     key      = string
     operator = string
