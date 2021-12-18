@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "lambda_policy" {
   statement {
     sid = "LambdaAccountPermissions"
 
-    actions = ["ec2:*"]
+    actions = ["ec2:AttachVolume"]
 
     effect = "Allow"
 
