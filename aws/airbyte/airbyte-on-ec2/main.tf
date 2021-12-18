@@ -52,7 +52,7 @@ resource "aws_autoscaling_group" "airbyte" {
   health_check_grace_period = 300
   health_check_type         = "EC2"
 
-  vpc_zone_identifier = var.subnet_ids
+  vpc_zone_identifier = [var.subnet_id]
 
   enabled_metrics = ["GroupDesiredCapacity", "GroupInServiceCapacity", "GroupPendingCapacity", "GroupMinSize", "GroupMaxSize", "GroupInServiceInstances", "GroupPendingInstances", "GroupStandbyInstances", "GroupStandbyCapacity", "GroupTerminatingCapacity", "GroupTerminatingInstances", "GroupTotalCapacity", "GroupTotalInstances"]
 
