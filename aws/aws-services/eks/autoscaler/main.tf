@@ -8,6 +8,10 @@ resource "helm_release" "cluster_autoscaler" {
   version    = var.helm_chart_version
   repository = var.helm_repo_url
 
+  values = [
+    "${file("autoscaler/values.yaml")}"
+  ]
+
   set {
     name  = "awsRegion"
     value = data.aws_region.current.name
