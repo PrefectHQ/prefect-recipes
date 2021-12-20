@@ -1,6 +1,6 @@
 variable "cluster_name" {
-  description = "a name for the cluster"
   type        = string
+  description = "a name for the cluster"
 }
 
 variable "region" {
@@ -14,28 +14,28 @@ variable "environment" {
 }
 
 variable "k8s_cluster_version" {
-  description = "version number to use for the cluster"
   type        = string
+  description = "version number to use for the cluster"
 }
 
 variable "map_users" {
-  description = "additional IAM users to add to the aws-auth configmap"
   type = list(object({
     userarn  = string
     username = string
     groups   = list(string)
   }))
-  default = []
+  description = "additional IAM users to add to the aws-auth configmap"
+  default     = []
 }
 
 variable "map_roles" {
-  description = "Additional IAM Roles to add to the aws-auth configmap"
   type = list(object({
     rolearn  = string
     username = string
     groups   = list(string)
   }))
-  default = []
+  description = "additional IAM Roles to add to the aws-auth configmap"
+  default     = []
 }
 
 variable "prefect_api_secret_id" {
@@ -45,11 +45,11 @@ variable "prefect_api_secret_id" {
 }
 
 variable "vpc_id" {
-    type = string
-    description = "ID for the VPC in which the cluster will be created"
+  type        = string
+  description = "ID for the VPC in which the cluster will be created"
 }
 
-variable "private_subnets" {
-    type = list
-    description = "Private subnets in which cluster nodes will be created"
+variable "private_subnet_ids" {
+  type        = list(string)
+  description = "private subnets in which cluster nodes will be created"
 }

@@ -6,7 +6,7 @@ module "eks" {
   enable_irsa     = true
 
   vpc_id  = var.vpc_id
-  subnets = var.private_subnets
+  subnets = var.private_subnet_ids
 
   node_groups = {
     config = {
@@ -18,10 +18,9 @@ module "eks" {
       capacity_type  = "ON_DEMAND"
       k8s_labels = {
         Environment = var.environment
-        Service     = "prefect"
+        base_node   = "yes"
       }
       additional_tags = {
-        "tf:repo-name" = "base-infra"
         managed-by     = "terraform"
       }
     }
@@ -36,10 +35,8 @@ module "eks" {
 
       k8s_labels = {
         Environment = var.environment
-        Service     = "prefect"
       }
       additional_tags = {
-        "tf:repo-name" = "base-infra"
         managed-by     = "terraform"
       }
     }
@@ -51,6 +48,6 @@ module "eks" {
   tags = {
     Environment = var.environment
     Service     = "prefect",
-    "managed-by" : "terraform"
+    managed-by  = "terraform"
   }
 }
