@@ -35,6 +35,3 @@ sed -i 's|file = /airbyte/var/log/messages|''file = /var/log/messages''|g' /etc/
 # start the logs service
 systemctl start awslogsd
 systemctl enable awslogsd.service
-
-# forward airbyte specific logs
-# docker run -d --name nginx --log-driver=awslogs --log-opt awslogs-region=${region} --log-opt awslogs-group=airbyte/logs --log-opt awslogs-create-group=true -p 8112:80 nginx
