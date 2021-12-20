@@ -1,4 +1,4 @@
-# Terraform modules for AWS deployments
+# Terraform modules for AWS Service deployments
 
 ## Module structure
 | File Name | Purpose | Required/Optional |
