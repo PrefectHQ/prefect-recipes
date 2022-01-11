@@ -40,8 +40,8 @@ variable "map_roles" {
 
 variable "prefect_api_secret_id" {
   type        = string
-  description = "API key to allow the prefect agent to communicate with Prefect cloud"
-  default     = "prefect_api_key"
+  description = "AWS secrets manager secret ID for the API key to allow the prefect agent to communicate with Prefect cloud"
+  default     = "prefect-api-key"
 }
 
 variable "vpc_id" {

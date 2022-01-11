@@ -1,3 +1,11 @@
+# EKS terraform module
+
+---
+
+## Description
+
+A terraform module to deploy an Amazon EKS cluster with the Prefect agent installed.
+
 ## Requirements
 
 | Name                                                                         | Version  |
@@ -49,3 +57,17 @@
 ## Outputs
 
 No outputs.
+
+## Usage
+```
+module "eks" {
+  source      = "path/to/eks"
+
+  cluster_name        = "xxxxxxxxxxxxxxxxx"
+  region              = "xxxxxxxxxxxxxxxxx"
+  environment         = "xxxxxxxxxxxxxxxxx"
+  k8s_cluster_version = "xxxxxxxxxxxxxxxxx"
+  vpc_id              = "xxxxxxxxxxxxxxxxx"
+  private_subnet_ids  = "xxxxxxxxxxxxxxxxx"
+}
+```

@@ -21,7 +21,7 @@ module "eks" {
         base_node   = "yes"
       }
       additional_tags = {
-        managed-by     = "terraform"
+        managed-by = "terraform"
       }
     }
 
@@ -37,7 +37,7 @@ module "eks" {
         Environment = var.environment
       }
       additional_tags = {
-        managed-by     = "terraform"
+        managed-by = "terraform"
       }
     }
   }

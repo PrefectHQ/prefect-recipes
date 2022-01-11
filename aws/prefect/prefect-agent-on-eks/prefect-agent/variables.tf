@@ -5,9 +5,6 @@ variable "prefect_api_secret_id" {
   description = "Secret ID for Prefect Cloud api key stored in AWS secrets manager"
   type        = string
 }
-variable "api_key_secret_name" {
-  default = "prefect-cloud-api-key"
-}
 variable "node_affinity" {
   type = object({
     key      = string
