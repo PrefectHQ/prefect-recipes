@@ -1,7 +1,7 @@
 variable "instance_type" {
   type        = string
-  description = "AWS instance type, default requirement is t2.medium"
-  default     = "t2.medium"
+  description = "AWS instance type, default requirement is t2.large"
+  default     = "t2.large"
 }
 variable "ami_id" {
   type        = string
