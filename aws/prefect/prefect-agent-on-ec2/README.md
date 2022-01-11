@@ -1,4 +1,4 @@
-## Prefect Agent on EC2
+# Prefect Agent on EC2
 Deploy 1 or more EC2 instances within an Autoscaling Group that will host the Prefect agent
 
 ## Requirements
@@ -62,7 +62,5 @@ module "prefect_agent" {
   environment        = "dev"
   vpc_id             = "vpc-xxxxxxxxxxxxxxxxx"
   private_subnet_ids = ["subnet-xxxxxxxxxxxxxxxxx","subnet-xxxxxxxxxxxxxxxxx"]
-  
-  prefect_secret_id  = "prefect_api_key"
 }
 ```
