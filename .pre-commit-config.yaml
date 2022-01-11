@@ -24,7 +24,6 @@ repos:
       - id: tflint
         args:
           - "--module"
-          - "--deep"
           - "--config=.tflint.hcl"
       - id: markdown-link-check
   - repo: git://github.com/antonbabenko/pre-commit-terraform
