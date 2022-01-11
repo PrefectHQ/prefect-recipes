@@ -12,6 +12,8 @@ Deploy 1 or more EC2 instances within an Autoscaling Group that will host the Pr
 | min_capacity | number | minimum number of Prefect agents to be running at any given time | Optional | 1 |
 | max_capacity | number | maximum number of Prefect agents to be running at any given time | Optional | 1 |
 | desired_capacity | number | desired number of Prefect agents to be running at any given time | Optional | 1 |
+| linux_type | string | type of linux instance | optional | linux_amd64 |
+| prefect_secret_id | string | ID of AWS secrets manager secret for Prefect API key | required | none |
 
 #### Outputs:
 None
@@ -29,5 +31,7 @@ module "prefect_agent" {
   environment        = "dev"
   vpc_id             = "vpc-xxxxxxxxxxxxxxxxx"
   private_subnet_ids = ["subnet-xxxxxxxxxxxxxxxxx","subnet-xxxxxxxxxxxxxxxxx"]
+  
+  prefect_secret_id  = "prefect_api_key"
 }
 ```
