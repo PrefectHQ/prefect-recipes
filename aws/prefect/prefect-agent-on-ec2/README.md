@@ -1,28 +1,59 @@
 ## Prefect Agent on EC2
 Deploy 1 or more EC2 instances within an Autoscaling Group that will host the Prefect agent
 
-#### Inputs:
-| Variable Name | Type | Description | Required/Optional | Default Value |
-|-------------|-------------|-------------|-------------|-------------|
-| instance_type | string | AWS instance type | Optional | t3.medium |
-| ami_id | string | AMI to launch the EC2 instance from | Required | none |
-| environment | string | SDLC stage | Required | none |
-| vpc_id | string | ID of the VPC to deploy the Prefect agent into | Required | none |
-| private_subnet_ids | list(string) | IDs of the subnets that will host the Prefect agent EC2 instance | Required | none |
-| min_capacity | number | minimum number of Prefect agents to be running at any given time | Optional | 1 |
-| max_capacity | number | maximum number of Prefect agents to be running at any given time | Optional | 1 |
-| desired_capacity | number | desired number of Prefect agents to be running at any given time | Optional | 1 |
-| linux_type | string | type of linux instance | optional | linux_amd64 |
-| prefect_secret_id | string | ID of AWS secrets manager secret for Prefect API key | required | none |
+## Requirements
 
-#### Outputs:
-None
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.6.0 |
 
-#### Creates:
-* EC2 instance(s) bootstrapped with Docker, Prefect agent, and other neccessary configuration.  Launched in an autoscaling group with a security group that allows no inbound traffic and all outbound traffic by default
-* IAM role, policys and instance profile that will allow the EC2 instance(s) hosting the Prefect agent to communicate with S3, ECR, Secret Manger and CloudWatch Logs. Also attaches the AWS managed SSM policy to allow for ssh access to the instance via SSM.
+## Providers
 
-#### Usage:
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.6.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_autoscaling_group.prefect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group) | resource |
+| [aws_iam_instance_profile.instance_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
+| [aws_iam_policy_attachment.ssm_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment) | resource |
+| [aws_iam_role.role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_launch_template.prefect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
+| [aws_security_group.sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI to launch the EC2 instance from | `string` | n/a | yes |
+| <a name="input_desired_capacity"></a> [desired\_capacity](#input\_desired\_capacity) | desired number of prefect agents to be running at any given time | `number` | `1` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | SDLC stage | `string` | n/a | yes |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | AWS instance type | `string` | `"t3.medium"` | no |
+| <a name="input_linux_type"></a> [linux\_type](#input\_linux\_type) | type of linux instance | `string` | `"linux_amd64"` | no |
+| <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | maximum number of prefect agents to be running at any given time | `number` | `1` | no |
+| <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | minimum number of Prefect agents to be running at any given time | `number` | `1` | no |
+| <a name="input_prefect_secret_key"></a> [prefect\_secret\_key](#input\_prefect\_secret\_key) | Key of AWS secrets manager secret for Prefect API key | `string` | `"key"` | no |
+| <a name="input_prefect_secret_name"></a> [prefect\_secret\_name](#input\_prefect\_secret\_name) | ID of AWS secrets manager secret for Prefect API key | `string` | `"prefect-api-key"` | no |
+| <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | IDs of the subnets that will host the Prefect agent EC2 instance | `list(string)` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC to deploy the Prefect agent into | `string` | n/a | yes |
+
+## Outputs
+
+No outputs.
+
+## Usage:
+
 ```
 module "prefect_agent" {
   source      = "path/to/prefect-agent-on-ec2"
