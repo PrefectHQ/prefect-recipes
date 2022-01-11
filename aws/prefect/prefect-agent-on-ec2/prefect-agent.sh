@@ -3,7 +3,7 @@ yum update -y
 
 # install ssm
 cd /tmp 
-yum install -y https://s3.region.amazonaws.com/amazon-ssm-region/latest/linux_amd64/amazon-ssm-agent.rpm
+yum install -y https://s3.${region}.amazonaws.com/amazon-ssm-${region}/latest/${linux_type}/amazon-ssm-agent.rpm
 systemctl enable amazon-ssm-agent 
 systemctl start amazon-ssm-agent
 
@@ -23,7 +23,7 @@ yum install awslogs -y
 echo "[plugins]
 cwlogs = cwlogs
 [default]
-region = UPDATE_REGION_HERE" >> /etc/awslogs/awscli.conf
+region = ${region}" >> /etc/awslogs/awscli.conf
 
 # start the logs service
 systemctl start awslogsd
@@ -33,9 +33,9 @@ systemctl enable awslogsd.service
 pip3 install prefect
 
 # get API key
-result=$(aws secretsmanager get-secret-value --secret-id UPDATE_SECRET_ID_HERE --region UPDATE_REGION_HERE)
+result=$(aws secretsmanager get-secret-value --secret-id ${prefect_secret_id} --region ${region})
 secret=$(echo $result | jq -r '.SecretString')
-PREFECT_API_KEY=$(echo $secret | jq -r '.UPDATE_SECRET_ID_HERE')
+PREFECT_API_KEY=$(echo $secret | jq -r '.${prefect_secret_id}')
 
 # create systemd config
 touch /etc/systemd/system/prefect-agent.service
