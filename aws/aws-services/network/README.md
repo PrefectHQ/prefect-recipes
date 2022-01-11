@@ -1,4 +1,9 @@
 # Private Network Module
+
+---
+
+## Description
+
 Deploy private networking infrastructure
 
 ## Requirements

@@ -1,4 +1,9 @@
 # Airbyte on EC2
+
+---
+
+## Description
+
 Deploys Airbyte on an EC2 instance in an autoscaling group and attaches an EBS volume to hold Airbyte configuration files
 
 ## Requirements
