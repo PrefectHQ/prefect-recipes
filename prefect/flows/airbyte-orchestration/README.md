@@ -1,6 +1,13 @@
 # Airbyte Orchestrator Flow
 
-Schedule and trigger existing Airbyte sync jobs with the Prefect Airbyte Task.
+<center>
+
+![](airbyte-prefect.png)
+</center>
+
+<hr>
+
+A pared-down recipe to schedule and trigger existing Airbyte sync jobs with the Prefect Airbyte Task.
 
 
 ### [Dependencies](pyproject.toml)
