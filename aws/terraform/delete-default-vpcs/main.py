@@ -1,15 +1,16 @@
-import boto3
 import logging
-from sys import argv
+
+import boto3
 
 # Setup logger
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
+
 class DefaultVpcDeleter(object):
     def __init__(self, region):
         # Establish session
-        session = boto3.session.Session(region_name = region)
+        session = boto3.session.Session(region_name=region)
         self.ec2 = session.client("ec2")
 
         # Other variables
@@ -18,12 +19,11 @@ class DefaultVpcDeleter(object):
         self.dhcpOptionsId = ""
         self.dryRun = False
 
-
     def delete(self):
         # Get all VPCs in a region, if none, or an error return to loop
-        if self.get_vpcs() == False:
+        if not self.get_vpcs():
             return
-        
+
         # Detach & Delete IGW
         self.delete_igw()
 
@@ -42,7 +42,7 @@ class DefaultVpcDeleter(object):
         # Get all VPCs
         try:
             vpcs = self.ec2.describe_vpcs()["Vpcs"]
-        
+
         # Handle exceptions
         except Exception as e:
             log.error(f"Ran into issue describing VPCs in {self.region}: {e}")
@@ -51,27 +51,21 @@ class DefaultVpcDeleter(object):
         # If there are none, return
         if not vpcs:
             return False
-        
+
         # Loop through VPCs and find the default, if it exists
         for vpc in vpcs:
-            if vpc["IsDefault"] == True:
+            if vpc["IsDefault"]:
                 self.vpcId = vpc["VpcId"]
                 self.dhcpOptionsId = vpc["DhcpOptionsId"]
                 return True
         # Return false if no default VPC identified
         return False
 
-
     def delete_igw(self):
         # Get IGW attached to default VPC
         try:
             igwId = self.ec2.describe_internet_gateways(
-                Filters = [
-                    {
-                        "Name": "attachment.vpc-id",
-                        "Values": [self.vpcId]
-                    }
-                ]
+                Filters=[{"Name": "attachment.vpc-id", "Values": [self.vpcId]}]
             )["InternetGateways"][0]["InternetGatewayId"]
 
         # Handle exceptions
@@ -82,38 +76,31 @@ class DefaultVpcDeleter(object):
         # Detach IGW
         try:
             self.ec2.detach_internet_gateway(
-                InternetGatewayId = igwId,
-                VpcId = self.vpcId,
-                DryRun = self.dryRun
+                InternetGatewayId=igwId, VpcId=self.vpcId, DryRun=self.dryRun
             )
 
         # Handle exceptions
         except Exception as e:
             log.error(f"Ran into issue detaching IGW {igwId}: {e}")
             return
-        
+
         # Delete IGW
         try:
             self.ec2.delete_internet_gateway(
-                InternetGatewayId = igwId,
-                DryRun = self.dryRun
+                InternetGatewayId=igwId, DryRun=self.dryRun
             )
 
         # Handle exceptions
         except Exception as e:
             log.error(f"Ran into issue deleting IGW {igwId}: {e}")
             return
-        
-    
+
     def delete_subnets(self):
         # Get Subnets in default VPC
         try:
             subnets = self.ec2.describe_subnets(
                 Filters=[
-                    {
-                        "Name": "vpc-id",
-                        "Values": [self.vpcId]
-                    },
+                    {"Name": "vpc-id", "Values": [self.vpcId]},
                 ]
             )["Subnets"]
 
@@ -130,55 +117,47 @@ class DefaultVpcDeleter(object):
         for subnet in subnets:
             subnetId = subnet["SubnetId"]
             try:
-                self.ec2.delete_subnet(
-                    SubnetId = subnetId,
-                    DryRun = self.dryRun
-                )
+                self.ec2.delete_subnet(SubnetId=subnetId, DryRun=self.dryRun)
 
             # Handle exceptions
             except Exception as e:
                 log.error(f"Ran into issue deleting subnet {subnetId}: {e}")
                 return
 
-
     def delete_vpc(self):
         # Delete VPC
         try:
-            self.ec2.delete_vpc(
-                VpcId = self.vpcId,
-                DryRun = self.dryRun
-            )
+            self.ec2.delete_vpc(VpcId=self.vpcId, DryRun=self.dryRun)
 
         # Handle exceptions
         except Exception as e:
             log.error(f"Ran into issue deleting vpc {self.vpcId}: {e}")
             return
 
-
     def delete_dhcp(self):
         # Get DHCP Option Set attached to default VPC
         try:
             self.ec2.delete_dhcp_options(
-                DhcpOptionsId = self.dhcpOptionsId,
-                DryRun = self.dryRun
+                DhcpOptionsId=self.dhcpOptionsId, DryRun=self.dryRun
             )
 
         # Handle exceptions
         except Exception as e:
-            log.error(f"Ran into issue deleting DHCP Option Sets {self.dhcpOptionsId}: {e}")
+            log.error(
+                f"Ran into issue deleting DHCP Option Sets {self.dhcpOptionsId}: {e}"
+            )
             return
-
 
     def confirm(self):
         # Get all VPCs
         try:
             vpcs = self.ec2.describe_vpcs()["Vpcs"]
-        
+
         # Handle exceptions
         except Exception as e:
             log.error(f"Ran into issue describing VPCs in {self.region}: {e}")
             return False
-        
+
         if not vpcs:
             log.info(f"No default VPC left in {self.region}")
         else:
