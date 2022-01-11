@@ -30,4 +30,5 @@ repos:
     rev: v1.43.0
     hooks:
       - id: terraform_docs
+      #  skipping for now, different branch to accommodate 
       # - id: terraform_tfsec
