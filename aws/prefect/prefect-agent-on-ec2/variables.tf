@@ -39,7 +39,13 @@ variable "linux_type" {
   description = "type of linux instance"
   default     = "linux_amd64"
 }
-variable "prefect_secret_id" {
+variable "prefect_secret_name" {
   type        = string
   description = "ID of AWS secrets manager secret for Prefect API key"
+  default     = "prefect-api-key"
+}
+variable "prefect_secret_key" {
+  type        = string
+  description = "Key of AWS secrets manager secret for Prefect API key"
+  default     = "key"
 }

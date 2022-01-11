@@ -23,7 +23,7 @@ yum install awslogs -y
 echo "[plugins]
 cwlogs = cwlogs
 [default]
-region = ${region}" >> /etc/awslogs/awscli.conf
+region = ${region}" > /etc/awslogs/awscli.conf
 
 # start the logs service
 systemctl start awslogsd
@@ -33,9 +33,9 @@ systemctl enable awslogsd.service
 pip3 install prefect
 
 # get API key
-result=$(aws secretsmanager get-secret-value --secret-id ${prefect_secret_id} --region ${region})
+result=$(aws secretsmanager get-secret-value --secret-id ${prefect_secret_name} --region ${region})
 secret=$(echo $result | jq -r '.SecretString')
-PREFECT_API_KEY=$(echo $secret | jq -r '.${prefect_secret_id}')
+PREFECT_API_KEY=$(echo $secret | jq -r '.${prefect_secret_key}')
 
 # create systemd config
 touch /etc/systemd/system/prefect-agent.service

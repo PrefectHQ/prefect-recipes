@@ -25,9 +25,10 @@ resource "aws_launch_template" "prefect" {
 
   user_data = base64encode(templatefile("${path.module}/prefect-agent.sh",
     {
-      region            = data.aws_region.current.name
-      linux_type        = var.linux_type
-      prefect_secret_id = var.prefect_secret_id
+      region              = data.aws_region.current.name
+      linux_type          = var.linux_type
+      prefect_secret_name = var.prefect_secret_name
+      prefect_secret_key  = var.prefect_secret_key
     }
   ))
 }
