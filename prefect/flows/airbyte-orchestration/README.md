@@ -1,9 +1,6 @@
 # Airbyte Orchestrator Flow
 
-<center>
-
 ![](airbyte-prefect.png)
-</center>
 
 <hr>
 
@@ -17,9 +14,6 @@ A pared-down recipe to schedule and trigger existing Airbyte sync jobs with the 
 
 
 ## Authors
-
-Contributors names and contact info
-
 Nate Nowack
 
 [nate@prefect.io](mailto:nate@prefect.io)
