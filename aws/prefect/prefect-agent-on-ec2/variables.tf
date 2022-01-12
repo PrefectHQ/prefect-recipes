@@ -34,3 +34,18 @@ variable "desired_capacity" {
   description = "desired number of prefect agents to be running at any given time"
   default     = 1
 }
+variable "linux_type" {
+  type        = string
+  description = "type of linux instance"
+  default     = "linux_amd64"
+}
+variable "prefect_secret_name" {
+  type        = string
+  description = "ID of AWS secrets manager secret for Prefect API key"
+  default     = "prefect-api-key"
+}
+variable "prefect_secret_key" {
+  type        = string
+  description = "Key of AWS secrets manager secret for Prefect API key"
+  default     = "key"
+}
