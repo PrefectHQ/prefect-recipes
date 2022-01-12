@@ -14,11 +14,6 @@ data "aws_iam_policy_document" "eks_node_group" {
     ]
 
     resources = ["*"]
-
-    # resources = [
-    #   "arn:aws:s3:::bucket_name",
-    #   "arn:aws:s3:::bucket_name/*"
-    # ]
   }
 }
 

@@ -1,6 +1,4 @@
-provider "aws" {
-  region = var.region
-}
+provider "aws" {}
 
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint

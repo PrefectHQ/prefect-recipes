@@ -1,14 +1,46 @@
 # AWS EKS cluster autoscaler Terraform module
 
-
 ---
 
 ## Description
 
 A terraform module to deploy the Cluster Autoscaler on Amazon EKS cluster.
 
+## Requirements
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+| Name                                                                         | Version  |
+| ---------------------------------------------------------------------------- | -------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform)    | >= 0.13  |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws)                      | >= 3.6.0 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm)                   | >= 2.4.1 |
+| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl)          | 1.11.3   |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.3.1 |
+
+## Providers
+
+| Name                                              | Version  |
+| ------------------------------------------------- | -------- |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.6.0 |
+
+## Modules
+
+| Name                                                                                         | Source                        | Version |
+| -------------------------------------------------------------------------------------------- | ----------------------------- | ------- |
+| <a name="module_cluster_autoscaler"></a> [cluster\_autoscaler](#module\_cluster\_autoscaler) | ./autoscaler                  | n/a     |
+| <a name="module_eks"></a> [eks](#module\_eks)                                                | terraform-aws-modules/eks/aws | 17.20.0 |
+| <a name="module_prefect_agent"></a> [prefect\_agent](#module\_prefect\_agent)                | ./prefect-agent               | n/a     |
+
+## Resources
+
+| Name                                                                                                                                                | Type        |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [aws_iam_policy.eks_node_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy)                             | resource    |
+| [aws_iam_role_policy_attachment.attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource    |
+| [aws_eks_cluster.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster)                               | data source |
+| [aws_eks_cluster_auth.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster_auth)                     | data source |
+| [aws_iam_policy_document.eks_node_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document)        | data source |
+jamiedick in prefect-agent-on-eks on feature/prefect-agent-terraform ● λ cd autoscaler 
+jamiedick in autoscaler on feature/prefect-agent-terraform ● λ tfd
 ## Requirements
 
 | Name                                                                         | Version  |
@@ -20,11 +52,11 @@ A terraform module to deploy the Cluster Autoscaler on Amazon EKS cluster.
 
 ## Providers
 
-| Name                                                                   | Version |
-| ---------------------------------------------------------------------- | ------- |
-| <a name="provider_aws"></a> [aws](#provider\_aws)                      | 3.71.0  |
-| <a name="provider_helm"></a> [helm](#provider\_helm)                   | 2.4.1   |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.7.1   |
+| Name                                                                   | Version  |
+| ---------------------------------------------------------------------- | -------- |
+| <a name="provider_aws"></a> [aws](#provider\_aws)                      | >= 3.4.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm)                   | >= 2.4.1 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.3.1 |
 
 ## Modules
 
@@ -62,4 +94,14 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+## Usage
+```
+module "autoscaler" {
+  source      = "path/to/autoscaler"
+
+  cluster_name                     = "dev-data-cluster"
+  cluster_identity_oidc_issuer     = "xxxxxxxxxxxxxx"
+  cluster_identity_oidc_issuer_arn = "xxxxxxxxxxxxxx"
+}
+```

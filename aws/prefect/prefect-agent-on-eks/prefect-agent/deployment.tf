@@ -10,7 +10,7 @@ data "aws_secretsmanager_secret_version" "prefect_api_key" {
 
 resource "kubernetes_secret" "api_key" {
   metadata {
-    name      = var.api_key_secret_name
+    name      = "prefect-cloud-api-key"
     namespace = var.namespace
   }
 
