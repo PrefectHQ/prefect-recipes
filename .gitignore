@@ -2,6 +2,13 @@
 **__pycache__/*
 
 ## terraform files
+<<<<<<< HEAD
 .terraform
 .terraform.lock.hcl
 .github/terraform
+=======
+.terraform 
+.terraform.*
+.terraform.lock.hcl
+terraform.*
+>>>>>>> 2db8825b51a9d679732a05fcd4b0871df21cf3d2
