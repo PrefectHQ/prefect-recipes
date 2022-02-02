@@ -16,9 +16,9 @@ variable "vpc_id" {
   type        = string
   description = "ID of the VPC to deploy the airbyte instance into"
 }
-variable "subnet_id" {
-  type        = string
-  description = "ID of subnet to deploy airbyte instance into"
+variable "subnet_ids" {
+  type        = list(string)
+  description = "IDs of subnets to deploy airbyte instance into"
 }
 variable "min_capacity" {
   type        = number
@@ -43,11 +43,6 @@ variable "linux_type" {
 variable "key_name" {
   type        = string
   description = "ssh key name to use to connect to your airbyte instance"
-}
-variable "volume_size" {
-  type        = number
-  description = "size of volume to attach to airbyte instance; default requirement is 30GB"
-  default     = 30
 }
 variable "ingress_cidrs" {
   type        = list(string)

@@ -1,16 +1,5 @@
-resource "aws_ebs_volume" "airbyte" {
-  availability_zone = "us-east-2a"
-  size              = var.volume_size
-
-  tags = {
-    Name        = "airbyte"
-    managed-by  = "terraform"
-    environment = var.environment
-  }
-}
-
 resource "aws_launch_template" "airbyte" {
-  name = "airbyte"
+  name = "airbyte-${data.aws_region.current.id}"
 
   image_id               = var.ami_id
   instance_type          = var.instance_type
@@ -52,7 +41,7 @@ resource "aws_autoscaling_group" "airbyte" {
   health_check_grace_period = 300
   health_check_type         = "EC2"
 
-  vpc_zone_identifier = [var.subnet_id]
+  vpc_zone_identifier = var.subnet_ids
 
   enabled_metrics = ["GroupDesiredCapacity", "GroupInServiceCapacity", "GroupPendingCapacity", "GroupMinSize", "GroupMaxSize", "GroupInServiceInstances", "GroupPendingInstances", "GroupStandbyInstances", "GroupStandbyCapacity", "GroupTerminatingCapacity", "GroupTerminatingInstances", "GroupTotalCapacity", "GroupTotalInstances"]
 
