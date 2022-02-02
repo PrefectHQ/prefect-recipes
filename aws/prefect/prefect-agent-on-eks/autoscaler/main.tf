@@ -9,7 +9,7 @@ resource "helm_release" "cluster_autoscaler" {
   repository = var.helm_repo_url
 
   values = [
-    "${file("autoscaler/values.yaml")}"
+    "${file("${path.module}/values.yaml")}"
   ]
 
   set {

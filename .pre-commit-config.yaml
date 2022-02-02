@@ -11,11 +11,12 @@ repos:
     rev: 20.8b1
     hooks:
       - id: black
-        language_version: python3.7
+        language_version: python3
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
     hooks:
       - id: flake8
+        args: ['--ignore=E731,W503']
   - repo: https://github.com/gruntwork-io/pre-commit
     rev: v0.1.12
     hooks:
@@ -25,7 +26,7 @@ repos:
         args:
           - "--module"
           - "--config=.tflint.hcl"
-      - id: markdown-link-check
+      # - id: markdown-link-check
   - repo: git://github.com/antonbabenko/pre-commit-terraform
     rev: v1.43.0
     hooks:
