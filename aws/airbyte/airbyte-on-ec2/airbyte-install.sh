@@ -35,3 +35,9 @@ sed -i 's|file = /airbyte/var/log/messages|''file = /var/log/messages''|g' /etc/
 # start the logs service
 systemctl start awslogsd
 systemctl enable awslogsd.service
+
+
+# setup cronjob to pull airbyte config and sync to aws s3
+mkdir -p airbyte/configuration
+echo "0 */6 * * * root curl -H 'Content-Type: application/json' -X POST localhost:8000/api/v1/deployment/export --output /airbyte/configuration/archive.zip
+5 */6 * * * root aws s3 sync /airbyte/configuration/ s3://tps-airbyte-configuration-us-east-1" >> /etc/crontab
