@@ -65,9 +65,8 @@ module "airbyte" {
 
   ami_id        = "ami-xxxxxxxxxxxxxxxxx"
   vpc_id        = "vpc-xxxxxxxxxxxxxxxxx"
-  subnet_id     = ["subnet-xxxxxxxxxxxxxxxxx"]
+  subnet_ids    = ["subnet-xxxxxxxxxxxxxxxxx"]
   key_name      = "key.pem"
   ingress_cidrs = ["10.0.0.0/16"]
-
 }
 ```
