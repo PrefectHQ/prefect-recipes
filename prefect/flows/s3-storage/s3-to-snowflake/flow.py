@@ -1,26 +1,30 @@
+from typing import List, Tuple
+
 import boto3
 import pandas as pd
+from snowflake.connector import SnowflakeConnection
+
 import prefect
 from prefect import Flow, mapped, task
-from prefect.tasks.secrets import PrefectSecret
 from prefect.engine import signals
-from snowflake.connector import SnowflakeConnection
-from typing import List, Tuple
+from prefect.tasks.secrets import PrefectSecret
 
 logger = prefect.context.get("logger")
 logger.setLevel("INFO")
 
-@task(name='Get S3 objects')
+
+@task(name="Get S3 objects")
 def get(bucket: str, key: str) -> pd.DataFrame:
     s3 = boto3.client("s3")
     try:
         obj = s3.get_object(Bucket=bucket, Key=key)
     except Exception:
-        raise signals.FAIL('Failed to GET S3 Object')
+        raise signals.FAIL("Failed to GET S3 Object")
 
     return pd.read_csv(obj["body"])
 
-@task(name='Transform S3 data')
+
+@task(name="Transform S3 data")
 def transform(s3_df: pd.DataFrame, output_file: str) -> str:
 
     # transform as needed
@@ -28,6 +32,7 @@ def transform(s3_df: pd.DataFrame, output_file: str) -> str:
     s3_df.to_csv(f"{output_file}.csv", index=False)
 
     return output_file
+
 
 SQL = {
     "COPY_INTO_TEMP": lambda i: f"""COPY INTO TEMP_{i}
@@ -55,14 +60,16 @@ CADENCES = {
 METHOD = ["STAGING", "LOAD"]
 STEPS = tuple(q for c in (CADENCES[m] for m in METHOD) for q in c)
 
+
 def generateSQL(steps: Tuple[str], table: str) -> List[str]:
     try:
         sql = lambda s, *i: SQL[s](*i)
     except Exception as e:
         raise signals.FAIL(e)
 
-    lazy = lambda s:  sql(s, table)
+    lazy = lambda s: sql(s, table)
     return list(map(lazy, steps))
+
 
 @task(name="Load tables to Snowflake")
 def upload(table_name: str, db_config: dict) -> None:
@@ -75,7 +82,9 @@ def upload(table_name: str, db_config: dict) -> None:
                 try:
                     result = cursor.execute(sql)
                     if "INSERT" in sql:
-                        summary += f"\t{table_name}\n\t- {result.rowcount} rows loaded\n"
+                        summary += (
+                            f"\t{table_name}\n\t- {result.rowcount} rows loaded\n"
+                        )
                 except Exception as e:
                     raise signals.FAIL(e)
             if summary != "":
@@ -87,7 +96,7 @@ def upload(table_name: str, db_config: dict) -> None:
             raise signals.FAIL(e)
 
 
-with Flow('S3 to Snowflake ETL') as flow:
+with Flow("S3 to Snowflake ETL") as flow:
 
     db_config = {
         "account": PrefectSecret("SNOWFLAKE_ACCOUNT"),
@@ -99,18 +108,13 @@ with Flow('S3 to Snowflake ETL') as flow:
         "role": "SNOWFLAKE_ROLE",
     }
 
-    buckets_and_keys = tuple(
-        dict(Bucket='sample_bucket', Key='sample_key')
-    )
+    buckets_and_keys = tuple(dict(Bucket="sample_bucket", Key="sample_key"))
     # Extract
     s3_data = get.map(buckets_and_keys)
     # Transform
     table_names = transform.map(s3_data)
     # Load
-    result = upload(
-        mapped(table_names),
-        db_config
-    )
-    
+    result = upload(mapped(table_names), db_config)
+
 if __name__ == "__main__":
     flow.run(run_on_schedule=False)

@@ -1,7 +1,10 @@
 # Airbyte on EC2
-Deploys Airbyte on an EC2 instance in an autoscaling group
 
 ---
+
+## Description
+
+Deploys Airbyte on an EC2 instance in an autoscaling group
 
 ## Requirements
 
