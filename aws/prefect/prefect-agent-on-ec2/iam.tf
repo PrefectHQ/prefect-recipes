@@ -1,11 +1,11 @@
 resource "aws_iam_instance_profile" "instance_profile" {
-  name = "prefect-agent-instance-profile"
-  role = aws_iam_role.role.name
+  name_prefix = "prefect-agent"
+  role        = aws_iam_role.role.name
 }
 
 resource "aws_iam_role" "role" {
-  name = "prefect-agent-role"
-  path = "/"
+  name_prefix = "prefect-agent"
+  path        = "/"
 
   assume_role_policy = <<EOF
 {
@@ -25,8 +25,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "policy" {
-  name = "prefect-agent-policy"
-  role = aws_iam_role.role.id
+  name_prefix = "prefect-agent"
+  role        = aws_iam_role.role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -34,33 +34,27 @@ resource "aws_iam_role_policy" "policy" {
       {
         Action = [
           "ecr:Describe*",
-          "ecr:Get*",
-          "ecr:Batch*"
+          "ecr:Get*"
         ]
         Effect   = "Allow"
         Resource = ["arn:aws:ecr:*:${data.aws_caller_identity.current.account_id}:repository/*", "*"]
       },
       {
         Action = [
-          "s3:PutObject",
-          "s3:GetObject"
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:ListAllMyBuckets",
+          "s3:PutObject"
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:s3:::*/*"
-      },
-      {
-        Action = [
-          "s3:ListBucket"
-        ]
-        Effect   = "Allow"
-        Resource = "arn:aws:s3:::*"
+        Resource = "*"
       },
       {
         Action = [
           "secretsmanager:GetSecretValue"
         ]
         Effect   = "Allow"
-        Resource = "*"
+        Resource = data.aws_secretsmanager_secret.prefect.arn
       },
       {
         Action = [
@@ -77,7 +71,7 @@ resource "aws_iam_role_policy" "policy" {
 }
 
 resource "aws_iam_policy_attachment" "ssm_policy" {
-  name       = "ssm-policy-attachment"
-  roles      = [aws_iam_role.role.id]
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  name_prefix = "ssm"
+  roles       = [aws_iam_role.role.id]
+  policy_arn  = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }

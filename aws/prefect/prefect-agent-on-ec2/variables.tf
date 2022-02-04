@@ -5,7 +5,13 @@ variable "instance_type" {
 }
 variable "ami_id" {
   type        = string
-  description = "AMI to launch the EC2 instance from"
+  description = "ami to launch the ec2 instance from, windows images not supported"
+  default     = ""
+}
+variable "key_name" {
+  type        = string
+  description = "private pem key to apply to the prefect instances"
+  default     = null
 }
 variable "environment" {
   type        = string
@@ -39,13 +45,38 @@ variable "linux_type" {
   description = "type of linux instance"
   default     = "linux_amd64"
 }
-variable "prefect_secret_name" {
+variable "prefect_api_key_secret_name" {
   type        = string
-  description = "ID of AWS secrets manager secret for Prefect API key"
-  default     = "prefect-api-key"
+  description = "id of aws secrets manager secret for prefect api key"
+  default     = "prefect-api-key" #tfsec:ignore:general-secrets-no-plaintext-exposure
 }
 variable "prefect_secret_key" {
   type        = string
-  description = "Key of AWS secrets manager secret for Prefect API key"
-  default     = "key"
+  description = "key of aws secrets manager secret for prefect api key"
+  default     = "key" #tfsec:ignore:general-secrets-no-plaintext-exposure
+}
+variable "prefect_api_address" {
+  type        = string
+  description = "the api address that the prefect agent queries for pending flow runs"
+  default     = "https://api.prefect.io"
+}
+variable "prefect_labels" {
+  type        = string
+  description = "labels to apply to the prefect agent" # DESCRIBE EXACT TYPE "['us-east-1']"
+  default     = ""
+}
+variable "agent_automation_config" {
+  type        = string
+  description = "config id to apply to the prefect agent to enable cloud automations"
+  default     = ""
+}
+variable "disable_image_pulling" {
+  type        = string
+  description = "disables the prefect agents ability to pull non-local images"
+  default     = false
+}
+variable "enable_local_flow_logs" {
+  type        = bool
+  description = "enables flow logs to output locally on the agent"
+  default     = false
 }
