@@ -71,7 +71,7 @@ resource "aws_iam_role_policy" "policy" {
 }
 
 resource "aws_iam_policy_attachment" "ssm_policy" {
-  name_prefix = "ssm"
-  roles       = [aws_iam_role.role.id]
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  name       = "ssm"
+  roles      = [aws_iam_role.role.id]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }

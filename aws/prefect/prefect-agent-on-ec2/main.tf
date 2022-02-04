@@ -24,11 +24,11 @@ resource "aws_launch_template" "prefect" {
   tag_specifications {
     resource_type = "instance"
 
-    tags = {
+    tags = merge({
       Name        = "prefect-agent"
       managed-by  = "terraform"
       environment = var.environment
-    }
+    }, var.custom_tags)
   }
 
   user_data = base64encode(templatefile("${path.module}/prefect-agent.sh",

@@ -80,3 +80,8 @@ variable "enable_local_flow_logs" {
   description = "enables flow logs to output locally on the agent"
   default     = false
 }
+variable "custom_tags" {
+  description = "custom tags which can be passed on to the AWS resources. they should be key value pairs having distinct keys."
+  type        = map(any)
+  default     = {}
+}
