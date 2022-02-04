@@ -6,6 +6,7 @@ variable "instance_type" {
 variable "ami_id" {
   type        = string
   description = "AMI to launch the EC2 instance from"
+  default     = ""
 }
 variable "environment" {
   type        = string

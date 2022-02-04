@@ -53,6 +53,7 @@ No modules.
 | [aws_security_group.sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group_rule.airbyte_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.airbyte_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_ami.amazon_linux_2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 | [aws_iam_policy_document.airbyte](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.airbyte_assume_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
@@ -61,11 +62,11 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI to launch the EC2 instance from | `string` | n/a | yes |
 | <a name="input_ingress_cidrs"></a> [ingress\_cidrs](#input\_ingress\_cidrs) | list of cidr ranges to allow ssh access to your airbyte instance | `list(string)` | n/a | yes |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | ssh key name to use to connect to your airbyte instance | `string` | n/a | yes |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | IDs of subnets to deploy airbyte instance into | `list(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC to deploy the airbyte instance into | `string` | n/a | yes |
+| <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI to launch the EC2 instance from | `string` | `""` | no |
 | <a name="input_desired_capacity"></a> [desired\_capacity](#input\_desired\_capacity) | desired number of Airbyte instances to be running at any given time | `number` | `1` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | SDLC stage | `string` | `"dev"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | AWS instance type, default requirement is t2.large | `string` | `"t2.large"` | no |

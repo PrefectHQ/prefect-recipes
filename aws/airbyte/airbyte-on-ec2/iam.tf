@@ -26,16 +26,13 @@ data "aws_iam_policy_document" "airbyte" { #tfsec:ignore:aws-iam-no-policy-wildc
 
   statement {
     sid = "allowlogs"
-
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "logs:DescribeLogStreams"
     ]
-
-    effect = "Allow"
-
+    effect    = "Allow"
     resources = ["*"]
   }
 
@@ -45,7 +42,6 @@ data "aws_iam_policy_document" "airbyte" { #tfsec:ignore:aws-iam-no-policy-wildc
       "s3:GetObject",
       "s3:ListBucket"
     ]
-
     resources = [
       aws_s3_bucket.bucket.arn,
       "${aws_s3_bucket.bucket.arn}/*"

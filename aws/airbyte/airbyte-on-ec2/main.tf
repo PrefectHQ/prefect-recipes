@@ -1,7 +1,7 @@
 resource "aws_launch_template" "airbyte" {
   name_prefix = "airbyte"
 
-  image_id               = var.ami_id
+  image_id               = var.ami_id == "" ? data.aws_ami.amazon_linux_2.id : var.ami_id
   instance_type          = var.instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.sg.id]
@@ -38,7 +38,7 @@ resource "aws_launch_template" "airbyte" {
 }
 
 resource "aws_autoscaling_group" "airbyte" {
-  name_prefix      = "airbyte-asg"
+  name_prefix      = "airbyte"
   max_size         = var.max_capacity
   min_size         = var.min_capacity
   desired_capacity = var.desired_capacity
