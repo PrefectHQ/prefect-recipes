@@ -2,10 +2,6 @@ variable "cluster_name" {
   type        = string
   description = "a name for the cluster"
 }
-variable "region" {
-  type        = string
-  description = "region to deploy resources into"
-}
 variable "environment" {
   type        = string
   description = "environment of eks deployment"
@@ -36,6 +32,11 @@ variable "prefect_api_secret_id" {
   type        = string
   description = "AWS secrets manager secret ID for the API key to allow the prefect agent to communicate with Prefect cloud"
   default     = "prefect-api-key" #tfsec:ignore:general-secrets-no-plaintext-exposure
+}
+variable "prefect_secret_key" {
+  type        = string
+  description = "key of aws secrets manager secret for prefect api key"
+  default     = "key" #tfsec:ignore:general-secrets-no-plaintext-exposure
 }
 variable "config_id" {
   type        = string

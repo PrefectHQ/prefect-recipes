@@ -52,6 +52,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_prefect_api_secret_id"></a> [prefect\_api\_secret\_id](#input\_prefect\_api\_secret\_id) | Secret ID for Prefect Cloud api key stored in AWS secrets manager | `string` | n/a | yes |
+| <a name="input_prefect_secret_key"></a> [prefect\_secret\_key](#input\_prefect\_secret\_key) | key of aws secrets manager secret for prefect api key | `string` | n/a | yes |
 | <a name="input_api"></a> [api](#input\_api) | n/a | `string` | `"api.prefect.io"` | no |
 | <a name="input_app"></a> [app](#input\_app) | app | `string` | `"prefect-agent"` | no |
 | <a name="input_automount_service_account_token"></a> [automount\_service\_account\_token](#input\_automount\_service\_account\_token) | n/a | `bool` | `true` | no |
