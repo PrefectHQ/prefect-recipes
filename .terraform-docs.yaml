@@ -1,5 +1,4 @@
 formatter: markdown
-# header-from: .header.md
 settings:
   anchor: true
   color: true
@@ -14,10 +13,6 @@ settings:
 sort:
   enabled: true
   by: required
-
-# output:
-#   file: 
-#   mode: replace
 
 output:
   file: README.md

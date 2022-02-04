@@ -6,6 +6,16 @@
 
 Deploy infrastructure to host future terraform state files
 
+## Usage:
+
+```
+module "state_management" {
+  source      = "path/to/state-management"
+
+  bucket_name = "name-of-bucket"
+}
+```
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -40,14 +50,4 @@ Deploy infrastructure to host future terraform state files
 ## Outputs
 
 No outputs.
-
-
-## Usage:
-
-```
-module "state_management" {
-  source      = "path/to/state-management"
-
-  bucket_name = "name-of-bucket"
-}
-```
+<!-- END_TF_DOCS -->

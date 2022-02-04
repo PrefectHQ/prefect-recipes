@@ -6,6 +6,14 @@
 
 Removes the default VPC across all AWS regions
 
+## Usage:
+
+```
+module "delete_default_vpcs" {
+  source      = "path/to/delete-default-vpcs"
+}
+```
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -48,12 +56,4 @@ No modules.
 ## Outputs
 
 No outputs.
-
-
-## Usage:
-
-```
-module "delete_default_vpcs" {
-  source      = "path/to/delete-default-vpcs"
-}
-```
+<!-- END_TF_DOCS -->
