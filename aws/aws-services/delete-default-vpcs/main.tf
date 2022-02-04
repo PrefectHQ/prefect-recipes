@@ -12,6 +12,6 @@ resource "aws_lambda_function" "function" { #tfsec:ignore:aws-lambda-enable-trac
 }
 
 resource "aws_cloudwatch_log_group" "log_group" { #tfsec:ignore:aws-cloudwatch-log-group-customer-key
-  name              = "/aws/lambda/${var.function_name}"
+  name_prefix       = "/aws/lambda/${var.function_name}"
   retention_in_days = 30
 }
