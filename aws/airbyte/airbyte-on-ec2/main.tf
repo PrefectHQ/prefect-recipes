@@ -29,7 +29,7 @@ resource "aws_launch_template" "airbyte" {
     }, var.custom_tags)
   }
 
-  user_data = base64encode(templatefile("${path.module}/airbyte-install.sh",
+  user_data = base64encode(templatefile("${path.module}/airbyte-install.sh.tpl",
     {
       region     = data.aws_region.current.name
       linux_type = var.linux_type

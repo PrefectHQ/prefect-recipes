@@ -31,7 +31,7 @@ resource "aws_launch_template" "prefect" {
     }, var.custom_tags)
   }
 
-  user_data = base64encode(templatefile("${path.module}/prefect-agent.sh",
+  user_data = base64encode(templatefile("${path.module}/prefect-agent.sh.tpl",
     {
       region              = data.aws_region.current.name
       linux_type          = var.linux_type
