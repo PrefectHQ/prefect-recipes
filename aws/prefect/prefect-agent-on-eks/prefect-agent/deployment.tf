@@ -19,7 +19,6 @@ resource "kubernetes_secret" "api_key" {
   }
 }
 
-
 resource "kubernetes_deployment" "deployment" {
   lifecycle {
     create_before_destroy = true
