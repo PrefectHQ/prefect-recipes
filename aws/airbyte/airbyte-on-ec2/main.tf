@@ -1,5 +1,5 @@
 resource "aws_launch_template" "airbyte" {
-  name = "airbyte-${data.aws_region.current.id}"
+  name_prefix = "airbyte"
 
   image_id               = var.ami_id
   instance_type          = var.instance_type
@@ -8,6 +8,11 @@ resource "aws_launch_template" "airbyte" {
 
   iam_instance_profile {
     name = aws_iam_instance_profile.instance_profile.name
+  }
+
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
   }
 
   monitoring {
@@ -33,7 +38,7 @@ resource "aws_launch_template" "airbyte" {
 }
 
 resource "aws_autoscaling_group" "airbyte" {
-  name             = "airbyte-asg"
+  name_prefix      = "airbyte-asg"
   max_size         = var.max_capacity
   min_size         = var.min_capacity
   desired_capacity = var.desired_capacity
@@ -56,25 +61,32 @@ resource "aws_autoscaling_group" "airbyte" {
 }
 
 resource "aws_security_group" "sg" {
-  name   = "airbyte-instance"
-  vpc_id = var.vpc_id
+  name_prefix = "airbyte-instance"
+  description = "allow relevant traffic in and out of the airbyte instance"
+  vpc_id      = var.vpc_id
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "TCP"
-    cidr_blocks = var.ingress_cidrs
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
+  tags = merge({
     Name         = "airbyte-instance"
     "managed-by" = "terraform"
-  }
+  }, var.custom_tags)
+}
+
+resource "aws_security_group_rule" "airbyte_egress" {
+  description       = "allow all egress traffic to the internet"
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:aws-vpc-no-public-egress-sgr
+  security_group_id = aws_security_group.sg.id
+}
+
+resource "aws_security_group_rule" "airbyte_ingress" {
+  description       = "allow ssh ingress from specified cidrs"
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "TCP"
+  cidr_blocks       = var.ingress_cidrs
+  security_group_id = aws_security_group.sg.id
 }
