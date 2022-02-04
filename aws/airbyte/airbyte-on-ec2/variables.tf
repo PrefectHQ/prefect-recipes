@@ -49,3 +49,8 @@ variable "ingress_cidrs" {
   type        = list(string)
   description = "list of cidr ranges to allow ssh access to your airbyte instance"
 }
+variable "custom_tags" {
+  description = "custom tags which can be passed on to the AWS resources. they should be key value pairs having distinct keys."
+  type        = map(any)
+  default     = {}
+}

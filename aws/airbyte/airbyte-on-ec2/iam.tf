@@ -56,13 +56,12 @@ resource "aws_iam_policy" "airbyte" {
 }
 
 resource "aws_iam_role_policy_attachment" "airbyte" {
-  name_prefix = "airbyte"
-  role        = aws_iam_role.airbyte.name
-  policy_arn  = aws_iam_policy.airbyte.arn
+  role       = aws_iam_role.airbyte.name
+  policy_arn = aws_iam_policy.airbyte.arn
 }
 
 resource "aws_iam_policy_attachment" "ssm" {
-  name_prefix = "ssm"
-  roles       = [aws_iam_role.airbyte.id]
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  name       = "ssm"
+  roles      = [aws_iam_role.airbyte.id]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }

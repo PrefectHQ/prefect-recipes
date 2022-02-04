@@ -7,7 +7,7 @@ resource "aws_launch_template" "airbyte" {
   vpc_security_group_ids = [aws_security_group.sg.id]
 
   iam_instance_profile {
-    name = aws_iam_instance_profile.instance_profile.name
+    name = aws_iam_instance_profile.airbyte.name
   }
 
   metadata_options {
@@ -22,11 +22,11 @@ resource "aws_launch_template" "airbyte" {
   tag_specifications {
     resource_type = "instance"
 
-    tags = {
+    tags = merge({
       Name        = "airbyte"
       managed-by  = "terraform"
       environment = var.environment
-    }
+    }, var.custom_tags)
   }
 
   user_data = base64encode(templatefile("${path.module}/airbyte-install.sh",

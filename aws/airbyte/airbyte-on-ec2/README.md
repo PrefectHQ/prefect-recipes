@@ -67,6 +67,7 @@ No modules.
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | IDs of subnets to deploy airbyte instance into | `list(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC to deploy the airbyte instance into | `string` | n/a | yes |
 | <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI to launch the EC2 instance from | `string` | `""` | no |
+| <a name="input_custom_tags"></a> [custom\_tags](#input\_custom\_tags) | custom tags which can be passed on to the AWS resources. they should be key value pairs having distinct keys. | `map(any)` | `{}` | no |
 | <a name="input_desired_capacity"></a> [desired\_capacity](#input\_desired\_capacity) | desired number of Airbyte instances to be running at any given time | `number` | `1` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | SDLC stage | `string` | `"dev"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | AWS instance type, default requirement is t2.large | `string` | `"t2.large"` | no |
