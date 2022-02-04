@@ -8,7 +8,7 @@ Removes the default VPC across all AWS regions
 
 ## Usage:
 
-```
+```hcl
 module "delete_default_vpcs" {
   source      = "path/to/delete-default-vpcs"
 }

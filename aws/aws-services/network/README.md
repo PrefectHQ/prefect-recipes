@@ -8,7 +8,7 @@ Deploy private networking infrastructure
 
 ## Usage:
 
-```
+```hcl
 module "network" {
   source      = "path/to/network"
 

@@ -8,7 +8,7 @@ A terraform module to deploy the Cluster Autoscaler on Amazon EKS cluster.
 
 ## Usage
 
-```
+```hcl
 module "autoscaler" {
   source      = "path/to/autoscaler"
 

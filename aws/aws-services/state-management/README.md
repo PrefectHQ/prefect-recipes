@@ -8,7 +8,7 @@ Deploy infrastructure to host future terraform state files
 
 ## Usage:
 
-```
+```hcl
 module "state_management" {
   source      = "path/to/state-management"
 

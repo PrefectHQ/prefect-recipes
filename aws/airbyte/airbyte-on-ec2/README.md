@@ -8,7 +8,7 @@ Deploys Airbyte on an EC2 instance in an autoscaling group
 
 ## Usage:
 
-```
+```hcl
 module "airbyte" {
   source      = "path/to/airbyte-on-ec2"
 

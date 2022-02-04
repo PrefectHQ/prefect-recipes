@@ -8,7 +8,7 @@ A terraform module to deploy the prefect agent on Amazon EKS cluster.
 
 ## Usage
 
-```
+```hcl
 module "prefect_agent" {
   source      = "path/to/prefect-agent"
 
