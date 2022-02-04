@@ -15,7 +15,7 @@ module "bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "bucket_block" { #tfsec:ignore:aws-s3-enable-bucket-encryption
-  bucket = aws_s3_bucket.bucket.id
+  bucket = module.bucket.s3_bucket_id
 
   block_public_acls       = true
   block_public_policy     = true
@@ -24,7 +24,7 @@ resource "aws_s3_bucket_public_access_block" "bucket_block" { #tfsec:ignore:aws-
 }
 
 resource "aws_dynamodb_table" "terraform_state_lock" { #tfsec:ignore:aws-dynamodb-enable-recovery tfsec:ignore:aws-dynamodb-table-customer-key tfsec:ignore:aws-dynamodb-enable-at-rest-encryption
-  name_prefix    = "terraform-state-lock"
+  name           = "terraform-state-lock"
   read_capacity  = 5
   write_capacity = 5
   hash_key       = "LockID"
