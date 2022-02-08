@@ -21,9 +21,7 @@ module "prefect_agent" {
 <!-- BEGIN_TF_DOCS -->
 
 
-## Modules
 
-No modules.
 
 ## Resources
 

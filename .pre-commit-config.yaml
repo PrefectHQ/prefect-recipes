@@ -44,7 +44,8 @@ repos:
       - id: terraform_validate
       - id: terraform_docs
         args:
-          - "--args=--config=.terraform-docs.yaml ./aws"
+          - "--args=./aws --config=.terraform-docs.yaml"
+
       # - id: terraform_tflint
       #   args:
       #     - "--args=--config=.tflint.hcl"
