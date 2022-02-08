@@ -23,7 +23,7 @@ jobs:
       - name: check that docs exist for terraform
         uses: terraform-docs/gh-actions@v0.11.0
         with:
-          config-file: .terraforn-docs.yaml
+          config-file: .terraform-docs.yaml
           fail-on-diff: true
 
       - name: black
