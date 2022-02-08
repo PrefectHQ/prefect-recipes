@@ -33,7 +33,8 @@ jobs:
 
       - name: flake8 lint
         uses: py-actions/flake8@v2
-        ignore: "E731,W503"
+        with:
+          ignore: "E731,W503"
 
   # validate-directories:
   #   name: validate relevant terraform directories
