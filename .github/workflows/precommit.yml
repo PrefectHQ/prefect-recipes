@@ -1,0 +1,55 @@
+name: terraform
+
+on:
+  push:
+    branches: [ main ]
+  pull-request:
+
+jobs:
+  pre-commit-checks:
+    name: pre-commit checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: terraform format
+        uses: hashicorp/setup-terraform@v1
+        run: terraform fmt -recursive -check
+        continue-on-error: false
+
+      - name: black
+        uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check --diff"
+          fail_on_error: true
+
+      - name: Set up python environment
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+        ignore: "E731,W503"
+
+  # validate-directories:
+  #   name: validate relevant terraform directories
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #       working-directory: examples
+  #   steps:
+  #     - uses: hashicorp/setup-terraform@v1
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Check examples
+  #       env:
+  #         EXAMPLES: simple external-bucket select-region organization/master organization/member
+  #       run: |
+  #         for EXAMPLE in ${EXAMPLES}
+  #         do
+  #           echo "Validating $EXAMPLE"...
+  #           cd $EXAMPLE && terraform init -backend=false && terraform validate && cd -
+  #         done
