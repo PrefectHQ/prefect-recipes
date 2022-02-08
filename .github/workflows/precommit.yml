@@ -2,7 +2,7 @@ name: terraform
 
 on:
   push:
-    branches: [ main ]
+    # branches: [ main ]
   pull_request:
 
 jobs:
@@ -26,12 +26,12 @@ jobs:
           black_args: ". --check --diff"
           fail_on_error: true
 
-      - name: Set up python environment
+      - name: setup python environment
         uses: actions/setup-python@v1
         with:
           python-version: "3.8"
 
-      - name: flake8 Lint
+      - name: flake8 lint
         uses: py-actions/flake8@v2
         ignore: "E731,W503"
 
