@@ -24,7 +24,7 @@ jobs:
         uses: terraform-docs/gh-actions@v0.11.0
         with:
           config-file: .terraform-docs.yaml
-          fail-on-diff: false
+          fail-on-diff: true
           output-file: README.md
           find-dir: ./
 
