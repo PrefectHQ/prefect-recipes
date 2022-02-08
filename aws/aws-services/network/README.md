@@ -6,6 +6,23 @@
 
 Deploy private networking infrastructure
 
+## Usage:
+
+```hcl
+module "network" {
+  source      = "path/to/network"
+
+  vpc_name    = "vpc-name"
+  environment = "dev"
+
+  azs = ["us-east-1b", "us-east-1c"]
+
+  vpc_cidr             = "10.0.0.0/16"
+  private_subnet_cidrs = ["10.0.0.0/24","10.0.1.0/24"]
+  public_subnet_cidrs  = ["10.0.3.0/24","10.0.4.0/24"]
+}
+```
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -51,20 +68,4 @@ Deploy private networking infrastructure
 | <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | n/a |
 | <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | n/a |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | n/a |
-
-## Usage:
-
-```
-module "network" {
-  source      = "path/to/network"
-
-  vpc_name    = "vpc-name"
-  environment = "dev"
-
-  azs = ["us-east-1b", "us-east-1c"]
-
-  vpc_cidr             = "10.0.0.0/16"
-  private_subnet_cidrs = ["10.0.0.0/24","10.0.1.0/24"]
-  public_subnet_cidrs  = ["10.0.3.0/24","10.0.4.0/24"]
-}
-```
+<!-- END_TF_DOCS -->

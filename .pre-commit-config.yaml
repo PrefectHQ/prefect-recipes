@@ -1,35 +1,57 @@
+fail_fast: true
+
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-json
+      - id: check-symlinks
+      - id: check-vcs-permalinks
+      - id: check-yaml
+      - id: detect-aws-credentials
+      - id: detect-private-key
+      
   - repo: https://github.com/asottile/seed-isort-config
     rev: v1.9.3
     hooks:
       - id: seed-isort-config
+
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v4.3.21
     hooks:
       - id: isort
+
   - repo: https://github.com/ambv/black
-    rev: 20.8b1
+    rev: 22.1.0
     hooks:
       - id: black
         language_version: python3
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
     hooks:
       - id: flake8
         args: ['--ignore=E731,W503']
-  - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.12
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.62.3
     hooks:
-      - id: terraform-fmt
-      - id: terraform-validate
-      - id: tflint
-        args:
-          - "--module"
-          - "--config=.tflint.hcl"
-      # - id: markdown-link-check
-  - repo: git://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.43.0
-    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
       - id: terraform_docs
-      #  skipping for now, different branch to accommodate 
+        args:
+          - "--args=--config=.terraform-docs.yaml"
+      # - id: terraform_tflint
+      #   args:
+      #     - "--args=--config=.tflint.hcl"
       # - id: terraform_tfsec
+      #   args:
+      #     - "--args=--exclude-downloaded-modules --custom-check-dir=.tfsec"
+
+
+
+
