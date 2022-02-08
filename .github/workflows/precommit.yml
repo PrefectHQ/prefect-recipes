@@ -3,7 +3,7 @@ name: terraform
 on:
   push:
     branches: [ main ]
-  pull-request:
+  pull_request:
 
 jobs:
   pre-commit-checks:
