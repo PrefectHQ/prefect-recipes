@@ -13,8 +13,10 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      - name: terraform format
+      - name: setup terraform
         uses: hashicorp/setup-terraform@v1
+      
+      - name: terraform format
         run: terraform fmt -recursive -check
         continue-on-error: false
 
