@@ -25,7 +25,6 @@ jobs:
         with:
           config-file: .terraforn-docs.yaml
           fail-on-diff: true
-          recursive: true
 
       - name: black
         uses: rickstaa/action-black@v1
