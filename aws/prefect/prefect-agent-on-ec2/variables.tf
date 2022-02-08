@@ -46,6 +46,6 @@ variable "prefect_secret_name" {
 }
 variable "prefect_secret_key" {
   type        = string
-  description = "Key of AWS secrets manager secret for Prefect API key"
+  description = "key of AWS secrets manager secret for Prefect API key"
   default     = "key"
 }

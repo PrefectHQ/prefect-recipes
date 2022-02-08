@@ -19,9 +19,22 @@ module "prefect_agent" {
 }
 ```
 <!-- BEGIN_TF_DOCS -->
+## Requirements
 
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.6.0 |
 
+## Providers
 
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.0 |
+
+## Modules
+
+No modules.
 
 ## Resources
 
@@ -50,7 +63,7 @@ module "prefect_agent" {
 | <a name="input_linux_type"></a> [linux\_type](#input\_linux\_type) | type of linux instance | `string` | `"linux_amd64"` | no |
 | <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | maximum number of prefect agents to be running at any given time | `number` | `1` | no |
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | minimum number of Prefect agents to be running at any given time | `number` | `1` | no |
-| <a name="input_prefect_secret_key"></a> [prefect\_secret\_key](#input\_prefect\_secret\_key) | Key of AWS secrets manager secret for Prefect API key | `string` | `"key"` | no |
+| <a name="input_prefect_secret_key"></a> [prefect\_secret\_key](#input\_prefect\_secret\_key) | key of AWS secrets manager secret for Prefect API key | `string` | `"key"` | no |
 | <a name="input_prefect_secret_name"></a> [prefect\_secret\_name](#input\_prefect\_secret\_name) | ID of AWS secrets manager secret for Prefect API key | `string` | `"prefect-api-key"` | no |
 
 ## Outputs
