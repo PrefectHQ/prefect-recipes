@@ -64,7 +64,6 @@ No modules.
 | <a name="input_helm_release_name"></a> [helm\_release\_name](#input\_helm\_release\_name) | Helm release name | `string` | `"cluster-autoscaler"` | no |
 | <a name="input_helm_repo_url"></a> [helm\_repo\_url](#input\_helm\_repo\_url) | Helm repository | `string` | `"https://kubernetes.github.io/autoscaler"` | no |
 | <a name="input_k8s_service_account_name"></a> [k8s\_service\_account\_name](#input\_k8s\_service\_account\_name) | The k8s cluster-autoscaler service account name | `string` | `"cluster-autoscaler"` | no |
-| <a name="input_mod_dependency"></a> [mod\_dependency](#input\_mod\_dependency) | Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable | `bool` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The K8s namespace in which the node-problem-detector service account has been created | `string` | `"cluster-autoscaler"` | no |
 | <a name="input_settings"></a> [settings](#input\_settings) | Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/cluster-autoscaler | `map(any)` | `{}` | no |
 

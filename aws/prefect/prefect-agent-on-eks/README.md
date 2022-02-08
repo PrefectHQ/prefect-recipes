@@ -35,7 +35,7 @@ module "eks" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.6.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.0 |
 
 ## Modules
 
@@ -63,11 +63,12 @@ module "eks" {
 | <a name="input_environment"></a> [environment](#input\_environment) | environment of eks deployment | `string` | n/a | yes |
 | <a name="input_k8s_cluster_version"></a> [k8s\_cluster\_version](#input\_k8s\_cluster\_version) | version number to use for the cluster | `string` | n/a | yes |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | private subnets in which cluster nodes will be created | `list(string)` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | region to deploy resources into | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID for the VPC in which the cluster will be created | `string` | n/a | yes |
+| <a name="input_config_id"></a> [config\_id](#input\_config\_id) | config id to provide to the agent to connect with prefect automations | `string` | `""` | no |
 | <a name="input_map_roles"></a> [map\_roles](#input\_map\_roles) | additional IAM Roles to add to the aws-auth configmap | <pre>list(object({<br>    rolearn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_map_users"></a> [map\_users](#input\_map\_users) | additional IAM users to add to the aws-auth configmap | <pre>list(object({<br>    userarn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_prefect_api_secret_id"></a> [prefect\_api\_secret\_id](#input\_prefect\_api\_secret\_id) | AWS secrets manager secret ID for the API key to allow the prefect agent to communicate with Prefect cloud | `string` | `"prefect-api-key"` | no |
+| <a name="input_prefect_secret_key"></a> [prefect\_secret\_key](#input\_prefect\_secret\_key) | key of aws secrets manager secret for prefect api key | `string` | `"key"` | no |
 
 ## Outputs
 
