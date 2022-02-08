@@ -20,6 +20,13 @@ jobs:
         run: terraform fmt -recursive -check
         continue-on-error: false
 
+      - name: check that docs exist for terraform
+        uses: terraform-docs/gh-actions@v0.11.0
+        with:
+          config-file: .terraforn-docs.yaml
+          fail-on-diff: true
+          recursive: true
+
       - name: black
         uses: rickstaa/action-black@v1
         with:
