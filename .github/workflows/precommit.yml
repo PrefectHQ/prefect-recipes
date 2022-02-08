@@ -26,7 +26,7 @@ jobs:
           config-file: .terraform-docs.yaml
           fail-on-diff: true
           output-file: README.md
-          find-dir: ./
+          find-dir: find ./find\_dir -name \*.tf
 
       - name: black
         uses: rickstaa/action-black@v1
