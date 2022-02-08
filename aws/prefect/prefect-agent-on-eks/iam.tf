@@ -1,18 +1,17 @@
 resource "aws_iam_policy" "eks_node_group" {
-  name        = "data_eks_policy"
+  name_prefix = "data-eks"
   path        = "/"
   description = "Additional EKS Node permission"
   policy      = data.aws_iam_policy_document.eks_node_group.json
 }
 
-data "aws_iam_policy_document" "eks_node_group" {
+data "aws_iam_policy_document" "eks_node_group" { #tfsec:ignore:aws-iam-no-policy-wildcards
   statement {
     actions = [
       "s3:PutObject",
       "s3:GetObject",
       "s3:ListBucket"
     ]
-
     resources = ["*"]
   }
 }

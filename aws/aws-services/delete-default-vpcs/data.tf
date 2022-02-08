@@ -15,5 +15,3 @@ JSON
     aws_lambda_function.function
   ]
 }
-
-data "aws_region" "current" {}

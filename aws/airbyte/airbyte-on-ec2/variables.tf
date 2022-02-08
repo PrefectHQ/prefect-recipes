@@ -6,6 +6,7 @@ variable "instance_type" {
 variable "ami_id" {
   type        = string
   description = "AMI to launch the EC2 instance from"
+  default     = ""
 }
 variable "environment" {
   type        = string
@@ -47,4 +48,9 @@ variable "key_name" {
 variable "ingress_cidrs" {
   type        = list(string)
   description = "list of cidr ranges to allow ssh access to your airbyte instance"
+}
+variable "custom_tags" {
+  description = "custom tags which can be passed on to the AWS resources. they should be key value pairs having distinct keys."
+  type        = map(any)
+  default     = {}
 }
