@@ -2,13 +2,13 @@
 
 ## Description
 
-Two different github actions for flow registration, covering both script storage and docker storage. 
+Two different github actions for flow registration, covering both script storage and docker storage.
 
 ## Usage
-To use either of the actions configure a YAML workflow file with one of the script based on what kind of flow storage you are using. For either you will need a Prefect API KEY
 
+To use either of the actions configure a YAML workflow file with one of the script based on what kind of flow storage you are using. For either you will need a Prefect API KEY.
 
-### Script storage 
+### Script storage
 
 The script storage action is used when you are using prefect's github storage option. 
 
@@ -17,7 +17,7 @@ name: Register Flow using Github Storage
 on:
   push:
     branches:
-      - <branch name>
+      - <branch_name>
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,24 +34,26 @@ jobs:
     - name: Register flow
       run: prefect register -p flow.py --project <project_name>
 ```
+
 #### Inputs
 
 | Name | Description |
 |------|-------------|
-| KEY | Your Prefect API key |
-| requirements | requirements file with the dependecies need to run the flow |
-| project_name | which project is the flow being register under |
+| branch_name | Git branch which will trigger flow deployment. |
+| KEY | Your Prefect API key. |
+| requirements | requirements file with the dependecies need to run the flow. |
+| project_name | which project is the flow being register under. |
 
-### Docker storage 
+### Docker storage
 
-The docker storage action is used when you are using prefect's docker storage option. 
+The docker storage action is used when you are using prefect's docker storage option.
 
 ```yaml
-name: Register Flow using docker stoage
+name: Register Flow using docker storage
 on:
   push:
     branches:
-      - <Branch name>
+      - <branch_name>
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -67,12 +69,13 @@ jobs:
     - name: Register flow
       run: prefect register -p flow.py --project <project_name> 
 ```
+
 #### Inputs
 
 | Name | Description |
 |------|-------------|
+| branch_name | Git branch which will trigger flow deployment. |
 | KEY | Your Prefect API key.|
-| image | URL to your image.|
+| image | URL to your container image.|
 | credentials | Auth info for the registry, only needed for private images.
 | project_name | which project is the flow being register under. |
-
