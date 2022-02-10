@@ -22,5 +22,5 @@ jobs:
 
       - name: validate terraform recipes
         uses: devops-infra/action-terraform-validate@v0.3
-        with:
-          dir_filter: aws/airbyte/airbyte-on-ec2/,aws/aws-services/delete-default-vpcs,aws/aws-services/network,aws/aws-services/state-management
+        # with:
+          # dir_filter: aws/airbyte/airbyte-on-ec2/,aws/aws-services/delete-default-vpcs,aws/aws-services/network,aws/aws-services/state-management

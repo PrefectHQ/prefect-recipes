@@ -2,8 +2,8 @@ name: python
 
 on:
   pull_request:
-    # paths:
-    #   - '**.py'
+    paths:
+      - '**.py'
 
 jobs:
   python-pre-commit-checks:
