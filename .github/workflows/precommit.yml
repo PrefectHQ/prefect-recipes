@@ -20,14 +20,6 @@ jobs:
         run: terraform fmt -recursive -check
         continue-on-error: false
 
-      # - name: check that docs exist for terraform
-      #   uses: terraform-docs/gh-actions@v0.11.0
-      #   with:
-      #     config-file: .terraform-docs.yaml
-      #     # fail-on-diff: true
-      #     output-file: README.md
-      #     find-dir: ./
-
       - name: black
         uses: rickstaa/action-black@v1
         with:
@@ -43,27 +35,3 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           ignore: "E731,W503"
-
-  validate-directories:
-    name: validate relevant terraform directories
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: aws
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: setup terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: validate aws terraform recipes
-        env:
-          EXAMPLES: airbyte/airbyte-on-ec2 aws-services/delete-default-vpcs aws-services/network aws-services/state-management prefect/prefect-agent-on-ec2 prefect/prefect-agent-on-eks
-        run: |
-          for EXAMPLE in ${EXAMPLES}
-          do
-            echo "Validating $EXAMPLE"...
-            cd $EXAMPLE && terraform init -backend=false && terraform validate && cd -
-          done
