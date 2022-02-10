@@ -37,7 +37,7 @@ IamNotreal    not-a-real-tenant        af696b1e-5137-402e-a9d5-34c53cad54e3
 nate          nate-prefect-account     512efbf7-f492-4183-ad32-53a4054ce7bc  *
 ```
 
-and checking that you have an asterisk next to the tenant you're looking to sync secrets to.
+and checking that you have an asterisk next to the line with the tenant you're looking to sync secrets to.
 
 ## Usage
 For Python users, usage is straight-forward - just run your script when you're finished customizing your allow / deny list(s)!
