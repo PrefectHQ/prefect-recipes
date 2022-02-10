@@ -1,7 +1,5 @@
 # General ETL Flow using S3 Storage and a Snowflake destination
 
-![](airbyte-prefect.png)
-
 A ETL template utilizing S3 script storage for flow registration and Snowflake for a data warehouse.
 
 

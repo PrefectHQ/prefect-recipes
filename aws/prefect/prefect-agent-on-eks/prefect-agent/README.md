@@ -6,6 +6,16 @@
 
 A terraform module to deploy the prefect agent on Amazon EKS cluster.
 
+## Usage
+
+```hcl
+module "prefect_agent" {
+  source      = "path/to/prefect-agent"
+
+  prefect_api_secret_id = "xxxxxxxxxxxxxxxxx"
+}
+```
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -41,6 +51,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_prefect_api_secret_id"></a> [prefect\_api\_secret\_id](#input\_prefect\_api\_secret\_id) | Secret ID for Prefect Cloud api key stored in AWS secrets manager | `string` | n/a | yes |
+| <a name="input_prefect_secret_key"></a> [prefect\_secret\_key](#input\_prefect\_secret\_key) | key of aws secrets manager secret for prefect api key | `string` | n/a | yes |
 | <a name="input_api"></a> [api](#input\_api) | n/a | `string` | `"api.prefect.io"` | no |
 | <a name="input_app"></a> [app](#input\_app) | app | `string` | `"prefect-agent"` | no |
 | <a name="input_automount_service_account_token"></a> [automount\_service\_account\_token](#input\_automount\_service\_account\_token) | n/a | `bool` | `true` | no |
@@ -52,7 +64,6 @@ No modules.
 | <a name="input_logging_level"></a> [logging\_level](#input\_logging\_level) | n/a | `string` | `"INFO"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | n/a | `string` | `"prefect"` | no |
 | <a name="input_node_affinity"></a> [node\_affinity](#input\_node\_affinity) | n/a | <pre>object({<br>    key      = string<br>    operator = string<br>    values   = tuple([string])<br>  })</pre> | `null` | no |
-| <a name="input_prefect_api_secret_id"></a> [prefect\_api\_secret\_id](#input\_prefect\_api\_secret\_id) | Secret ID for Prefect Cloud api key stored in AWS secrets manager | `string` | n/a | yes |
 | <a name="input_prefect_labels"></a> [prefect\_labels](#input\_prefect\_labels) | n/a | `string` | `"[]"` | no |
 | <a name="input_prefect_version"></a> [prefect\_version](#input\_prefect\_version) | n/a | `string` | `"latest"` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | n/a | `number` | `1` | no |
@@ -66,12 +77,4 @@ No modules.
 ## Outputs
 
 No outputs.
-
-## Usage
-```
-module "prefect_agent" {
-  source      = "path/to/prefect-agent"
-
-  prefect_api_secret_id = "xxxxxxxxxxxxxxxxx"
-}
-```
+<!-- END_TF_DOCS -->

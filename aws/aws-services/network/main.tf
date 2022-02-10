@@ -5,7 +5,7 @@ data "aws_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.11.0"
+  version = "3.11.4"
 
   name = "${var.vpc_name}-${var.environment}"
   cidr = var.vpc_cidr
@@ -42,18 +42,53 @@ module "vpc" {
 module "vpc_endpoints" {
   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
-  vpc_id             = module.vpc.vpc_id
-  subnet_ids         = module.vpc.private_subnets
-  security_group_ids = [data.aws_security_group.default.id]
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+
+  security_group_ids = [aws_security_group.endpoints.id]
 
   endpoints = {
-    s3 = {
-      service = "s3"
-      tags    = { Name = "s3-vpc-endpoint" }
-    }
     ecr = {
-      service_name = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
-      tags         = { Name = "ecr-vpc-endpoint" }
+      service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
+      tags                = { Name = "ecr-vpc-endpoint" }
+      private_dns_enabled = true
+    }
+    s3 = {
+      service         = "s3"
+      service_type    = "Gateway"
+      route_table_ids = module.vpc.private_route_table_ids
+      tags            = { Name = "s3-vpc-endpoint" }
     }
   }
+}
+
+resource "aws_security_group" "endpoints" {
+  name_prefix = "vpc-endpoints"
+  description = "Allow HTTPS traffic to/from vpc endpoints within the vpc"
+  vpc_id      = module.vpc.vpc_id
+
+  tags = {
+    Name       = "vpc-endpoints"
+    managed-by = "terraform"
+  }
+}
+
+resource "aws_security_group_rule" "vpce_egress" {
+  description       = "allow egress https traffic to the local vpc"
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "TCP"
+  cidr_blocks       = [var.vpc_cidr]
+  security_group_id = aws_security_group.endpoints.id
+}
+
+resource "aws_security_group_rule" "vpce_ingress" {
+  description       = "allow ingress https traffic to the local vpc"
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "TCP"
+  cidr_blocks       = [var.vpc_cidr]
+  security_group_id = aws_security_group.endpoints.id
 }
