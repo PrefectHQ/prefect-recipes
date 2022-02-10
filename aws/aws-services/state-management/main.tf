@@ -33,7 +33,6 @@ resource "aws_dynamodb_table" "terraform_state_lock" { #tfsec:ignore:aws-dynamod
     name = "LockID"
     type = "S"
   }
-
   tags = {
     "managed-by" = "terraform"
   }
