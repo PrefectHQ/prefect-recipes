@@ -2,12 +2,12 @@ name: terraform
 
 on:
   pull_request:
-    # paths:
-    #   - '**.tf'
+    paths:
+      - '**.tf'
 
 jobs:
-  terraform-pre-commit-checks:
-    name: terraform pre-commit checks
+  terraform-checks:
+    name: terraform checks
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -19,8 +19,3 @@ jobs:
       - name: terraform format
         run: terraform fmt -recursive -check
         continue-on-error: false
-
-      - name: validate terraform recipes
-        uses: devops-infra/action-terraform-validate@v0.3
-        # with:
-          # dir_filter: aws/airbyte/airbyte-on-ec2/,aws/aws-services/delete-default-vpcs,aws/aws-services/network,aws/aws-services/state-management

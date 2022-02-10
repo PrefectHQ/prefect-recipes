@@ -25,7 +25,7 @@ resource "aws_s3_bucket_public_access_block" "bucket_block" { #tfsec:ignore:aws-
 
 resource "aws_dynamodb_table" "terraform_state_lock" { #tfsec:ignore:aws-dynamodb-enable-recovery tfsec:ignore:aws-dynamodb-table-customer-key tfsec:ignore:aws-dynamodb-enable-at-rest-encryption
   name           = "terraform-state-lock"
-  readcapacity   = 5
+  read_capacity  = 5
   write_capacity = 5
   hash_key       = "LockID"
 
