@@ -6,8 +6,8 @@ on:
     #   - '**.tf'
 
 jobs:
-  pre-commit-checks:
-    name: pre-commit checks
+  terraform-pre-commit-checks:
+    name: terraform pre-commit checks
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -23,4 +23,4 @@ jobs:
       - name: validate terraform recipes
         uses: devops-infra/action-terraform-validate@v0.3
         with:
-          dir_filter: aws/aws-services
+          dir_filter: aws/airbyte/airbyte-on-ec2/,aws/aws-services/delete-default-vpcs,aws/aws-services/network,aws/aws-services/state-management

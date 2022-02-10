@@ -6,8 +6,8 @@ on:
     #   - '**.py'
 
 jobs:
-  pre-commit-checks:
-    name: pre-commit checks
+  python-pre-commit-checks:
+    name: python pre-commit checks
     runs-on: ubuntu-latest
     steps:
       - name: checkout
