@@ -2,8 +2,8 @@ name: terraform
 
 on:
   pull_request:
-    paths:
-      - '**.tf'
+    # paths:
+    #   - '**.tf'
 
 jobs:
   pre-commit-checks:
