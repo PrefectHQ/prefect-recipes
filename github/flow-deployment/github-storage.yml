@@ -1,0 +1,20 @@
+name: Register Flow using Github Storage 
+on:
+  push:
+    branches:
+      - <branch_name>
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container: prefecthq/prefect:0.14.17-python3.7
+    env: 
+      KEY: ${{ secrets.PREFECT_API_KEY}}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: BSFishy/pip-action@v1
+      with:
+        requirements: requirements.txt
+    - name: Authenticate to Prefect dependencies
+      run: prefect auth login -t $KEY
+    - name: Register flow
+      run: prefect register -p flow.py --project <project_name>
