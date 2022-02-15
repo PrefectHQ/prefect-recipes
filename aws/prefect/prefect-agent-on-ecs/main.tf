@@ -27,7 +27,7 @@ resource "aws_ecs_service" "prefect" {
   network_configuration {
     subnets          = var.subnet_ids
     security_groups  = [aws_security_group.sg.id]
-    assign_public_ip = false
+    assign_public_ip = true
   }
 }
 
@@ -50,6 +50,7 @@ resource "aws_ecs_task_definition" "prefect" {
       prefect_labels      = var.prefect_labels
       logging_level       = var.logging_level
       log_group           = aws_cloudwatch_log_group.prefect_agent.name
+      network_config_file = "s3://${aws_s3_bucket.network_config.id}/${aws_s3_object.network_config.id}"
     }
   )
 }

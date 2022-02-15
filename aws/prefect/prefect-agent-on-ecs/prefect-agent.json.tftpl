@@ -2,7 +2,7 @@
     "name": "prefect-agent",
     "image": "prefecthq/prefect:latest",
     "essential": true,
-    "command": ["prefect","agent","ecs","start"],
+    "command": ["prefect","agent","ecs","start","--run-task-kwargs","${network_config_file}"],
     "environment": [
         {
             "name": "PREFECT__CLOUD__API_KEY",

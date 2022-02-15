@@ -25,7 +25,8 @@ data "aws_iam_policy_document" "ecs_agent" {
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "logs:DescribeLogGroups",
-      "logs:GetLogEvents"
+      "logs:GetLogEvents",
+      "s3:*"
     ]
     resources = [
       "*",

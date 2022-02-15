@@ -1,0 +1,8 @@
+networkConfiguration:
+  awsvpcConfiguration:
+    subnets:
+      - subnet-08df3dd9fb4c1d937
+      - subnet-01a839cb67a879e99
+    securityGroups:
+      - sg-0ca03199067422345
+    assignPublicIp: DISABLED
