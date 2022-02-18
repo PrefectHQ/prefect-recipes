@@ -14,7 +14,6 @@ variable "custom_tags" {
 variable "prefect_api_key" {
   type        = string
   description = "Prefect service account API key"
-  default     = "key" #tfsec:ignore:general-secrets-no-plaintext-exposure
 }
 variable "prefect_api_address" {
   type        = string

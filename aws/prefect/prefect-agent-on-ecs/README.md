@@ -1,3 +1,23 @@
+# Prefect Agent on ECS
+
+---
+
+## Description
+
+Deploy the Prefect agent on AWS Elastic Container Service as a long running service
+
+## Usage:
+
+```
+module "prefect_agent" {
+  source      = "path/to/prefect-agent-on-ecs"
+
+  prefect_api_key = "xxxxxxxxxxxxxxxxx"
+  vpc_id          = "vpc-xxxxxxxxxxxxxxxxx"
+  subnet_ids      = ["subnet-xxxxxxxxxxxxxxxxx","subnet-xxxxxxxxxxxxxxxxx"]
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -10,7 +30,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.1.0 |
 
 ## Modules
 
@@ -43,12 +63,12 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_prefect_api_key"></a> [prefect\_api\_key](#input\_prefect\_api\_key) | Prefect service account API key | `string` | n/a | yes |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | subnet IDs to deploy the Prefect ECS agent into | `list(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of VPC to deploy the Prefect ECS agent into | `string` | n/a | yes |
 | <a name="input_custom_tags"></a> [custom\_tags](#input\_custom\_tags) | custom tags which can be passed on to the AWS resources. they should be key value pairs having distinct keys. | `map(any)` | `{}` | no |
 | <a name="input_logging_level"></a> [logging\_level](#input\_logging\_level) | logging level to apply to the ECS Prefect agent | `string` | `"INFO"` | no |
 | <a name="input_prefect_api_address"></a> [prefect\_api\_address](#input\_prefect\_api\_address) | the api address that the prefect agent queries for pending flow runs | `string` | `"https://api.prefect.io"` | no |
-| <a name="input_prefect_api_key"></a> [prefect\_api\_key](#input\_prefect\_api\_key) | Prefect service account API key | `string` | `"key"` | no |
 | <a name="input_prefect_labels"></a> [prefect\_labels](#input\_prefect\_labels) | labels to apply to the prefect agent | `string` | `""` | no |
 
 ## Outputs

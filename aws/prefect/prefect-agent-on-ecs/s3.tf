@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "network_config" { #tfsec:ignore:aws-s3-enable-bucket-logging tfsec:ignore:aws-s3-enable-bucket-encryption
-  bucket_prefix = "test-jamie-ecs-network-configuration"
+  bucket_prefix = "test-jamie-ecs-network-configuration-"
 }
 
 resource "aws_s3_bucket_versioning" "bucket_versioning" {
@@ -18,9 +18,19 @@ resource "aws_s3_bucket_public_access_block" "bucket_block" {
   ignore_public_acls      = true
 }
 
+
 resource "aws_s3_object" "network_config" {
+  depends_on = [
+    aws_s3_bucket.network_config
+  ]
   bucket = aws_s3_bucket.network_config.id
   key    = "network-config.yaml"
-  source = "${path.module}/network-config.yaml"
-  etag   = filemd5("${path.module}/network-config.yaml")
+  content = templatefile("${path.module}/network-config.yaml.tftpl",
+    {
+      subnet_ids         = var.subnet_ids,
+      security_group_ids = [aws_security_group.sg.id],
+      assign_public_ip   = "DISABLED",
+    }
+  )
+  etag = filemd5("${path.module}/network-config.yaml.tftpl")
 }

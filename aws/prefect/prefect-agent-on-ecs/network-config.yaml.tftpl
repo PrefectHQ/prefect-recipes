@@ -1,0 +1,11 @@
+networkConfiguration:
+  awsvpcConfiguration:
+    subnets: 
+%{ for subnet in subnet_ids ~}
+    - ${subnet}
+%{ endfor ~}
+    securityGroups:
+%{ for sg in security_group_ids ~}
+    - ${sg}
+%{ endfor ~}
+    assignPublicIp: ${assign_public_ip}
