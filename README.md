@@ -39,11 +39,8 @@
 
 <hr>
 
-## Templates
-- [Serverless Lambda to trigger Prefect flows](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/serverless/event-driven-flow)
-- [General flow template using k8s and S3 storage](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/flows/s3-storage/demo-project)
-- [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/tools/import-secrets-to-cloud)
-- [Deploy prefect agent on AWS EC2 instance](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/terraform/prefect-agent-on-ec2)
+## Template Organization
+Define things here
 
 <hr>
 
@@ -60,7 +57,7 @@ git clone git@github.com:PrefectHQ/customer-success-recipes.git
 <!-- ROADMAP -->
 ## Roadmap
 
-- to be determined...
+- define things here
 
 <br>
 
@@ -79,3 +76,28 @@ See the [open issues](https://github.com/PrefectHQ/customer-success-recipes/issu
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
