@@ -1,11 +1,21 @@
 # AWS recipes
 
-## Flows
-- [Airbyte Orchestration](flows/airbyte-orchestration/): kicking off Airbyte syncs with a Prefect flow
-- [Using S3 Storage](flows/s3-storage/): using S3 to register flows as scripts 
-    - [demo project](flows/s3-storage/demo-project/):  how to structure a repo where you need custom Python libraries
-    - [s3 to snowflake](flows/s3-storage/s3-to-snowflake/): basic ETL template using an S3 source and snowflake destination
+## Airbyte Deployment
 
+- [Airbyte On EC2](airbyte/airbyte-on-ec2/): Deploys Airbyte on an EC2 instance in an autoscaling group.
 
-## Tools
-- [Secret Import](tools/import-secrets-to-cloud/): Import your secrets from your local `~/.prefect/config.toml` into your active Prefect Cloud tenant.
+## AWS Services
+
+- [Delete Default VPCs](aws-services/delete-default-vpcs/): Removes the default VPC across all AWS regions.
+- [Basic Network](aws-services/network/): Deploy private networking infrastructure.
+- [Terraform State Management](aws-services/state-management/): Deploy infrastructure to host future terraform state files.
+
+## Prefect
+
+- [Docker Agent on EC2](prefect/prefect-agent-on-ec2/): Deploy 1 or more EC2 instances within an Autoscaling Group that will host the Prefect agent.
+- [ECS Agent on ECS](prefect/prefect-agent-on-ecs/): Deploy the Prefect agent on AWS Elastic Container Service as a long running service.
+- [Kubernetes Agent on EKS](prefect/prefect-agent-on-eks/): A terraform module to deploy an Amazon EKS cluster with the Prefect agent installed.
+
+## Serverless Framework
+
+- [Event Driven Flow](serverless/event-driven-flow/): Lambda for event-driven Prefect flows
