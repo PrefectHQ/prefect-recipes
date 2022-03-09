@@ -7,10 +7,10 @@
     <img src="imgs/prefect_logo.png" alt="Logo" width="200">
   </a>
 
-<h2 align="center">Customer Success Templates</h2>
+<h2 align="center">Customer Success Recipes</h2>
 
   <p align="center">
-    Common and extensible, Prefect-oriented patterns to drive customer adoption through proficiency. 
+    Common and extensible Prefect patterns to drive efficient workflows! 
     <!-- <br />
     <a href="??"><strong>Explore prod use-cases »</strong></a>
     <br /> -->
@@ -27,7 +27,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#templates">Templates</a> </li>
+    <li><a href="#recipes">Featured Recipes</a> </li>
     <li>
       <a href="#tools">Tools</a>
     </li>
@@ -39,7 +39,7 @@
 
 <hr>
 
-## Templates
+## Recipes
 - [Serverless Lambda to trigger Prefect flows](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/serverless/event-driven-flow)
 - [General flow template using k8s and S3 storage](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/flows/s3-storage/demo-project)
 - [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/tools/import-secrets-to-cloud)
@@ -54,18 +54,10 @@
 git clone git@github.com:PrefectHQ/customer-success-recipes.git
 ```
 
-
 <hr>
 
-<!-- ROADMAP -->
 ## Roadmap
-
-- to be determined...
-
-<br>
-
-See the [open issues](https://github.com/PrefectHQ/customer-success-recipes/issues) for a full list of proposed features (and known issues).
-
+See our [open issues](https://github.com/PrefectHQ/customer-success-recipes/issues) to check out what we're building!
 
 <hr>
 
