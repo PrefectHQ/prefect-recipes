@@ -42,7 +42,7 @@
 ## Template Organization
 
 - [AWS](aws/): All things relevant to AWS; Prefect agent deployments, airbyte, and general aws-service terraform templates
-- [Prefect](prefectt/): Template Flows & useful scripting tools
+- [Prefect](prefect/): Template Flows & useful scripting tools
 
 <hr>
 
