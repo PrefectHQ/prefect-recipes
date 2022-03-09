@@ -7,10 +7,10 @@
     <img src="imgs/prefect_logo.png" alt="Logo" width="200">
   </a>
 
-<h2 align="center">Customer Success Templates</h2>
+<h2 align="center">Customer Success Recipes</h2>
 
   <p align="center">
-    Common and extensible, Prefect-oriented patterns to drive customer adoption through proficiency. 
+    Common and extensible Prefect patterns to drive efficient workflows! 
     <!-- <br />
     <a href="??"><strong>Explore prod use-cases »</strong></a>
     <br /> -->
@@ -27,7 +27,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#templates">Templates</a> </li>
+    <li><a href="#recipes">Featured Recipes</a> </li>
     <li>
       <a href="#tools">Tools</a>
     </li>
@@ -53,10 +53,8 @@
 git clone git@github.com:PrefectHQ/customer-success-recipes.git
 ```
 
-
 <hr>
 
-<!-- ROADMAP -->
 ## Roadmap
 
 - DBT orchestration
