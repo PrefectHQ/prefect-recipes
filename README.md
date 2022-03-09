@@ -40,7 +40,9 @@
 <hr>
 
 ## Template Organization
-Define things here
+
+- [AWS](aws/): All things relevant to AWS; Prefect agent deployments, airbyte, and general aws-service terraform templates
+- [Prefect](prefectt/): Template Flows & useful scripting tools
 
 <hr>
 
@@ -57,7 +59,11 @@ git clone git@github.com:PrefectHQ/customer-success-recipes.git
 <!-- ROADMAP -->
 ## Roadmap
 
-- define things here
+- DBT orchestration
+- AWS Batch deployments 
+- Orchestrating AWS batch with Prefect
+- Prefect agent deployments on GCP
+- CI registration to Prefect cloud
 
 <br>
 
@@ -75,29 +81,3 @@ See the [open issues](https://github.com/PrefectHQ/customer-success-recipes/issu
 - Nathan Nowack : nate@prefect.io
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- BEGIN_TF_DOCS -->
-## Requirements
-
-No requirements.
-
-## Providers
-
-No providers.
-
-## Modules
-
-No modules.
-
-## Resources
-
-No resources.
-
-## Inputs
-
-No inputs.
-
-## Outputs
-
-No outputs.
-<!-- END_TF_DOCS -->
