@@ -39,11 +39,10 @@
 
 <hr>
 
-## Recipes
-- [Serverless Lambda to trigger Prefect flows](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/serverless/event-driven-flow)
-- [General flow template using k8s and S3 storage](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/flows/s3-storage/demo-project)
-- [Bulk export local prefect secrets to active cloud tenant](https://github.com/PrefectHQ/customer-success-recipes/tree/main/prefect/tools/import-secrets-to-cloud)
-- [Deploy prefect agent on AWS EC2 instance](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/terraform/prefect-agent-on-ec2)
+## Template Organization
+
+- [AWS](aws/): All things relevant to AWS; Prefect agent deployments, airbyte, and general aws-service terraform templates
+- [Prefect](prefect/): Template Flows & useful scripting tools
 
 <hr>
 
@@ -57,7 +56,17 @@ git clone git@github.com:PrefectHQ/customer-success-recipes.git
 <hr>
 
 ## Roadmap
-See our [open issues](https://github.com/PrefectHQ/customer-success-recipes/issues) to check out what we're building!
+
+- DBT orchestration
+- AWS Batch deployments 
+- Orchestrating AWS batch with Prefect
+- Prefect agent deployments on GCP
+- CI registration to Prefect cloud
+
+<br>
+
+See the [open issues](https://github.com/PrefectHQ/customer-success-recipes/issues) for a full list of proposed features (and known issues).
+
 
 <hr>
 
@@ -70,4 +79,3 @@ See our [open issues](https://github.com/PrefectHQ/customer-success-recipes/issu
 - Nathan Nowack : nate@prefect.io
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
