@@ -43,6 +43,6 @@ resource "aws_s3_object" "network_config" {
   ]
   bucket  = aws_s3_bucket.prefect_ecs_config.id
   key     = "network-config.yaml"
-  content = yamlencode({ "networkConfiguration" : { "awsvpcConfiguration" : { "subnets" : [for subnet in var.subnet_ids : subnet], "securityGroups" : [aws_security_group.sg.id], "assignPublicIp" : "ENABLED" } } })
+  content = yamlencode({ "networkConfiguration" : { "awsvpcConfiguration" : { "subnets" : [for subnet in var.subnet_ids : subnet], "securityGroups" : [aws_security_group.sg.id], "assignPublicIp" : var.assign_public_ip } } })
 
 }

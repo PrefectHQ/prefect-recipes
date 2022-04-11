@@ -17,6 +17,12 @@ variable "default_task_cpu" {
 
 }
 
+variable "assign_public_ip" {
+  type        = string
+  default     = "DISABLED"
+  description = "Whether to assign public IPS to flow tasks, one of ENABLED_DISABLED"
+
+}
 variable "default_task_memory" {
   default     = 2048
   type        = number
