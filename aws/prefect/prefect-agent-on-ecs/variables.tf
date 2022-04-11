@@ -1,3 +1,22 @@
+variable "region" {
+  type        = string
+  default     = "us-east-1"
+  description = "AWS region in which to create resources"
+}
+
+variable "flow_log_group_name" {
+  default     = "prefect-flows"
+  type        = string
+  description = "Name of Cloudwatch Log group for Prefect Flows"
+
+}
+
+variable "flow_log_stream_prefix" {
+  default     = "ecs-prefect"
+  type        = string
+  description = "Prefix for all flow log streams"
+
+}
 variable "vpc_id" {
   type        = string
   description = "ID of VPC to deploy the Prefect ECS agent into"

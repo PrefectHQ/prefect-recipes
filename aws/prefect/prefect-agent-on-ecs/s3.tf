@@ -26,7 +26,11 @@ resource "aws_s3_object" "task_definition" {
   bucket = aws_s3_bucket.prefect_ecs_config.id
   key    = "task-definition.yaml"
   content = templatefile("${path.module}/task-definition.yaml.tftpl",
-    {}
+    {
+      region            = var.region
+      log_group_name    = var.flow_log_group_name
+      log_stream_prefix = var.flow_log_stream_prefix
+    }
   )
   etag = filemd5("${path.module}/task-definition.yaml.tftpl")
 }
@@ -38,25 +42,5 @@ resource "aws_s3_object" "network_config" {
   bucket  = aws_s3_bucket.prefect_ecs_config.id
   key     = "network-config.yaml"
   content = yamlencode({ "networkConfiguration" : { "awsvpcConfiguration" : { "subnets" : [for subnet in var.subnet_ids : subnet], "securityGroups" : [aws_security_group.sg.id], "assignPublicIp" : "ENABLED" } } })
-  # networkConfiguration:
-  #   awsvpcConfiguration:
-  #     subnets: 
-  # %{ for subnet in subnet_ids ~}
-  #     - ${subnet}
-  # %{ endfor ~}
-  #     securityGroups:
-  # %{ for sg in security_group_ids ~}
-  #     - ${sg}
-  # %{ endfor ~}
-  #     assignPublicIp: ${assign_public_ip}
 
-
-  #   templatefile("${path.module}/network-config.yaml.tftpl",
-  #     {
-  #       subnet_ids         = var.subnet_ids,
-  #       security_group_ids = [aws_security_group.sg.id],
-  #       assign_public_ip   = "DISABLED",
-  #     }
-  #   )
-  #   etag = filemd5("${path.module}/network-config.yaml.tftpl")
 }

@@ -86,8 +86,3 @@ resource "aws_security_group_rule" "prefect_egress" {
   cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:aws-vpc-no-public-egress-sgr
   security_group_id = aws_security_group.sg.id
 }
-
-resource "aws_ecr_pull_through_cache_rule" "example" {
-  ecr_repository_prefix = "dockerhub"
-  upstream_registry_url = "public.ecr.aws"
-}

@@ -42,7 +42,6 @@ No modules.
 |------|------|
 | [aws_cloudwatch_log_group.prefect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.prefect_agent](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
-| [aws_ecr_pull_through_cache_rule.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_pull_through_cache_rule) | resource |
 | [aws_ecs_cluster.prefect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
 | [aws_ecs_service.prefect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
 | [aws_ecs_task_definition.prefect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
@@ -77,10 +76,13 @@ No modules.
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of VPC to deploy the Prefect ECS agent into | `string` | n/a | yes |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of ECS Cluster in which to create all resources | `string` | `"prefect"` | no |
 | <a name="input_custom_tags"></a> [custom\_tags](#input\_custom\_tags) | custom tags which can be passed on to the AWS resources. they should be key value pairs having distinct keys. | `map(any)` | `{}` | no |
+| <a name="input_flow_log_group_name"></a> [flow\_log\_group\_name](#input\_flow\_log\_group\_name) | Name of Cloudwatch Log group for Prefect Flows | `string` | `"prefect-flows"` | no |
+| <a name="input_flow_log_stream_prefix"></a> [flow\_log\_stream\_prefix](#input\_flow\_log\_stream\_prefix) | Prefix for all flow log streams | `string` | `"ecs-prefect"` | no |
 | <a name="input_logging_level"></a> [logging\_level](#input\_logging\_level) | logging level to apply to the ECS Prefect agent | `string` | `"INFO"` | no |
 | <a name="input_prefect_api_address"></a> [prefect\_api\_address](#input\_prefect\_api\_address) | the api address that the prefect agent queries for pending flow runs | `string` | `"https://api.prefect.io"` | no |
 | <a name="input_prefect_labels"></a> [prefect\_labels](#input\_prefect\_labels) | labels to apply to the prefect agent | `string` | `""` | no |
 | <a name="input_prefect_version"></a> [prefect\_version](#input\_prefect\_version) | Prefect core version for the agent to run | `string` | `"1.2.0"` | no |
+| <a name="input_region"></a> [region](#input\_region) | AWS region in which to create resources | `string` | `"us-east-1"` | no |
 
 ## Outputs
 

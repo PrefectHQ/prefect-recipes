@@ -6,7 +6,7 @@ containerDefinitions:
     logConfiguration:
       logDriver: awslogs
       options:
-        awslogs-group: prefect_log_group
-        awslogs-region: us-east-1
-        awslogs-stream-prefix: ecs-prefect
+        awslogs-group: ${log_group_name}
+        awslogs-region: ${region}
+        awslogs-stream-prefix: ${log_stream_prefix}
         awslogs-create-group: "True"
