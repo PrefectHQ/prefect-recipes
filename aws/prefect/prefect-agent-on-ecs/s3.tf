@@ -27,9 +27,11 @@ resource "aws_s3_object" "task_definition" {
   key    = "task-definition.yaml"
   content = templatefile("${path.module}/task-definition.yaml.tftpl",
     {
-      region            = var.region
-      log_group_name    = var.flow_log_group_name
-      log_stream_prefix = var.flow_log_stream_prefix
+      region              = var.region
+      log_group_name      = var.flow_log_group_name
+      log_stream_prefix   = var.flow_log_stream_prefix
+      default_task_cpu    = var.default_task_cpu
+      default_task_memory = var.default_task_memory
     }
   )
   etag = filemd5("${path.module}/task-definition.yaml.tftpl")

@@ -10,6 +10,19 @@ variable "flow_log_group_name" {
   description = "Name of Cloudwatch Log group for Prefect Flows"
 
 }
+variable "default_task_cpu" {
+  default     = 1024
+  type        = number
+  description = "Default memory for ecs flow tasks"
+
+}
+
+variable "default_task_memory" {
+  default     = 2048
+  type        = number
+  description = "Default memory for ecs flow tasks"
+
+}
 
 variable "flow_log_stream_prefix" {
   default     = "ecs-prefect"

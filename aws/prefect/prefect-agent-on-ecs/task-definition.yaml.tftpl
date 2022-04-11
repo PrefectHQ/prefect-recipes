@@ -1,6 +1,6 @@
 networkMode: awsvpc
-cpu: 1024
-memory: 2048
+cpu: ${default_task_cpu}
+memory: ${default_task_memory}
 containerDefinitions:
   - name: flow
     logConfiguration:

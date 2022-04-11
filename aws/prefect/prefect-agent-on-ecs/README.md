@@ -76,6 +76,8 @@ No modules.
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of VPC to deploy the Prefect ECS agent into | `string` | n/a | yes |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of ECS Cluster in which to create all resources | `string` | `"prefect"` | no |
 | <a name="input_custom_tags"></a> [custom\_tags](#input\_custom\_tags) | custom tags which can be passed on to the AWS resources. they should be key value pairs having distinct keys. | `map(any)` | `{}` | no |
+| <a name="input_default_task_cpu"></a> [default\_task\_cpu](#input\_default\_task\_cpu) | Default memory for ecs flow tasks | `number` | `1024` | no |
+| <a name="input_default_task_memory"></a> [default\_task\_memory](#input\_default\_task\_memory) | Default memory for ecs flow tasks | `number` | `2048` | no |
 | <a name="input_flow_log_group_name"></a> [flow\_log\_group\_name](#input\_flow\_log\_group\_name) | Name of Cloudwatch Log group for Prefect Flows | `string` | `"prefect-flows"` | no |
 | <a name="input_flow_log_stream_prefix"></a> [flow\_log\_stream\_prefix](#input\_flow\_log\_stream\_prefix) | Prefix for all flow log streams | `string` | `"ecs-prefect"` | no |
 | <a name="input_logging_level"></a> [logging\_level](#input\_logging\_level) | logging level to apply to the ECS Prefect agent | `string` | `"INFO"` | no |
