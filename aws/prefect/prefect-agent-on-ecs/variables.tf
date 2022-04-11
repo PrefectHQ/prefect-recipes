@@ -30,3 +30,16 @@ variable "logging_level" {
   description = "logging level to apply to the ECS Prefect agent"
   default     = "INFO"
 }
+
+variable "cluster_name" {
+  type = string
+
+  description = "Name of ECS Cluster in which to create all resources"
+  default     = "prefect"
+}
+
+variable "prefect_version" {
+  type        = string
+  default     = "1.2.0"
+  description = "Prefect core version for the agent to run"
+}

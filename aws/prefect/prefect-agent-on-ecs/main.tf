@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "prefect" {
-  name = "prefect"
+  name = var.cluster_name
 
   configuration {
     execute_command_configuration {
@@ -44,13 +44,20 @@ resource "aws_ecs_task_definition" "prefect" {
 
   container_definitions = templatefile("${path.module}/prefect-agent.json.tftpl",
     {
-      region              = data.aws_region.current.name
-      prefect_api_key     = var.prefect_api_key
-      prefect_api_address = var.prefect_api_address
-      prefect_labels      = var.prefect_labels
-      logging_level       = var.logging_level
-      log_group           = aws_cloudwatch_log_group.prefect_agent.name
-      network_config_file = "s3://${aws_s3_bucket.network_config.id}/${aws_s3_object.network_config.id}"
+      region               = data.aws_region.current.name
+      version              = var.prefect_version
+      prefect_api_key      = var.prefect_api_key
+      prefect_api_address  = var.prefect_api_address
+      execution_role_arn   = aws_iam_role.ecs_execution.arn
+      task_role_arn        = aws_iam_role.prefect_task_role.arn
+      prefect_labels       = var.prefect_labels
+      logging_level        = var.logging_level
+      subnets              = join(",", var.subnet_ids)
+      security_groups      = aws_security_group.sg.id
+      log_group            = aws_cloudwatch_log_group.prefect_agent.name
+      cluster              = var.cluster_name
+      task_definition_file = "s3://${aws_s3_bucket.prefect_ecs_config.id}/${aws_s3_object.task_definition.id}"
+      network_config_file  = "s3://${aws_s3_bucket.prefect_ecs_config.id}/${aws_s3_object.network_config.id}"
     }
   )
 }
@@ -78,4 +85,9 @@ resource "aws_security_group_rule" "prefect_egress" {
   protocol          = -1
   cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:aws-vpc-no-public-egress-sgr
   security_group_id = aws_security_group.sg.id
+}
+
+resource "aws_ecr_pull_through_cache_rule" "example" {
+  ecr_repository_prefix = "dockerhub"
+  upstream_registry_url = "public.ecr.aws"
 }

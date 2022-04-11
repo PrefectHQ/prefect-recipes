@@ -1,0 +1,12 @@
+networkMode: awsvpc
+cpu: 1024
+memory: 2048
+containerDefinitions:
+  - name: flow
+    logConfiguration:
+      logDriver: awslogs
+      options:
+        awslogs-group: prefect_log_group
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: ecs-prefect
+        awslogs-create-group: "True"
