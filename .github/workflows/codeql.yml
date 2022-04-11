@@ -31,7 +31,6 @@ jobs:
         uses: github/codeql-action/init@v1
         with:
           languages: ${{ matrix.language }}
-          config-file: ./.github/codeql.yml
           queries: security-and-quality
 
       - name: Perform CodeQL Analysis
