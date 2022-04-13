@@ -19,13 +19,15 @@ dbt_rerun_failed_models = DbtShellTask(
     environment="dev",
     profiles_dir=".",
     profile_name="jaffle_shop",
-    trigger=all_failed
+    trigger=all_failed,
 )
+
 
 @task(trigger=any_successful)
 def final_task():
     logger = context.get("logger")
     logger.info("Flow was successfull!")
+
 
 with Flow("dbt rerun failed models demo flow") as flow:
     build = dbt_build()
