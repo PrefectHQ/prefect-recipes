@@ -25,7 +25,7 @@ def write_export(bucket: str, export: bytearray) -> None:
             Key=f"{filename}_{today_str}.gz"
         )
     except Exception:
-        raise FAIL('Could not write export')
+        raise FAIL("Could not write export")
 
 with Flow(
     "airbyte_export",
