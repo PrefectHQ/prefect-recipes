@@ -1,9 +1,7 @@
 name: terraform
 
 on:
-  pull_request:
-    paths:
-      - '**.tf'
+  pull_request
 
 jobs:
   terraform-checks:
