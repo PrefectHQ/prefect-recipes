@@ -10,27 +10,20 @@ import boto3
 schedule = IntervalSchedule(interval=timedelta(hours=6))
 
 
-airbyte_export_task = AirbyteConfigurationExport(
-    airbyte_server_port=8000
-)
+airbyte_export_task = AirbyteConfigurationExport(airbyte_server_port=8000)
 
 @task
 def write_export(bucket: str, export: bytearray) -> None:
     today_str = datetime.now().strftime("%m-%d-%y")
-    s3 = boto3.client('s3')
+    s3 = boto3.client("s3")
     try:
-        s3.put_object(
-            Bucket=bucket,
-            Body=export,
-            Key=f"{filename}_{today_str}.gz"
-        )
+        s3.put_object(Bucket=bucket, Body=export, Key=f"{filename}_{today_str}.gz")
     except Exception:
         raise FAIL("Could not write export")
 
 with Flow(
     "airbyte_export",
     schedule=schedule,
-    
 ) as flow:
     
     S3_bucket = "my_s3_bucket"
