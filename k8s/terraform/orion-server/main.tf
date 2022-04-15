@@ -1,6 +1,6 @@
 resource "kubernetes_deployment" "orion" {
   metadata {
-    name = "orion"
+    name = var.app_name
   }
 
   spec {
@@ -8,15 +8,15 @@ resource "kubernetes_deployment" "orion" {
 
     selector {
       match_labels = {
-        app = "orion"
+        app = var.app_name
       }
     }
 
     template {
       metadata {
-        labels = {
-          app = "orion"
-        }
+        labels = merge(
+          { app = var.app_name }, var.kubernetes_resources_labels
+        )
       }
 
       spec {
@@ -26,10 +26,21 @@ resource "kubernetes_deployment" "orion" {
           command = ["prefect", "orion", "start", "--host", "0.0.0.0", "--log-level", "WARNING"]
 
           port {
-            container_port = 4200
+            container_port = var.port
           }
 
           image_pull_policy = "IfNotPresent"
+
+          resources {
+            limits = {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests = {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
         }
 
         container {
@@ -39,33 +50,44 @@ resource "kubernetes_deployment" "orion" {
 
           env {
             name  = "PREFECT_API_URL"
-            value = "http://orion:4200/api"
+            value = "http://${var.app_name}:${var.port}/api"
           }
 
           image_pull_policy = "IfNotPresent"
+          resources {
+            limits = {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests = {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
         }
       }
     }
   }
 }
 
+
 resource "kubernetes_service" "orion" {
   metadata {
-    name = "orion"
+    name = var.app_name
 
     labels = {
-      app = "orion"
+      app = var.app_name
     }
   }
 
   spec {
     port {
       protocol = "TCP"
-      port     = 4200
+      port     = var.port
     }
 
     selector = {
-      app = "orion"
+      app = var.app_name
     }
   }
 }

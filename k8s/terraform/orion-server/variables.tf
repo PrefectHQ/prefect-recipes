@@ -1,14 +1,3 @@
-variable "api" {
-  default = "api.prefect.io"
-}
-variable "prefect_api_secret_id" {
-  description = "Secret ID for Prefect Cloud api key stored in AWS secrets manager"
-  type        = string
-}
-variable "prefect_secret_key" {
-  type        = string
-  description = "key of aws secrets manager secret for prefect api key"
-}
 variable "node_affinity" {
   type = object({
     key      = string
@@ -17,18 +6,29 @@ variable "node_affinity" {
   })
   default = null
 }
+variable "kubernetes_resources_labels" {
+  type        = map(any)
+  default     = {}
+  description = "Labels to apply to all resources"
+
+}
+
+variable "port" {
+  default     = 4200
+  type        = number
+  description = "Port for the service to expose"
+}
+
 variable "logging_level" {
   default = "INFO"
 }
-variable "prefect_labels" {
-  default = "[]"
-}
+
 variable "prefect_version" {
-  default = "latest"
+  default = "2.0b2"
 }
 # app
-variable "app" {
-  default = "prefect-agent"
+variable "app_name" {
+  default = "orion"
 }
 variable "start_args" {
   default = ""
@@ -43,7 +43,7 @@ variable "replicas" {
   default = 1
 }
 variable "service_account_name" {
-  default = "prefect-agent"
+  default = "prefect-orion"
 }
 variable "automount_service_account_token" {
   type    = bool
@@ -59,7 +59,7 @@ variable "env_secrets" {
   description = "a list of maps of env vars to pull from secrets"
   default     = []
 }
-variable "secret_volumes" {
+variable "metadata-labels" {
   type    = list(any)
   default = []
 }
