@@ -27,11 +27,9 @@ with Flow(
 ) as flow:
     
     S3_bucket = "my_s3_bucket"
-    filename = 'airbyte-config-archive'
+    filename = "airbyte-config-archive"
     
-    export = airbyte_export_task(
-        airbyte_server_host=PrefectSecret("AIRBYTE_HOSTNAME")
-) 
+    export = airbyte_export_task(airbyte_server_host=PrefectSecret("AIRBYTE_HOSTNAME")) 
         
     write_export(S3_bucket, export)
         
