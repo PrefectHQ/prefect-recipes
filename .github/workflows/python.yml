@@ -1,9 +1,7 @@
 name: python
 
 on:
-  pull_request:
-    paths:
-      - '**.py'
+  pull_request
 
 jobs:
   python-checks:
