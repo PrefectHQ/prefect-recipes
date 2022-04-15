@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "orion" {
         container {
           name    = "api"
           image   = "prefecthq/prefect:${var.prefect_version}-python3.8"
-          command = ["prefect", "orion", "start", "--host", "0.0.0.0", "--log-level", "WARNING"]
+          command = ["prefect", "orion", "start", "--host", "0.0.0.0", "--log-level", var.logging_level]
 
           port {
             container_port = var.port
@@ -33,12 +33,12 @@ resource "kubernetes_deployment" "orion" {
 
           resources {
             limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
+              cpu    = var.limit_cpu
+              memory = var.limit_mem
             }
             requests = {
-              cpu    = "250m"
-              memory = "50Mi"
+              cpu    = var.request_cpu
+              memory = var.request_mem
             }
           }
         }
@@ -56,12 +56,12 @@ resource "kubernetes_deployment" "orion" {
           image_pull_policy = "IfNotPresent"
           resources {
             limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
+              cpu    = var.limit_cpu
+              memory = var.limit_mem
             }
             requests = {
-              cpu    = "250m"
-              memory = "50Mi"
+              cpu    = var.request_cpu
+              memory = var.request_mem
             }
           }
         }
@@ -75,9 +75,9 @@ resource "kubernetes_service" "orion" {
   metadata {
     name = var.app_name
 
-    labels = {
-      app = var.app_name
-    }
+    labels = merge(
+      { app = var.app_name }, var.kubernetes_resources_labels
+    )
   }
 
   spec {
