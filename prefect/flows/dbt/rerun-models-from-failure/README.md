@@ -23,7 +23,7 @@ dbt seed --profiles-dir .
 
 To run the recipe, run:
 ```bash
-poetry shell python flow.py
+poetry run python flow.py
 ```
 
 The flow should run successfully.
