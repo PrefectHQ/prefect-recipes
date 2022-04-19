@@ -80,3 +80,8 @@ variable "request_cpu" {
 variable "limit_cpu" {
   default = "500m"
 }
+
+variable "work_queue_id" {
+  type    = string
+  default = "kubernetes"
+}

@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "orion" {
         container {
           name    = "agent"
           image   = "prefecthq/prefect:${var.prefect_version}-python3.8"
-          command = ["prefect", "agent", "start", "kubernetes"]
+          command = ["prefect", "agent", "start", var.work_queue_id]
 
           env {
             name  = "PREFECT_API_URL"
