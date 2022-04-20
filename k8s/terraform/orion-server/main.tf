@@ -33,12 +33,12 @@ resource "kubernetes_deployment" "orion" {
 
           resources {
             limits = {
-              cpu    = var.limit_cpu
-              memory = var.limit_mem
+              cpu    = var.orion_server_limit_cpu
+              memory = var.orion_server_limit_mem
             }
             requests = {
-              cpu    = var.request_cpu
-              memory = var.request_mem
+              cpu    = var.orion_server_request_cpu
+              memory = var.orion_server_request_mem
             }
           }
         }
@@ -56,12 +56,12 @@ resource "kubernetes_deployment" "orion" {
           image_pull_policy = "IfNotPresent"
           resources {
             limits = {
-              cpu    = var.limit_cpu
-              memory = var.limit_mem
+              cpu    = var.prefect_agent_limit_cpu
+              memory = var.prefect_agent_limit_mem
             }
             requests = {
-              cpu    = var.request_cpu
-              memory = var.request_mem
+              cpu    = var.prefect_agent_request_cpu
+              memory = var.prefect_agent_request_mem
             }
           }
         }
