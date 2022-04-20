@@ -1,0 +1,54 @@
+{{- if .Values.rbacEnabled -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "prefect-agent.nameField" (merge (dict "component" "agent-role") .) }}
+  labels: 
+    {{- include "prefect-agent.commonLabels" . | nindent 4 }}
+    app.kubernetes.io/component: agent-role
+  annotations:
+    {{- merge .Values.annotations | toYaml | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups:
+  - batch
+  - extensions
+  resources:
+  - jobs
+  - jobs/status
+  verbs:
+  - '*'
+- apiGroups:
+  - ''
+  resources:
+  - events
+  - pods
+  - pods/log
+  - services
+  verbs:
+  - '*'
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "prefect-agent.nameField" (merge (dict "component" "agent-role-binding") .) }}
+  labels: 
+    {{- include "prefect-agent.commonLabels" . | nindent 4 }}
+    app.kubernetes.io/component: agent-role-binding
+  annotations:
+    {{- .Values.annotations | toYaml | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "prefect-agent.nameField" (merge (dict "component" "agent-role") .) }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "prefect-agent.serviceAccountName" . }}
+{{- end -}}

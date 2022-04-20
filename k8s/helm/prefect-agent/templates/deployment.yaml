@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.nameOverride | default .Chart.Name | trunc 63 | trimSuffix "-" }}
+  labels:
+    {{- include "prefect-agent.commonLabels" . | nindent 4 }}
+    app.kubernetes.io/component: agent
+  annotations:
+    {{- merge .Values.annotations .Values.annotations | toYaml | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "prefect-agent.matchLabels" . | nindent 6 }}
+      app.kubernetes.io/component: agent
+  template:
+    metadata:
+      labels:
+        {{- include "prefect-agent.matchLabels" . | nindent 8 }}
+        app.kubernetes.io/component: agent
+      {{- with .Values.podAnnotations }}
+      annotations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+    {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.image.pullSecrets | nindent 8 }}
+    {{- else if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "prefect-agent.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: agent
+        {{- with .Values.podSecurityContext }}
+        securityContext:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        image: "{{ .Values.image.name }}:{{ .Values.image.tag | default .Values.prefectVersionTag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy  }}
+        command:
+          - bash
+          - "-c"
+          {{- if .Values.jobTemplateFilePath }}
+          - "prefect agent kubernetes start --job-template {{ .Values.jobTemplateFilePath }}"
+          {{- else }}
+          - "prefect agent kubernetes start"
+          {{- end }}
+        env:
+          - name: PREFECT__CLOUD__AGENT__AUTH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: prefect-config
+                key: PREFECT__CLOUD__API_KEY
+                optional: false # same as default; "mysecret" must exist
+                                # and include a key named "username"
+          - name: PREFECT__CLOUD__API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: prefect-config
+                key: PREFECT__CLOUD__API_KEY
+                optional: false # same as default; "mysecret" must exist
+                                # and include a key named "username"
+          - name: PREFECT__CLOUD__API
+            value: {{ .Values.prefectApi | quote }}
+          - name: PREFECT__BACKEND
+            value: {{ .Values.prefectBackend| quote }}
+          - name: NAMESPACE
+            value: {{ .Release.Namespace }}
+          - name: IMAGE_PULL_SECRETS
+            value: {{ .Values.job.imagePullSecrets | join "," | quote }}
+          - name: PREFECT__CLOUD__AGENT__LABELS
+            value: {{ .Values.prefectLabels | toJson | quote }}
+          - name: JOB_MEM_REQUEST
+            value: {{ .Values.job.resources.requests.memory | quote }}
+          - name: JOB_MEM_LIMIT
+            value: {{ .Values.job.resources.limits.memory | quote }}
+          - name: JOB_CPU_REQUEST
+            value: {{ .Values.job.resources.requests.cpu | quote }}
+          - name: JOB_CPU_LIMIT
+            value: {{ .Values.job.resources.limits.cpu | quote }}
+          - name: IMAGE_PULL_POLICY
+            value: {{ .Values.job.imagePullPolicy | quote }}
+          - name: SERVICE_ACCOUNT_NAME
+            value: {{ include "prefect-agent.serviceAccountName" . }}
+          - name: PREFECT__CLOUD__AGENT__AGENT_ADDRESS
+            value: http://:8080/api/health
+          {{- with .Values.env }}
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
+        livenessProbe:
+          failureThreshold: 2
+          httpGet:
+            path: /api/health
+            port: 8080
+          initialDelaySeconds: 40
+          periodSeconds: 40
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
