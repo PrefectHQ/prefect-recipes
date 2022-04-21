@@ -20,8 +20,6 @@ resource "kubernetes_deployment" "orion" {
       }
 
       spec {
-
-
         container {
           name    = "agent"
           image   = "prefecthq/prefect:${var.prefect_version}-python3.8"
