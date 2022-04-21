@@ -17,24 +17,21 @@ variable "port" {
   type        = number
   description = "Port for the service to expose"
 }
-
 variable "logging_level" {
   default     = "INFO"
   description = "Setting for logging level"
+  type        = string
 }
-
 variable "prefect_version" {
   default     = "2.0b3"
   description = "Prefect image version"
   type        = string
-
 }
 # app
 variable "app_name" {
   default     = "orion"
   description = "Application name for kubernetes services"
   type        = string
-
 }
 variable "image_pull_policy" {
   default     = "Always"
