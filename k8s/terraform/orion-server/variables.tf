@@ -12,7 +12,6 @@ variable "kubernetes_resources_labels" {
   default     = {}
   description = "Labels to apply to all resources"
 }
-
 variable "port" {
   default     = 4200
   type        = number
@@ -37,22 +36,25 @@ variable "app_name" {
   type        = string
 
 }
-
 variable "image_pull_policy" {
   default     = "Always"
   description = "Image pull policy for kubernetes services"
+  type        = string
 }
 variable "namespace" {
   default     = "prefect"
   description = "Select kubernetes namespace in which to deploy"
+  type        = string
 }
 variable "replicas" {
   default     = 1
   description = "Number of kubernetes replicas to deploy"
+  type        = string
 }
 variable "service_account_name" {
   default     = "prefect-orion"
   description = "Kubernetes service account name"
+  type        = string
 }
 variable "automount_service_account_token" {
   type        = bool
@@ -100,7 +102,6 @@ variable "orion_server_limit_cpu" {
   description = "CPU Limit for orion server"
   type        = string
 }
-
 variable "prefect_agent_request_mem" {
   default     = "100Mi"
   description = "Memory request for prefect agent"
@@ -121,7 +122,6 @@ variable "prefect_agent_limit_cpu" {
   description = "CPU limit for prefect agent"
   type        = string
 }
-
 variable "work_queue_id" {
   type        = string
   default     = "kubernetes"
