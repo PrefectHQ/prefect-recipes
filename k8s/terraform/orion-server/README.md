@@ -46,7 +46,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | Application name for kubernetes services | `string` | `"orion"` | no |
-| <a name="input_automount_service_account_token"></a> [automount\_service\_account\_token](#input\_automount\_service\_account\_token) | n/a | `bool` | `true` | no |
+| <a name="input_automount_service_account_token"></a> [automount\_service\_account\_token](#input\_automount\_service\_account\_token) | Bool to determine automounting service account token | `bool` | `true` | no |
 | <a name="input_env_secrets"></a> [env\_secrets](#input\_env\_secrets) | a list of maps of env vars to pull from secrets | `list(any)` | `[]` | no |
 | <a name="input_env_values"></a> [env\_values](#input\_env\_values) | a mapping of env vars to their values i.e. {ENV\_VAR = 'value'} | `map(any)` | `{}` | no |
 | <a name="input_image_pull_policy"></a> [image\_pull\_policy](#input\_image\_pull\_policy) | Image pull policy for kubernetes services | `string` | `"Always"` | no |
@@ -67,7 +67,6 @@ No modules.
 | <a name="input_prefect_version"></a> [prefect\_version](#input\_prefect\_version) | Prefect image version | `string` | `"2.0b3"` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | Number of kubernetes replicas to deploy | `number` | `1` | no |
 | <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | Kubernetes service account name | `string` | `"prefect-orion"` | no |
-| <a name="input_start_args"></a> [start\_args](#input\_start\_args) | Arguments to pass to the `prefect orion agent start` command | `string` | `""` | no |
 | <a name="input_volume_mounts"></a> [volume\_mounts](#input\_volume\_mounts) | Volume mounts for kubernetes pods | `map(any)` | `{}` | no |
 | <a name="input_work_queue_id"></a> [work\_queue\_id](#input\_work\_queue\_id) | Prefect work queue to subscribe agent to | `string` | `"kubernetes"` | no |
 
