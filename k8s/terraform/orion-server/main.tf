@@ -70,7 +70,6 @@ resource "kubernetes_deployment" "orion" {
   }
 }
 
-
 resource "kubernetes_service" "orion" {
   metadata {
     name = var.app_name
@@ -91,6 +90,3 @@ resource "kubernetes_service" "orion" {
     }
   }
 }
-
-
-
