@@ -1,0 +1,354 @@
+Description: >
+    Stack for ECS Prefect Agent Deployment
+
+Parameters:
+
+  VPC:
+      Description: The VPC that the ECS cluster is deployed to
+      Type: AWS::EC2::VPC::Id
+
+  ECSClusterARN:
+      Description: Please provide the ARN of ECS Cluster ID that this service should run on
+      Type: String
+
+  ExecutionRole:
+      Description: The ARN of the IAM role that should be used to run the ECS task. This Role should already exist as ecsTaskExecutionRole, if not please create it.
+      Type: String
+
+  TaskRole:
+      Description: The ARN of the Prefect IAM Role for ECS Task Execution. If no TaskRole is provided, one will be created that has widely used policies for Prefect.  
+      Type: String
+
+  LaunchType:
+      Description: The launch type for the ECS task, either EC2 or FARGATE
+      Type: String
+      Default: EC2
+
+  PrefectAPIURL: 
+      Description: Prefect API URL
+      Type: String
+
+  PrefectImage: 
+      Description: The ECS image to use for the task
+      Type: String
+      Default: prefecthq/prefect:latest
+
+  PrefectBackend: 
+      Description: Wher to use Prefect Server or Prefect Cloud
+      Type: String
+      Default: server
+
+  PrefectCloudAPIKey:
+      Description: API Key if Prefect Cloud is the Backend
+      Type: String
+
+
+Conditions:
+  UseFargate: !Equals [!Ref LaunchType, Fargate]
+  UseEC2: !Equals [!Ref LaunchType, EC2]
+  CreatePrefectTaskRole: !Equals [!Ref TaskRole, NONE]
+
+
+Resources:
+
+  CloudwatchLogsGroup:
+        Type: AWS::Logs::LogGroup
+        Properties:
+            LogGroupName: !Join ['-', [ECSLogGroup, 'prefect-agent']]
+            RetentionInDays: 14
+    
+  # This is a role which is used by the ECS tasks themselves.
+  PrefectTaskRole:
+    Condition: CreatePrefectTaskRole
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: [ecs-tasks.amazonaws.com]
+          Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: AmazonECSTaskExecutionRolePolicy
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action:
+                # Allow the ECS Tasks to download images from ECR
+                - 'ecr:GetAuthorizationToken'
+                - 'ecr:BatchCheckLayerAvailability'
+                - 'ecr:GetDownloadUrlForLayer'
+                - 'ecr:BatchGetImage'
+
+                # Allow the ECS tasks to upload logs to CloudWatch
+                - 'logs:CreateLogStream'
+                - 'logs:PutLogEvents'
+
+              Resource: '*'
+
+
+
+  PrefectTaskGetPassRolePolicy:
+      Condition: CreatePrefectTaskRole
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: "Prefect-GetPassTaskRole" 
+        PolicyDocument: 
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action: 
+            - iam:GetRole
+            - iam:PassRole
+            Resource:
+            - !Ref ExecutionRole
+          Roles: 
+            - !Ref PrefectTaskRole
+
+  PrefectTaskLogRolePolicy:
+      Condition: CreatePrefectTaskRole
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: "Prefect-LogRole" 
+        PolicyDocument: 
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            - logs:GetLogEvents
+            Resource: "*"
+          Roles: 
+            - !Ref PrefectTaskRole
+
+    
+  PrefectTaskECSRolePolicy:
+      Condition: CreatePrefectTaskRole
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: "Prefect-ECSRole"
+        PolicyDocument: 
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+              - ec2:DescribeNetworkInterfaces
+              - ec2:DescribeVpcs
+              - ec2:DescribeSubnets
+              - ec2:DescribeSecurityGroups
+              - ec2:AuthorizeSecurityGroupIngress
+              - ec2:CreateSecurityGroup
+              - ec2:CreateTags
+              - ec2:DeleteSecurityGroup
+              - ecs:DeregisterTaskDefinition
+              - ecs:ListAccountSettings
+              - ecs:CreateCluster
+              - ecs:RegisterTaskDefinition
+              - ecs:ListTaskDefinitions
+              - ecs:DescribeTaskDefinition
+              - ecs:ListClusters"
+              - ecs:RunTask
+              - ecs:StopTask
+              - ecs:DeleteCluster
+              - ecs:DescribeTasks
+              - ecs:DescribeCluster
+            Resource: "*"
+          Roles: 
+            - !Ref PrefectTaskRole
+
+  PrefectTaskAgentRolePolicy:
+      Condition: CreatePrefectTaskRole
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: "Prefect-AgentRole"
+        PolicyDocument: 
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+              - ec2:AuthorizeSecurityGroupIngress
+              - ec2:CreateSecurityGroup
+              - ec2:CreateTags
+              - ec2:DescribeNetworkInterfaces
+              - ec2:DescribeSecurityGroups
+              - ec2:DescribeSubnets
+              - ec2:DescribeVpcs
+              - ec2:DeleteSecurityGroup
+              - ecs:CreateCluster
+              - ecs:DeleteCluster
+              - ecs:DeregisterTaskDefinition
+              - ecs:DescribeClusters
+              - ecs:DescribeTaskDefinition
+              - ecs:DescribeTasks
+              - ecs:ListAccountSettings
+              - ecs:ListClusters
+              - ecs:ListTaskDefinitions
+              - ecs:RegisterTaskDefinition
+              - ecs:RunTask
+              - ecs:StopTask
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              - logs:DescribeLogGroups
+              - logs:GetLogEvent
+            Resource: "*"
+          Roles: 
+            - !Ref PrefectTaskRole
+
+  PrefectTasS3RolePolicy:
+      Condition: CreatePrefectTaskRole
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: "Prefect-S3SecretsRole"
+        PolicyDocument: 
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+              - "s3:*"
+              - "secretsmanager:*"
+            Resource: "*"
+        Roles: 
+          - !Ref PrefectTaskRole
+
+
+  PrefectEC2AgentTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Condition: UseEC2
+    Properties:
+      Family: prefect-agent-ecs
+      Memory: 1gb
+      ExecutionRoleArn: !Ref ExecutionRole 
+      TaskRoleArn: !If [CreatePrefectTaskRole, !Ref PrefectTaskRole, !Ref TaskRole]
+      Volumes:
+      - Name: docker_sock
+        Host:
+          SourcePath: "/var/run/docker.sock"
+      - Name: docker_bin
+        Host:
+          SourcePath: "/usr/bin/docker"
+      ContainerDefinitions:
+        - Name: prefect-ecs-agent
+          Image: !Ref PrefectImage
+          Privileged: true
+          Essential: true
+          Command:
+          - prefect 
+          - agent 
+          - ecs 
+          - start 
+          - -a 
+          - !Ref PrefectAPIURL 
+          - --launch-type
+          - !Ref LaunchType 
+          - --execution-role-arn 
+          - !Ref ExecutionRole 
+          - --task-role-arn
+          - !If [CreatePrefectTaskRole, !Ref PrefectTaskRole, !Ref TaskRole]
+          - --log-level
+          - DEBUG
+          MountPoints:
+          - SourceVolume: docker_sock
+            ContainerPath: "/var/run/docker.sock"
+          - SourceVolume: docker_bin
+            ContainerPath: "/usr/bin/docker"
+          Environment:
+          - Name: PREFECT__CLOUD__AGENT__LABELS
+            Value: "['ecs']"
+          - Name: PREFECT__CLOUD__AGENT__LEVEL
+            Value: DEBUG
+          - Name: AWS_DEFAULT_REGION
+            Value: !Ref "AWS::Region"
+          - Name: PREFECT__CLOUD__API_KEY
+            Value: !Ref PrefectCloudAPIKey
+          - Name: PREFECT__SERVER__API
+            Value: !Ref PrefectAPIURL
+          - Name: PREFECT__BACKEND
+            Value: !Ref PrefectBackend
+          - Name: AWS_RETRY_MODE
+            Value: adaptive
+          - Name: AWS_MAX_ATTEMPTS
+            Value: '10'
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: ecs
+              awslogs-create-group: 'true'
+
+  PrefectFargateAgentTaskDefinition:
+    Condition: UseFargate
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: prefect-agent-ecs
+      Memory: 1gb
+      ExecutionRoleArn: !Ref ExecutionRole 
+      TaskRoleArn: !If [CreatePrefectTaskRole, !Ref PrefectTaskRole,  !Ref TaskRole]
+      ContainerDefinitions:
+        - Name: prefect-ecs-agent
+          Image: !Ref PrefectImage
+          Essential: true
+          Command:
+          - prefect 
+          - agent 
+          - ecs 
+          - start 
+          - -a 
+          - !Ref PrefectAPIURL 
+          - --launch-type
+          - !Ref LaunchType 
+          - --execution-role-arn 
+          - !Ref ExecutionRole 
+          - --task-role-arn
+          - !If [CreatePrefectTaskRole, !Ref PrefectTaskRole, !Ref TaskRole]
+          - --log-level
+          - DEBUG
+          Environment:
+          - Name: PREFECT__CLOUD__AGENT__LABELS
+            Value: "['ecs']"
+          - Name: PREFECT__CLOUD__AGENT__LEVEL
+            Value: DEBUG
+          - Name: AWS_DEFAULT_REGION
+            Value: !Ref "AWS::Region"
+          - Name: PREFECT__CLOUD__API_KEY
+            Value: !Ref PrefectCloudAPIKey
+          - Name: PREFECT__SERVER__API
+            Value: !Ref PrefectAPIURL
+          - Name: PREFECT__BACKEND
+            Value: !Ref PrefectBackend
+          - Name: AWS_RETRY_MODE
+            Value: adaptive
+          - Name: AWS_MAX_ATTEMPTS
+            Value: '10'
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: ecs
+              awslogs-create-group: 'true'
+
+  PrefectService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSClusterARN
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+      DesiredCount: 1
+      PlacementStrategies:
+          - Type: spread
+            Field: attribute:ecs.availability-zone
+          - Type: spread
+            Field: instanceId
+      Tags:
+      - Key: Prefect
+        Value: prefect-server
+      TaskDefinition: 
+        !If [UseFargate, !Ref PrefectFargateAgentTaskDefinition, !Ref PrefectEC2AgentTaskDefinition]
+
+
+      

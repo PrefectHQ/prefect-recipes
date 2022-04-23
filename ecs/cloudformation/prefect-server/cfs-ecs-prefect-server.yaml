@@ -1,0 +1,373 @@
+# Prefect ECS Deployment Cloudformation Templates
+
+
+Description: >
+    Stack for ECS Prefect Server Deployment
+  
+Parameters:
+
+  EnvironmentName:
+      Description: An environment name that will be prefixed to resource names
+      Type: String
+      Default: prefect-dev
+
+  VPC:
+      Description: The VPC that the ECS cluster is deployed to
+      Type: AWS::EC2::VPC::Id
+
+  ECSClusterARN:
+      Description: Please provide the ARN of ECS Cluster ID that this service should run on
+      Type: String
+
+  TaskRole: 
+      Description: The ARN of the Prefect IAM Role to create and assign to ECS Task
+      Type: String
+  
+  CustomTaskRole:
+      Description: The ARN of the Prefect IAM Role to create and assign to ECS Task
+      Type: String
+
+  ALBArn:
+      Description: ARN of ALB
+      Type: String
+
+  443TargetGroup:
+      Description: Target Group for ALB 443
+      Type: String
+
+  ALB443Listener:
+      Description: ARN of ALB Listener for 443 to attach this container to, if left blank a new one will be created for you
+      Type: String
+
+  ALB4200Listener:
+      Description: ARN of ALB Listener for 4200 to attach this container to, if left blank a new one will be created for you
+      Type: String
+
+  Certificate: 
+      Description: ARN of the certificate to attach to the ALB Listener
+      Type: String
+
+  PostgresDB:
+      Description: Postgres DB to connect to
+      Type: String
+
+  PrefectDomainName:
+      Description: Prefect Domain Name
+      Type: String
+
+Conditions: 
+  Create443Listener: !Equals [!Ref ALB443Listener, NONE]
+  Create4200Listener: !Equals [!Ref ALB4200Listener, NONE]
+  UseCustomTaskRole: !Not [!Equals [!Ref CustomTaskRole, NONE]]
+
+Resources:
+
+  NewALB443Listener:
+      Type: "AWS::ElasticLoadBalancingV2::Listener"
+      Condition: Create443Listener
+      Properties:
+        DefaultActions:
+          - Type: "forward"
+            ForwardConfig:
+              TargetGroups: 
+                - TargetGroupArn: !Ref 443TargetGroup
+                  Weight: "1" 
+        LoadBalancerArn: !Ref ALBArn
+        Port: 443
+        Protocol: "HTTPS"
+        Certificates:
+          - CertificateArn: !Ref Certificate
+
+  NewALB4200Listener:
+      Type: "AWS::ElasticLoadBalancingV2::Listener"
+      Condition: Create4200Listener
+      Properties:
+        DefaultActions:
+          - Type: "fixed-response"
+            FixedResponseConfig:
+              StatusCode: "503"
+        LoadBalancerArn: !Ref ALBArn
+        Port: 4200
+        Protocol: "HTTPS"
+        Certificates:
+          - CertificateArn: !Ref Certificate
+
+  CloudwatchLogsGroup:
+        Type: AWS::Logs::LogGroup
+        Properties:
+            LogGroupName: !Join ['-', [ECSLogGroup, 'prefect-server']]
+            RetentionInDays: 14
+
+  PrefectTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      TaskRoleArn: 
+        !If [UseCustomTaskRole, !Ref CustomTaskRole, !Ref TaskRole]
+      Family: prefect-server
+      Memory: "512"
+      ContainerDefinitions:
+        - Name: apollo
+          Essential: true
+          DependsOn: 
+            - Condition: HEALTHY
+              ContainerName: graphql
+            - Condition: HEALTHY
+              ContainerName: hasura
+          Image: docker.io/prefecthq/apollo:latest
+          Command:
+          - bash
+          - -c
+          - /apollo/post-start.sh && npm run serve
+          Environment:
+          - Name: GRAPHQL_SERVICE_HOST
+            Value: http://graphql
+          - Name: GRAPHQL_SERVICE_PORT
+            Value: 4201
+          - Name: HASURA_API_URL
+            Value: http://hasura:3000/v1alpha1/graphql
+          - Name: PREFECT_API_HEALTH_URL
+            Value: http://graphql:4201/health
+          - Name: PREFECT_API_URL
+            Value: http://graphql:4201/graphql/
+          - Name: PREFECT_SERVER__TELEMETRY__ENABLED
+            Value: "false"
+          HealthCheck:
+            Command:
+            - CMD-SHELL
+            - curl --fail --silent "http://localhost:4200/.well-known/apollo/server-health" &> /dev/null || exit 1
+            Interval: 60
+          PortMappings:
+          - ContainerPort: 4200
+            HostPort: 4200
+            Protocol: HTTP
+          Links:
+            - graphql
+            - hasura
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: !Ref EnvironmentName
+
+
+        - Name: graphql
+          Essential: true
+          Image: docker.io/prefecthq/server:latest
+          Command:
+            - bash
+            - -c
+            - prefect-server database upgrade -y && python src/prefect_server/services/graphql/server.py
+          Environment:
+          - Name: PREFECT_CORE_VERSION
+            Value: 1.2.0
+          - Name: PREFECT_SERVER_DB_CMD
+            Value: prefect-server database upgrade -y
+          - Name: PREFECT_SERVER__DATABASE__CONNECTION_URL
+            Value: !Ref PostgresDB
+          - Name: PREFECT_SERVER__HASURA__ADMIN_SECRET
+            Value: hasura-secret-admin-secret
+          - Name: PREFECT_SERVER__HASURA__HOST
+            Value: hasura
+          HealthCheck:
+            Command:
+            - CMD-SHELL
+            - curl --fail --silent "http://localhost:4201/health" &> /dev/null || exit 1
+            Interval: 60
+          PortMappings:
+          - ContainerPort: 4201
+            HostPort: 4201
+            Protocol: HTTP
+          Links: 
+            - hasura
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: !Ref EnvironmentName
+
+
+        - Name: hasura
+          Essential: true
+          Image: docker.io/hasura/graphql-engine:v2.0.9
+          Command:
+          - graphql-engine
+          - serve
+          Environment:
+          - Name: HASURA_GRAPHQL_DATABASE_URL
+            Value: !Ref PostgresDB
+          - Name: HASURA_GRAPHQL_ENABLE_CONSOLE
+            Value: "true"
+          - Name: HASURA_GRAPHQL_LOG_LEVEL
+            Value: warn
+          - Name: HASURA_GRAPHQL_QUERY_PLAN_CACHE_SIZE
+            Value: "100"
+          - Name: HASURA_GRAPHQL_SERVER_PORT
+            Value: "3000"
+          HealthCheck:
+            Command: 
+              - CMD-SHELL
+              - wget -O - http://localhost:3000/healthz &>/dev/null || exit 1
+            Interval: 60
+          PortMappings:
+          - ContainerPort: 3000
+            HostPort: 3000
+            Protocol: HTTP
+          
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: !Ref EnvironmentName
+
+        - Name: towel
+          Essential: true
+          Image: docker.io/prefecthq/server:latest
+          DependsOn: 
+            - Condition: HEALTHY
+              ContainerName: graphql
+          Command:
+          - python
+          - src/prefect_server/services/towel/__main__.py
+          Environment:
+          - Name: PREFECT_SERVER__HASURA__ADMIN_SECRET
+            Value: hasura-secret-admin-secret
+          - Name: PREFECT_SERVER__HASURA__HOST
+            Value: hasura
+          Links:
+            - hasura
+
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: !Ref EnvironmentName
+
+
+        - Name: prefect-ui
+          Image: docker.io/prefecthq/ui:latest
+          Essential: true
+          Command:
+          - /intercept.sh
+          Environment:
+          - Name: PREFECT_SERVER__APOLLO_URL
+            Value:  
+              !Sub
+                - 'http://${Domain}:4200/graphql'
+                - { Domain: !Ref PrefectDomainName }
+          HealthCheck:
+            Command:
+            - CMD-SHELL
+            - curl --fail --silent --head "http://localhost:8080" &> /dev/null || exit 1
+            Interval: 30
+            Retries: 3
+            Timeout: 5
+          PortMappings:
+          - ContainerPort: 8080
+            HostPort: 0
+            Protocol: HTTP
+          Links:
+          - apollo
+        
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: !Ref EnvironmentName
+
+  
+  PrefectTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 8080
+      Protocol: HTTP
+      Name: prefect-ui
+      Tags:
+      - Key: Prefect
+        Value: ui
+      VpcId:
+        Ref: VPC 
+
+  
+  ApolloTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckPath: /.well-known/apollo/server-health
+      Port: 4200
+      Protocol: HTTP
+      Name: prefect-apollo
+      Tags:
+      - Key: Prefect
+        Value: apollo
+      VpcId:
+        Ref: VPC 
+
+  ApolloListener:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    DependsOn:
+        - PrefectTargetGroup
+    Properties:
+      ListenerArn:
+        !If [Create4200Listener, !Ref  NewALB4200Listener, !Ref ALB4200Listener]
+      Priority: 101
+      Conditions:
+        - Field: host-header
+          Values:
+              - !Ref PrefectDomainName
+      Actions:
+        - TargetGroupArn: 
+            Ref: ApolloTargetGroup
+          Type: forward
+  
+  PrefectListener:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    DependsOn:
+        - PrefectTargetGroup
+    Properties:
+      ListenerArn:
+        !If [Create443Listener, !Ref NewALB443Listener, !Ref ALB443Listener]
+      Priority: 408
+      Conditions:
+        - Field: host-header
+          Values:
+              - !Ref PrefectDomainName
+      Actions:
+        - TargetGroupArn: 
+            Ref: PrefectTargetGroup
+          Type: forward
+
+  
+  PrefectService:
+    Type: AWS::ECS::Service
+    DependsOn:
+    - PrefectListener
+    Properties:
+      Cluster: !Ref ECSClusterARN
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+      DesiredCount: 1
+      LoadBalancers:
+      - ContainerName: prefect-ui
+        ContainerPort: 8080
+        TargetGroupArn:
+          Ref: PrefectTargetGroup
+      - ContainerName: apollo
+        ContainerPort: 4200
+        TargetGroupArn:
+          Ref: ApolloTargetGroup
+      PlacementStrategies:
+          - Type: spread
+            Field: attribute:ecs.availability-zone
+          - Type: spread
+            Field: instanceId
+      Tags:
+      - Key: Prefect
+        Value: prefect-server
+      TaskDefinition:
+        Ref: PrefectTaskDefinition
+
