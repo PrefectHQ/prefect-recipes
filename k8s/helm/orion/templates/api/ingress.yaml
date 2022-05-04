@@ -1,6 +1,6 @@
 {{- if .Values.api.ingress.enabled -}}
 {{- $fullName := include "orion.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $svcPort := .Values.api.service.port -}}
 {{- if and .Values.api.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.api.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.api.ingress.annotations "kubernetes.io/ingress.class" .Values.api.ingress.className}}
