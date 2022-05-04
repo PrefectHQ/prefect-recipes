@@ -7,13 +7,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
-    env: 
+    env:
       API_KEY: ${{ secrets.PREFECT_TENANT_API_KEY}}
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
-    
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -31,7 +31,12 @@ jobs:
       run: pip install prefect
 
     - name: Auth with Prefect
-      run: prefect auth login -k $API_KEY 
+      run: prefect auth login -k $API_KEY
+
+    - uses: int128/create-ecr-repository-action@v1
+      id: ecr
+      with:
+        repository: name
 
     - name: Register flow
       run: prefect register -p flow.py --project "my project" 
