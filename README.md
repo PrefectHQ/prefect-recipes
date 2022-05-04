@@ -7,7 +7,7 @@
     <img src="imgs/prefect_logo.png" alt="Logo" width="200">
   </a>
 
-<h2 align="center">Customer Success Recipes</h2>
+<h2 align="center">Prefect Recipes</h2>
 
   <p align="center">
     Common and extensible Prefect patterns to drive efficient workflows! 
