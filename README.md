@@ -9,7 +9,7 @@
 
 <h2 align="center">Customer Success Recipes</h2>
 
-  <p align="center">
+  <p align="center">i
     Common and extensible Prefect patterns to drive efficient workflows! 
     <!-- <br />
     <a href="??"><strong>Explore prod use-cases »</strong></a>

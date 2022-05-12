@@ -14,4 +14,4 @@ dependencies:
 - name: postgresql
   version: "~9.3.2"
   repository: https://charts.bitnami.com/bitnami
-  condition: postgresql.useSubChart
+  condition: api.postgresql.useSubChart

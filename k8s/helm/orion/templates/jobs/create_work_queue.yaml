@@ -1,0 +1,51 @@
+{{- if .Values.jobs.createWorkQueue.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "orion.fullname" }}-create-work-queue-job"
+  labels:
+    {{- include "orion.labels" . | nindent 4 }}
+    app.kubernetes.io/component: create-tenant-job
+  annotations:
+    {{- merge .Values.jobs.createWorkQueue.annotations .Values.annotations | toYaml | nindent 4 }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "orion.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: create-tenant-job
+    spec:
+    {{- if .Values.jobs.createWorkQueue.image.PullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.jobs.createWorkQueue.image.PullSecrets | nindent 8 }}
+    {{- else if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+    {{- end }}
+      {{- with .Values.jobs.createWorkQueue.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: create-tenant
+          {{- with .Values.jobs.createWorkQueue.securityContext -}}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.jobs.createWorkQueue.image.name }}:{{ .Values.jobs.createWorkQueue.image.tag |  default .Values.prefectVersionTag }}"
+          imagePullPolicy: {{ .Values.jobs.createWorkQueue.image.pullPolicy  }}
+          command: ["bash", "-c"]
+          args: ["prefect cloud login && prefect work-queue create {{ .Values.jobs.createWorkQueue.name }} || [[ $(prefect work-queue create {{ .Values.jobs.createWorkQueue.name }} 2>&1) =~ 'Uniqueness violation' ]]"]
+          env:
+            {{- if and .Values.api.enabled  }}
+            - name: PREFECT_API_URL
+              value: "http://{{ include "orion.fullname" . }}:{{ .Values.api.port }}/api"
+            {{- else }}
+            - name: PREFECT_API_URL
+              value: "https://beta.prefect.io/api/accounts/{{ .Values.prefectAccount }}"
+            {{- end }}
+            - name: PREFECT__BACKEND
+              value: server
+      restartPolicy: OnFailure
+  backoffLimit: {{ .Values.jobs.createWorkQueue.backoffLimit }}
+{{- end }}

@@ -114,10 +114,11 @@ Create the name of the service account to use
 */}}
 {{- define "orion.postgres-connstr" -}}
 {{- $user := .Values.postgresql.postgresqlUsername -}}
+{{- $pass := .Values.postgresql.postgresqlPassword -}}
 {{- $host := include "orion.postgres-hostname" . -}}
 {{- $port := .Values.postgresql.servicePort | toString -}}
 {{- $db := .Values.postgresql.postgresqlDatabase -}}
-{{- printf "postgresql://%s@%s:%s/%s" $user $host $port $db -}}
+{{- printf "postgresql+asyncpg://%s:%s@%s:%s/%s" $user $pass $host $port $db -}}
 {{- end -}}
 {{/*
   orion.postgres-secret-name:
@@ -134,13 +135,13 @@ Create the name of the service account to use
 {{- end -}}
 {{/*
   orion.postgres-secret-ref:
-    Generates a reference to the postgreqsql user password
+    Generates a reference to the postgreqsql connection-string password
     secret. 
 */}}
 {{- define "orion.postgres-secret-ref" -}}
 secretKeyRef:
   name: {{ include "orion.postgres-secret-name" . }}
-  key: postgresql-password
+  key: connection-string
 {{- end -}}
 
 
@@ -152,13 +153,9 @@ secretKeyRef:
     using "env-unwrap"
 */}}
 {{- define "orion.envConfig" -}}
-- name: POSTGRES__DATABASE__HOST
-  value: {{ include "orion.postgres-hostname" . }}
-- name: POSTGRES__DATABASE__PORT
-  value: {{ .Values.postgresql.servicePort | quote }}
-- name: POSTGRES__DATABASE__USERNAME
-  value: {{ .Values.postgresql.postgresqlUsername }}
-- name: POSTGRES__DATABASE__PASSWORD
+- name: PREFECT_DEBUG_MODE
+  value: {{ .Values.api.debug_enabled | quote }}
+- name: PREFECT_ORION_DATABASE_CONNECTION_URL
   valueFrom:
     {{- include "orion.postgres-secret-ref" . | nindent 4 }}
 {{- $args := (dict "prefix" "PREFECT_SERVER" "map" .Values.prefectConfig) -}}
