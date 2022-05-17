@@ -1,6 +1,12 @@
 # Handle dbt model failures
 
-When running a suite of dbt models, sometimes a few models will fail due to exogenous circumstances (e.g. network issues, improper authorization, etc). A robust data pipeline uses retries to mitigate intermittent errors, but retrying all models just to retry a few failed models can be expensive and time intensive. Fortunately, we can create a Prefect flow that can rerun only failed models when a dbt run fails. This make our data pipeline robust as well as efficient.
+When running a suite of dbt models, sometimes a few models will fail due to exogenous circumstances (e.g. network issues, improper authorization, etc). A robust data pipeline uses retries to mitigate intermittent errors, but retrying all models just to retry a few failed models can be expensive and time intensive. Fortunately, we can create a Prefect flow that can rerun only failed models when a dbt run fails. This makes our data pipeline robust as well as efficient.
+
+Using this recipe will allow for intelligent retries in the following scenarios:
+- Connection timeouts with a database
+- Another dbt job is interacting with the same table as the current job and causing concurrency issues at the database level
+- Missing permissions to interactive with tables/schemas
+    - Requires manually updating permissions before restarting flow
 
 # Prerequisites
 
