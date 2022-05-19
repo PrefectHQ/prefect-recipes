@@ -41,7 +41,7 @@ spec:
             {{- toYaml .Values.api.resources | nindent 12 }}
           env:
             {{- (include "orion.envConfig" .) | nindent 12 }}
-            {{- with .Values.agent.env }}
+            {{- with .Values.api.env }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
       {{- with .Values.api.nodeSelector }}
