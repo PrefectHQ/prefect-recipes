@@ -6,3 +6,5 @@
 .terraform.*
 .terraform.lock.hcl
 terraform.*
+**.tgz
+Chart.lock

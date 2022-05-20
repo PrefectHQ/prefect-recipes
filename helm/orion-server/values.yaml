@@ -1,6 +1,12 @@
 
-prefectVersionTag: 2.0b3-python3.8
+prefectVersionTag: 2.0b4-python3.8
+# -- I
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+annotations: {}
 
+# -- Orion APU/UI deployment
 api:
   # Default values for Orion API.
   enabled: true
@@ -8,18 +14,6 @@ api:
     type: ClusterIP
     port: 4200
 
-  ingress:
-    enabled: true
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: prefect.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    tls: []
 
   replicaCount: 1
 
@@ -27,7 +21,7 @@ api:
     name: prefecthq/prefect
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 2.0b3-python3.8
+    tag: 2.0b4-python3.8
 
   debug_enabled: false
 
@@ -37,6 +31,18 @@ api:
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
+
+  # -- Ingress configuration
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: prefect.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
 
   nodeSelector: {}
 
@@ -131,21 +137,5 @@ postgresql:
 serviceAccount:
    enabled: true
 
-jobs:
-  createWorkQueue:
-    enabled: false
-    annotations: {}
-    image:
-      name: prefecthq/prefect
-      pullPolicy: IfNotPresent
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: 2.0b3-python3.8
-      PullSecrets: []
 
 
-
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-annotations: {}
