@@ -1,5 +1,5 @@
 
-prefectVersionTag: 2.0b3-python3.8
+prefectVersionTag: 2.0b4-python3.8
 
 agent:
 # Default values for Orion Agent.
@@ -11,7 +11,7 @@ agent:
   image:
     name: prefecthq/prefect
     pullPolicy: IfNotPresent
-    tag: 2.0b3-python3.8
+    tag: 2.0b4-python3.8
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -58,7 +58,7 @@ jobs:
       name: prefecthq/prefect
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: 2.0b3-python3.8
+      tag: 2.0b4-python3.8
       PullSecrets: []
 
 
