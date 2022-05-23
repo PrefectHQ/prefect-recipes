@@ -29,6 +29,12 @@ resource "azurerm_public_ip" "publicip" {
 }
 
 # Create Network Security Group and rule # Allow SSH inbound from all locations.
+# If "*" is too open for your liking, you can determine your public IP via:
+# curl ifconfig.co
+#Replace source address prefix with the output from your curl command with /32 at the end.
+#This limits scope to allow access via SSH only from your IP address; note unless you have a static 
+# public IP address, this is strictly for dev use.
+
 resource "azurerm_network_security_group" "myterraformnsg" {
   name                = "myNetworkSecurityGroup"
   location            = azurerm_resource_group.rg.location
@@ -61,18 +67,6 @@ resource "azurerm_network_interface" "publicnic" {
   }
 }
 
-# resource "azurerm_network_interface" "privatenic" {
-#   name                = "privateNICIP"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-
-#   ip_configuration {
-#     name                          = "internal"
-#     subnet_id                     = azurerm_subnet.prefectsubnet.id
-#     private_ip_address_allocation = "Dynamic"
-#   }
-# }
-
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
   network_interface_id      = azurerm_network_interface.publicnic.id
@@ -98,10 +92,16 @@ resource "azurerm_storage_account" "mystorageaccount" {
   account_replication_type = "LRS"
 }
 
-# Create (and display) an SSH key - Default is to mask SSH output, requires -raw or -json during terraform apply to display.
+# Create an SSH key
 resource "tls_private_key" "example_ssh" {
   algorithm = "RSA"
   rsa_bits  = 4096
+}
+
+# Create the private .pem key locally
+resource "local_file" "ssh_key" {
+  filename      = "${azurerm_linux_virtual_machine.prefectagentvm.name}.pem"
+  content       = tls_private_key.example_ssh.private_key_pem
 }
 
 # Create virtual machine
@@ -146,21 +146,15 @@ resource "azurerm_virtual_machine_extension" "vmext" {
   type                 = "CustomScript"
   type_handler_version = "2.0"
 
+  # settings = <<SETTINGS
+  #   {
+  #       "script": "IyEvYmluL2Jhc2gKCiNVcGRhdGUgcGFja2FnZXMKc3VkbyBhcHQtZ2V0IHVwZGF0ZSAteQoKI0luc3RhbGwgcGlwMwpzdWRvIGFwdCBpbnN0YWxsIHB5dGhvbjMtcGlwIC15CgojSW5zdGFsbCBsYXRlc3QgcHJlZmVjdApweXRob24zIC1tIHBpcCBpbnN0YWxsIC1VICJwcmVmZWN0Pj0yLjBiIgoKI1VwZGF0ZSBwYXRoCmV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4KCiNBZGQgcGF0aCB0byAuYmFzaHJjCmVjaG8gImV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4iID4+IC9ob21lL2F6dXJldXNlci8uYmFzaHJjCgojQ3JlYXRlIGEgZGVmYXVsdCB3b3JrLXF1ZXVlCi9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3Qgd29yay1xdWV1ZSBjcmVhdGUgZGVmYXVsdAoKI0NyZWF0ZSB0aGUgc3lzdGVtZCBzZXJ2aWNlCnN1ZG8gY2F0IDw8IEVPRiA+IC9ldGMvc3lzdGVtZC9zeXN0ZW0vcHJlZmVjdC1hZ2VudC5zZXJ2aWNlCltVbml0XQpEZXNjcmlwdGlvbj1QcmVmZWN0IEFnZW50IFNlcnZpY2UKQWZ0ZXI9bmV0d29yay50YXJnZXQKU3RhcnRMaW1pdEludGVydmFsU2VjPTAKCltTZXJ2aWNlXQpUeXBlPXNpbXBsZQpSZXN0YXJ0PWFsd2F5cwpSZXN0YXJ0U2VjPTEKVXNlcj1henVyZXVzZXIKRXhlY1N0YXJ0PS9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3QgYWdlbnQgc3RhcnQgZGVmYXVsdAoKW0luc3RhbGxdCldhbnRlZEJ5PWRlZmF1bHQudGFyZ2V0CkVPRgoKI0VuYWJsZSB0aGUgYWdlbnQgdG8gc3RhcnQgb24gc3lzdGVtIGJvb3QKc3VkbyBzeXN0ZW1jdGwgZW5hYmxlIHByZWZlY3QtYWdlbnQKCiNTdGFydCB0aGUgcHJlZmVjdC1hZ2VudCBzZXJ2aWNlCnN1ZG8gc3lzdGVtY3RsIHN0YXJ0IHByZWZlY3QtYWdlbnQK"
+  #   }
+  # SETTINGS
   settings = <<SETTINGS
     {
-        "script": "IyEvYmluL2Jhc2gKCiNVcGRhdGUgcGFja2FnZXMKc3VkbyBhcHQtZ2V0IHVwZGF0ZSAteQoKI0luc3RhbGwgcGlwMwpzdWRvIGFwdCBpbnN0YWxsIHB5dGhvbjMtcGlwIC15CgojSW5zdGFsbCBsYXRlc3QgcHJlZmVjdApweXRob24zIC1tIHBpcCBpbnN0YWxsIC1VICJwcmVmZWN0Pj0yLjBiIgoKI1VwZGF0ZSBwYXRoCmV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4KCiNBZGQgcGF0aCB0byAuYmFzaHJjCmVjaG8gImV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4iID4+IC9ob21lL2F6dXJldXNlci8uYmFzaHJjCgojQ3JlYXRlIGEgZGVmYXVsdCB3b3JrLXF1ZXVlCi9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3Qgd29yay1xdWV1ZSBjcmVhdGUgZGVmYXVsdAoKI0NyZWF0ZSB0aGUgc3lzdGVtZCBzZXJ2aWNlCnN1ZG8gY2F0IDw8IEVPRiA+IC9ldGMvc3lzdGVtZC9zeXN0ZW0vcHJlZmVjdC1hZ2VudC5zZXJ2aWNlCltVbml0XQpEZXNjcmlwdGlvbj1QcmVmZWN0IEFnZW50IFNlcnZpY2UKQWZ0ZXI9bmV0d29yay50YXJnZXQKU3RhcnRMaW1pdEludGVydmFsU2VjPTAKCltTZXJ2aWNlXQpUeXBlPXNpbXBsZQpSZXN0YXJ0PWFsd2F5cwpSZXN0YXJ0U2VjPTEKVXNlcj1henVyZXVzZXIKRXhlY1N0YXJ0PS9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3QgYWdlbnQgc3RhcnQgZGVmYXVsdAoKW0luc3RhbGxdCldhbnRlZEJ5PWRlZmF1bHQudGFyZ2V0CkVPRgoKI0VuYWJsZSB0aGUgYWdlbnQgdG8gc3RhcnQgb24gc3lzdGVtIGJvb3QKc3VkbyBzeXN0ZW1jdGwgZW5hYmxlIHByZWZlY3QtYWdlbnQKCiNTdGFydCB0aGUgcHJlZmVjdC1hZ2VudCBzZXJ2aWNlCnN1ZG8gc3lzdGVtY3RsIHN0YXJ0IHByZWZlY3QtYWdlbnQK"
+        "script": "${filebase64("vm_extension.sh")}"
     }
   SETTINGS
 
-#   settings = <<SETTINGS
-#     {
-#         "commandToExecute": "apt-get update -y"
-#     }
-#   SETTINGS
-
-}
-
-resource "local_file" "ssh_key" {
-  filename      = "${azurerm_linux_virtual_machine.prefectagentvm.name}.pem"
-  content       = tls_private_key.example_ssh.private_key_pem
 }
