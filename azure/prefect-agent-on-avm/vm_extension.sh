@@ -33,7 +33,7 @@ EOF
 systemctl daemon-reload
 
 #Enable the service to start on boot
-systemctl enable prefect-service
+systemctl enable prefect-agent
 
 #Start the service
-systemctl start prefect-service
+systemctl start prefect-agent
