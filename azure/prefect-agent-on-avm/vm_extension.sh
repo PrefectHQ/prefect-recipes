@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #Package updates and installation
-sudo apt-get update -y
+apt-get update -y
 
 #Install pip3
-sudo apt install python3-pip -y
+apt install python3-pip -y
 
 #Install prefect
 python3 -m pip install -U "prefect>=2.0b"
@@ -12,7 +12,7 @@ python3 -m pip install -U "prefect>=2.0b"
 #Create a default work-queue
 /usr/local/bin/prefect work-queue create default
 
-sudo cat << EOF > /etc/systemd/system/prefect-agent.service
+cat << EOF > /etc/systemd/system/prefect-agent.service
 [Unit]
 Description=Prefect Agent Service
 After=network.target
@@ -30,10 +30,10 @@ WantedBy=default.target
 EOF
 
 #Reload systemctl to pickup the service
-sudo systemctl daemon-reload
+systemctl daemon-reload
 
 #Enable the service to start on boot
-sudo systemctl enable prefect-service
+systemctl enable prefect-service
 
 #Start the service
-sudo systemctl start prefect-service
+systemctl start prefect-service
