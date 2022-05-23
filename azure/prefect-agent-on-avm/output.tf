@@ -3,7 +3,7 @@ output "resource_group_name" {
 }
 
 output "public_ip_address" {
-  value = azurerm_linux_virtual_machine.myterraformvm.public_ip_address
+  value = azurerm_linux_virtual_machine.prefectagentvm.public_ip_address
 }
 
 output "tls_private_key" {

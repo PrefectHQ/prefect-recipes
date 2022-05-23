@@ -1,40 +1,27 @@
-# Establish prefix "rg" 
-resource "random_pet" "rg-name" {
-  prefix    = var.resource_group_name_prefix
-}
-
 # Create randomized resource group name in your designated region
 resource "azurerm_resource_group" "rg" {
-  name      = random_pet.rg-name.id
+  name      = "rg-${var.resource_group_name}"
   location  = var.resource_group_location
 }
 
 # Create virtual network
-resource "azurerm_virtual_network" "myterraformnetwork" {
-  name                = "myVnet"
+resource "azurerm_virtual_network" "prefectnetwork" {
+  name                = "prefectVnet"
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
 # Create subnet in  myVnet
-resource "azurerm_subnet" "myterraformsubnet" {
-  name                 = "mySubnet"
+resource "azurerm_subnet" "prefectsubnet" {
+  name                 = "prefectSubnet"
   resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+  virtual_network_name = azurerm_virtual_network.prefectnetwork.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# Create public IPs if public acccess is needed; this IS publicly exposed.
-resource "azurerm_public_ip" "myterraformpublicip" {
-  name                = "myPublicIP"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Dynamic"
-}
-
-# Alternatively, create a private IP with dynamic just for demonstration
-resource "azurerm_public_ip" "myterraformpublicip" {
+#Create public IPs if public acccess is needed; this IS publicly exposed.
+resource "azurerm_public_ip" "publicip" {
   name                = "myPublicIP"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -61,22 +48,34 @@ resource "azurerm_network_security_group" "myterraformnsg" {
 }
 
 # Create network interface ; assigned to the subnet, with the output of Public IP
-resource "azurerm_network_interface" "myterraformnic" {
+resource "azurerm_network_interface" "publicnic" {
   name                = "myNIC"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
     name                          = "myNicConfiguration"
-    subnet_id                     = azurerm_subnet.myterraformsubnet.id
+    subnet_id                     = azurerm_subnet.prefectsubnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.myterraformpublicip.id
+    public_ip_address_id          = azurerm_public_ip.publicip.id
   }
 }
 
+# resource "azurerm_network_interface" "privatenic" {
+#   name                = "privateNICIP"
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+
+#   ip_configuration {
+#     name                          = "internal"
+#     subnet_id                     = azurerm_subnet.prefectsubnet.id
+#     private_ip_address_allocation = "Dynamic"
+#   }
+# }
+
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
-  network_interface_id      = azurerm_network_interface.myterraformnic.id
+resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
+  network_interface_id      = azurerm_network_interface.publicnic.id
   network_security_group_id = azurerm_network_security_group.myterraformnsg.id
 }
 
@@ -106,11 +105,11 @@ resource "tls_private_key" "example_ssh" {
 }
 
 # Create virtual machine
-resource "azurerm_linux_virtual_machine" "myterraformvm" {
-  name                  = "myVM"
+resource "azurerm_linux_virtual_machine" "prefectagentvm" {
+  name                  = "prefectAgentVM"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.myterraformnic.id]
+  network_interface_ids = [azurerm_network_interface.publicnic.id]
   size                  = "Standard_DS1_v2"
 
   os_disk {
@@ -121,12 +120,12 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2"
     version   = "latest"
   }
 
-  computer_name                   = "myvm"
+  computer_name                   = "prefect-agentVM"
   admin_username                  = "azureuser"
   disable_password_authentication = true
 
@@ -138,4 +137,30 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
   }
+}
+
+resource "azurerm_virtual_machine_extension" "vmext" {
+  name                 = "${azurerm_linux_virtual_machine.prefectagentvm.computer_name}-vmext"
+  virtual_machine_id   = azurerm_linux_virtual_machine.prefectagentvm.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  settings = <<SETTINGS
+    {
+        "script": "IyEvYmluL2Jhc2gKCiNVcGRhdGUgcGFja2FnZXMKc3VkbyBhcHQtZ2V0IHVwZGF0ZSAteQoKI0luc3RhbGwgcGlwMwpzdWRvIGFwdCBpbnN0YWxsIHB5dGhvbjMtcGlwIC15CgojSW5zdGFsbCBsYXRlc3QgcHJlZmVjdApweXRob24zIC1tIHBpcCBpbnN0YWxsIC1VICJwcmVmZWN0Pj0yLjBiIgoKI1VwZGF0ZSBwYXRoCmV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4KCiNBZGQgcGF0aCB0byAuYmFzaHJjCmVjaG8gImV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4iID4+IC9ob21lL2F6dXJldXNlci8uYmFzaHJjCgojQ3JlYXRlIGEgZGVmYXVsdCB3b3JrLXF1ZXVlCi9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3Qgd29yay1xdWV1ZSBjcmVhdGUgZGVmYXVsdAoKI0NyZWF0ZSB0aGUgc3lzdGVtZCBzZXJ2aWNlCnN1ZG8gY2F0IDw8IEVPRiA+IC9ldGMvc3lzdGVtZC9zeXN0ZW0vcHJlZmVjdC1hZ2VudC5zZXJ2aWNlCltVbml0XQpEZXNjcmlwdGlvbj1QcmVmZWN0IEFnZW50IFNlcnZpY2UKQWZ0ZXI9bmV0d29yay50YXJnZXQKU3RhcnRMaW1pdEludGVydmFsU2VjPTAKCltTZXJ2aWNlXQpUeXBlPXNpbXBsZQpSZXN0YXJ0PWFsd2F5cwpSZXN0YXJ0U2VjPTEKVXNlcj1henVyZXVzZXIKRXhlY1N0YXJ0PS9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3QgYWdlbnQgc3RhcnQgZGVmYXVsdAoKW0luc3RhbGxdCldhbnRlZEJ5PWRlZmF1bHQudGFyZ2V0CkVPRgoKI0VuYWJsZSB0aGUgYWdlbnQgdG8gc3RhcnQgb24gc3lzdGVtIGJvb3QKc3VkbyBzeXN0ZW1jdGwgZW5hYmxlIHByZWZlY3QtYWdlbnQKCiNTdGFydCB0aGUgcHJlZmVjdC1hZ2VudCBzZXJ2aWNlCnN1ZG8gc3lzdGVtY3RsIHN0YXJ0IHByZWZlY3QtYWdlbnQK"
+    }
+  SETTINGS
+
+#   settings = <<SETTINGS
+#     {
+#         "commandToExecute": "apt-get update -y"
+#     }
+#   SETTINGS
+
+}
+
+resource "local_file" "ssh_key" {
+  filename      = "${azurerm_linux_virtual_machine.prefectagentvm.name}.pem"
+  content       = tls_private_key.example_ssh.private_key_pem
 }
