@@ -10,7 +10,7 @@ apt install python3-pip -y
 python3 -m pip install -U "prefect>=2.0b"
 
 #Create a default work-queue
-/usr/local/bin/prefect work-queue create default
+prefect work-queue create default
 
 cat << EOF > /etc/systemd/system/prefect-agent.service
 [Unit]

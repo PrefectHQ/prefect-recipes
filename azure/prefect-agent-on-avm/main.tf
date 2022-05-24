@@ -6,18 +6,18 @@ resource "azurerm_resource_group" "rg" {
 
 # Create virtual network
 resource "azurerm_virtual_network" "prefectnetwork" {
-  name                = "prefectVnet"
-  address_space       = ["10.0.0.0/16"]
+  name                = var.vnet_name
+  address_space       = var.vnet_id
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
 # Create subnet in  myVnet
 resource "azurerm_subnet" "prefectsubnet" {
-  name                 = "prefectSubnet"
+  name                 = var.subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.prefectnetwork.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = var.subnet_id
 }
 
 #Create public IPs if public acccess is needed; this IS publicly exposed.
@@ -41,15 +41,15 @@ resource "azurerm_network_security_group" "myterraformnsg" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "SSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    name                       = var.default_nsg.name
+    priority                   = var.default_nsg.priority
+    direction                  = var.default_nsg.direction
+    access                     = var.default_nsg.access
+    protocol                   = var.default_nsg.protocol
+    source_port_range          = var.default_nsg.source_port_range
+    destination_port_range     = var.default_nsg.destination_port_range
+    source_address_prefix      = var.default_nsg.source_address_prefix
+    destination_address_prefix = var.default_nsg.destination_address_prefix
   }
 }
 
@@ -118,11 +118,11 @@ resource "azurerm_linux_virtual_machine" "prefectagentvm" {
     storage_account_type = "Premium_LRS"
   }
 
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-focal"
-    sku       = "20_04-lts-gen2"
-    version   = "latest"
+  source_image_reference{
+      publisher = var.source_image.publisher
+      offer     = var.source_image.offer
+      sku       = var.source_image.sku
+      version   = var.source_image.version
   }
 
   computer_name                   = "prefect-agentVM"
@@ -146,11 +146,6 @@ resource "azurerm_virtual_machine_extension" "vmext" {
   type                 = "CustomScript"
   type_handler_version = "2.0"
 
-  # settings = <<SETTINGS
-  #   {
-  #       "script": "IyEvYmluL2Jhc2gKCiNVcGRhdGUgcGFja2FnZXMKc3VkbyBhcHQtZ2V0IHVwZGF0ZSAteQoKI0luc3RhbGwgcGlwMwpzdWRvIGFwdCBpbnN0YWxsIHB5dGhvbjMtcGlwIC15CgojSW5zdGFsbCBsYXRlc3QgcHJlZmVjdApweXRob24zIC1tIHBpcCBpbnN0YWxsIC1VICJwcmVmZWN0Pj0yLjBiIgoKI1VwZGF0ZSBwYXRoCmV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4KCiNBZGQgcGF0aCB0byAuYmFzaHJjCmVjaG8gImV4cG9ydCBQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2Jpbjovc25hcC9iaW46L2hvbWUvYXp1cmV1c2VyLy5sb2NhbC9iaW4iID4+IC9ob21lL2F6dXJldXNlci8uYmFzaHJjCgojQ3JlYXRlIGEgZGVmYXVsdCB3b3JrLXF1ZXVlCi9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3Qgd29yay1xdWV1ZSBjcmVhdGUgZGVmYXVsdAoKI0NyZWF0ZSB0aGUgc3lzdGVtZCBzZXJ2aWNlCnN1ZG8gY2F0IDw8IEVPRiA+IC9ldGMvc3lzdGVtZC9zeXN0ZW0vcHJlZmVjdC1hZ2VudC5zZXJ2aWNlCltVbml0XQpEZXNjcmlwdGlvbj1QcmVmZWN0IEFnZW50IFNlcnZpY2UKQWZ0ZXI9bmV0d29yay50YXJnZXQKU3RhcnRMaW1pdEludGVydmFsU2VjPTAKCltTZXJ2aWNlXQpUeXBlPXNpbXBsZQpSZXN0YXJ0PWFsd2F5cwpSZXN0YXJ0U2VjPTEKVXNlcj1henVyZXVzZXIKRXhlY1N0YXJ0PS9ob21lL2F6dXJldXNlci8ubG9jYWwvYmluL3ByZWZlY3QgYWdlbnQgc3RhcnQgZGVmYXVsdAoKW0luc3RhbGxdCldhbnRlZEJ5PWRlZmF1bHQudGFyZ2V0CkVPRgoKI0VuYWJsZSB0aGUgYWdlbnQgdG8gc3RhcnQgb24gc3lzdGVtIGJvb3QKc3VkbyBzeXN0ZW1jdGwgZW5hYmxlIHByZWZlY3QtYWdlbnQKCiNTdGFydCB0aGUgcHJlZmVjdC1hZ2VudCBzZXJ2aWNlCnN1ZG8gc3lzdGVtY3RsIHN0YXJ0IHByZWZlY3QtYWdlbnQK"
-  #   }
-  # SETTINGS
   settings = <<SETTINGS
     {
         "script": "${filebase64("vm_extension.sh")}"
