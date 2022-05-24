@@ -126,7 +126,7 @@ resource "azurerm_linux_virtual_machine" "prefectagentvm" {
   }
 
   computer_name                   = "prefect-agentVM"
-  admin_username                  = "azureuser"
+  admin_username                  = var.admin_user
   disable_password_authentication = true
 
   admin_ssh_key {
@@ -148,7 +148,8 @@ resource "azurerm_virtual_machine_extension" "vmext" {
 
   settings = <<SETTINGS
     {
-        "script": "${filebase64("vm_extension.sh")}"
+        "script": "${base64encode(templatefile("vm_extension.sh.tpl", {
+            adminuser = var.admin_user, defaultqueue = var.default_queue }))}"
     }
   SETTINGS
 

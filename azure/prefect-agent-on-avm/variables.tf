@@ -80,3 +80,9 @@ variable "admin_user" {
   default = "azureuser"
   description = "The default user for the configured azure vm"
 }
+
+variable "default_queue" {
+  type = string
+  default = "default"
+  description = "The default work queue used to start and configure the prefect agent"
+}
