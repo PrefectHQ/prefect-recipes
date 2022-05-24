@@ -74,3 +74,9 @@ variable "source_image" {
     version   = "latest"
   }
 }
+
+variable "admin_user" {
+  type = string
+  default = "azureuser"
+  description = "The default user for the configured azure vm"
+}
