@@ -1,40 +1,40 @@
 variable "resource_group_name" {
-  default       = "prefect_agent"
-  description   = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
+  default     = "prefect_agent"
+  description = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
 }
 
 variable "resource_group_location" {
-  default       = "eastus"
-  description   = "Location of the resource group."
+  default     = "eastus"
+  description = "Location of the resource group."
 }
 
 variable "vnet_name" {
-  type          = string
-  default       = "prefectVnet"
-  description   = "Name of the Vnet to create"
+  type        = string
+  default     = "prefectVnet"
+  description = "Name of the Vnet to create"
 }
 
 variable "subnet_name" {
-  type          = string
-  default       = "prefectSubnet"
-  description   = "Name of the subnet to create"
+  type        = string
+  default     = "prefectSubnet"
+  description = "Name of the subnet to create"
 }
 
 variable "vnet_id" {
-  type          = list(string)
-  default       = ["10.0.0.0/16"]
-  description   = "IDs of the Vnets that will host the Prefect agent"
+  type        = list(string)
+  default     = ["10.0.0.0/16"]
+  description = "IDs of the Vnets that will host the Prefect agent"
 }
 
 variable "subnet_id" {
-  type          = list(string)
-  default       = ["10.0.1.0/24"]
-  description   = "IDs of the subnets that will host the Prefect agent"
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
+  description = "IDs of the subnets that will host the Prefect agent"
 }
 
 variable "default_nsg" {
   description = "Standard basic NSG to allow SSH"
-  type        = object({
+  type = object({
     name                       = string
     priority                   = number
     direction                  = string
@@ -46,7 +46,7 @@ variable "default_nsg" {
     destination_address_prefix = string
   })
 
-  default     =  {
+  default = {
     name                       = "SSH"
     priority                   = 1001
     direction                  = "Inbound"
@@ -61,13 +61,13 @@ variable "default_nsg" {
 
 variable "source_image" {
   description = "Standard configuration Azure VM"
-  type        = object({
+  type = object({
     publisher = string
     offer     = string
     sku       = string
     version   = string
   })
-  default     = {
+  default = {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-focal"
     sku       = "20_04-lts-gen2"
@@ -76,13 +76,13 @@ variable "source_image" {
 }
 
 variable "admin_user" {
-  type = string
-  default = "azureuser"
+  type        = string
+  default     = "azureuser"
   description = "The default user for the configured azure vm"
 }
 
 variable "default_queue" {
-  type = string
-  default = "default"
+  type        = string
+  default     = "default"
   description = "The default work queue used to start and configure the prefect agent"
 }

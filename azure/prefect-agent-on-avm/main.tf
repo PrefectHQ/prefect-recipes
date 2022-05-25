@@ -1,7 +1,7 @@
 # Create randomized resource group name in your designated region
 resource "azurerm_resource_group" "rg" {
-  name      = "rg-${var.resource_group_name}"
-  location  = var.resource_group_location
+  name     = "rg-${var.resource_group_name}"
+  location = var.resource_group_location
 }
 
 # Create virtual network
@@ -100,8 +100,8 @@ resource "tls_private_key" "example_ssh" {
 
 # Create the private .pem key locally
 resource "local_file" "ssh_key" {
-  filename      = "${azurerm_linux_virtual_machine.prefectagentvm.name}.pem"
-  content       = tls_private_key.example_ssh.private_key_pem
+  filename = "${azurerm_linux_virtual_machine.prefectagentvm.name}.pem"
+  content  = tls_private_key.example_ssh.private_key_pem
 }
 
 # Create virtual machine
@@ -118,11 +118,11 @@ resource "azurerm_linux_virtual_machine" "prefectagentvm" {
     storage_account_type = "Premium_LRS"
   }
 
-  source_image_reference{
-      publisher = var.source_image.publisher
-      offer     = var.source_image.offer
-      sku       = var.source_image.sku
-      version   = var.source_image.version
+  source_image_reference {
+    publisher = var.source_image.publisher
+    offer     = var.source_image.offer
+    sku       = var.source_image.sku
+    version   = var.source_image.version
   }
 
   computer_name                   = "prefect-agentVM"
@@ -149,7 +149,7 @@ resource "azurerm_virtual_machine_extension" "vmext" {
   settings = <<SETTINGS
     {
         "script": "${base64encode(templatefile("vm_extension.sh.tpl", {
-            adminuser = var.admin_user, defaultqueue = var.default_queue }))}"
+adminuser = var.admin_user, defaultqueue = var.default_queue }))}"
     }
   SETTINGS
 
