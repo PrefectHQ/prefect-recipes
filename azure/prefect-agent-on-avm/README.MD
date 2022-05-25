@@ -1,6 +1,4 @@
-<p align="center">
-## Azure Prefect Agent Recipe
-</p>
+<h1 style="text-align: center;">Azure Prefect Agent Recipe</h1>
 
 This recipe is a basic configuration to setup an Azure VM and run the Prefect Agent.
 This initial configuration is for running the agent locally only. 
