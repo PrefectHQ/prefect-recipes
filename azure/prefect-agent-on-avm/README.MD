@@ -32,6 +32,12 @@ terraform plan -out prefect_agent.out
 terraform apply "prefect_agent.out"
 ```
 
+Depending on your Azure plan, you may encounter a `SkuNotAvailable` error when provisioning the VM. If this happens, try setting a different `resource_group_location` in variables.tf. You can use the following command to determine availability,
+
+```sh
+az vm list-skus --size Standard_DS1_v2 --all --output table
+```
+
 Once the plan has been deployed, the agent is configured with a generic default work-queue.
 This default work-queue can be modified in the variables.tf file, as well as the default user.
 The system can be accessed via the private key created as an output of running terraform.
