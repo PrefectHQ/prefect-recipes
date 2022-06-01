@@ -32,9 +32,9 @@ spec:
           imagePullPolicy: {{ .Values.agent.image.pullPolicy }}
           command: ["prefect", "agent", "start", {{ .Values.agent.workQueueName }}]
           env:
-          {{- if .Values.agent.serverUrl  }}
+          {{- if .Values.agent.apiUrl  }}
           - name: PREFECT_API_URL
-            value: {{ .Values.agent.serverUrl }}
+            value: {{ .Values.agent.apiUrl }}
           {{- else }}
           - name: PREFECT_API_URL
             value: 

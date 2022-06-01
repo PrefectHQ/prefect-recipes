@@ -2,6 +2,7 @@
 prefectVersionTag: 2.0b4-python3.8
 
 agent:
+  apiUrl: beta.prefect.io
 # Default values for Orion Agent.
   workQueueName: kubernetes
 
@@ -49,20 +50,6 @@ agent:
 
 serviceAccount:
    enabled: true
-
-jobs:
-  createWorkQueue:
-    enabled: false
-    annotations: {}
-    image:
-      name: prefecthq/prefect
-      pullPolicy: IfNotPresent
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: 2.0b4-python3.8
-      PullSecrets: []
-
-
-
 
 imagePullSecrets: []
 nameOverride: ""

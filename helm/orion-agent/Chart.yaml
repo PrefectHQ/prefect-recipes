@@ -9,4 +9,4 @@ maintainers:
   - name: gabcoyne
     email: george@prefect.io
 sources:
-  - https://github.com/PrefectHQ/customer-success-recipes
+  - https://github.com/PrefectHQ/prefect-recipes
