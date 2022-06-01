@@ -1,4 +1,3 @@
-
 1. Get the application URL by running these commands:
 {{- if .Values.api.ingress.enabled }}
 {{- range $host := .Values.api.ingress.hosts }}
