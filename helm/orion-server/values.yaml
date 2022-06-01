@@ -1,6 +1,4 @@
-
-prefectVersionTag: 2.0b4-python3.8
-# -- I
+prefectVersionTag: 2.0b5-python3.8
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -14,14 +12,13 @@ api:
     type: ClusterIP
     port: 4200
 
-
   replicaCount: 1
 
   image:
     name: prefecthq/prefect
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 2.0b4-python3.8
+    tag: 2.0b5-python3.8
 
   debug_enabled: false
 
@@ -133,9 +130,5 @@ postgresql:
     # -- Version tag, corresponds to tags at https://hub.docker.com/r/bitnami/postgresql/
     tag: 14.3.0
 
-
 serviceAccount:
    enabled: true
-
-
-
