@@ -9,7 +9,7 @@
 
 <h2 align="center">Prefect Recipes</h2>
 
-  <p align="center">i
+  <p align="center">
     Common and extensible Prefect patterns to drive efficient workflows! 
     <!-- <br />
     <a href="??"><strong>Explore prod use-cases »</strong></a>
