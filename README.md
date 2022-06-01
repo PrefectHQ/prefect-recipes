@@ -61,6 +61,7 @@ git clone git@github.com:PrefectHQ/customer-success-recipes.git
 - AWS Batch deployments 
 - Orchestrating AWS batch with Prefect
 - Prefect agent deployments on GCP
+- Prefect agent deployment on Azure
 - CI registration to Prefect cloud
 
 <br>
