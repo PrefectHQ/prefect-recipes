@@ -12,7 +12,7 @@ See [installation](https://www.serverless.com/framework/docs/providers/aws/guide
 
 
 ## Development
-- Setup Serverless framework specification like [`serverless.yml`](https://github.com/PrefectHQ/prefect-recipes/tree/main/aws/serverless/event-driven-flow/serverless.yml)
+- Setup Serverless framework specification like [`serverless.yml`](https://github.com/PrefectHQ/customer-success-recipes/tree/main/aws/serverless/event-driven-flow/serverless.yml)
     - provider (e.g. `aws` in this template)
         - name
         - stage
