@@ -61,7 +61,6 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
-
 {{- define "orion.orion-hostname" -}}
 {{- if .Values.api.url -}}
   {{- .Values.api.url -}}
@@ -97,7 +96,6 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 
-
 {{/*
   orion.postgres-hostname: 
     Generate the hostname of the postgresql service
@@ -114,6 +112,7 @@ Create the name of the service account to use
   {{- .Values.postgresql.externalHostname -}}
 {{- end -}}
 {{- end -}}
+
 {{/* 
   orion.postgres-connstr:
     Generates the connection string for the postgresql service
@@ -128,6 +127,7 @@ Create the name of the service account to use
 {{- $db := .Values.postgresql.postgresqlDatabase -}}
 {{- printf "postgresql+asyncpg://%s:%s@%s:%s/%s" $user $pass $host $port $db -}}
 {{- end -}}
+
 {{/*
   orion.postgres-string-secret-name:
     Get the name of the secret to be used for the postgresql
@@ -141,6 +141,7 @@ Create the name of the service account to use
   {{- printf "%s-%s" .Release.Name "postgresql-connection" -}}
 {{- end -}}
 {{- end -}}
+
 {{/*
   orion.postgres-secret-ref:
     Generates a reference to the postgreqsql connection-string password
@@ -151,7 +152,6 @@ secretKeyRef:
   name: {{ include "orion.postgres-string-secret-name" . }}
   key: connection-string
 {{- end -}}
-
 
 {{/*
   orion.envConfig:
