@@ -1,4 +1,4 @@
-from prefect import Flow, context, task
+from prefect import Flow, task, context
 from prefect.tasks.dbt import DbtShellTask
 from prefect.triggers import all_failed, any_successful
 

@@ -1,12 +1,11 @@
 from datetime import datetime, timedelta
-
-import boto3
-
 from prefect import Flow, task
 from prefect.engine.signals import FAIL
 from prefect.schedules.schedules import IntervalSchedule
 from prefect.tasks.airbyte.airbyte import AirbyteConfigurationExport
 from prefect.tasks.secrets import PrefectSecret
+
+import boto3
 
 schedule = IntervalSchedule(interval=timedelta(hours=6))
 
