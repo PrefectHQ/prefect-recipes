@@ -1,1 +1,0 @@
-1. Check Prefect agent connections in the prefect UI at {{ .Values.agent.apiUrl }}

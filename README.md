@@ -3,21 +3,21 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/PrefectHQ/customer-success-recipes">
+  <a href="https://github.com/PrefectHQ/prefect-recipes">
     <img src="imgs/prefect_logo.png" alt="Logo" width="200">
   </a>
 
 <h2 align="center">Prefect Recipes</h2>
 
-  <p align="center">i
+  <p align="center">
     Common and extensible Prefect patterns to drive efficient workflows! 
     <!-- <br />
     <a href="??"><strong>Explore prod use-cases »</strong></a>
     <br /> -->
     <br />
-    <a href="https://github.com/PrefectHQ/customer-success-recipes/issues">Report Bug</a>
+    <a href="https://github.com/PrefectHQ/prefect-recipes/issues">Report Bug</a>
     ·
-    <a href="https://github.com/PrefectHQ/customer-success-recipes/issues">Request Feature</a>
+    <a href="https://github.com/PrefectHQ/prefect-recipes/issues">Request Feature</a>
   </p>
 </div>
 
@@ -50,7 +50,7 @@
 ## Usage
 
 ```console 
-git clone git@github.com:PrefectHQ/customer-success-recipes.git
+git clone git@github.com:PrefectHQ/prefect-recipes.git
 ```
 
 <hr>
@@ -66,7 +66,7 @@ git clone git@github.com:PrefectHQ/customer-success-recipes.git
 
 <br>
 
-See the [open issues](https://github.com/PrefectHQ/customer-success-recipes/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/PrefectHQ/prefect-recipes/issues) for a full list of proposed features (and known issues).
 
 
 <hr>
