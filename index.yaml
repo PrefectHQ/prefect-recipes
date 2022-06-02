@@ -1,0 +1,42 @@
+apiVersion: v1
+entries:
+  orion-agent:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-06-02T19:17:58.034257826Z"
+    description: Prefect orion application bundle
+    digest: e017d3f680a4e15078b3652888954ee0b285982761958ebc2e7e9fa274d36452
+    home: https://github.com/PrefectHQ
+    maintainers:
+    - email: george@prefect.io
+      name: gabcoyne
+    name: orion-agent
+    sources:
+    - https://github.com/PrefectHQ/prefect-recipes
+    type: application
+    urls:
+    - https://github.com/PrefectHQ/prefect-recipes/releases/download/orion-agent-0.0.1/orion-agent-0.0.1.tgz
+    version: 0.0.1
+  orion-server:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-06-02T19:17:58.197727921Z"
+    dependencies:
+    - condition: api.postgresql.useSubChart
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: ~11.6.0
+    description: Prefect orion application bundle
+    digest: b6cd72e705eeed84e551cc682d65f1a00c810fd22e9bd8944a07640f72ffea8a
+    home: https://github.com/PrefectHQ
+    maintainers:
+    - email: george@prefect.io
+      name: gabcoyne
+    name: orion-server
+    sources:
+    - https://github.com/PrefectHQ/prefect-recipes
+    type: application
+    urls:
+    - https://github.com/PrefectHQ/prefect-recipes/releases/download/orion-server-0.0.1/orion-server-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-06-02T19:17:58.197738621Z"
