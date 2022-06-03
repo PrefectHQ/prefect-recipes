@@ -105,7 +105,9 @@ Create the name of the service account to use
 */}}
 {{- define "orion.postgres-hostname" -}}
 {{- if .Values.postgresql.useSubChart -}}
-  {{- printf "%s.%s" "postgresql" .Release.Namespace -}}
+  {{- $subchart_overrides := .Values.postgresql -}}
+  {{- $name := include "postgresql.primary.fullname" (dict "Values" $subchart_overrides "Chart" (dict "Name" "postgresql") "Release" .Release) -}}
+  {{- printf "%s.%s" $name .Release.Namespace -}}
 {{- else -}}
   {{- .Values.postgresql.externalHostname -}}
 {{- end -}}
@@ -114,15 +116,13 @@ Create the name of the service account to use
 {{/* 
   orion.postgres-connstr:
     Generates the connection string for the postgresql service
-    NOTE: Does not include password, which should be set via
-      secret in PGPASSWORD on containers.
 */}}
 {{- define "orion.postgres-connstr" -}}
-{{- $user := .Values.postgresql.postgresqlUsername -}}
-{{- $pass := .Values.postgresql.postgresqlPassword -}}
+{{- $user := .Values.postgresql.auth.username -}}
+{{- $pass := .Values.postgresql.auth.password -}}
 {{- $host := include "orion.postgres-hostname" . -}}
-{{- $port := .Values.postgresql.servicePort | toString -}}
-{{- $db := .Values.postgresql.postgresqlDatabase -}}
+{{- $port := .Values.postgresql.containerPorts.postgresql | toString -}}
+{{- $db := .Values.postgresql.auth.database -}}
 {{- printf "postgresql+asyncpg://%s:%s@%s:%s/%s" $user $pass $host $port $db -}}
 {{- end -}}
 
