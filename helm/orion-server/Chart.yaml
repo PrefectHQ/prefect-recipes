@@ -3,7 +3,7 @@ name: orion-server
 description: Prefect orion application bundle
 type: application
 home: https://github.com/PrefectHQ
-version: 0.0.2
+version: 0.0.3
 appVersion: "latest"
 maintainers:
   - name: gabcoyne
@@ -12,6 +12,6 @@ sources:
   - https://github.com/PrefectHQ/prefect-recipes
 dependencies:
 - name: postgresql
-  version: "~9.3.2"
+  version: "~11.6.2"
   repository: https://charts.bitnami.com/bitnami
   condition: postgresql.useSubChart

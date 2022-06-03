@@ -68,7 +68,7 @@ postgresql:
     # when using the Postgres database included in the chart. 
     # For an external postgres connection, you must create
     # and use `existingSecret` instead of `postgresqlPassword`.
-    password: ""
+    password: "HEREWEGO"
 
     # existingSecret configures which secret should be referenced
     # for access to the database. If null and `useSubChart` is
