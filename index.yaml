@@ -3,6 +3,22 @@ entries:
   orion-agent:
   - apiVersion: v2
     appVersion: latest
+    created: "2022-06-03T18:06:53.663360302Z"
+    description: Prefect orion application bundle
+    digest: ada5c433f4c7af060d7017f98ceeb15b767e9dc1e7db4c8e5a904ce714225d46
+    home: https://github.com/PrefectHQ
+    maintainers:
+    - email: george@prefect.io
+      name: gabcoyne
+    name: orion-agent
+    sources:
+    - https://github.com/PrefectHQ/prefect-recipes
+    type: application
+    urls:
+    - https://github.com/PrefectHQ/prefect-recipes/releases/download/orion-agent-0.0.2/orion-agent-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-06-02T19:17:58.034257826Z"
     description: Prefect orion application bundle
     digest: e017d3f680a4e15078b3652888954ee0b285982761958ebc2e7e9fa274d36452
@@ -18,6 +34,27 @@ entries:
     - https://github.com/PrefectHQ/prefect-recipes/releases/download/orion-agent-0.0.1/orion-agent-0.0.1.tgz
     version: 0.0.1
   orion-server:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-06-03T18:06:53.867549034Z"
+    dependencies:
+    - condition: api.postgresql.useSubChart
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: ~11.6.0
+    description: Prefect orion application bundle
+    digest: 15fb3b0a0d6c53ed703bbd71e8b8c04a9301b495213d7fea5eb4ed3358461eb7
+    home: https://github.com/PrefectHQ
+    maintainers:
+    - email: george@prefect.io
+      name: gabcoyne
+    name: orion-server
+    sources:
+    - https://github.com/PrefectHQ/prefect-recipes
+    type: application
+    urls:
+    - https://github.com/PrefectHQ/prefect-recipes/releases/download/orion-server-0.0.2/orion-server-0.0.2.tgz
+    version: 0.0.2
   - apiVersion: v2
     appVersion: latest
     created: "2022-06-02T19:17:58.197727921Z"
@@ -39,4 +76,4 @@ entries:
     urls:
     - https://github.com/PrefectHQ/prefect-recipes/releases/download/orion-server-0.0.1/orion-server-0.0.1.tgz
     version: 0.0.1
-generated: "2022-06-02T19:17:58.197738621Z"
+generated: "2022-06-03T18:06:53.867560834Z"
