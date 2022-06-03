@@ -3,7 +3,7 @@ name: orion-agent
 description: Prefect orion application bundle
 type: application
 home: https://github.com/PrefectHQ
-version: 0.0.1
+version: 0.0.2
 appVersion: "latest"
 maintainers:
   - name: gabcoyne

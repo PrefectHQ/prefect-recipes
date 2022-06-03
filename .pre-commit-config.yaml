@@ -12,7 +12,7 @@ repos:
       - id: check-symlinks
       - id: check-vcs-permalinks
       - id: check-yaml
-        exclude: ^charts
+        exclude: ^helm
       - id: detect-aws-credentials
       - id: detect-private-key
       
