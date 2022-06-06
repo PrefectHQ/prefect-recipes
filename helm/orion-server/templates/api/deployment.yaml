@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "orion.labels" . | nindent 4 }}
 spec:
-  {{- if not (and .Values.api.autoscaling.enabled .Values.api.postgres.enabled) }}
+  {{- if not .Values.api.autoscaling.enabled }}
   replicas: {{ .Values.api.replicaCount }}
   {{- end }}
   selector:
