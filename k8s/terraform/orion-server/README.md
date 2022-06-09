@@ -65,7 +65,7 @@ No modules.
 | <a name="input_prefect_agent_request_cpu"></a> [prefect\_agent\_request\_cpu](#input\_prefect\_agent\_request\_cpu) | CPU request for prefect agent | `string` | `"100m"` | no |
 | <a name="input_prefect_agent_request_mem"></a> [prefect\_agent\_request\_mem](#input\_prefect\_agent\_request\_mem) | Memory request for prefect agent | `string` | `"100Mi"` | no |
 | <a name="input_prefect_version"></a> [prefect\_version](#input\_prefect\_version) | Prefect image version | `string` | `"2.0b3"` | no |
-| <a name="input_replicas"></a> [replicas](#input\_replicas) | Number of kubernetes replicas to deploy | `number` | `1` | no |
+| <a name="input_replicas"></a> [replicas](#input\_replicas) | Number of kubernetes replicas to deploy | `string` | `1` | no |
 | <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | Kubernetes service account name | `string` | `"prefect-orion"` | no |
 | <a name="input_volume_mounts"></a> [volume\_mounts](#input\_volume\_mounts) | Volume mounts for kubernetes pods | `map(any)` | `{}` | no |
 | <a name="input_work_queue_id"></a> [work\_queue\_id](#input\_work\_queue\_id) | Prefect work queue to subscribe agent to | `string` | `"kubernetes"` | no |
