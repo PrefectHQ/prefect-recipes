@@ -12,6 +12,7 @@ repos:
       - id: check-symlinks
       - id: check-vcs-permalinks
       - id: check-yaml
+        exclude: ^helm
       - id: detect-aws-credentials
       - id: detect-private-key
       
@@ -26,7 +27,7 @@ repos:
       - id: isort
 
   - repo: https://github.com/ambv/black
-    rev: 22.1.0
+    rev: 22.3.0
     hooks:
       - id: black
         language_version: python3
