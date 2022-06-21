@@ -1,0 +1,8 @@
+.DS_Store
+**__pycache__/*
+
+## terraform files
+.terraform 
+.terraform.*
+.terraform.lock.hcl
+terraform.*
