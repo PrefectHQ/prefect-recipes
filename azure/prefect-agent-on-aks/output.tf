@@ -11,7 +11,7 @@ output "kubernetes_cluster_name" {
 }
 
 output "container_name" {
-    value = azurerm_storage_container.prefect-logs.name
+  value = azurerm_storage_container.prefect-logs.name
 }
 
 # Do I need to export an access key for configuring Blob storage for Prefect later?

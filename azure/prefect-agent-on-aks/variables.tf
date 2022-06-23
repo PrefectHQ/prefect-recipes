@@ -82,11 +82,11 @@ variable "local_ip" {
 }
 
 variable "storage_account_name" {
-  type = string
+  type    = string
   default = "prefectaks"
 }
 
 variable "container_name" {
-  type = string
+  type    = string
   default = "prefect-logs"
 }
