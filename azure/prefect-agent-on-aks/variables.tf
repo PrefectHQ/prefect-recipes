@@ -65,6 +65,11 @@ variable "cluster_name" {
   default = "k8stest"
 }
 
+variable "env_name" {
+  type    = string
+  default = "dev"
+}
+
 variable "ssh_public_key" {
   type    = string
   default = "~/.ssh/id_rsa.pub"
