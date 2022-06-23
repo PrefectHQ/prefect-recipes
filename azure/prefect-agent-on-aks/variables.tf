@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default     = "prefectAKS_RG"
+  default     = "prefectAKS"
   description = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
 }
 
@@ -67,12 +67,12 @@ variable "ssh_public_key" {
 # This should be set if you want to add a local IP address to your network rules, to manage storage containers locally
 variable "local_ip" {
   type        = list(string)
-  default     = null
+  #default     = null
   description = "A list of public IP addresses you wish to add to network rules for access"
-  # default   = ["32.61.17.147"]
+  default   = ["131.226.33.86"]
 }
 
 # Storage Accounts must have a globally unique name
 variable "storage_account_name" {
-  default = "prefectAKS"
+  default = "prefectaks"
 }

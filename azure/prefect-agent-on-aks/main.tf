@@ -31,11 +31,11 @@ resource "azurerm_subnet" "prefect_node_subnet" {
 }
 
 resource "random_id" "storage_container_suffix" {
-  byte_length = 8
+  byte_length = 4
 }
 
 resource "azurerm_storage_account" "prefect-logs" {
-  name                = "${var.storage_account_name}-${random_id.storage_container_suffix.dec}"
+  name                = "${var.storage_account_name}${random_id.storage_container_suffix.hex}"
   resource_group_name = azurerm_resource_group.rg.name
 
   location                 = azurerm_resource_group.rg.location
@@ -45,7 +45,7 @@ resource "azurerm_storage_account" "prefect-logs" {
   network_rules {
     default_action             = "Deny"
     ip_rules                   = var.local_ip
-    virtual_network_subnet_ids = [azurerm_subnet.rg.id]
+    virtual_network_subnet_ids = [azurerm_subnet.prefect_pod_subnet.id, azurerm_subnet.prefect_node_subnet.id]
   }
 }
 
