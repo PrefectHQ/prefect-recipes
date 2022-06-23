@@ -14,9 +14,15 @@ variable "vnet_name" {
   description = "Name of the Vnet to create"
 }
 
-variable "subnet_name" {
+variable "node_subnet_name" {
   type        = string
-  default     = "prefectSubnet"
+  default     = "aks_node_subnet"
+  description = "Name of the subnet to create"
+}
+
+variable "pod_subnet_name" {
+  type        = string
+  default     = "aks_pod_subnet"
   description = "Name of the subnet to create"
 }
 
@@ -26,10 +32,16 @@ variable "vnet_id" {
   description = "IDs of the Vnets that will host the Prefect agent"
 }
 
-variable "subnet_id" {
+variable "node_subnet_id" {
   type        = list(string)
   default     = ["10.0.1.0/24"]
-  description = "IDs of the subnets that will host the Prefect agent"
+  description = "IDs of the subnets that will host the aks nodes"
+}
+
+variable "pod_subnet_id" {
+  type        = list(string)
+  default     = ["10.0.2.0/24"]
+  description = "IDs of the subnets that will host the aks pods"
 }
 
 variable "agent_count" {

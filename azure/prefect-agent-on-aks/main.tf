@@ -12,12 +12,21 @@ resource "azurerm_virtual_network" "prefectnetwork" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# Create subnet in  myVnet
-resource "azurerm_subnet" "prefectsubnet" {
-  name                 = var.subnet_name
+# Create the pod subnet in  myVnet
+resource "azurerm_subnet" "prefect_pod_subnet" {
+  name                 = var.pod_subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.prefectnetwork.name
-  address_prefixes     = var.subnet_id
+  address_prefixes     = var.pod_subnet_id
+  service_endpoints    = ["Microsoft.Storage"]
+}
+
+# Create the node subnet in  myVnet
+resource "azurerm_subnet" "prefect_node_subnet" {
+  name                 = var.node_subnet_name
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.prefectnetwork.name
+  address_prefixes     = var.node_subnet_id
   service_endpoints    = ["Microsoft.Storage"]
 }
 
@@ -35,49 +44,45 @@ resource "azurerm_storage_account" "prefect-logs" {
 
   network_rules {
     default_action             = "Deny"
-    ip_rules                   = ["100.0.0.1"]
+    ip_rules                   = var.local_ip
     virtual_network_subnet_ids = [azurerm_subnet.rg.id]
   }
-
-  tags = {
-    environment = "staging"
-  }
 }
 
-resource "azurerm_kubernetes_cluster" "k8s" {
-  name                = var.cluster_name
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  dns_prefix          = var.dns_prefix
+# resource "azurerm_kubernetes_cluster" "k8s" {
+#   name                = var.cluster_name
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+#   dns_prefix          = var.dns_prefix
 
-  linux_profile {
-    admin_username = "ubuntu"
+#   linux_profile {
+#     admin_username = "ubuntu"
 
-    ssh_key {
-      key_data = file(var.ssh_public_key)
-    }
-  }
+#     ssh_key {
+#       key_data = file(var.ssh_public_key)
+#     }
+#   }
 
-  default_node_pool {
-    name       = "agentpool"
-    node_count = var.agent_count
-    vm_size    = "Standard_B2s"
-  }
+#   default_node_pool {
+#     name       = "agentpool"
+#     node_count = var.agent_count
+#     vm_size    = "Standard_B2s"
+#   }
 
-  service_principal {
-    client_id     = var.aks_service_principal_app_id
-    client_secret = var.aks_service_principal_client_secret
-  }
+#   service_principal {
+#     client_id     = var.aks_service_principal_app_id
+#     client_secret = var.aks_service_principal_client_secret
+#   }
 
-  network_profile {
-    load_balancer_sku = "Standard"
-    network_plugin    = "kubenet"
-  }
+#   network_profile {
+#     load_balancer_sku = "Standard"
+#     network_plugin    = "kubenet"
+#   }
 
-  tags = {
-    Environment = "Development"
-  }
-}
+#   tags = {
+#     Environment = "Development"
+#   }
+# }
 /*
 # Enable for Service Endpoints (vnet / subnet) - Storage can only be access from inside the same Subnet for security
 az network vnet subnet update --resource-group "$rg" --vnet-name "MyVnet" --name "MySubnet" --service-endpoints "Microsoft.Storage"
