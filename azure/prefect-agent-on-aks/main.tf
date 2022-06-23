@@ -21,6 +21,63 @@ resource "azurerm_subnet" "prefectsubnet" {
   service_endpoints    = ["Microsoft.Storage"]
 }
 
+resource "random_id" "storage_container_suffix" {
+    byte_length = 8
+}
+
+resource "azurerm_storage_account" "prefect-logs" {
+  name                = "${var.storage_account_name}-${random_id.storage_container_suffix.dec}"
+  resource_group_name = azurerm_resource_group.rg.name
+
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  network_rules {
+    default_action             = "Deny"
+    ip_rules                   = ["100.0.0.1"]
+    virtual_network_subnet_ids = [azurerm_subnet.rg.id]
+  }
+
+  tags = {
+    environment = "staging"
+  }
+}
+
+resource "azurerm_kubernetes_cluster" "k8s" {
+    name                = var.cluster_name
+    location            = azurerm_resource_group.rg.location
+    resource_group_name = azurerm_resource_group.rg.name
+    dns_prefix          = var.dns_prefix
+
+    linux_profile {
+        admin_username = "ubuntu"
+
+        ssh_key {
+            key_data = file(var.ssh_public_key)
+        }
+    }
+
+    default_node_pool {
+        name            = "agentpool"
+        node_count      = var.agent_count
+        vm_size         = "Standard_B2s"
+    }
+
+    service_principal {
+        client_id     = var.aks_service_principal_app_id
+        client_secret = var.aks_service_principal_client_secret
+    }
+
+    network_profile {
+        load_balancer_sku = "Standard"
+        network_plugin = "kubenet"
+    }
+
+    tags = {
+        Environment = "Development"
+    }
+}
 /*
 # Enable for Service Endpoints (vnet / subnet) - Storage can only be access from inside the same Subnet for security
 az network vnet subnet update --resource-group "$rg" --vnet-name "MyVnet" --name "MySubnet" --service-endpoints "Microsoft.Storage"
