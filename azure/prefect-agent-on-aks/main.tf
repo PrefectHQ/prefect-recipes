@@ -22,7 +22,7 @@ resource "azurerm_subnet" "prefectsubnet" {
 }
 
 resource "random_id" "storage_container_suffix" {
-    byte_length = 8
+  byte_length = 8
 }
 
 resource "azurerm_storage_account" "prefect-logs" {
@@ -45,38 +45,38 @@ resource "azurerm_storage_account" "prefect-logs" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-    name                = var.cluster_name
-    location            = azurerm_resource_group.rg.location
-    resource_group_name = azurerm_resource_group.rg.name
-    dns_prefix          = var.dns_prefix
+  name                = var.cluster_name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  dns_prefix          = var.dns_prefix
 
-    linux_profile {
-        admin_username = "ubuntu"
+  linux_profile {
+    admin_username = "ubuntu"
 
-        ssh_key {
-            key_data = file(var.ssh_public_key)
-        }
+    ssh_key {
+      key_data = file(var.ssh_public_key)
     }
+  }
 
-    default_node_pool {
-        name            = "agentpool"
-        node_count      = var.agent_count
-        vm_size         = "Standard_B2s"
-    }
+  default_node_pool {
+    name       = "agentpool"
+    node_count = var.agent_count
+    vm_size    = "Standard_B2s"
+  }
 
-    service_principal {
-        client_id     = var.aks_service_principal_app_id
-        client_secret = var.aks_service_principal_client_secret
-    }
+  service_principal {
+    client_id     = var.aks_service_principal_app_id
+    client_secret = var.aks_service_principal_client_secret
+  }
 
-    network_profile {
-        load_balancer_sku = "Standard"
-        network_plugin = "kubenet"
-    }
+  network_profile {
+    load_balancer_sku = "Standard"
+    network_plugin    = "kubenet"
+  }
 
-    tags = {
-        Environment = "Development"
-    }
+  tags = {
+    Environment = "Development"
+  }
 }
 /*
 # Enable for Service Endpoints (vnet / subnet) - Storage can only be access from inside the same Subnet for security
