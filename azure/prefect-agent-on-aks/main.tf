@@ -48,41 +48,40 @@ resource "azurerm_storage_account" "prefect-logs" {
     virtual_network_subnet_ids = [azurerm_subnet.prefect_pod_subnet.id, azurerm_subnet.prefect_node_subnet.id]
   }
 }
+# Do I need to export an access key for configuring Blob storage for Prefect later?
 
-# resource "azurerm_kubernetes_cluster" "k8s" {
-#   name                = var.cluster_name
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-#   dns_prefix          = var.dns_prefix
+resource "azurerm_storage_container" "prefect-logs" {
+  name                  = var.container_name
+  storage_account_name  = azurerm_storage_account.prefect-logs.name
+  container_access_type = "private"
+}
 
-#   linux_profile {
-#     admin_username = "ubuntu"
+resource "azurerm_kubernetes_cluster" "k8s" {
+  name                = var.cluster_name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  dns_prefix          = var.dns_prefix
 
-#     ssh_key {
-#       key_data = file(var.ssh_public_key)
-#     }
-#   }
+  identity {
+    type = "SystemAssigned"
+  }
 
-#   default_node_pool {
-#     name       = "agentpool"
-#     node_count = var.agent_count
-#     vm_size    = "Standard_B2s"
-#   }
+  default_node_pool {
+    name       = "default"
+    node_count = var.agent_count
+    vm_size    = "Standard_B2s"
+    vnet_subnet_id = azurerm_subnet.prefect_node_subnet.id
+  }
 
-#   service_principal {
-#     client_id     = var.aks_service_principal_app_id
-#     client_secret = var.aks_service_principal_client_secret
-#   }
+  network_profile {
+    load_balancer_sku = "standard"
+    network_plugin    = "azure"
+  }
 
-#   network_profile {
-#     load_balancer_sku = "Standard"
-#     network_plugin    = "kubenet"
-#   }
-
-#   tags = {
-#     Environment = "Development"
-#   }
-# }
+  tags = {
+    Environment = "Development"
+  }
+}
 /*
 # Enable for Service Endpoints (vnet / subnet) - Storage can only be access from inside the same Subnet for security
 az network vnet subnet update --resource-group "$rg" --vnet-name "MyVnet" --name "MySubnet" --service-endpoints "Microsoft.Storage"

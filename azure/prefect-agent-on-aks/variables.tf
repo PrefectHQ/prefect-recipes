@@ -28,25 +28,31 @@ variable "pod_subnet_name" {
 
 variable "vnet_id" {
   type        = list(string)
-  default     = ["10.0.0.0/16"]
+  default     = ["10.1.0.0/16"]
   description = "IDs of the Vnets that will host the Prefect agent"
 }
 
 variable "node_subnet_id" {
   type        = list(string)
-  default     = ["10.0.1.0/24"]
+  default     = ["10.1.0.0/22"]
   description = "IDs of the subnets that will host the aks nodes"
 }
 
 variable "pod_subnet_id" {
   type        = list(string)
-  default     = ["10.0.2.0/24"]
+  default     = ["10.1.4.0/22"]
   description = "IDs of the subnets that will host the aks pods"
 }
 
+# variable "aks_service_cidr" {
+#     type = number
+#     default = "10.1.0.0/16"
+#     description = "AKS creates a default service CIDR at 10.0.0.0/16 which conflicts."
+# }
+
 variable "agent_count" {
   type    = number
-  default = 3
+  default = 2
 }
 
 variable "dns_prefix" {
@@ -64,15 +70,18 @@ variable "ssh_public_key" {
   default = "~/.ssh/id_rsa.pub"
 }
 
-# This should be set if you want to add a local IP address to your network rules, to manage storage containers locally
 variable "local_ip" {
   type        = list(string)
-  #default     = null
   description = "A list of public IP addresses you wish to add to network rules for access"
-  default   = ["131.226.33.86"]
+  default     = ["131.226.33.86"]
 }
 
-# Storage Accounts must have a globally unique name
 variable "storage_account_name" {
+  type = string
   default = "prefectaks"
+}
+
+variable "container_name" {
+  type = string
+  default = "prefect-logs"
 }
