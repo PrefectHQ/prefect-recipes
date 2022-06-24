@@ -5,13 +5,13 @@ variable "resource_group_name" {
 }
 
 variable "env_name" {
-  type    = string
-  default = "dev"
+  type        = string
+  default     = "dev"
   description = ""
 }
 
 variable "resource_group_location" {
-  type = string
+  type        = string
   default     = "eastus"
   description = "Location of the resource group."
 }
@@ -54,32 +54,32 @@ variable "pod_subnet_id" {
 }
 
 variable "cluster_name" {
-  type    = string
-  default = "k8stest"
+  type        = string
+  default     = "k8stest"
   description = ""
 }
 
 variable "agent_count" {
-  type    = number
-  default = 2
+  type        = number
+  default     = 2
   description = "Number of AKS nodes to create"
 }
 
 variable "dns_prefix" {
-  type    = string
-  default = "k8stest"
+  type        = string
+  default     = "k8stest"
   description = ""
 }
 
 variable "nodepool_name" {
-  type = string
-  default = "default"
+  type        = string
+  default     = "default"
   description = ""
 }
 
 variable "vm_size" {
-  type = string
-  default = "Standard_B2s"
+  type        = string
+  default     = "Standard_B2s"
   description = "Node size for provisioning nodepools"
 }
 
@@ -96,8 +96,8 @@ variable "storage_account_name" {
 }
 
 variable "container_name" {
-  type    = string
-  default = "prefect-logs"
+  type        = string
+  default     = "prefect-logs"
   description = "Name of the container created in the storage account"
 }
 
