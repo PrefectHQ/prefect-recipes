@@ -23,7 +23,7 @@ kubectl apply -f prefect.yaml
 # prefect orion kubernetes-manifest | kubectl apply -f -
 
 # Wait for pods to be ready
-sleep 20
+sleep 30
 
 # Port forward traffic to the cluster, and background the process
 kubectl port-forward deployment/orion 4200:4200 > /dev/null 2>&1 &
