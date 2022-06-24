@@ -19,3 +19,6 @@ tfplan
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+# Sensitive local files for development
+source_prefect_vars.sh
