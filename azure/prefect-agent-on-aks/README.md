@@ -152,7 +152,7 @@ List of pre-requisites and optional packages necessary. Steps are listed in "Set
    ```sh
    curl ifconfig.me
    ```
-<img src="https://github.com/PrefectHQ/prefect-recipes/blob/aks-prefect/azure/prefect-agent-on-aks/imgs/local_ip.png" alt="automated" width="1598" height="218">
+<img src="https://github.com/PrefectHQ/prefect-recipes/blob/aks-prefect/azure/prefect-agent-on-aks/imgs/local_ip.png" alt="automated" width="1080" height="218">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
