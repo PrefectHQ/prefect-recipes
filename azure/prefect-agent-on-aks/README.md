@@ -185,7 +185,7 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
 
    `prefect orion kubernetes-manifest | kubectl apply -f -`
 
-If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
+   If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
 
    ` kubectl apply -f prefect.yaml`
 
@@ -206,6 +206,7 @@ If prefect is not already installed, you can apply the provided prefect.yaml and
    prefect deployment create kubernetes-deployment.py
    ```
 10. You can launch a browser at `http://127.0.0.1:4200/api` to see your configuration, or execute the flow manually.
+
    `prefect deployment run my-kubernetes-flow/k8s-example`
 
 ## Automated Steps
