@@ -52,7 +52,10 @@ resource "kubernetes_deployment" "orion" {
             name  = "PREFECT_API_URL"
             value = "http://${var.app_name}:${var.port}/api"
           }
-
+          #   env {
+          # $ prefect config set PREFECT_API_URL="https://beta.prefect.io/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]"
+          # $ prefect config set PREFECT_API_KEY="[API-KEY]"
+          #   }
           image_pull_policy = "IfNotPresent"
           resources {
             limits = {
