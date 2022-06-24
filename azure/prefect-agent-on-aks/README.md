@@ -217,7 +217,7 @@ Requires "expects" installed, and service principal values exported as env_vars 
    ./wrap-deploy.sh
    ```
 
-<img src="https://github.com/PrefectHQ/prefect-recipes/blob/aks-prefect/azure/prefect-agent-on-aks/imgs/automated.png" alt="automated" width="600" height="320">
+<img src="https://github.com/PrefectHQ/prefect-recipes/blob/aks-prefect/azure/prefect-agent-on-aks/imgs/automated.png" alt="automated" width="1080" height="330">
     
 _For more examples, please refer to the [Documentation](https://orion-docs.prefect.io/tutorials/kubernetes-flow-runner/)_
 
