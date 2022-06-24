@@ -58,6 +58,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#setup">Setup</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -100,7 +101,7 @@ To begin using this project:
 ```
 
 You will additionally need an Azure Service Principal that is configured with the "Contributor" role on your subscription.
-Steps will be outlined below.
+Steps will be outlined in below.
 
 ### Prerequisites
 
@@ -132,49 +133,107 @@ This is an example of how to list things you need to use the software and how to
   brew install lens
   ```
 
-### Installation
+### Setup
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/PrefectHQ/prefect-recipes.git
    ```
-3. Install NPM packages
+2. Install required packages
    ```sh
-   npm install
+   brew install azure-cli
+   brew install terraform
+   az aks install-cli --kubelogin-install-location mykubetools/kubelogin
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Install optional packages - these are used to automate post-config steps, but are not required.
+   ```sh
+   brew install lens
+   brew install expects
+   brew install helm
    ```
+4. Authenticate to ARM
+```sh
+az login
+```
+5. Retrieve Azure subscription id for the next step. Requires you to 
+```sh
+az account show --query "id" --output tsv
+```
+6. Only required if one does not exist already. If one already exists, proceed to step 7 with the values. Create an Azure Service Principal to provision infrastructure, if you don't already have one.
+```
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/< from step 5.>"
+```
+7. Move "source_prefect_vars_template.sh", and update with outputs from step 6. source_prefect_vars.sh is sensitive, and is configure to be excluded in .gitignore. 
+```sh
+    mv source_prefect_vars_template.sh source_prefect_vars.sh
+
+    #!/bin/bash 
+    # Values below should be set from the values provided in step 6. 
+    export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
+    export ARM_CLIENT_SECRET="00000000-0000-0000-0000-000000000000"
+    export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+    export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
+```
+8. Source source_prefect_vars.sh to export as environment variables, and validate.
+```sh
+    source ./source_prefect_vars.sh
+    echo $ARM_CLIENT_ID
+```
+9. Update "local_ip" in aks_main/variables.tf to your local IP address to configure and access the storage container. Your IP can be determined:
+```sh
+    curl ifconfig.me
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+With setup of your required binaries, and Authentication to Azure configured, Prefect AKS can be provisioned.
+Post-configuration steps are automated in "wrap-deploy.sh" for development purposes only, and is not intended for production use.
+wrap-deploy.sh requires the "expects" binary to be installed, and a valid service principal.
+
+## Manual Steps
+1. Initialize the providers
+`terraform init`
+2. Create the plan
+`terraform plan -out=tfplan`
+3. Execute the plan
+`terraform apply "tfplan"`
+4. Once terraform completes, retrieve the Resource Group name, cluster name, storage name, and container name for later use.
+```
+AZ_RESOURCE_GROUP="$(terraform output -raw resource_group_name)"
+AZ_AKS_CLUSTER_NAME="$(terraform output -raw kubernetes_cluster_name)"
+STORAGE_NAME="$(terraform output -raw storage_name)"
+CONTAINER_NAME="$(terraform output -raw container_name)"
+```
+5. Export your KUBECONFIG to not overwrite any existing kubeconfig you might already have, and retrieve credentials to the cluster.
+```
+export KUBECONFIG="$HOME/.kube/$AZ_AKS_CLUSTER_NAME.yaml"
+az aks get-credentials --resource-group $AZ_RESOURCE_GROUP --name $AZ_AKS_CLUSTER_NAME --file $KUBECONFIG
+```
+6a. If prefect is already installed locally in your environment, you can generate and deploy the pod-spec:
+`prefect orion kubernetes-manifest | kubectl apply -f -`
+6b. If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
+``` kubectl apply -f prefect.yaml```
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Secrets Injection
+- [ ] Ingress Controller for access to Prefect Cloud
+- [ ] TBD
+    - [ ] TBD
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/PrefectHQ/prefect-recipes/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- CONTRIBUTING -->
@@ -194,50 +253,72 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - chris.b@prefect.io
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
+Project Link: [https://github.com/PrefectHQ/prefect-recipes](https://github.com/PrefectHQ/prefect-recipes)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Requirements
 
+| Name | Version |
+|------|---------|
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.10.0 |
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.10.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_kubernetes_cluster.k8s](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
+| [azurerm_resource_group.rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_storage_account.prefect-logs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_container.prefect-logs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [azurerm_subnet.prefect_node_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| [azurerm_virtual_network.prefectnetwork](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
+| [random_id.storage_container_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_agent_count"></a> [agent\_count](#input\_agent\_count) | Number of AKS nodes to create | `number` | `2` | no |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | n/a | `string` | `"k8stest"` | no |
+| <a name="input_container_name"></a> [container\_name](#input\_container\_name) | Name of the container created in the storage account | `string` | `"prefect-logs"` | no |
+| <a name="input_dns_prefix"></a> [dns\_prefix](#input\_dns\_prefix) | n/a | `string` | `"k8stest"` | no |
+| <a name="input_env_name"></a> [env\_name](#input\_env\_name) | n/a | `string` | `"dev"` | no |
+| <a name="input_local_ip"></a> [local\_ip](#input\_local\_ip) | A list of public IP addresses you wish to add to network rules for access | `list(string)` | <pre>[<br>  "131.226.33.86"<br>]</pre> | no |
+| <a name="input_node_subnet_id"></a> [node\_subnet\_id](#input\_node\_subnet\_id) | IDs of the subnets that will host the aks nodes | `list(string)` | <pre>[<br>  "10.1.0.0/22"<br>]</pre> | no |
+| <a name="input_node_subnet_name"></a> [node\_subnet\_name](#input\_node\_subnet\_name) | Name of the subnet to create | `string` | `"aks_node_subnet"` | no |
+| <a name="input_nodepool_name"></a> [nodepool\_name](#input\_nodepool\_name) | n/a | `string` | `"default"` | no |
+| <a name="input_pod_subnet_id"></a> [pod\_subnet\_id](#input\_pod\_subnet\_id) | IDs of the subnets that will host the aks pods | `list(string)` | <pre>[<br>  "10.1.4.0/22"<br>]</pre> | no |
+| <a name="input_pod_subnet_name"></a> [pod\_subnet\_name](#input\_pod\_subnet\_name) | Name of the subnet to create | `string` | `"aks_pod_subnet"` | no |
+| <a name="input_resource_group_location"></a> [resource\_group\_location](#input\_resource\_group\_location) | Location of the resource group. | `string` | `"eastus"` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Prefix of the resource group name | `string` | `"prefectAKS"` | no |
+| <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name) | Storage accounts must be globally unique, appended with randomized string | `string` | `"prefectaks"` | no |
+| <a name="input_vm_size"></a> [vm\_size](#input\_vm\_size) | Node size for provisioning nodepools | `string` | `"Standard_B2s"` | no |
+| <a name="input_vnet_id"></a> [vnet\_id](#input\_vnet\_id) | IDs of the Vnets that will host the Prefect agent | `list(string)` | <pre>[<br>  "10.1.0.0/16"<br>]</pre> | no |
+| <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Name of the Vnet to create | `string` | `"prefectVnet"` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_container_name"></a> [container\_name](#output\_container\_name) | n/a |
+| <a name="output_id"></a> [id](#output\_id) | n/a |
+| <a name="output_kubernetes_cluster_name"></a> [kubernetes\_cluster\_name](#output\_kubernetes\_cluster\_name) | n/a |
+| <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | n/a |
+| <a name="output_storage_name"></a> [storage\_name](#output\_storage\_name) | n/a |
