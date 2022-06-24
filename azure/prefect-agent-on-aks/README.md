@@ -98,7 +98,7 @@ Steps will be outlined in below.
 ### Prerequisites
 
 List of pre-requisites and optional packages necessary. Steps are listed in "Setup"
-* azure-cli
+* [azure-cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 * terraform
 * kubectl
 ### (Optional)  
