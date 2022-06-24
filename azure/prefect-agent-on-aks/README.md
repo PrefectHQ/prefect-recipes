@@ -94,11 +94,13 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
+To begin using this project:
 ```sh
    git clone https://github.com/PrefectHQ/prefect-recipes.git
 ```
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+
+You will additionally need an Azure Service Principal that is configured with the "Contributor" role on your subscription.
+Steps will be outlined below.
 
 ### Prerequisites
 
