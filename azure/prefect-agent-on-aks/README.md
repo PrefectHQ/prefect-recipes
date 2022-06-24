@@ -99,12 +99,12 @@ Steps will be outlined in below.
 
 List of pre-requisites and optional packages necessary. Steps are listed in "Setup"
 * [azure-cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-* terraform
-* kubectl
+* [terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+* [kubectl](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-install-cli)
 ### (Optional)  
-* helm
-* expects
-* lens
+* [helm](https://helm.sh/docs/intro/install/)
+* expect - apt-get , brew , npm , yum
+* [lens](https://k8slens.dev/)
 
 ### Setup
 
@@ -129,7 +129,9 @@ List of pre-requisites and optional packages necessary. Steps are listed in "Set
 5. Retrieve Azure subscription id for the next step.
    `az account show --query "id" --output tsv`
 6. Only required if one does not exist already. If one already exists, proceed to step 7 with the values. Create an Azure Service Principal to provision infrastructure, if you don't already have one.
-   `az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/< from step 5.>"`
+    ```sh
+    az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/< from step 5.>"
+    ```
 7. Move "source_prefect_vars_template.sh", and update with outputs from step 6. source_prefect_vars.sh is sensitive, and is configure to be excluded in .gitignore. 
    ```sh
    mv source_prefect_vars_template.sh source_prefect_vars.sh
