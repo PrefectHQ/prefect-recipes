@@ -31,7 +31,7 @@
   <p align="center">
     Deploys Prefect Orion to an AKS Cluster with Azure Blob Storage
     <br />
-    <a href="https://github.com/PrefectHQ/prefect-recipes"><strong>Explore the docs »</strong></a>
+    <a href="https://orion-docs.prefect.io/tutorials/kubernetes-flow-runner/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     ·
@@ -70,18 +70,10 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
-
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -96,42 +88,23 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ## Getting Started
 
 To begin using this project:
-```sh
+   ```sh
    git clone https://github.com/PrefectHQ/prefect-recipes.git
-```
+   ```
 
 You will additionally need an Azure Service Principal that is configured with the "Contributor" role on your subscription.
 Steps will be outlined in below.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+List of pre-requisites and optional packages necessary. Steps are listed in "Setup"
 * azure-cli
-  ```sh
-  brew install azure-cli
-  ```
 * terraform
-  ```sh
-  brew install terraform
-  ```
 * kubectl
-  ```sh
-  az aks install-cli --kubelogin-install-location mykubetools/kubelogin
-  ```
-
 ### (Optional)  
 * helm
-  ```sh
-  brew install helm
-  ```
 * expects
-  ```sh
-  brew install expects
-  ```
 * lens
-  ```sh
-  brew install lens
-  ```
 
 ### Setup
 
@@ -183,7 +156,9 @@ This is an example of how to list things you need to use the software and how to
 ## Usage
 
 With setup of your required binaries, and Authentication to Azure configured, Prefect AKS can be provisioned.
+
 Post-configuration steps are automated in "wrap-deploy.sh" for development purposes only, and is not intended for production use.
+
 wrap-deploy.sh requires the "expects" binary to be installed, and a valid service principal.
 
 ## Manual Steps
@@ -199,6 +174,7 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
    export AZ_AKS_CLUSTER_NAME="$(terraform output -raw kubernetes_cluster_name)"
    export STORAGE_NAME="$(terraform output -raw storage_name)"
    export CONTAINER_NAME="$(terraform output -raw container_name)"
+   export AZURE_STORAGE_CONNECTION_STRING=$(az storage account show-connection-string --resource-group "$AZ_RESOURCE_GROUP" --name "$STORAGE_NAME" --output tsv)
    ```
 5. Export your KUBECONFIG to not overwrite any existing kubeconfig you might already have, and retrieve credentials to the cluster.
    ```sh
@@ -209,8 +185,26 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
    `prefect orion kubernetes-manifest | kubectl apply -f -`
 6b. If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
    ` kubectl apply -f prefect.yaml`
+7. Open a separate terminal session and port forward kubectl traffic to the cluster
+   `kubectl port-forward deployment/orion 4200:4200`
+8. List / display your storage connection string (SENSITIVE), and container name. These are required to connect the Prefect Agent to your Blob storage. These were already set in step 4, and will be required for the following step.
+   ```
+   echo $CONTAINER_NAME
+   echo $AZURE_STORAGE_CONNECTION_STRING
+   ```
+9. Run prefect config to set the cluster agent settings, API_URL, work-queue, storage, and create a default deployment.
+   ```sh
+   prefect config set PREFECT_API_URL="http://127.0.0.1:4200/api"
+   prefect work-queue create kubernetes
+   prefect storage create
+   prefect deployment create kubernetes-deployment.py
+   ```
+10. You can launch a browser at `http://127.0.0.1:4200/api` to see your configuration, or execute the flow manually.
+   ```
+   prefect deployment run my-kubernetes-flow/k8s-example
+   ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://orion-docs.prefect.io/tutorials/kubernetes-flow-runner/)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -248,7 +242,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - chris.b@prefect.io
+Your Name - chris.b@prefect.io
 
 Project Link: [https://github.com/PrefectHQ/prefect-recipes](https://github.com/PrefectHQ/prefect-recipes)
 
