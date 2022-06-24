@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: orion
-  namespace: prefect
 spec:
   selector:
     matchLabels:
@@ -33,7 +32,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: orion
-  namespace: prefect
   labels:
     app: orion
 spec:
@@ -46,7 +44,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: prefect
+  namespace: default
   name: flow-runner
 rules:
 - apiGroups: [""]
@@ -60,12 +58,14 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: flow-runner-role-binding
-  namespace: prefect
+  namespace: default
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: prefect
+  namespace: default
 roleRef:
   kind: Role
   name: flow-runner
   apiGroup: rbac.authorization.k8s.io
+
+
