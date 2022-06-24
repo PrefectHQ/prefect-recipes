@@ -26,19 +26,18 @@
     <img src="https://github.com/PrefectHQ/prefect-recipes/blob/main/imgs/prefect_logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Prefect on AKS</h3>
 
   <p align="center">
-    project_description
+    Deploys Prefect Orion to an AKS Cluster with Azure Blob Storage
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/PrefectHQ/prefect-recipes"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <a href="https://github.com/PrefectHQ/prefect-recipes/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/PrefectHQ/prefect-recipes/issues">Request Feature</a>
   </p>
 </div>
 
@@ -85,14 +84,8 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Terraform](https://www.terraform.io/)
+* [Azure](https://azure.microsoft.com/en-us/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -101,15 +94,40 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
+```sh
+   git clone https://github.com/PrefectHQ/prefect-recipes.git
+```
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+* azure-cli
   ```sh
-  npm install npm@latest -g
+  brew install azure-cli
+  ```
+* terraform
+  ```sh
+  brew install terraform
+  ```
+* kubectl
+  ```sh
+  az aks install-cli --kubelogin-install-location mykubetools/kubelogin
+  ```
+
+### (Optional)  
+* helm
+  ```sh
+  brew install helm
+  ```
+* expects
+  ```sh
+  brew install expects
+  ```
+* lens
+  ```sh
+  brew install lens
   ```
 
 ### Installation
