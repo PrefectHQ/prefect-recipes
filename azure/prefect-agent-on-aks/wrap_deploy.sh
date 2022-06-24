@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Initialize the providers
+terraform init -upgrade -reconfigure
+
 #Run Terraform plan non-interactively
 terraform plan -out=tfplan -input=false
 
