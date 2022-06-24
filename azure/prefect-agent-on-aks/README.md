@@ -152,37 +152,29 @@ This is an example of how to list things you need to use the software and how to
    brew install helm
    ```
 4. Authenticate to ARM
-```sh
-az login
-```
-5. Retrieve Azure subscription id for the next step. Requires you to 
-```sh
-az account show --query "id" --output tsv
-```
+   `az login`
+5. Retrieve Azure subscription id for the next step.
+   `az account show --query "id" --output tsv`
 6. Only required if one does not exist already. If one already exists, proceed to step 7 with the values. Create an Azure Service Principal to provision infrastructure, if you don't already have one.
-```
-az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/< from step 5.>"
-```
+   `az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/< from step 5.>"`
 7. Move "source_prefect_vars_template.sh", and update with outputs from step 6. source_prefect_vars.sh is sensitive, and is configure to be excluded in .gitignore. 
-```sh
-    mv source_prefect_vars_template.sh source_prefect_vars.sh
+   ```sh
+   mv source_prefect_vars_template.sh source_prefect_vars.sh
 
-    #!/bin/bash 
-    # Values below should be set from the values provided in step 6. 
-    export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
-    export ARM_CLIENT_SECRET="00000000-0000-0000-0000-000000000000"
-    export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
-    export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
-```
+   #!/bin/bash 
+   # Values below should be set from the values provided in step 6. 
+   export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
+   export ARM_CLIENT_SECRET="00000000-0000-0000-0000-000000000000"
+   export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+   export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
+   ```
 8. Source source_prefect_vars.sh to export as environment variables, and validate.
-```sh
-    source ./source_prefect_vars.sh
-    echo $ARM_CLIENT_ID
-```
+   ```sh
+   source ./source_prefect_vars.sh
+   echo $ARM_CLIENT_ID
+   ```
 9. Update "local_ip" in aks_main/variables.tf to your local IP address to configure and access the storage container. Your IP can be determined:
-```sh
-    curl ifconfig.me
-```
+   `curl ifconfig.me`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -196,27 +188,27 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
 
 ## Manual Steps
 1. Initialize the providers
-`terraform init`
+   `terraform init`
 2. Create the plan
-`terraform plan -out=tfplan`
+   `terraform plan -out=tfplan`
 3. Execute the plan
-`terraform apply "tfplan"`
+   `terraform apply "tfplan"`
 4. Once terraform completes, retrieve the Resource Group name, cluster name, storage name, and container name for later use.
-```
-AZ_RESOURCE_GROUP="$(terraform output -raw resource_group_name)"
-AZ_AKS_CLUSTER_NAME="$(terraform output -raw kubernetes_cluster_name)"
-STORAGE_NAME="$(terraform output -raw storage_name)"
-CONTAINER_NAME="$(terraform output -raw container_name)"
-```
+   ```sh
+   export AZ_RESOURCE_GROUP="$(terraform output -raw resource_group_name)"
+   export AZ_AKS_CLUSTER_NAME="$(terraform output -raw kubernetes_cluster_name)"
+   export STORAGE_NAME="$(terraform output -raw storage_name)"
+   export CONTAINER_NAME="$(terraform output -raw container_name)"
+   ```
 5. Export your KUBECONFIG to not overwrite any existing kubeconfig you might already have, and retrieve credentials to the cluster.
-```
-export KUBECONFIG="$HOME/.kube/$AZ_AKS_CLUSTER_NAME.yaml"
-az aks get-credentials --resource-group $AZ_RESOURCE_GROUP --name $AZ_AKS_CLUSTER_NAME --file $KUBECONFIG
-```
+   ```sh
+   export KUBECONFIG="$HOME/.kube/$AZ_AKS_CLUSTER_NAME.yaml"
+   az aks get-credentials --resource-group $AZ_RESOURCE_GROUP --name $AZ_AKS_CLUSTER_NAME --file $KUBECONFIG
+   ```
 6a. If prefect is already installed locally in your environment, you can generate and deploy the pod-spec:
-`prefect orion kubernetes-manifest | kubectl apply -f -`
+   `prefect orion kubernetes-manifest | kubectl apply -f -`
 6b. If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
-``` kubectl apply -f prefect.yaml```
+   ` kubectl apply -f prefect.yaml`
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
