@@ -149,7 +149,10 @@ List of pre-requisites and optional packages necessary. Steps are listed in "Set
    echo $ARM_CLIENT_ID
    ```
 9. Update "local_ip" in aks_main/variables.tf to your local IP address to configure and access the storage container. Your IP can be determined:
-   `curl ifconfig.me`
+   ```sh
+   curl ifconfig.me
+   ```
+<img src="https://github.com/PrefectHQ/prefect-recipes/blob/aks-prefect/azure/prefect-agent-on-aks/imgs/local_ip.png" alt="automated" width="1598" height="218">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

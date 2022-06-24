@@ -85,7 +85,7 @@ variable "vm_size" {
 
 variable "local_ip" {
   type        = list(string)
-  default     = ["131.226.33.86"]
+  default     = ["123.234.111.222"]
   description = "A list of public IP addresses you wish to add to network rules for access"
 }
 
