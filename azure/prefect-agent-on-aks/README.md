@@ -181,12 +181,18 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
    export KUBECONFIG="$HOME/.kube/$AZ_AKS_CLUSTER_NAME.yaml"
    az aks get-credentials --resource-group $AZ_RESOURCE_GROUP --name $AZ_AKS_CLUSTER_NAME --file $KUBECONFIG
    ```
-6a. If prefect is already installed locally in your environment, you can generate and deploy the pod-spec:
+6. If prefect is already installed locally in your environment, you can generate and deploy the pod-spec:
+
    `prefect orion kubernetes-manifest | kubectl apply -f -`
-6b. If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
+
+If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
+
    ` kubectl apply -f prefect.yaml`
+
 7. Open a separate terminal session and port forward kubectl traffic to the cluster
+
    `kubectl port-forward deployment/orion 4200:4200`
+
 8. List / display your storage connection string (SENSITIVE), and container name. These are required to connect the Prefect Agent to your Blob storage. These were already set in step 4, and will be required for the following step.
    ```
    echo $CONTAINER_NAME
@@ -200,8 +206,14 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
    prefect deployment create kubernetes-deployment.py
    ```
 10. You can launch a browser at `http://127.0.0.1:4200/api` to see your configuration, or execute the flow manually.
-   ```
-   prefect deployment run my-kubernetes-flow/k8s-example
+   `prefect deployment run my-kubernetes-flow/k8s-example`
+
+## Automated Steps
+Requires "expects" installed, and service principal values exported as env_vars already from "Setup".
+
+1. Run "wrap-deploy.sh" from the root terraform module directory (aks-prefect).
+   ```sh
+   ./wrap-deploy.sh
    ```
 
 _For more examples, please refer to the [Documentation](https://orion-docs.prefect.io/tutorials/kubernetes-flow-runner/)_
