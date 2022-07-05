@@ -73,10 +73,30 @@ def queryAllFlows() -> list:
             }
         }
     )
-    print (r)
-    print (len(r))
-    #flowList, totalFlowCount = listifyFlows(r)
-    #return flowList
+
+    return listifyFlows(r)
+
+@task
+def queryFlowsByProject(project_id: str) -> list: 
+
+    variables = {
+        "projectId": projectId
+    }
+
+    flow_by_project_query = """
+        query Flows($projectId: uuid!): {
+        flow(where: project_id: {_eq: $projectId}): {
+            id,
+            flow_group_id,
+            name,
+            project_id,
+            is_schedule_active
+            }
+        }
+    """
+    r = client.graphql(query=flow_by_project_query, variables=variables)
+    
+    return listifyFlows(r)
 
 @task
 def listifyFlows(all_Flows: object) -> list:
@@ -92,7 +112,18 @@ def listifyFlows(all_Flows: object) -> list:
         flowList.append(f)
     return flowList, len(flowList)
 
+@task
+def exportAllFlows():
+    # Updates projectTotal metrics with the label and value of each project queried
+    flowList, flow_count = queryAllFlows.run()
+    flowTotal.set(flow_count)
 
+    for project in queryAllProjects.run():
+
+        flowTotal.labels(project)
+        projectTotal.labels(project['name']).set(1)
+flowTotal.set()
+flowRunTotal.With(prometheus.Labels{"project_id": project.ID, "project_name": project.Name}).Set(respFlowsUpcoming.len())
 
 if __name__ == '__main__':
 
