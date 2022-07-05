@@ -1,0 +1,10 @@
+query {
+  license_users{
+    id
+    email
+    username
+    email
+    first_name
+    last_name
+  }
+}

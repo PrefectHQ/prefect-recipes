@@ -1,0 +1,11 @@
+query {
+  audit_log {
+    id,
+    object_id,
+    info,
+    message,
+    name,
+    object_table,
+    tenant_id
+  }
+}

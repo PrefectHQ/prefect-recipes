@@ -1,0 +1,12 @@
+query {
+  flow (where: {id: {_eq: "flow-id"}}) {
+    id
+    name
+    flow_runs (order_by: {start_time:desc},
+               limit:1){
+      id
+      name
+      start_time
+    }
+  }
+}

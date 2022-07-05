@@ -1,0 +1,8 @@
+query {
+  audit_log(order_by: {timestamp: desc}, where: {object_table: {_eq: "user"}}, limit:100) {
+    object_id
+    object_table
+    timestamp
+    message
+  }
+}
