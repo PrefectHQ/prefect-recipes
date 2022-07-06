@@ -19,7 +19,8 @@ projectTotal = Gauge('prefect_projects', 'Number of Projects by Name',['name'])
 flowTotal = Gauge('prefect_flows', 'Total of All Flows, All Projects')
 flowProjectTotal = Gauge('prefect_flows_by_project', 'Number of Flows by Project Name',['project_id', 'project_name'])
 flowRunTotal = Gauge('prefect_flowruns_total', 'Number of total flow runs by flow ID', ['project_id', 'project_name'])
-flowRunTotalSuccess = Gauge('prefect_flowruns_success', 'Number of successful flow runs by flow ID', ['project_id', 'project_name'])
+flowRunTotalSuccess = Gauge('prefect_flowruns_success', 'Number of successful flow runs by Project', ['project_id', 'project_name'])
+flowRunPending = Gauge('prefect_flowruns_pending', 'Number of pending flow runs by Project', ['project_id', 'project_name'])
 
 # Main loop retrieves exports all metrics
 # Each export queries GraphQL, extracts relevant info, and exports to a metrics
@@ -31,7 +32,7 @@ def getAllMetrics():
     exportFlowsByProject(allProjects)
     exportFlowRunTotal(allProjects)
     exportFlowRunSuccess(allProjects)
-    exportFlowPending(allProjects)
+    #exportFlowPending(allProjects)
 
 
 # Queries GraphQL for all projects. Query returns a json object, which is passed to listify.
@@ -178,6 +179,7 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
     flowRuns = listifyFlowRuns.run(r)
     return flowRuns
 
+
 @task
 def queryFlowRunPendingByProject(project_id: str) -> list:
     variables = {
@@ -197,19 +199,9 @@ def queryFlowRunPendingByProject(project_id: str) -> list:
     }
     """
     r = client.graphql(query=query, variables=variables)
-    
-    pendingRuns = listifyFlowRuns.run(r)
-    return pendingRuns
-
-	Pending: flow_run_aggregate(
-		where: {flow: {project_id: {_eq: $projectId}}, scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Pending"}}
-	) {
-		aggregate {
-		count
-		__typename
-		}
-		__typename
-	}
+    pendingRuns = (r['data']['Pending']['aggregate']['count'])
+    print (pendingRuns)
+    return r
 
 @task
 # Updates projectTotal metrics with the label and value of each project queried
