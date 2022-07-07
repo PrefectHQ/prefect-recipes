@@ -9,7 +9,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN echo 'nobody:x:65534:65534:nobody:/:' > /app/passwd && \
     echo 'nobody:x:65534:' > /app/group
 
-RUN prefect server backend
 COPY monitor.py /app/
 # COPY /app/group /etc
 # COPY /app/passwd /etc/
