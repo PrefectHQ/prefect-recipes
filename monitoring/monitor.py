@@ -4,18 +4,13 @@ import prefect
 import os
 from prefect import task, Flow
 
-
-POLLING_INTERVAL = 30
-GRAPHQL_ENDPOINT = "http://127.0.0.1:4200"
-EXPORT_PORT = 8000
-
 client = prefect.Client()
 
 # Project Variables
 projectNumber = Gauge('project_number', 'Total count of all Prefect Projects')
 projectTotal = Gauge('prefect_projects', 'Number of Projects by Name',['name'])
-# Flow Variables
 
+# Flow Variables
 flowTotal = Gauge('prefect_flows', 'Total of All Flows, All Projects')
 flowProjectTotal = Gauge('prefect_flows_by_project', 'Number of Flows by Project Name',['project_id', 'project_name'])
 flowRunTotal = Gauge('prefect_flowruns_total', 'Number of total flow runs by flow ID', ['project_id', 'project_name'])
@@ -32,11 +27,11 @@ def getAllMetrics():
     exportFlowsByProject(allProjects)
     exportFlowRunTotal(allProjects)
     exportFlowRunSuccess(allProjects)
-    #exportFlowPending(allProjects)
+    exportFlowPending(allProjects)
 
 
 # Queries GraphQL for all projects. Query returns a json object, which is passed to listify.
-@task
+
 def queryAllProjects() -> list: 
     query = """
     query Projects {
@@ -49,11 +44,11 @@ def queryAllProjects() -> list:
     """
     r = client.graphql(query=query)
     
-    projectList = listifyProjects.run(r)
+    projectList = listifyProjects(r)
     return projectList
 
 #Takes input from queryAllprojects and returns a list
-@task
+
 def listifyProjects(all_Projects: object) -> list:
     projectList = []
     for proj in all_Projects['data']['project']:
@@ -66,7 +61,7 @@ def listifyProjects(all_Projects: object) -> list:
     return projectList
 
 
-@task
+
 def queryAllFlows() -> int: 
     query = """
         query Flows {
@@ -84,7 +79,7 @@ def queryAllFlows() -> int:
     return len(r['data']['flow'])
 
 
-@task
+
 def listifyFlows(all_Flows: object) -> list:
     flowList = []
     for flow in all_Flows['data']['flow']:
@@ -99,7 +94,7 @@ def listifyFlows(all_Flows: object) -> list:
     return flowList
 
 
-@task
+
 def listifyFlowRuns(all_Flows: object) -> list:
     flowRuns = []
     for flow_run in all_Flows['data']['flow_run']:
@@ -113,7 +108,7 @@ def listifyFlowRuns(all_Flows: object) -> list:
 
 
 # Returns all active flows in the listed project_id
-@task
+
 def queryFlowsByProject(project_id: str) -> list: 
 
     variables = {
@@ -132,12 +127,12 @@ def queryFlowsByProject(project_id: str) -> list:
         }
     """
     r = client.graphql(query=flow_by_project_query, variables=variables)
-    projectFlows = listifyFlows.run(r)
+    projectFlows = listifyFlows(r)
 
     return projectFlows
 
 
-@task
+
 def queryFlowRunTotalByProject(project_id: str) -> list: 
 
     variables = {
@@ -155,11 +150,11 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
     """
     r = client.graphql(query=query, variables=variables)
     
-    flowRuns = listifyFlowRuns.run(r)
+    flowRuns = listifyFlowRuns(r)
     return flowRuns
 
 
-@task
+
 def queryFlowRunSuccessByProject(project_id: str) -> list: 
     variables = {
         "project_id": project_id
@@ -176,11 +171,11 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
     """
     r = client.graphql(query=query, variables=variables)
     
-    flowRuns = listifyFlowRuns.run(r)
+    flowRuns = listifyFlowRuns(r)
     return flowRuns
 
 
-@task
+
 def queryFlowRunPendingByProject(project_id: str) -> list:
     variables = {
         "project_id": project_id
@@ -200,10 +195,10 @@ def queryFlowRunPendingByProject(project_id: str) -> list:
     """
     r = client.graphql(query=query, variables=variables)
     pendingRuns = (r['data']['Pending']['aggregate']['count'])
-    print (pendingRuns)
-    return r
+    
+    return pendingRuns
 
-@task
+
 # Updates projectTotal metrics with the label and value of each project queried
 def exportAllProjects(allProjects):
     count = 0 
@@ -214,38 +209,38 @@ def exportAllProjects(allProjects):
 
 
 # Sets and exports all flow totals across all projects
-@task 
+ 
 def exportAllFlows():
-    flowTotal.set(queryAllFlows.run())
+    flowTotal.set(queryAllFlows())
 
 
 #Updates projectTotal metrics with the label and value of each project queried
-@task
+
 def exportFlowsByProject(allProjects):
     for project in allProjects:
-        project_Flows = queryFlowsByProject.run(project['id'])
+        project_Flows = queryFlowsByProject(project['id'])
         flowProjectTotal.labels(project['id'], project['name']).set(len(project_Flows))
 
 
-@task
+
 def exportFlowRunTotal(allProjects):
     for project in allProjects:
-        project_Flows = queryFlowRunTotalByProject.run(project['id'])
+        project_Flows = queryFlowRunTotalByProject(project['id'])
         flowRunTotal.labels(project['id'], project['name']).set(len(project_Flows))
 
 
-@task
+
 def exportFlowRunSuccess(allProjects):
     for project in allProjects:
-        project_Flows = queryFlowRunSuccessByProject.run(project['id'])
+        project_Flows = queryFlowRunSuccessByProject(project['id'])
         flowRunTotalSuccess.labels(project['id'], project['name']).set(len(project_Flows))
 
 
-@task
+
 def exportFlowPending(allProjects):
     for project in allProjects:
-        project_Flows = queryFlowRunPendingByProject.run(project['id'])
-        flowRunTotalSuccess.labels(project['id'], project['name']).set(len(project_Flows))
+        project_Flows = queryFlowRunPendingByProject(project['id'])
+        flowRunTotalSuccess.labels(project['id'], project['name']).set(project_Flows)
 
 
 if __name__ == '__main__':
@@ -257,7 +252,5 @@ if __name__ == '__main__':
     start_http_server(EXPORT_PORT)
     #Core loop ; retrieve metrics then wait to poll again.
     while True:
-        with Flow("collect-all") as flow:
-            getAllMetrics()
-        flow.run()
+        getAllMetrics()
         time.sleep(POLLING_INTERVAL)
