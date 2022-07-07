@@ -240,7 +240,7 @@ def exportFlowRunSuccess(allProjects):
 def exportFlowPending(allProjects):
     for project in allProjects:
         project_Flows = queryFlowRunPendingByProject(project['id'])
-        flowRunTotalSuccess.labels(project['id'], project['name']).set(project_Flows)
+        flowRunPending.labels(project['id'], project['name']).set(project_Flows)
 
 
 if __name__ == '__main__':
