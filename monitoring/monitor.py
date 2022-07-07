@@ -1,10 +1,12 @@
 from prometheus_client import start_http_server, Gauge
 import time
-import prefect
 import os
-from prefect import task, Flow
+from python_graphql_client import GraphqlClient
+#import prefect
 
-client = prefect.Client()
+#client = prefect.Client()
+
+
 
 # Project Variables
 projectNumber = Gauge('project_number', 'Total count of all Prefect Projects')
@@ -42,7 +44,7 @@ def queryAllProjects() -> list:
         }
     }
     """
-    r = client.graphql(query=query)
+    r = client.execute(query=query)
     
     projectList = listifyProjects(r)
     return projectList
@@ -74,7 +76,7 @@ def queryAllFlows() -> int:
             }
         }
     """
-    r = client.graphql(query=query)
+    r = client.execute(query=query)
         
     return len(r['data']['flow'])
 
@@ -126,7 +128,7 @@ def queryFlowsByProject(project_id: str) -> list:
             }
         }
     """
-    r = client.graphql(query=flow_by_project_query, variables=variables)
+    r = client.execute(query=flow_by_project_query, variables=variables)
     projectFlows = listifyFlows(r)
 
     return projectFlows
@@ -148,7 +150,7 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
         }
     }
     """
-    r = client.graphql(query=query, variables=variables)
+    r = client.execute(query=query, variables=variables)
     
     flowRuns = listifyFlowRuns(r)
     return flowRuns
@@ -169,7 +171,7 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
         }
     }
     """
-    r = client.graphql(query=query, variables=variables)
+    r = client.execute(query=query, variables=variables)
     
     flowRuns = listifyFlowRuns(r)
     return flowRuns
@@ -193,7 +195,7 @@ def queryFlowRunPendingByProject(project_id: str) -> list:
         }
     }
     """
-    r = client.graphql(query=query, variables=variables)
+    r = client.execute(query=query, variables=variables)
     pendingRuns = (r['data']['Pending']['aggregate']['count'])
     
     return pendingRuns
@@ -248,6 +250,7 @@ if __name__ == '__main__':
     POLLING_INTERVAL = int(os.environ.get('POLLING_INTERVAL', 30))
     EXPORT_PORT = int(os.environ.get('EXPORT_PORT', 8000))
     GRAPHQL_ENDPOINT = os.environ.get('GRAPHQL_ENDPOINT', "http://127.0.0.1:4200")
+    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
     # Start up the server to expose the metrics.
     start_http_server(EXPORT_PORT)
     #Core loop ; retrieve metrics then wait to poll again.

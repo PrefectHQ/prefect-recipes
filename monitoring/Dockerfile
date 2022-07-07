@@ -10,6 +10,7 @@ RUN echo 'nobody:x:65534:65534:nobody:/:' > /app/passwd && \
     echo 'nobody:x:65534:' > /app/group
 
 COPY monitor.py /app/
+
 # COPY /app/group /etc
 # COPY /app/passwd /etc/
 
