@@ -1,0 +1,45 @@
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+annotations: {}
+
+image:
+  repository: chaboy/prefect-prometheus-exporter
+  pullPolicy: IfNotPresent
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources: {}
+
+metricsPath: /metrics
+scrapeDelay: 300
+graphqlEndpoint: http://localhost:4200
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+serviceMonitor:
+  enabled: false
+  interval: 30s
+  additionalLabels: {}
+  targetLabels: []
+
+prefect-server:
+  enabled: false
