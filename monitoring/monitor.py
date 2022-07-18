@@ -1,11 +1,8 @@
 from prometheus_client import start_http_server, Gauge
 import time
 import os
+import asyncio
 from python_graphql_client import GraphqlClient
-#import prefect
-
-#client = prefect.Client()
-
 
 
 # Project Variables
@@ -24,11 +21,17 @@ flowRunPending = Gauge('prefect_flowruns_pending', 'Number of pending flow runs 
 
 def getAllMetrics():
     allProjects = queryAllProjects()
+    time.sleep(10)
     exportAllProjects(allProjects)
+    time.sleep(10)
     exportAllFlows()
+    time.sleep(10)
     exportFlowsByProject(allProjects)
+    time.sleep(10)
     exportFlowRunTotal(allProjects)
+    time.sleep(10)
     exportFlowRunSuccess(allProjects)
+    time.sleep(10)
     exportFlowPending(allProjects)
 
 
@@ -44,9 +47,14 @@ def queryAllProjects() -> list:
         }
     }
     """
-    r = client.execute(query=query)
     
-    projectList = listifyProjects(r)
+    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
+    try:
+        r = asyncio.run(client.execute_async(query=query))
+        projectList = listifyProjects(r)
+    except ConnectionResetError:
+        print ("==> ConnectionResetError")
+        pass
     return projectList
 
 #Takes input from queryAllprojects and returns a list
@@ -76,8 +84,13 @@ def queryAllFlows() -> int:
             }
         }
     """
-    r = client.execute(query=query)
-        
+
+    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
+    try:
+        r = asyncio.run(client.execute_async(query=query))
+    except ConnectionResetError:
+        print ("==> ConnectionResetError")
+        pass
     return len(r['data']['flow'])
 
 
@@ -117,7 +130,7 @@ def queryFlowsByProject(project_id: str) -> list:
         "project_id": project_id
     }
 
-    flow_by_project_query = """
+    query = """
         query Flows ($project_id: uuid!){
         flow (where: {project_id: {_eq: $project_id}}) {
             id,
@@ -128,9 +141,14 @@ def queryFlowsByProject(project_id: str) -> list:
             }
         }
     """
-    r = client.execute(query=flow_by_project_query, variables=variables)
-    projectFlows = listifyFlows(r)
 
+    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
+    try:
+        r = asyncio.run(client.execute_async(query=query, variables=variables))
+        projectFlows = listifyFlows(r)
+    except ConnectionResetError:
+        print ("==> ConnectionResetError")
+        pass
     return projectFlows
 
 
@@ -150,9 +168,14 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
         }
     }
     """
-    r = client.execute(query=query, variables=variables)
-    
-    flowRuns = listifyFlowRuns(r)
+
+    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
+    try:
+        r = asyncio.run(client.execute_async(query=query, variables=variables))
+        flowRuns = listifyFlowRuns(r)
+    except ConnectionResetError:
+        print ("==> ConnectionResetError")
+        pass
     return flowRuns
 
 
@@ -171,9 +194,14 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
         }
     }
     """
-    r = client.execute(query=query, variables=variables)
-    
-    flowRuns = listifyFlowRuns(r)
+
+    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
+    try:
+        r = asyncio.run(client.execute_async(query=query, variables=variables))
+        flowRuns = listifyFlowRuns(r)
+    except ConnectionResetError:
+        print ("==> ConnectionResetError")
+        pass
     return flowRuns
 
 
@@ -195,9 +223,14 @@ def queryFlowRunPendingByProject(project_id: str) -> list:
         }
     }
     """
-    r = client.execute(query=query, variables=variables)
-    pendingRuns = (r['data']['Pending']['aggregate']['count'])
-    
+
+    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
+    try:
+        r = asyncio.run(client.execute_async(query=query, variables=variables))
+        pendingRuns = (r['data']['Pending']['aggregate']['count'])
+    except ConnectionResetError:
+        print ("==> ConnectionResetError")
+        pass
     return pendingRuns
 
 
@@ -250,7 +283,7 @@ if __name__ == '__main__':
     POLLING_INTERVAL = int(os.environ.get('POLLING_INTERVAL', 30))
     EXPORT_PORT = int(os.environ.get('EXPORT_PORT', 8000))
     GRAPHQL_ENDPOINT = os.environ.get('GRAPHQL_ENDPOINT', "http://127.0.0.1:4200")
-    client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
+    # client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
     # Start up the server to expose the metrics.
     start_http_server(EXPORT_PORT)
     #Core loop ; retrieve metrics then wait to poll again.
