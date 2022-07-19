@@ -10,6 +10,14 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "1.1.0-amd64"
 
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -45,7 +53,9 @@ service:
 serviceMonitor:
   enabled: false
   interval: 30s
-  additionalLabels: {}
+  scrapeTimeout: 10s
+  additionalLabels: 
+    release: prometheus
   targetLabels: []
 
 ingress:
@@ -95,3 +105,4 @@ affinity: {}
 
 prefect-server:
   enabled: false
+
