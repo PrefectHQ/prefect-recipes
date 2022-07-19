@@ -8,7 +8,7 @@ image:
   repository: chaboy/prefect-prometheus-exporter
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.0.1-amd64"
+  tag: "1.1.0-amd64"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -78,7 +78,7 @@ resources: {}
 
 metricsPath: /metrics
 scrapeDelay: 300
-graphqlEndpoint: https://apollo.dev.wip.centaur-platform.com
+graphqlEndpoint: http://localhost:4200
 
 autoscaling:
   enabled: false

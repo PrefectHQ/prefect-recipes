@@ -52,8 +52,11 @@ def queryAllProjects() -> list:
     try:
         r = asyncio.run(client.execute_async(query=query))
         projectList = listifyProjects(r)
-    except ConnectionResetError:
-        print ("==> ConnectionResetError")
+    except ConnectionResetError as err:
+        print (err)
+        pass
+    except ClientConnectorError as e:
+        print (e)
         pass
     return projectList
 
@@ -88,8 +91,11 @@ def queryAllFlows() -> int:
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
     try:
         r = asyncio.run(client.execute_async(query=query))
-    except ConnectionResetError:
-        print ("==> ConnectionResetError")
+    except ConnectionResetError as err:
+        print (err)
+        pass
+    except ClientConnectorError as e:
+        print (e)
         pass
     return len(r['data']['flow'])
 
@@ -146,8 +152,11 @@ def queryFlowsByProject(project_id: str) -> list:
     try:
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         projectFlows = listifyFlows(r)
-    except ConnectionResetError:
-        print ("==> ConnectionResetError")
+    except ConnectionResetError as err:
+        print (err)
+        pass
+    except ClientConnectorError as e:
+        print (e)
         pass
     return projectFlows
 
@@ -173,8 +182,11 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
     try:
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         flowRuns = listifyFlowRuns(r)
-    except ConnectionResetError:
-        print ("==> ConnectionResetError")
+    except ConnectionResetError as err:
+        print (err)
+        pass
+    except ClientConnectorError as e:
+        print (e)
         pass
     return flowRuns
 
@@ -199,8 +211,11 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
     try:
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         flowRuns = listifyFlowRuns(r)
-    except ConnectionResetError:
-        print ("==> ConnectionResetError")
+    except ConnectionResetError as err:
+        print (err)
+        pass
+    except ClientConnectorError as e:
+        print (e)
         pass
     return flowRuns
 
@@ -228,8 +243,11 @@ def queryFlowRunPendingByProject(project_id: str) -> list:
     try:
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         pendingRuns = (r['data']['Pending']['aggregate']['count'])
-    except ConnectionResetError:
-        print ("==> ConnectionResetError")
+    except ConnectionResetError as err:
+        print (err)
+        pass
+    except ClientConnectorError as e:
+        print (e)
         pass
     return pendingRuns
 
@@ -244,7 +262,6 @@ def exportAllProjects(allProjects):
 
 
 # Sets and exports all flow totals across all projects
- 
 def exportAllFlows():
     flowTotal.set(queryAllFlows())
 
