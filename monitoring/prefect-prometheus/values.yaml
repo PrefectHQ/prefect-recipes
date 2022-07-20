@@ -51,7 +51,7 @@ service:
   targetPort: 8000
 
 serviceMonitor:
-  enabled: false
+  enabled: true
   interval: 30s
   scrapeTimeout: 10s
   additionalLabels: 
