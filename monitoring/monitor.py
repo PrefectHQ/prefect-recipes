@@ -21,17 +21,17 @@ flowRunPending = Gauge('prefect_flowruns_pending', 'Number of pending flow runs 
 
 def getAllMetrics():
     allProjects = queryAllProjects()
-    time.sleep(10)
+
     exportAllProjects(allProjects)
-    time.sleep(10)
+
     exportAllFlows()
-    time.sleep(10)
+
     exportFlowsByProject(allProjects)
-    time.sleep(10)
+
     exportFlowRunTotal(allProjects)
-    time.sleep(10)
+
     exportFlowRunSuccess(allProjects)
-    time.sleep(10)
+
     exportFlowPending(allProjects)
 
 
