@@ -1,4 +1,5 @@
-query {
+#This query returns all the license users
+query GetAllLicenseUsers {
   license_users{
     id
     email

@@ -1,6 +1,6 @@
 # This query will return a list of users and the last time that they logged on based on a specific tenant
 
-{
+query LastLoginTime{
  user_view_same_tenant {
     username
     memberships(where: {tenant : {slug:{_eq: "tenant-slug"}}}) {

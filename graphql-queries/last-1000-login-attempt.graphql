@@ -1,4 +1,6 @@
-query {
+#This query gets the last 100 login attempts
+
+query Last100LoginAttempts{
   audit_log(order_by: {timestamp: desc}, where: {object_table: {_eq: "user"}}, limit:100) {
     object_id
     object_table

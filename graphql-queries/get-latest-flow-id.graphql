@@ -1,4 +1,6 @@
-query {
+#This query returns information on the latest flow runs from a specific flow
+
+query GetLatestFlowId {
   flow (where: {id: {_eq: "flow-id"}}) {
     id
     name

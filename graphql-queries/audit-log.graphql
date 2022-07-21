@@ -1,4 +1,4 @@
-query {
+query AuditLog {
   audit_log {
     id,
     object_id,
