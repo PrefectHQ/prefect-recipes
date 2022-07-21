@@ -188,11 +188,11 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
    ```
 6. If prefect is already installed locally in your environment, you can generate and deploy the pod-spec:
 
-   `prefect orion kubernetes-manifest | kubectl apply -f -`
+   `prefect kubernetes manifest orion | kubectl apply -f -`
 
    If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
 
-   ` kubectl apply -f prefect.yaml`
+   `kubectl apply -f prefect.yaml`
 
 7. Open a separate terminal session and port forward kubectl traffic to the cluster
 
