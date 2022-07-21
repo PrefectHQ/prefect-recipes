@@ -10,5 +10,7 @@ def my_kubernetes_flow():
 
 
 Deployment(
-    name="k8s-example-deployment", flow=my_kubernetes_flow, flow_runner=KubernetesFlowRunner()
+    name="k8s-example-deployment",
+    flow=my_kubernetes_flow,
+    flow_runner=KubernetesFlowRunner(),
 )
