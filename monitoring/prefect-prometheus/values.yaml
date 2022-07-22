@@ -8,7 +8,7 @@ image:
   repository: chaboy/prefect-prometheus-exporter
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.2.0-amd64"
+  tag: "1.2.1-amd64"
 
 readinessProbe:
   initialDelaySeconds: 5
