@@ -164,7 +164,7 @@ def queryUpcomingFlowRuns(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryUpcomingFlowRuns took {toc - tic}")
+        logging.info(f"{datetime.now().strftime(datefmt)} - queryUpcomingFlowRuns - project_id - took {toc - tic}")
         flowRunsUpcoming = listifyFlows(r)
         queries_total.inc()
     except ConnectionResetError as err:
@@ -203,7 +203,7 @@ def queryFlowsByProject(project_id: str) -> list:
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
         
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowsByProject took {toc - tic}")
+        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowsByProject - project_id - took {toc - tic}")
         projectFlows = listifyFlows(r)
         queries_total.inc()
     except ConnectionResetError as err:
@@ -236,7 +236,7 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunTotalByProject took {toc - tic}")
+        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunTotalByProject - project_id - took {toc - tic}")
         flowRuns = listifyFlowRuns(r)
         queries_total.inc()
     except ConnectionResetError as err:
@@ -269,7 +269,7 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunSuccessByProject took {toc - tic}")
+        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunSuccessByProject - project_id - took {toc - tic}")
         flowRuns = listifyFlowRuns(r)
         queries_total.inc()
     except ConnectionResetError as err:
@@ -332,7 +332,7 @@ def querystatusByProject(project_id: str) -> list:
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
         
-        logging.info(f"{datetime.now().strftime(datefmt)} - querystatusByProject took {toc - tic}")
+        logging.info(f"{datetime.now().strftime(datefmt)} - querystatusByProject - project_id - took {toc - tic}")
         pendingRuns = (r['data']['Pending']['aggregate']['count'])
         failedRuns = (r['data']['Failed']['aggregate']['count'])
         submittedRuns = (r['data']['Submitted']['aggregate']['count'])
@@ -396,16 +396,14 @@ if __name__ == '__main__':
     POLLING_INTERVAL = int(os.environ.get('POLLING_INTERVAL', 30))
     EXPORT_PORT = int(os.environ.get('EXPORT_PORT', 8000))
     GRAPHQL_ENDPOINT = os.environ.get('GRAPHQL_ENDPOINT', "http://127.0.0.1:4200")
-    datefmt="%Y-%m-%d %H:%M:%S"
 
+    logFormat='%(asctime)s - %(user)-8s %(message)s'
+    logging.basicConfig(format=logFormat)
     # Start up the server to expose the metrics.
     start_http_server(EXPORT_PORT)
 
-
     #Core loop ; retrieve metrics then wait to poll again.
     while True:
-        logFormat='%(asctime)s - %(user)-8s %(message)s'
-        logging.basicConfig(format=logFormat)
         tic_main = time.time()
         logging.info("Getting all metrics.")
         getAllMetrics()
