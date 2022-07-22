@@ -14,6 +14,6 @@ jobs:
     env: 
       KEY: ${{ secrets.PREFECT_API_KEY}}
     - name: Authenticate to Prefect dependencies
-      run: prefect auth login -t $KEY 
+      run: prefect auth login -k $KEY 
     - name: Register flow
       run: prefect register -p flow.py --project <project_name> 
