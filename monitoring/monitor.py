@@ -58,11 +58,12 @@ def queryAllProjects() -> list:
         logging.info(f"{datetime.now().strftime(datefmt)} - queryAllProjects took {toc - tic}")
         projectList = listifyProjects(r)
         queries_total.inc()
+        client.
     except ConnectionResetError as err:
         logging.warning(err)
         pass
     except Exception as e:
-        logging.warning(e)
+        logging.warning(repr(e))
         raise
     return projectList
 
@@ -99,14 +100,13 @@ def queryAllFlows() -> int:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query))
         toc = time.time()
-        print(f"{datetime.now().strftime(datefmt)} - queryAllFlows took {toc - tic}")
         logging.info(f"{datetime.now().strftime(datefmt)} - queryAllFlows took {toc - tic}")
         queries_total.inc()
     except ConnectionResetError as err:
         logging.warning(err)
         pass
     except Exception as e:
-        logging.warning(e)
+        logging.warning(repr(e))
         raise
     return len(r['data']['flow'])
 
@@ -164,19 +164,17 @@ def queryUpcomingFlowRuns(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        print(f"{datetime.now().strftime(datefmt)} - queryUpcomingFlowRuns took {toc - tic}")
         logging.info(f"{datetime.now().strftime(datefmt)} - queryUpcomingFlowRuns took {toc - tic}")
         flowRunsUpcoming = listifyFlows(r)
         queries_total.inc()
     except ConnectionResetError as err:
-        print (err)
         logging.warning(err)
         pass
     except KeyError:
         return flowRunsUpcoming
     except Exception as e:
-        print (e)
-        logging.warning(e)
+
+        logging.warning(repr(e))
         raise
     return flowRunsUpcoming
 
@@ -204,7 +202,7 @@ def queryFlowsByProject(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        print(f"{datetime.now().strftime(datefmt)} - queryFlowsByProject took {toc - tic}")
+        
         logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowsByProject took {toc - tic}")
         projectFlows = listifyFlows(r)
         queries_total.inc()
@@ -212,7 +210,7 @@ def queryFlowsByProject(project_id: str) -> list:
         logging.warning(err)
         pass
     except Exception as e:
-        logging.warning(e)
+        logging.warning(repr(e))
         raise
     return projectFlows
 
@@ -238,15 +236,14 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        print(f"{datetime.now().strftime(datefmt)} - queryFlowRunTotalByProject took {toc - tic}")
         logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunTotalByProject took {toc - tic}")
         flowRuns = listifyFlowRuns(r)
         queries_total.inc()
     except ConnectionResetError as err:
-        logging.warning(err)
+        logging.warning(repr(err))
         pass
     except Exception as e:
-        logging.warning(e)
+        logging.warning(repr(e))
         raise
     return flowRuns
 
@@ -272,7 +269,6 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        print(f"{datetime.now().strftime(datefmt)} - queryFlowRunSuccessByProject took {toc - tic}")
         logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunSuccessByProject took {toc - tic}")
         flowRuns = listifyFlowRuns(r)
         queries_total.inc()
@@ -280,7 +276,7 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
         logging.warning(err)
         pass
     except Exception as e:
-        logging.warning(e)
+        logging.warning(repr(e))
         raise
     return flowRuns
 
@@ -335,8 +331,8 @@ def querystatusByProject(project_id: str) -> list:
         tic = time.time()
         r = asyncio.run(client.execute_async(query=query, variables=variables))
         toc = time.time()
-        print(f"{datetime.now().strftime(datefmt)} - queryFlowRunSuccessByProject took {toc - tic}")
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunSuccessByProject took {toc - tic}")
+        
+        logging.info(f"{datetime.now().strftime(datefmt)} - querystatusByProject took {toc - tic}")
         pendingRuns = (r['data']['Pending']['aggregate']['count'])
         failedRuns = (r['data']['Failed']['aggregate']['count'])
         submittedRuns = (r['data']['Submitted']['aggregate']['count'])
@@ -346,7 +342,7 @@ def querystatusByProject(project_id: str) -> list:
         logging.warning(err)
         pass
     except Exception as e:
-        logging.warning(e)
+        logging.warning(repr(e))
         raise
     return pendingRuns,failedRuns,submittedRuns,queuedRuns
 
@@ -408,15 +404,13 @@ if __name__ == '__main__':
 
     #Core loop ; retrieve metrics then wait to poll again.
     while True:
+        logFormat='%(asctime)s - %(user)-8s %(message)s'
+        logging.basicConfig(format=logFormat)
         tic_main = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - Getting all metrics.")
-        print (f"{datetime.now().strftime(datefmt)} - Getting all metrics")
+        logging.info("Getting all metrics.")
         getAllMetrics()
         toc_main = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - All metrics received.")
+        logging.info("All metrics received.")
         logging.info(f"Time Elapsed - {toc_main - tic_main}")
         logging.info(f"Sleeping for {POLLING_INTERVAL}.")
-        print(f"{datetime.now().strftime(datefmt)} - All metrics received.")
-        print(f"{datetime.now().strftime(datefmt)} - Time Elapsed - {toc_main - tic_main}")
-        print(f"{datetime.now().strftime(datefmt)} - Sleeping for {POLLING_INTERVAL}.")
         time.sleep(POLLING_INTERVAL)
