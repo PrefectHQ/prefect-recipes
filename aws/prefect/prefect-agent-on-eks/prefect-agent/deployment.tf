@@ -15,10 +15,9 @@ resource "kubernetes_secret" "api_key" {
   }
 
   data = {
-    "key" = jsondecode(data.aws_secretsmanager_secret_version.prefect_api_key.secret_string)[var.prefect_api_secret_id]
+    "key" = jsondecode(data.aws_secretsmanager_secret_version.prefect_api_key.secret_string)[var.prefect_secret_key]
   }
 }
-
 
 resource "kubernetes_deployment" "deployment" {
   lifecycle {

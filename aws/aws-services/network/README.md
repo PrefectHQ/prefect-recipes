@@ -6,6 +6,23 @@
 
 Deploy private networking infrastructure
 
+## Usage:
+
+```hcl
+module "network" {
+  source      = "path/to/network"
+
+  vpc_name    = "vpc-name"
+  environment = "dev"
+
+  azs = ["us-east-1b", "us-east-1c"]
+
+  vpc_cidr             = "10.0.0.0/16"
+  private_subnet_cidrs = ["10.0.0.0/24","10.0.1.0/24"]
+  public_subnet_cidrs  = ["10.0.3.0/24","10.0.4.0/24"]
+}
+```
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -23,13 +40,16 @@ Deploy private networking infrastructure
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.11.0 |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.11.4 |
 | <a name="module_vpc_endpoints"></a> [vpc\_endpoints](#module\_vpc\_endpoints) | terraform-aws-modules/vpc/aws//modules/vpc-endpoints | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [aws_security_group.endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_security_group_rule.vpce_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.vpce_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_security_group.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_group) | data source |
 
@@ -51,20 +71,4 @@ Deploy private networking infrastructure
 | <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | n/a |
 | <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | n/a |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | n/a |
-
-## Usage:
-
-```
-module "network" {
-  source      = "path/to/network"
-
-  vpc_name    = "vpc-name"
-  environment = "dev"
-
-  azs = ["us-east-1b", "us-east-1c"]
-
-  vpc_cidr             = "10.0.0.0/16"
-  private_subnet_cidrs = ["10.0.0.0/24","10.0.1.0/24"]
-  public_subnet_cidrs  = ["10.0.3.0/24","10.0.4.0/24"]
-}
-```
+<!-- END_TF_DOCS -->

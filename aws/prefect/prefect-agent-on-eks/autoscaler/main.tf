@@ -1,7 +1,4 @@
-data "aws_region" "current" {}
-
 resource "helm_release" "cluster_autoscaler" {
-  depends_on = [var.mod_dependency]
   chart      = var.helm_chart_name
   namespace  = var.namespace
   name       = var.helm_release_name

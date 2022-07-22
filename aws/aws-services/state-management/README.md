@@ -6,6 +6,16 @@
 
 Deploy infrastructure to host future terraform state files
 
+## Usage:
+
+```hcl
+module "state_management" {
+  source      = "path/to/state-management"
+
+  bucket_name = "name-of-bucket"
+}
+```
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -30,6 +40,7 @@ Deploy infrastructure to host future terraform state files
 | Name | Type |
 |------|------|
 | [aws_dynamodb_table.terraform_state_lock](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
+| [aws_s3_bucket_public_access_block.bucket_block](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 
 ## Inputs
 
@@ -40,14 +51,4 @@ Deploy infrastructure to host future terraform state files
 ## Outputs
 
 No outputs.
-
-
-## Usage:
-
-```
-module "state_management" {
-  source      = "path/to/state-management"
-
-  bucket_name = "name-of-bucket"
-}
-```
+<!-- END_TF_DOCS -->

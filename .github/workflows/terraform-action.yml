@@ -1,0 +1,19 @@
+name: terraform
+
+on:
+  pull_request
+
+jobs:
+  terraform-checks:
+    name: terraform checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v1
+      
+      - name: terraform format
+        run: terraform fmt -recursive -check
+        continue-on-error: false

@@ -1,0 +1,28 @@
+name: python
+
+on:
+  pull_request
+
+jobs:
+  python-checks:
+    name: python checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: black
+        uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check --diff"
+          fail_on_error: true
+
+      - name: setup python environment
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+
+      - name: flake8 lint
+        uses: py-actions/flake8@v2
+        with:
+          ignore: "E731,W503"
