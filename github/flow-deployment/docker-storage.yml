@@ -1,0 +1,19 @@
+name: Register Flow using docker storage
+on:
+  push:
+    branches:
+      - <branch_name>
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container: 
+      image: <IMAGE_URl>
+      credentials:
+        username: <YOUR USERNAME>
+        password: ${{ secrets.REGISTRY_PW }}
+    env: 
+      KEY: ${{ secrets.PREFECT_API_KEY}}
+    - name: Authenticate to Prefect dependencies
+      run: prefect auth login -k $KEY 
+    - name: Register flow
+      run: prefect register -p flow.py --project <project_name> 
