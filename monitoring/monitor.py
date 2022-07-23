@@ -3,7 +3,7 @@ import time
 import os
 import asyncio
 import logging
-from datetime import datetime
+import sys
 from python_graphql_client import GraphqlClient
 
 
@@ -51,35 +51,34 @@ def queryAllProjects() -> list:
     """
     
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
-    try:
-        tic = time.time()
-        r = asyncio.run(client.execute_async(query=query))
-        toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryAllProjects took {toc - tic}")
-        projectList = listifyProjects(r)
-        queries_total.inc()
-        client.
-    except ConnectionResetError as err:
-        logging.warning(err)
-        pass
-    except Exception as e:
-        logging.warning(repr(e))
-        raise
-    return projectList
-
-#Takes input from queryAllprojects and returns a list
-
-def listifyProjects(all_Projects: object) -> list:
-    projectList = []
-    for proj in all_Projects['data']['project']:
-        project = {
-            "id": proj['id'],
-            "name":  proj['name'],
-            "tenant_id": proj['tenant_id']
-        }
-        projectList.append(project)
-    return projectList
-
+    success = False
+    counter = 0
+    while not success and counter < MAX_RETRY:
+        try:
+            tic = time.time()
+            projectList = asyncio.run(client.execute_async(query=query))
+            toc = time.time()
+            logging.info(f"queryAllProjects took {toc - tic}")
+            queries_total.inc()
+            success = True
+        except ConnectionResetError as err:
+            if counter >= MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {err}")
+                raise
+            counter += 1
+            logging.warning(f"Connection Reset Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)    
+        except TimeoutError as timeout:
+            if counter > MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {timeout}")
+                raise
+            counter += 1
+            logging.warning(f"Timeout Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)           
+        except Exception as e:
+            logging.warning(repr(e))
+            raise
+    return projectList['data']['project']
 
 
 def queryAllFlows() -> int: 
@@ -96,47 +95,34 @@ def queryAllFlows() -> int:
     """
 
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
-    try:
-        tic = time.time()
-        r = asyncio.run(client.execute_async(query=query))
-        toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryAllFlows took {toc - tic}")
-        queries_total.inc()
-    except ConnectionResetError as err:
-        logging.warning(err)
-        pass
-    except Exception as e:
-        logging.warning(repr(e))
-        raise
+    success = False
+    counter = 0
+    while not success and counter < MAX_RETRY:
+        try:
+            tic = time.time()
+            r = asyncio.run(client.execute_async(query=query))
+            toc = time.time()
+            logging.info(f"queryAllFlows - took {toc - tic}")
+            queries_total.inc()
+            success = True
+        except ConnectionResetError as err:
+            if counter >= MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {err}")
+                raise
+            counter += 1
+            logging.warning(f"Connection Reset Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)    
+        except TimeoutError as timeout:
+            if counter > MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {timeout}")
+                raise
+            counter += 1
+            logging.warning(f"Timeout Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)  
+        except Exception as e:
+            logging.warning(repr(e))
+            raise
     return len(r['data']['flow'])
-
-
-
-def listifyFlows(all_Flows: object) -> list:
-    flowList = []
-    for flow in all_Flows['data']['flow']:
-        f = {
-            "id": flow['id'],
-            "flow_group_id": flow['flow_group_id'],
-            "name":  flow['name'],
-            "project_id": flow['project_id'],
-            "is_schedule_active": flow['is_schedule_active']
-        }
-        flowList.append(f)
-    return flowList
-
-
-
-def listifyFlowRuns(all_Flows: object) -> list:
-    flowRuns = []
-    for flow_run in all_Flows['data']['flow_run']:
-        f = {
-            "id": flow_run['id'],
-            "name":  flow_run['name'],
-            "state": flow_run['state']
-        }
-        flowRuns.append(f)
-    return flowRuns
 
 def queryUpcomingFlowRuns(project_id: str) -> list: 
     flowRunsUpcoming = []
@@ -160,23 +146,36 @@ def queryUpcomingFlowRuns(project_id: str) -> list:
     """
 
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
-    try:
-        tic = time.time()
-        r = asyncio.run(client.execute_async(query=query, variables=variables))
-        toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryUpcomingFlowRuns - project_id - took {toc - tic}")
-        flowRunsUpcoming = listifyFlows(r)
-        queries_total.inc()
-    except ConnectionResetError as err:
-        logging.warning(err)
-        pass
-    except KeyError:
-        return flowRunsUpcoming
-    except Exception as e:
-
-        logging.warning(repr(e))
-        raise
-    return flowRunsUpcoming
+    success = False
+    counter = 0
+    while not success and counter < MAX_RETRY:
+        try:
+            tic = time.time()
+            flowRunsUpcoming = asyncio.run(client.execute_async(query=query, variables=variables))
+            toc = time.time()
+            logging.info(f"queryUpcomingFlowRuns - {project_id} - took {toc - tic}")
+            queries_total.inc()
+            success = True
+        except ConnectionResetError as err:
+            if counter >= MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {err}")
+                raise
+            counter += 1
+            logging.warning(f"Connection Reset Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)    
+        except TimeoutError as timeout:
+            if counter > MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {timeout}")
+                raise
+            counter += 1
+            logging.warning(f"Timeout Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)   
+        except KeyError:
+            return flowRunsUpcoming['data']['flow_run']
+        except Exception as e:
+            logging.warning(repr(e))
+            raise
+    return flowRunsUpcoming['data']['flow_run']
 
 # Returns all active flows in the listed project_id
 def queryFlowsByProject(project_id: str) -> list: 
@@ -198,21 +197,31 @@ def queryFlowsByProject(project_id: str) -> list:
     """
 
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
-    try:
-        tic = time.time()
-        r = asyncio.run(client.execute_async(query=query, variables=variables))
-        toc = time.time()
-        
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowsByProject - project_id - took {toc - tic}")
-        projectFlows = listifyFlows(r)
-        queries_total.inc()
-    except ConnectionResetError as err:
-        logging.warning(err)
-        pass
-    except Exception as e:
-        logging.warning(repr(e))
-        raise
-    return projectFlows
+    success = False
+    counter = 0
+    while not success and counter < MAX_RETRY:
+        try:
+            tic = time.time()
+            projectFlows = asyncio.run(client.execute_async(query=query, variables=variables))
+            toc = time.time()
+            logging.info(f"queryFlowsByProject - {project_id} - took {toc - tic}")
+            queries_total.inc()
+            success = True
+        except ConnectionResetError as err:
+            if counter >= MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {err}")
+                raise
+            counter += 1
+            logging.warning(f"Connection Reset Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)    
+        except TimeoutError as timeout:
+            if counter > MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {timeout}")
+                raise
+            counter += 1
+            logging.warning(f"Timeout Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)  
+    return projectFlows['data']['flow']
 
 
 def queryFlowRunTotalByProject(project_id: str) -> list: 
@@ -232,20 +241,31 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
     """
 
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
-    try:
-        tic = time.time()
-        r = asyncio.run(client.execute_async(query=query, variables=variables))
-        toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunTotalByProject - project_id - took {toc - tic}")
-        flowRuns = listifyFlowRuns(r)
-        queries_total.inc()
-    except ConnectionResetError as err:
-        logging.warning(repr(err))
-        pass
-    except Exception as e:
-        logging.warning(repr(e))
-        raise
-    return flowRuns
+    success = False
+    counter = 0
+    while not success and counter < MAX_RETRY:
+        try:
+            tic = time.time()
+            flowRuns = asyncio.run(client.execute_async(query=query, variables=variables))
+            toc = time.time()
+            logging.info(f"queryFlowRunTotalByProject - {project_id} - took {toc - tic}")
+            queries_total.inc()
+            success = True
+        except ConnectionResetError as err:
+            if counter >= MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {err}")
+                raise
+            counter += 1
+            logging.warning(f"Connection Reset Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)    
+        except TimeoutError as timeout:
+            if counter > MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {timeout}")
+                raise
+            counter += 1
+            logging.warning(f"Timeout Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)  
+    return flowRuns['data']['flow_run']
 
 
 
@@ -265,20 +285,31 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
     """
 
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
-    try:
-        tic = time.time()
-        r = asyncio.run(client.execute_async(query=query, variables=variables))
-        toc = time.time()
-        logging.info(f"{datetime.now().strftime(datefmt)} - queryFlowRunSuccessByProject - project_id - took {toc - tic}")
-        flowRuns = listifyFlowRuns(r)
-        queries_total.inc()
-    except ConnectionResetError as err:
-        logging.warning(err)
-        pass
-    except Exception as e:
-        logging.warning(repr(e))
-        raise
-    return flowRuns
+    success = False
+    counter = 0
+    while not success and counter < MAX_RETRY:
+        try:
+            tic = time.time()
+            flowRuns = asyncio.run(client.execute_async(query=query, variables=variables))
+            toc = time.time()
+            logging.info(f"queryFlowRunSuccessByProject - {project_id} - took {toc - tic}")
+            queries_total.inc()
+            success = True
+        except ConnectionResetError as err:
+            if counter >= MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {err}")
+                raise
+            counter += 1
+            logging.warning(f"Connection Reset Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)    
+        except TimeoutError as timeout:
+            if counter > MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {timeout}")
+                raise
+            counter += 1
+            logging.warning(f"Timeout Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)  
+    return flowRuns['data']['flow_run']
 
 
 def querystatusByProject(project_id: str) -> list:
@@ -327,32 +358,41 @@ def querystatusByProject(project_id: str) -> list:
     """
 
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
-    try:
-        tic = time.time()
-        r = asyncio.run(client.execute_async(query=query, variables=variables))
-        toc = time.time()
-        
-        logging.info(f"{datetime.now().strftime(datefmt)} - querystatusByProject - project_id - took {toc - tic}")
-        pendingRuns = (r['data']['Pending']['aggregate']['count'])
-        failedRuns = (r['data']['Failed']['aggregate']['count'])
-        submittedRuns = (r['data']['Submitted']['aggregate']['count'])
-        queuedRuns = (r['data']['Queued']['aggregate']['count'])
-        queries_total.inc()
-    except ConnectionResetError as err:
-        logging.warning(err)
-        pass
-    except Exception as e:
-        logging.warning(repr(e))
-        raise
+    success = False
+    counter = 0
+    while not success and counter < MAX_RETRY:
+        try:
+            tic = time.time()
+            r = asyncio.run(client.execute_async(query=query, variables=variables))
+            toc = time.time()
+            logging.info(f"querystatusByProject - {project_id} - took {toc - tic}")
+            pendingRuns = (r['data']['Pending']['aggregate']['count'])
+            failedRuns = (r['data']['Failed']['aggregate']['count'])
+            submittedRuns = (r['data']['Submitted']['aggregate']['count'])
+            queuedRuns = (r['data']['Queued']['aggregate']['count'])
+            queries_total.inc()
+            success = True
+        except ConnectionResetError as err:
+            if counter >= MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {err}")
+                raise
+            counter += 1
+            logging.warning(f"Connection Reset Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)    
+        except TimeoutError as timeout:
+            if counter > MAX_RETRY:
+                logging.warning(f"Max attempts exceeded. {timeout}")
+                raise
+            counter += 1
+            logging.warning(f"Timeout Error. Retrying connection. Attempt {counter}")
+            time.sleep(TIME_BETWEEN_RETRY)  
     return pendingRuns,failedRuns,submittedRuns,queuedRuns
 
 
 # Updates projectTotal metrics with the label and value of each project queried
 def exportAllProjects(allProjects):
-    count = 0 
     for project in allProjects:
         projectTotal.labels(project['name']).set(1)
-        count += 1
     projectNumber.set(len(allProjects)) 
 
 
@@ -396,19 +436,21 @@ if __name__ == '__main__':
     POLLING_INTERVAL = int(os.environ.get('POLLING_INTERVAL', 30))
     EXPORT_PORT = int(os.environ.get('EXPORT_PORT', 8000))
     GRAPHQL_ENDPOINT = os.environ.get('GRAPHQL_ENDPOINT', "http://127.0.0.1:4200")
-
-    logFormat='%(asctime)s - %(user)-8s %(message)s'
-    logging.basicConfig(format=logFormat)
+    MAX_RETRY = 3
+    TIME_BETWEEN_RETRY = 60
+    logFormat='%(asctime)s - %(message)s'
+    logging.basicConfig(format=logFormat, stream=sys.stderr, level=logging.INFO)
+    logger = logging.getLogger("prefect")
     # Start up the server to expose the metrics.
     start_http_server(EXPORT_PORT)
 
     #Core loop ; retrieve metrics then wait to poll again.
     while True:
         tic_main = time.time()
-        logging.info("Getting all metrics.")
+        logger.info("Getting all metrics.")
         getAllMetrics()
         toc_main = time.time()
-        logging.info("All metrics received.")
-        logging.info(f"Time Elapsed - {toc_main - tic_main}")
-        logging.info(f"Sleeping for {POLLING_INTERVAL}.")
+        logger.info("All metrics received.")
+        logger.info(f"Time Elapsed - {toc_main - tic_main}")
+        logger.info(f"Sleeping for {POLLING_INTERVAL}.")
         time.sleep(POLLING_INTERVAL)
