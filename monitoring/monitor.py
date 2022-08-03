@@ -84,7 +84,7 @@ def queryAllProjects() -> list:
 def queryAllFlows() -> int: 
     query = """
         query Flows {
-            flow {
+            flow (where: {archived: {_eq: false}}){
                 id,
                 flow_group_id,
                 name,
@@ -129,7 +129,7 @@ def queryFlowsByProject(project_id: str) -> list:
 
     query = """
         query Flows ($project_id: uuid!){
-        flow (where: {project_id: {_eq: $project_id}}) {
+        flow (where: {project_id: {_eq: $project_id}}, archived: {_eq: false}}) {
             id,
             flow_group_id,
             name,
@@ -231,13 +231,8 @@ def querystatusByProject(project_id: str) -> list:
 
     queryName = "querystatusByProject"
     r = callQuery(query, queryName, variables)
-    
-    # pendingRuns = r['data']['Pending']['aggregate']['count']
-    # failedRuns = r['data']['Failed']['aggregate']['count']
-    # submittedRuns = r['data']['Submitted']['aggregate']['count']
-    # queuedRuns = r['data']['Queued']['aggregate']['count']
 
-    return r #pendingRuns,failedRuns,submittedRuns,queuedRuns
+    return r
 
 
 # Updates projectTotal metrics with the label and value of each project queried
@@ -284,7 +279,7 @@ def exportflowRunUpcoming(allProjects):
 
 if __name__ == '__main__':
 
-    POLLING_INTERVAL = int(os.environ.get('POLLING_INTERVAL', 30))
+    POLLING_INTERVAL = int(os.environ.get('POLLING_INTERVAL', 300))
     EXPORT_PORT = int(os.environ.get('EXPORT_PORT', 8000))
     GRAPHQL_ENDPOINT = os.environ.get('GRAPHQL_ENDPOINT', "http://127.0.0.1:4200")
     MAX_RETRY = 3
