@@ -38,7 +38,7 @@ This work will be re-factored to support Prefect Orion (Prefect 2.0) which trans
 ## Source Repository
 
 The source location for this content is [PrefectHQ/prefect-recipes](https://github.com/prefecthq/prefect-recipes).
-At the time of writing this, it exists in the branch [prom-monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring)
+At the time of writing this, it exists in the branch [prom-monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring).
 This is a base ‘recipe’ - the expectation is that the helm-chart and docker_setup are modified for each environment (detailed below).
 The directory contains the following:
 
