@@ -155,7 +155,7 @@ service:
   port: **8000**
   targetPort: **8000**
 
-graphqlEndpoint: https://apollo.dev.wip.centaur-platform.com/
+graphqlEndpoint: https://apollo.prefect-installation.com
 ```
 
 This override of `custom_values.yaml` can then be applied:
