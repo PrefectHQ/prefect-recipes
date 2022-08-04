@@ -8,7 +8,7 @@ The Prefect Prometheus Exporter is a containerized Python application. It querie
 
 The implementation looks like this:
 
-![Document systems (2).png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/99319c34-0394-404c-8cad-9f1c2ae23701/Document_systems_(2).png)
+![Document systems (2).png](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/Diagram.png)
 
 ## Requirements
 
@@ -42,7 +42,7 @@ At the time of writing this, it exists in a branch - [https://github.com/Prefect
 This is a base ‘recipe’ - the expectation is that the helm-chart and docker_setup are modified for each environment (detailed below).
 The directory contains the following:
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3d390659-dbe3-4784-aa70-1956d98bb431/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/Tree.png)
 
 - `Dockerfile` is used to build the image.
 - `dashboard.json` is the current Prefect Dashboard as Code - this can be imported to Grafana.
@@ -184,9 +184,9 @@ Alternatively, if the service has an IP address and is exposed (either internall
 
 Once in the Prometheus configuration, you can validate that the exporter is visible by navigating to “Status → Targets”. We can see in the image under “Targets” that prefect-prometheus is **(1/1 up)**, indicating Prometheus is aware and pulling metrics from this configuration.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2a86e0c7-4937-4453-90c5-ced086c91450/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/prometheus.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52758e89-1b51-48e0-84ba-e9de26db6b20/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/prom%20target.png)
 
 ## 5 - Accessing the Grafana Dashboard
 
@@ -201,7 +201,7 @@ Then we can access Grafana on  `[localhost:3000](http://localhost:3000)`. Altern
 
 Logins for Grafana should exist in 1Password. Once logged in, you’ll be presented with a list of recently viewed dashboards. If this is the first time logging in, verify Grafana is pulling in metrics from Prometheus:
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/87b3c94f-9464-4129-a65c-a7343b6dbdde/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20config.png)
 
 ## 6 - Installing Grafana Dashboards
 
@@ -210,7 +210,7 @@ We can install these by selecting the “+” symbol on the page, and selecting 
 
 Imports can be done either by “ID” or by a URL.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8bfdb45a-71a4-456b-b900-649e1c3ee0ba/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20import.png)
 
 A few that I have found useful and find relevant and beneficial are (with their import ID):
 
@@ -229,7 +229,7 @@ The `dashboard.json` included in the Github repository is the json representatio
 
 At the time of writing, the dashboard appears as follows. Note that both the metrics and dashboard can be customized to your preference, so this is only a current representation for documentation purposes.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/73b5a853-ae02-41ae-8ff4-e24c353b89d6/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20dashboard.png)
 
 ## 8 - Interpreting the Prefect Dashboard
 
