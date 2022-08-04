@@ -178,7 +178,7 @@ Access the Prometheus service by either port-forwarding directly into the cluste
 kubectl port-forward services/prometheus-kube-prometheus-prometheus 9090:9090 -n prometheus
 ```
 
-You can then access the page via `localhost:9090`.
+You can then access the page via [localhost:9090](http://localhost:9090).
 
 Alternatively, if the service has an IP address and is exposed (either internally or externally) you can access that *ip:port* address directly.
 
@@ -197,7 +197,7 @@ This is identical to Step 4. Here we are substituting the Prometheus Service and
 kubectl port-forward services/prometheus-grafana 3000:3000 -n prometheus
 ```
 
-Then we can access Grafana on  `[localhost:3000](http://localhost:3000)`. Alternatively, we can reach the endpoint directly through `ip:port`.
+Then we can access Grafana on  [localhost:3000](http://localhost:3000). Alternatively, we can reach the endpoint directly through `ip:port`.
 
 Logins for Grafana should exist in 1Password. Once logged in, you’ll be presented with a list of recently viewed dashboards. If this is the first time logging in, verify Grafana is pulling in metrics from Prometheus:
 
