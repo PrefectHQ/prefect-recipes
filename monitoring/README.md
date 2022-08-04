@@ -114,10 +114,10 @@ Describing items listed above that need changing.
 - `Tag` should reflect the tag created for the image in Step 1.
 - `port` can be left as default if desired. This is the port Prometheus will scrape against.
 - `targetPort` Can be left as default if desired. This is the container port that is exposed. A connection to :port will map to :targetPort.
-- `GraphQLEndpoint` is a URL or IP address to access your Prefect instance. The Ingress for this service (and a viable configuration) is:
+- `GraphQLEndpoint` is a URL or IP address to access your Prefect instance - this is typically how you access your UI:
 
 ```yaml
-graphqlEndpoint: https://apollo.dev.wip.centaur-platform.com/
+graphqlEndpoint: https://apollo.prefect-installation.com
 ```
 
 ## 3 - Installing the Helm Chart
