@@ -14,7 +14,7 @@ The implementation looks like this:
 
 To successfully implement and configure the Prefect-Prometheus-Exporter, the following are required:
 
-- Prometheus-Operator - [https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+- [Prometheus-Operator](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 - Prefect Server / Prefect Cloud endpoint is accessible
 - Helm
 - Public / Private Container Registry
@@ -37,8 +37,8 @@ This work will be re-factored to support Prefect Orion (Prefect 2.0) which trans
 
 ## Source Repository
 
-The source location for this content is [https://github.com/prefecthq/prefect-recipes](https://github.com/prefecthq/prefect-recipes).
-At the time of writing this, it exists in a branch - [https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring)
+The source location for this content is [PrefectHQ/prefect-recipes](https://github.com/prefecthq/prefect-recipes).
+At the time of writing this, it exists in the branch [prom-monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring)
 This is a base ‘recipe’ - the expectation is that the helm-chart and docker_setup are modified for each environment (detailed below).
 The directory contains the following:
 
