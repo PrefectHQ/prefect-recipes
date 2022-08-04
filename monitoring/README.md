@@ -58,7 +58,7 @@ Steps below are displayed to build the container. In this set of instructions, I
 
 <aside>
 💡 The registry should be replaced with your in-house / organizational container registry.
-It is possible that this image will be officially published on the PrefectHQ Docker Hub, but is not at this time. Items that are expected to be customized will be **underlined and bold.**
+It is possible that this image will be officially published on the PrefectHQ Docker Hub, but is not at this time. Items that are expected to be customized will be marked **bold**
 
 </aside>
 
