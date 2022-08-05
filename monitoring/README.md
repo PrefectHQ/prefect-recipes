@@ -229,7 +229,7 @@ The `dashboard.json` included in the Github repository is the json representatio
 
 At the time of writing, the dashboard appears as follows. Note that both the metrics and dashboard can be customized to your preference, so this is only a current representation for documentation purposes.
 
-![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20dashboard.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana_dashboard.png)
 
 ## 8 - Interpreting the Prefect Dashboard
 
