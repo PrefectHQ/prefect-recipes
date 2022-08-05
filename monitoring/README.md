@@ -236,14 +236,14 @@ At the time of writing, the dashboard appears as follows. Note that both the met
 This description should be expected to change as the dashboard and metrics are modified.
 The description summary below uses the current dashboard represented above:
 
-- `Flow Run Percent Success by Project` is a dynamic panel based on number of projects. The value is simple `Flow Runs Success / Flow Run Total` per project.
+- `Flow Run Percent Success by Project` is a dynamic panel based on number of projects. The value is `Flow Runs Success / Flow Run Total` per project. The thresholds are 0-60% = RED 61%-95% = YELLOW 96-100% = GREEN
 - `Upcoming Flows` is a query that aggregates all flows based on the `Scheduled` state. This metric is returned by default from the exporter every 300 seconds.
 - `Active Flow Running` is an aggregate of all flows currently in the `Running` state.
 This metric is returned by default from the exporter every 300 seconds.
-- `Flows Success Rate` is quite simply a measure of all `Successful Runs` / `All Runs`. This is not specific per project or flow, it is just a barometer of overall success rate.
-- `Failed Flow Rate` is a numbered count of the failed flows in the last X time period.
+- `Success Flow Rate` is an aggregate measure of all projects `Successful Runs` / `All Runs`. This is not specific per project or flow, it is just a barometer of overall success rate.
+- `Failed Flow Rate` is the total number of failed Flows by project over the selected timespan. Any failed number over 0 is depicted in RED.
 - `Flows Per Hour` reports the flow runs that are successful over time. As flows are successful or failed, they are displayed here with the associated time stamp.
-- `Flows Run Success` is a ratio measure of the previous graph. This shows the ratio of successful flow runs to failed flow runs in a time format. In another way, if 6 flows are successful at 10:00am, the ratio is 1 (all success). If 3 flows are successful at 10:00am, and 3 flows are failed at 10:00am, the ratio is .5 (50% success). This is intended to be a check on flow success with relation to time, as opposed to the gauges which are an overall collective measure of success.
+- `Flows Run Success` is a line chart depicting success rate by project over time. `Flow Run Percent Success by Project` shows the most up-to-date calculation with a quick glance. This chart shows the trending behavior by project over time.
 - `Flow Count` is a simple graph depicting the number of registered flows across time and project. As flows are registered or deprecated in a project, this displays that total. This can help determine larger project counts, and narrow focus.
 - `Total Flow Run Count` is intended to be a state per project, by status (Running, Scheduled, Upcoming, etc.). This ended up being a very noisy graph across projects and states, so is currently welcome to suggestion of what additional visibility would be useful.
 
