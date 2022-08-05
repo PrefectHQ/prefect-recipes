@@ -8,13 +8,13 @@ The Prefect Prometheus Exporter is a containerized Python application. It querie
 
 The implementation looks like this:
 
-![Document systems (2).png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/99319c34-0394-404c-8cad-9f1c2ae23701/Document_systems_(2).png)
+![Document systems (2).png](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/Diagram.png)
 
 ## Requirements
 
 To successfully implement and configure the Prefect-Prometheus-Exporter, the following are required:
 
-- Prometheus-Operator - [https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+- [Prometheus-Operator](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 - Prefect Server / Prefect Cloud endpoint is accessible
 - Helm
 - Public / Private Container Registry
@@ -37,12 +37,12 @@ This work will be re-factored to support Prefect Orion (Prefect 2.0) which trans
 
 ## Source Repository
 
-The source location for this content is [https://github.com/prefecthq/prefect-recipes](https://github.com/prefecthq/prefect-recipes).
-At the time of writing this, it exists in a branch - [https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring)
+The source location for this content is [PrefectHQ/prefect-recipes](https://github.com/prefecthq/prefect-recipes).
+At the time of writing this, it exists in the branch [prom-monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring).
 This is a base ‘recipe’ - the expectation is that the helm-chart and docker_setup are modified for each environment (detailed below).
 The directory contains the following:
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3d390659-dbe3-4784-aa70-1956d98bb431/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/Tree.png)
 
 - `Dockerfile` is used to build the image.
 - `dashboard.json` is the current Prefect Dashboard as Code - this can be imported to Grafana.
@@ -58,7 +58,7 @@ Steps below are displayed to build the container. In this set of instructions, I
 
 <aside>
 💡 The registry should be replaced with your in-house / organizational container registry.
-It is possible that this image will be officially published on the PrefectHQ Docker Hub, but is not at this time. Items that are expected to be customized will be **underlined and bold.**
+It is possible that this image will be officially published on the PrefectHQ Docker Hub, but is not at this time. Items that are expected to be customized will be marked **bold**
 
 </aside>
 
@@ -114,10 +114,10 @@ Describing items listed above that need changing.
 - `Tag` should reflect the tag created for the image in Step 1.
 - `port` can be left as default if desired. This is the port Prometheus will scrape against.
 - `targetPort` Can be left as default if desired. This is the container port that is exposed. A connection to :port will map to :targetPort.
-- `GraphQLEndpoint` is a URL or IP address to access your Prefect instance. The Ingress for this service (and a viable configuration) is:
+- `GraphQLEndpoint` is a URL or IP address to access your Prefect instance - this is typically how you access your UI:
 
 ```yaml
-graphqlEndpoint: https://apollo.dev.wip.centaur-platform.com/
+graphqlEndpoint: https://apollo.prefect-installation.com
 ```
 
 ## 3 - Installing the Helm Chart
@@ -155,7 +155,7 @@ service:
   port: **8000**
   targetPort: **8000**
 
-graphqlEndpoint: https://apollo.dev.wip.centaur-platform.com/
+graphqlEndpoint: https://apollo.prefect-installation.com
 ```
 
 This override of `custom_values.yaml` can then be applied:
@@ -178,15 +178,15 @@ Access the Prometheus service by either port-forwarding directly into the cluste
 kubectl port-forward services/prometheus-kube-prometheus-prometheus 9090:9090 -n prometheus
 ```
 
-You can then access the page via `localhost:9090`.
+You can then access the page via [localhost:9090](http://localhost:9090).
 
 Alternatively, if the service has an IP address and is exposed (either internally or externally) you can access that *ip:port* address directly.
 
 Once in the Prometheus configuration, you can validate that the exporter is visible by navigating to “Status → Targets”. We can see in the image under “Targets” that prefect-prometheus is **(1/1 up)**, indicating Prometheus is aware and pulling metrics from this configuration.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2a86e0c7-4937-4453-90c5-ced086c91450/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/prometheus.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52758e89-1b51-48e0-84ba-e9de26db6b20/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/prom%20target.png)
 
 ## 5 - Accessing the Grafana Dashboard
 
@@ -197,11 +197,11 @@ This is identical to Step 4. Here we are substituting the Prometheus Service and
 kubectl port-forward services/prometheus-grafana 3000:3000 -n prometheus
 ```
 
-Then we can access Grafana on  `[localhost:3000](http://localhost:3000)`. Alternatively, we can reach the endpoint directly through `ip:port`.
+Then we can access Grafana on  [localhost:3000](http://localhost:3000). Alternatively, we can reach the endpoint directly through `ip:port`.
 
 Logins for Grafana should exist in 1Password. Once logged in, you’ll be presented with a list of recently viewed dashboards. If this is the first time logging in, verify Grafana is pulling in metrics from Prometheus:
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/87b3c94f-9464-4129-a65c-a7343b6dbdde/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20config.png)
 
 ## 6 - Installing Grafana Dashboards
 
@@ -210,7 +210,7 @@ We can install these by selecting the “+” symbol on the page, and selecting 
 
 Imports can be done either by “ID” or by a URL.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8bfdb45a-71a4-456b-b900-649e1c3ee0ba/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20import.png)
 
 A few that I have found useful and find relevant and beneficial are (with their import ID):
 
@@ -229,21 +229,21 @@ The `dashboard.json` included in the Github repository is the json representatio
 
 At the time of writing, the dashboard appears as follows. Note that both the metrics and dashboard can be customized to your preference, so this is only a current representation for documentation purposes.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/73b5a853-ae02-41ae-8ff4-e24c353b89d6/Untitled.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20dashboard.png)
 
 ## 8 - Interpreting the Prefect Dashboard
 
 This description should be expected to change as the dashboard and metrics are modified.
 The description summary below uses the current dashboard represented above:
 
-- `Flow Run Percent Success by Project` is a dynamic panel based on number of projects. The value is simple `Flow Runs Success / Flow Run Total` per project.
+- `Flow Run Percent Success by Project` is a dynamic panel based on number of projects. The value is `Flow Runs Success / Flow Run Total` per project. The thresholds are 0-60% = RED 61%-95% = YELLOW 96-100% = GREEN
 - `Upcoming Flows` is a query that aggregates all flows based on the `Scheduled` state. This metric is returned by default from the exporter every 300 seconds.
 - `Active Flow Running` is an aggregate of all flows currently in the `Running` state.
 This metric is returned by default from the exporter every 300 seconds.
-- `Flows Success Rate` is quite simply a measure of all `Successful Runs` / `All Runs`. This is not specific per project or flow, it is just a barometer of overall success rate.
-- `Failed Flow Rate` is a numbered count of the failed flows in the last X time period.
+- `Success Flow Rate` is an aggregate measure of all projects `Successful Runs` / `All Runs`. This is not specific per project or flow, it is just a barometer of overall success rate.
+- `Failed Flow Rate` is the total number of failed Flows by project over the selected timespan. Any failed number over 0 is depicted in RED.
 - `Flows Per Hour` reports the flow runs that are successful over time. As flows are successful or failed, they are displayed here with the associated time stamp.
-- `Flows Run Success` is a ratio measure of the previous graph. This shows the ratio of successful flow runs to failed flow runs in a time format. In another way, if 6 flows are successful at 10:00am, the ratio is 1 (all success). If 3 flows are successful at 10:00am, and 3 flows are failed at 10:00am, the ratio is .5 (50% success). This is intended to be a check on flow success with relation to time, as opposed to the gauges which are an overall collective measure of success.
+- `Flows Run Success` is a line chart depicting success rate by project over time. `Flow Run Percent Success by Project` shows the most up-to-date calculation with a quick glance. This chart shows the trending behavior by project over time.
 - `Flow Count` is a simple graph depicting the number of registered flows across time and project. As flows are registered or deprecated in a project, this displays that total. This can help determine larger project counts, and narrow focus.
 - `Total Flow Run Count` is intended to be a state per project, by status (Running, Scheduled, Upcoming, etc.). This ended up being a very noisy graph across projects and states, so is currently welcome to suggestion of what additional visibility would be useful.
 
