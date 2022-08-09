@@ -129,8 +129,13 @@ def queryFlowsByProject(project_id: str) -> list:
 
     query = """
         query Flows ($project_id: uuid!){
-        flow (where: {project_id: {_eq: $project_id}}, archived: {_eq: false}}) {
-            id,
+        flow (where: 
+            { _and: [
+                {project_id: {_eq: $project_id}}, 
+                {archived: {_eq: false}} ] 
+            })
+            {
+            id
             flow_group_id,
             name,
             project_id,
