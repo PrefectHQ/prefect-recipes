@@ -1,0 +1,47 @@
+{
+    "family": "prefect-agent",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "512",
+    "memory": "1024",
+    "taskRoleArn": "arn:aws:iam::<>:role/prefectTaskRole",
+    "executionRoleArn": "arn:aws:iam::<>:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "name": "prefect-agent",
+            "image": "prefecthq/prefect:2-latest",
+            "essential": true,
+            "command": [
+                "prefect",
+                "agent",
+                "start",
+                "<WORK_QUUE_ID>"
+            ],
+            "environment": [
+                {
+                    "name": "PREFECT_API_KEY",
+                    "value": "<your-key>"
+                },
+                {
+                    "name": "PREFECT_API_URL",
+                    "value": "https://api.prefect.cloud/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]"
+                },
+                {
+                    "name": "PREFECT_LOGGING_LEVEL",
+                    "value": "INFO"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/prefect-agent",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs",
+                    "awslogs-create-group": "true"
+                }
+            }
+        }
+    ]
+}
