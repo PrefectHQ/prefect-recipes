@@ -1,6 +1,0 @@
-[cloud]
-use_local_secrets = false
-
-[context.secrets]
-sample_key1 = "sample_value1"
-sample_key2 = "sample_value2"
