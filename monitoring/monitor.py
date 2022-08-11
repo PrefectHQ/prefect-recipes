@@ -8,23 +8,62 @@ from python_graphql_client import GraphqlClient
 
 
 # Project Variables
-projectNumber = Gauge('project_number', 'Total count of all Prefect Projects')
-projectTotal = Gauge('prefect_projects', 'Number of Projects by Name',['name'])
+projectNumber = Gauge("project_number", "Total count of all Prefect Projects")
+projectTotal = Gauge("prefect_projects", "Number of Projects by Name", ["name"])
 
 # Flow Variables
-flowTotal = Gauge('prefect_flows', 'Total of All Flows, All Projects')
-flowProjectTotal = Gauge('prefect_flows_by_project', 'Number of Flows by Project Name',['project_id', 'project_name'])
-flowRunTotal = Gauge('prefect_flowruns_total', 'Number of total flow runs by flow ID', ['project_id', 'project_name'])
-flowRunTotalSuccess = Gauge('prefect_flowruns_success', 'Number of successful flow runs by Project', ['project_id', 'project_name'])
-flowRunPending = Gauge('prefect_flowruns_pending', 'Number of pending flow runs by Project', ['project_id', 'project_name'])
-flowRunFailed = Gauge('prefect_flowruns_failed', 'Number of Failed flow runs by Project', ['project_id', 'project_name'])
-flowRunRunning = Gauge('prefect_flowruns_running', 'Number of running flow runs by Project', ['project_id', 'project_name'])
-flowRunUpcoming = Gauge('prefect_flowruns_upcoming', 'Number of Upcoming flow runs by Project', ['project_id', 'project_name'])
-flowRunQueued = Gauge('prefect_flowruns_queued', 'Number of queued flow runs by Project', ['project_id', 'project_name'])
-flowRunSubmitted = Gauge('prefect_flowruns_submitted', 'Number of submitted flow runs by Project', ['project_id', 'project_name'])
-queries_total = Counter('prefect_graphql_queries', 'Number of queries submitted to GraphQL for monitoring') 
+flowTotal = Gauge("prefect_flows", "Total of All Flows, All Projects")
+flowProjectTotal = Gauge(
+    "prefect_flows_by_project",
+    "Number of Flows by Project Name",
+    ["project_id", "project_name"],
+)
+flowRunTotal = Gauge(
+    "prefect_flowruns_total",
+    "Number of total flow runs by flow ID",
+    ["project_id", "project_name"],
+)
+flowRunTotalSuccess = Gauge(
+    "prefect_flowruns_success",
+    "Number of successful flow runs by Project",
+    ["project_id", "project_name"],
+)
+flowRunPending = Gauge(
+    "prefect_flowruns_pending",
+    "Number of pending flow runs by Project",
+    ["project_id", "project_name"],
+)
+flowRunFailed = Gauge(
+    "prefect_flowruns_failed",
+    "Number of Failed flow runs by Project",
+    ["project_id", "project_name"],
+)
+flowRunRunning = Gauge(
+    "prefect_flowruns_running",
+    "Number of running flow runs by Project",
+    ["project_id", "project_name"],
+)
+flowRunUpcoming = Gauge(
+    "prefect_flowruns_upcoming",
+    "Number of Upcoming flow runs by Project",
+    ["project_id", "project_name"],
+)
+flowRunQueued = Gauge(
+    "prefect_flowruns_queued",
+    "Number of queued flow runs by Project",
+    ["project_id", "project_name"],
+)
+flowRunSubmitted = Gauge(
+    "prefect_flowruns_submitted",
+    "Number of submitted flow runs by Project",
+    ["project_id", "project_name"],
+)
+queries_total = Counter(
+    "prefect_graphql_queries", "Number of queries submitted to GraphQL for monitoring"
+)
 # Main loop retrieves exports all metrics
 # Each export queries GraphQL, extracts relevant info, and exports to a metrics
+
 
 def getAllMetrics():
     allProjects = queryAllProjects()
@@ -37,7 +76,7 @@ def getAllMetrics():
     exportflowRunUpcoming(allProjects)
 
 
-def callQuery(query: str, queryName: str, variables: dict=None) -> object:
+def callQuery(query: str, queryName: str, variables: dict = None) -> object:
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
     success = False
     counter = 0
@@ -51,14 +90,16 @@ def callQuery(query: str, queryName: str, variables: dict=None) -> object:
             if variables is None:
                 logging.info(f"{queryName} took {toc - tic}")
             else:
-                logging.info(f"{queryName} - {variables['project_id']} - took {toc - tic}")
+                logging.info(
+                    f"{queryName} - {variables['project_id']} - took {toc - tic}"
+                )
         except (ConnectionResetError, TimeoutError) as err:
             if counter >= MAX_RETRY:
                 logging.warning(f"Max attempts exceeded. {err}")
                 raise
             counter += 1
             logging.warning(f"{err} - Retrying connection. Attempt {counter}")
-            time.sleep(TIME_BETWEEN_RETRY)            
+            time.sleep(TIME_BETWEEN_RETRY)
         except Exception as e:
             logging.warning(repr(e))
             raise
@@ -66,7 +107,7 @@ def callQuery(query: str, queryName: str, variables: dict=None) -> object:
 
 
 # Queries GraphQL for all projects. Query returns a json object, which is passed to listify.
-def queryAllProjects() -> list: 
+def queryAllProjects() -> list:
     query = """
     query Projects {
         project {
@@ -78,10 +119,10 @@ def queryAllProjects() -> list:
     """
     queryName = "queryAllProjects"
     projectList = callQuery(query, queryName)
-    return projectList['data']['project']
+    return projectList["data"]["project"]
 
 
-def queryAllFlows() -> int: 
+def queryAllFlows() -> int:
     query = """
         query Flows {
             flow (where: {archived: {_eq: false}}){
@@ -96,12 +137,11 @@ def queryAllFlows() -> int:
 
     queryName = "queryAllFlows"
     r = callQuery(query, queryName)
-    return len(r['data']['flow'])
+    return len(r["data"]["flow"])
 
-def queryUpcomingFlowRuns(project_id: str) -> list: 
-    variables = {
-        "project_id": project_id
-    }
+
+def queryUpcomingFlowRuns(project_id: str) -> list:
+    variables = {"project_id": project_id}
 
     query = """
     query UpcomingFlowRuns($project_id: uuid) {
@@ -119,13 +159,12 @@ def queryUpcomingFlowRuns(project_id: str) -> list:
 
     queryName = "queryUpcomingFlowRuns"
     flowRunsUpcoming = callQuery(query, queryName, variables)
-    return flowRunsUpcoming['data']['flow_run']
+    return flowRunsUpcoming["data"]["flow_run"]
+
 
 # Returns all active flows in the listed project_id
-def queryFlowsByProject(project_id: str) -> list: 
-    variables = {
-        "project_id": project_id
-    }
+def queryFlowsByProject(project_id: str) -> list:
+    variables = {"project_id": project_id}
 
     query = """
         query Flows ($project_id: uuid!){
@@ -145,14 +184,12 @@ def queryFlowsByProject(project_id: str) -> list:
     """
 
     queryName = "queryFlowsByProject"
-    projectFlows = callQuery(query, queryName, variables) 
-    return projectFlows['data']['flow']
+    projectFlows = callQuery(query, queryName, variables)
+    return projectFlows["data"]["flow"]
 
 
-def queryFlowRunTotalByProject(project_id: str) -> list: 
-    variables = {
-        "project_id": project_id
-    }
+def queryFlowRunTotalByProject(project_id: str) -> list:
+    variables = {"project_id": project_id}
 
     query = """
     query TotalFlowRuns($project_id: uuid) {
@@ -166,13 +203,11 @@ def queryFlowRunTotalByProject(project_id: str) -> list:
 
     queryName = "queryFlowRunTotalByProject"
     flowRuns = callQuery(query, queryName, variables)
-    return flowRuns['data']['flow_run']
+    return flowRuns["data"]["flow_run"]
 
 
-def queryFlowRunSuccessByProject(project_id: str) -> list: 
-    variables = {
-        "project_id": project_id
-    }
+def queryFlowRunSuccessByProject(project_id: str) -> list:
+    variables = {"project_id": project_id}
 
     query = """
     query TotalFlowRuns($project_id: uuid) {
@@ -186,13 +221,11 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
 
     queryName = "queryFlowRunSuccessByProject"
     flowRuns = callQuery(query, queryName, variables)
-    return flowRuns['data']['flow_run']
+    return flowRuns["data"]["flow_run"]
 
 
 def querystatusByProject(project_id: str) -> list:
-    variables = {
-        "project_id": project_id
-    }
+    variables = {"project_id": project_id}
 
     query = """
     query FlowRuns($project_id: uuid, $heartbeat: timestamptz) {
@@ -243,59 +276,73 @@ def querystatusByProject(project_id: str) -> list:
 # Updates projectTotal metrics with the label and value of each project queried
 def exportAllProjects(allProjects):
     for project in allProjects:
-        projectTotal.labels(project['name']).set(1)
-    projectNumber.set(len(allProjects)) 
+        projectTotal.labels(project["name"]).set(1)
+    projectNumber.set(len(allProjects))
 
 
 # Sets and exports all flow totals across all projects
 def exportAllFlows():
     flowTotal.set(queryAllFlows())
 
-#Updates projectTotal metrics with the label and value of each project queried
+
+# Updates projectTotal metrics with the label and value of each project queried
 def exportFlowsByProject(allProjects):
     for project in allProjects:
-        project_Flows = queryFlowsByProject(project['id'])
-        flowProjectTotal.labels(project['id'], project['name']).set(len(project_Flows))
+        project_Flows = queryFlowsByProject(project["id"])
+        flowProjectTotal.labels(project["id"], project["name"]).set(len(project_Flows))
+
 
 def exportFlowRunTotal(allProjects):
     for project in allProjects:
-        project_Flows = queryFlowRunTotalByProject(project['id'])
-        flowRunTotal.labels(project['id'], project['name']).set(len(project_Flows))
+        project_Flows = queryFlowRunTotalByProject(project["id"])
+        flowRunTotal.labels(project["id"], project["name"]).set(len(project_Flows))
+
 
 def exportFlowRunSuccess(allProjects):
     for project in allProjects:
-        project_Flows = queryFlowRunSuccessByProject(project['id'])
-        flowRunTotalSuccess.labels(project['id'], project['name']).set(len(project_Flows))
+        project_Flows = queryFlowRunSuccessByProject(project["id"])
+        flowRunTotalSuccess.labels(project["id"], project["name"]).set(
+            len(project_Flows)
+        )
+
 
 def exportFlowStatus(allProjects):
     for project in allProjects:
-        r = querystatusByProject(project['id'])
-        flowRunPending.labels(project['id'], project['name']).set(r['data']['Pending']['aggregate']['count'])
-        flowRunFailed.labels(project['id'], project['name']).set(r['data']['Failed']['aggregate']['count'])
-        flowRunQueued.labels(project['id'], project['name']).set(r['data']['Queued']['aggregate']['count'])
-        flowRunSubmitted.labels(project['id'], project['name']).set(r['data']['Submitted']['aggregate']['count'])
+        r = querystatusByProject(project["id"])
+        flowRunPending.labels(project["id"], project["name"]).set(
+            r["data"]["Pending"]["aggregate"]["count"]
+        )
+        flowRunFailed.labels(project["id"], project["name"]).set(
+            r["data"]["Failed"]["aggregate"]["count"]
+        )
+        flowRunQueued.labels(project["id"], project["name"]).set(
+            r["data"]["Queued"]["aggregate"]["count"]
+        )
+        flowRunSubmitted.labels(project["id"], project["name"]).set(
+            r["data"]["Submitted"]["aggregate"]["count"]
+        )
 
 
 def exportflowRunUpcoming(allProjects):
     for project in allProjects:
-        project_Flows = queryUpcomingFlowRuns(project['id'])
-        flowRunUpcoming.labels(project['id'], project['name']).set(len(project_Flows))
+        project_Flows = queryUpcomingFlowRuns(project["id"])
+        flowRunUpcoming.labels(project["id"], project["name"]).set(len(project_Flows))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
-    POLLING_INTERVAL = int(os.environ.get('POLLING_INTERVAL', 300))
-    EXPORT_PORT = int(os.environ.get('EXPORT_PORT', 8000))
-    GRAPHQL_ENDPOINT = os.environ.get('GRAPHQL_ENDPOINT', "http://127.0.0.1:4200")
+    POLLING_INTERVAL = int(os.environ.get("POLLING_INTERVAL", 300))
+    EXPORT_PORT = int(os.environ.get("EXPORT_PORT", 8000))
+    GRAPHQL_ENDPOINT = os.environ.get("GRAPHQL_ENDPOINT", "http://127.0.0.1:4200")
     MAX_RETRY = 3
     TIME_BETWEEN_RETRY = 60
-    logFormat='%(asctime)s - %(message)s'
+    logFormat = "%(asctime)s - %(message)s"
     logging.basicConfig(format=logFormat, stream=sys.stderr, level=logging.INFO)
     logger = logging.getLogger("prefect")
     # Start up the server to expose the metrics.
     start_http_server(EXPORT_PORT)
 
-    #Core loop ; retrieve metrics then wait to poll again.
+    # Core loop ; retrieve metrics then wait to poll again.
     while True:
         tic_main = time.time()
         logger.info("Getting all metrics.")
@@ -305,5 +352,3 @@ if __name__ == '__main__':
         logger.info(f"Time Elapsed - {toc_main - tic_main}")
         logger.info(f"Sleeping for {POLLING_INTERVAL}.")
         time.sleep(POLLING_INTERVAL)
-
-
