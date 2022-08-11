@@ -117,7 +117,10 @@ Describing items listed above that need changing.
 - `GraphQLEndpoint` is a URL or IP address to access your Prefect instance - this is typically how you access your UI:
 
 ```yaml
-graphqlEndpoint: https://apollo.prefect-installation.com
+# To access the pod internal DNS name. 
+prefect-server-apollo is the name of the pod
+.prefect is the namespace the pod resides in
+graphqlEndpoint: http://prefect-server-apollo.prefect:4200/
 ```
 
 ## 3 - Installing the Helm Chart
