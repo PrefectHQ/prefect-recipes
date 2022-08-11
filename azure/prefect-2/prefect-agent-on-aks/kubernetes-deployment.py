@@ -1,5 +1,5 @@
 from prefect import flow, get_run_logger
-from prefect.deployments import DeploymentSpec
+from prefect.deployments import Deployment
 from prefect.flow_runners import KubernetesFlowRunner
 
 
@@ -9,6 +9,8 @@ def my_kubernetes_flow():
     logger.info("Hello from Kubernetes!")
 
 
-DeploymentSpec(
-    name="k8s-example", flow=my_kubernetes_flow, flow_runner=KubernetesFlowRunner()
+Deployment(
+    name="k8s-example-deployment",
+    flow=my_kubernetes_flow,
+    flow_runner=KubernetesFlowRunner(),
 )
