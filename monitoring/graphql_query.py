@@ -3,7 +3,8 @@ import os
 import asyncio
 
 default_endpoint = "http://127.0.0.1:4200"
-GRAPHQL_ENDPOINT = os.environ.get('GRAPHQL_ENDPOINT', default_endpoint)
+GRAPHQL_ENDPOINT = os.environ.get("GRAPHQL_ENDPOINT", default_endpoint)
+
 
 def query_Projects():
     query = """
@@ -18,15 +19,13 @@ def query_Projects():
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
 
     r = asyncio.run(client.execute_async(query=query))
-    print (r)
+    print(r)
 
 
 # Requires project_id passed in
-def queryFlowsByProject(project_id: str) -> list: 
+def queryFlowsByProject(project_id: str) -> list:
 
-    variables = {
-        "projectId": project_id
-    }
+    variables = {"projectId": project_id}
 
     flow_by_project_query = """
         query Flows ($projectId: uuid!){
@@ -41,8 +40,11 @@ def queryFlowsByProject(project_id: str) -> list:
     """
     client = GraphqlClient(endpoint=GRAPHQL_ENDPOINT)
 
-    r = asyncio.run(client.execute_async(query=flow_by_project_query, variables=variables))
-    print (r)
+    r = asyncio.run(
+        client.execute_async(query=flow_by_project_query, variables=variables)
+    )
+    print(r)
+
 
 project_ID = ""
 query_Projects()
