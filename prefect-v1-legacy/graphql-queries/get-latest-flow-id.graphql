@@ -1,0 +1,14 @@
+#This query returns information on the latest flow runs from a specific flow
+
+query GetLatestFlowId {
+  flow (where: {id: {_eq: "flow-id"}}) {
+    id
+    name
+    flow_runs (order_by: {start_time:desc},
+               limit:1){
+      id
+      name
+      start_time
+    }
+  }
+}
