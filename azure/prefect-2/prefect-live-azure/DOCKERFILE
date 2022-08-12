@@ -1,0 +1,2 @@
+FROM prefecthq/prefect:2.0.4-python3.9
+RUN pip install adlfs
