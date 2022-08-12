@@ -1,0 +1,7 @@
+export IMAGE_REGISTRY="chaboy"
+export PROJECT_NAME="prefect-azure-3.9"
+export PROJECT_VERSION="latest"
+
+echo "$IMAGE_REGISTRY/$PROJECT_NAME:$PROJECT_VERSION"
+docker build --platform=linux/amd64 -t "$IMAGE_REGISTRY/$PROJECT_NAME:$PROJECT_VERSION" -f ./DOCKERFILE .
+docker push "$IMAGE_REGISTRY/$PROJECT_NAME:$PROJECT_VERSION"
