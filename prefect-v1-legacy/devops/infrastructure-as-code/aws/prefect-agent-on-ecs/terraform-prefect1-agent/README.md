@@ -30,7 +30,7 @@ module "prefect_agent" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.25.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.26.0 |
 
 ## Modules
 
