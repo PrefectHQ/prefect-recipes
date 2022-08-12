@@ -3,6 +3,13 @@ flows-advanced/ @gabcoyne @robfreedy @serinamarie @zzstoatzz
 flows-starter/ @gabcoyne @robfreedy @serinamarie  @zzstoatzz
 devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
 devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd
+imgs/ @gabcoyne @robfreedy
+README.md @serinamarie @zzstoatzz
+setup.cfg @gabcoyne @jamiedick
+video-demos/ @gabcoyne @prefectcboyd @robfreedy @serinamarie
+.gitignore @gabcoyne @zzstoatzz
+.pre-commit-config.yaml @gabcoyne @jamiedick 
+.terraform-docs.yaml  @gabcoyne @jamiedick @prefectcboyd
 
 # Prefect < 2.0 folders are unlikely to see additions/mods
 prefect-v1-legacy/devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
