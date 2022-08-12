@@ -1,1 +1,11 @@
-* @jamiedick @zzstoatzz @gabcoyne @prefectcboyd @robfreedy @serinamarie
+# Prefect 2.0
+flows-advanced/ @gabcoyne @robfreedy @serinamarie @zzstoatzz
+flows-starter/ @gabcoyne @robfreedy @serinamarie  @zzstoatzz
+devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
+devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd
+
+# Prefect < 2.0 folders are unlikely to see additions/mods
+prefect-v1-legacy/devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
+prefect-v1-legacy/devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd @robfreedy
+prefect-v1-legacy/graphql-queries/ @prefectcboyd @robfreedy
+prefect-v1-legacy/use-cases/ @gabcoyne @serinamarie @zzstoatzz
