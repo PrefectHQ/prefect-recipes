@@ -1,4 +1,7 @@
 # Prefect 2.0
+.github/workflows/codeql.yml @robfreedy @zzstoatzz
+.github/workflows/python.yml @gabcoyne @serinamarie @zzstoatzz
+.github/workflows/terraform-action.yml @gabcoyne @jamiedick @prefectcboyd
 flows-advanced/ @gabcoyne @robfreedy @serinamarie @zzstoatzz
 flows-starter/ @gabcoyne @robfreedy @serinamarie  @zzstoatzz
 devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
