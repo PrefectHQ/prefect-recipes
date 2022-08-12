@@ -15,6 +15,7 @@ video-demos/ @gabcoyne @prefectcboyd @robfreedy @serinamarie
 .gitignore @gabcoyne @zzstoatzz
 .pre-commit-config.yaml @gabcoyne @jamiedick 
 .terraform-docs.yaml  @gabcoyne @jamiedick @prefectcboyd
+# .github/CODEOWNERS change will still alert all
 
 # Legacy: Prefect < 2.0 folders are unlikely to see additions/mods
 prefect-v1-legacy/devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
