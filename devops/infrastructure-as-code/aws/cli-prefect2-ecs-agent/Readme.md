@@ -24,7 +24,7 @@ This recipe will walk you through the process to create a Prefect Agent using th
     ```
     aws ecs register-task-definition --cli-input-json file://<full_path_to_task_definition_file>/prefect-agent-td.json
     ```
-5. Create a service from your task definition, taking care to fill in any network-configuration:
+5. [Create a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-service.html) from your task definition, taking care to fill in any network-configuration:
     ```
     aws ecs create-service
     --service-name prefect-agent \
