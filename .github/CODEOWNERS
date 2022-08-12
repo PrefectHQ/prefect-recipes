@@ -1,11 +1,13 @@
 # Prefect 2.0
-.github/workflows/codeql.yml @robfreedy @zzstoatzz
-.github/workflows/python.yml @gabcoyne @serinamarie @zzstoatzz
-.github/workflows/terraform-action.yml @gabcoyne @jamiedick @prefectcboyd
 flows-advanced/ @gabcoyne @robfreedy @serinamarie @zzstoatzz
 flows-starter/ @gabcoyne @robfreedy @serinamarie  @zzstoatzz
 devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
 devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd
+
+# General
+.github/workflows/codeql.yml @robfreedy @zzstoatzz
+.github/workflows/python.yml @gabcoyne @serinamarie @zzstoatzz
+.github/workflows/terraform-action.yml @gabcoyne @jamiedick @prefectcboyd
 imgs/ @gabcoyne @robfreedy
 README.md @serinamarie @zzstoatzz
 setup.cfg @gabcoyne @jamiedick
@@ -14,7 +16,7 @@ video-demos/ @gabcoyne @prefectcboyd @robfreedy @serinamarie
 .pre-commit-config.yaml @gabcoyne @jamiedick 
 .terraform-docs.yaml  @gabcoyne @jamiedick @prefectcboyd
 
-# Prefect < 2.0 folders are unlikely to see additions/mods
+# Legacy: Prefect < 2.0 folders are unlikely to see additions/mods
 prefect-v1-legacy/devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
 prefect-v1-legacy/devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd @robfreedy
 prefect-v1-legacy/graphql-queries/ @prefectcboyd @robfreedy
