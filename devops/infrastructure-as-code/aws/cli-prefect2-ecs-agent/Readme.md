@@ -7,17 +7,16 @@ This recipe will walk you through the process to create a Prefect Agent using th
 - This guide provides an example for creating a role which allows S3 read access, it is likely that your agent will require [additional roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create.html), creation of which is outside the scope of this guide.
 
 ## Prerequisites
-* [awscli]("https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html")
+* [awscli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 * [prefect](https://docs.prefect.io/getting-started/installation/)
 
 
 ## Steps
 1. Create a Service Account in Prefect Cloud
-2. Copy the JSON below into a file called `prefect-agent-td.json`
-	1. Edit the file and fill in values for:
-		1. `WORK_QUEUE_ID`
-		2. `PREFECT_API_KEY`
-		3. `PREFECT_API_URL`
+2. Edit the `prefect-agent-td.json` and fill in values for:
+   1. `WORK_QUEUE_ID`
+   2. `PREFECT_API_KEY`
+   3. `PREFECT_API_URL`
 3. Optional: Create a role with S3 read permissions to attach to the agent:
    1. `aws iam create-role --role-name PrefectECSRole --assume-role-policy-document file://trust-policy.json`
    2. `aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess --role-name PrefectECSRole`
