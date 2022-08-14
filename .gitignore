@@ -8,3 +8,7 @@
 terraform.*
 **.tgz
 Chart.lock
+*.env
+**/dev
+
+*__pycache__
