@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🗣 Ask a Question, Discuss
+    url: https://github.com/PrefectHQ/prefect-recipes/discussions
+    about: How does X work 🤔? I made this! I have an idea...
