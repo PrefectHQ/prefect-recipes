@@ -9,7 +9,7 @@ from prefect import task, flow
 
 @task
 def print_plus_one(obj):
-    print(f"Received a {type(obj)} with value {obj}")  # Shows the type of the parameter after coercion
+    print(f"Received a {type(obj)} with value {obj}")
     print(obj + 1)  # Adds one
 
 

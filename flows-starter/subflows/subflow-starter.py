@@ -8,12 +8,12 @@ from prefect import flow, task
 
 @task()
 def my_a_task():
-    print('Hello from Subflow A')
+    print("Hello from Subflow A")
 
 
 @task()
 def my_b_task():
-    print('Hello from Subflow B')
+    print("Hello from Subflow B")
 
 
 @flow(name="Subflow A")
