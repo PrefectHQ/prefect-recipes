@@ -106,7 +106,8 @@ def callQuery(query: str, queryName: str, variables: dict = None) -> object:
     return r
 
 
-# Queries GraphQL for all projects. Query returns a json object, which is passed to listify.
+# Queries GraphQL for all projects. 
+# Query returns a json object, which is passed to listify.
 def queryAllProjects() -> list:
     query = """
     query Projects {
@@ -168,10 +169,10 @@ def queryFlowsByProject(project_id: str) -> list:
 
     query = """
         query Flows ($project_id: uuid!){
-        flow (where: 
+        flow (where:
             { _and: [
-                {project_id: {_eq: $project_id}}, 
-                {archived: {_eq: false}} ] 
+                {project_id: {_eq: $project_id}},
+                {archived: {_eq: false}} ]
             })
             {
             id
@@ -211,11 +212,12 @@ def queryFlowRunSuccessByProject(project_id: str) -> list:
 
     query = """
     query TotalFlowRuns($project_id: uuid) {
-        flow_run(where: {flow: {project_id: {_eq: $project_id}}, state: {_eq: "Success"}}) {
-            id,
-            name,
-            state
-        }
+        flow_run(where: {flow: {project_id: {_eq: $project_id}},
+            state: {_eq: "Success"}}) {
+                id,
+                name,
+                state
+            }
     }
     """
 
@@ -229,7 +231,8 @@ def querystatusByProject(project_id: str) -> list:
 
     query = """
     query FlowRuns($project_id: uuid, $heartbeat: timestamptz) {
-        Pending: flow_run_aggregate(where: {flow: {project_id: {_eq: $project_id}}, state: {_eq: "Pending"}}) 
+        Pending: flow_run_aggregate(where: {
+            flow: {project_id: {_eq: $project_id}}, state: {_eq: "Pending"}})
         {
             aggregate {
                 count
@@ -238,7 +241,8 @@ def querystatusByProject(project_id: str) -> list:
             __typename
         }
         Failed: flow_run_aggregate(
-            where: {flow: {project_id: {_eq: $project_id}}, scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Failed"}}
+            where: {flow: {project_id: {_eq: $project_id}}, 
+            scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Failed"}}
         ) {
             aggregate {
             count
@@ -247,7 +251,8 @@ def querystatusByProject(project_id: str) -> list:
             __typename
         }
         Submitted: flow_run_aggregate(
-            where: {flow: {project_id: {_eq: $project_id}}, scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Submitted"}}
+            where: {flow: {project_id: {_eq: $project_id}}, 
+            scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Submitted"}}
         ) {
             aggregate {
             count
@@ -256,7 +261,8 @@ def querystatusByProject(project_id: str) -> list:
             __typename
         }
         Queued: flow_run_aggregate(
-            where: {flow: {project_id: {_eq: $project_id}}, scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Queued"}}
+            where: {flow: {project_id: {_eq: $project_id}}, 
+            scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Queued"}}
         ) {
             aggregate {
             count
