@@ -106,7 +106,7 @@ def callQuery(query: str, queryName: str, variables: dict = None) -> object:
     return r
 
 
-# Queries GraphQL for all projects. 
+# Queries GraphQL for all projects.
 # Query returns a json object, which is passed to listify.
 def queryAllProjects() -> list:
     query = """
@@ -241,7 +241,7 @@ def querystatusByProject(project_id: str) -> list:
             __typename
         }
         Failed: flow_run_aggregate(
-            where: {flow: {project_id: {_eq: $project_id}}, 
+            where: {flow: {project_id: {_eq: $project_id}},
             scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Failed"}}
         ) {
             aggregate {
@@ -251,7 +251,7 @@ def querystatusByProject(project_id: str) -> list:
             __typename
         }
         Submitted: flow_run_aggregate(
-            where: {flow: {project_id: {_eq: $project_id}}, 
+            where: {flow: {project_id: {_eq: $project_id}},
             scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Submitted"}}
         ) {
             aggregate {
@@ -261,7 +261,7 @@ def querystatusByProject(project_id: str) -> list:
             __typename
         }
         Queued: flow_run_aggregate(
-            where: {flow: {project_id: {_eq: $project_id}}, 
+            where: {flow: {project_id: {_eq: $project_id}},
             scheduled_start_time: {_gte: $heartbeat}, state: {_eq: "Queued"}}
         ) {
             aggregate {
