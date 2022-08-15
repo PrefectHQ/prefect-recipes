@@ -1,5 +1,3 @@
-# Pull Request Template
-
 ## Description
 
 Please include a summary of the feature/fix. If this PR references an issue, please attach to the existing issue.
