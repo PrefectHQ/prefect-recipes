@@ -4,7 +4,7 @@ https://discourse.prefect.io/t/how-can-i-define-state-dependencies-between-tasks
 """
 
 
-from prefect import task, flow
+from prefect import flow, task
 
 
 @task
