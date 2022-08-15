@@ -27,6 +27,7 @@ def main_flow():
     t1 = task_1()
     t2 = task_2(wait_for=[t1])
     t3 = task_3(wait_for=[t2])
+    return t3
 
 
 if __name__ == "__main__":
