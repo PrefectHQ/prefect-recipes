@@ -1,0 +1,44 @@
+###
+### A complete description of a Prefect Deployment for flow 'flow'
+###
+name: s3_read_write_recipe
+description: null
+version: 0.1.0
+tags:
+- recipe
+- dev
+- blocks
+parameters: {}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command:
+  - python
+  - -m
+  - prefect.engine
+  stream_output: true
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: flow
+manifest_path: null
+storage:
+  bucket_path: sales-eng-beta-blocks/recipes/flows-advanced/blocks/code-store/
+  aws_access_key_id: '**********'
+  aws_secret_access_key: '**********'
+  _is_anonymous: true
+  _block_document_name: anonymous-76353b37-ee4e-41d0-84bb-2215c0f31339
+  _block_document_id: d890a712-59c9-4ac6-8545-d8ec03e1b626
+  _block_type_slug: s3
+path: null
+entrypoint: reading_writing_from_blocks.py:flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null
