@@ -5,7 +5,7 @@ This repository contains common and extensible Prefect patterns to drive efficie
 
 <div align="center">
   <a href="https://github.com/PrefectHQ/prefect-recipes">
-    <img src="imgs/chef_marvin_with_dalle.png" alt="Logo" width="200">
+    <img src="imgs/chef_marvin_by_dalle.png" alt="Logo" width="200">
   </a>
 </div>
 
