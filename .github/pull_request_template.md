@@ -12,7 +12,7 @@ If this PR references an issue, please attach to the existing issue.
 
 ## New Recipe Checklist
 <!-- If adding a new recipe, please ensure this list is completed. -->
-- [ ] My PR is in the format of `Add project-name recipe`
+- [ ] My PR is in the format of `Add <project-name> recipe`
 - [ ] My recipe is reproducible and explains everything needed to run successfully. If my code has external dependencies, I make mention of them.
 - [ ] My code is easily understandable and/or well-commented.
 - [ ] If my recipe requires a new category (e.g. creating a monitoring/ folder in devops/), I have encapsulated my project within its own subfolder so that others can add their own recipes as well.
