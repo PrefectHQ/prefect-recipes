@@ -30,7 +30,7 @@ This repository contains common and extensible Prefect patterns to drive efficie
 ## Contributing = Swag 
 We're always looking for new contributions! You can add your Prefect 2.0 recipe and earn some swag 🧢 in a few simple steps:
 
->1. Look through the [recipes](#recipes) to ensure your recipe is unique
+>1. Look through the recipes to ensure your example is unique
 >2. Clone the prefect-recipes repo:
 >```console
 >git clone git@github.com:PrefectHQ/prefect-recipes.git
