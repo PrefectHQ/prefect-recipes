@@ -11,12 +11,7 @@ devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd
 .github/workflows/terraform-action.yml @gabcoyne @jamiedick @prefectcboyd
 imgs/ @gabcoyne @robfreedy
 README.md @serinamarie @zzstoatzz
-setup.cfg @gabcoyne @jamiedick
 video-demos/ @gabcoyne @prefectcboyd @robfreedy @serinamarie
-.gitignore @gabcoyne @zzstoatzz
-.pre-commit-config.yaml @gabcoyne @jamiedick 
-.terraform-docs.yaml  @gabcoyne @jamiedick @prefectcboyd
-# .github/CODEOWNERS change will still alert all
 
 # Legacy: Prefect < 2.0 folders are unlikely to see additions/mods
 prefect-v1-legacy/devops/ @gabcoyne @jamiedick @prefectcboyd # default 
