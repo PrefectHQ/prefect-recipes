@@ -1,6 +1,7 @@
 ## Description
 
-Please include a summary of the feature/fix. If this PR references an issue, please attach to the existing issue.
+What's cooking? 
+If this PR references an issue, please attach to the existing issue.
 
 ## Type of change
 <!-- Please delete options that are not relevant. -->
@@ -9,8 +10,8 @@ Please include a summary of the feature/fix. If this PR references an issue, ple
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] This change requires a documentation update
 
-## Checklist
-<!-- If you are adding a new recipe: -->
+## New Recipe Checklist
+<!-- If adding a new recipe, please ensure this list is completed. -->
 - [ ] My PR is in the format of `Add project-name recipe`
 - [ ] My recipe is reproducible and explains everything needed to run successfully. If my code has external dependencies, I make mention of them.
 - [ ] My code is easily understandable and/or well-commented.
