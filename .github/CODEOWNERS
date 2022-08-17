@@ -10,8 +10,6 @@ devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd
 .github/workflows/codeql.yml @robfreedy @zzstoatzz
 .github/workflows/python.yml @gabcoyne @serinamarie @zzstoatzz
 .github/workflows/terraform-action.yml @gabcoyne @jamiedick @prefectcboyd
-imgs/ @gabcoyne @robfreedy
-README.md @serinamarie @zzstoatzz
 video-demos/ @gabcoyne @prefectcboyd @robfreedy @serinamarie
 
 # Legacy: Prefect < 2.0 folders are unlikely to see additions/mods
