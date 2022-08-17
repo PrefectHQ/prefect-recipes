@@ -13,13 +13,48 @@ Here you'll find starter code and more advanced example use cases.
 
 
 ## Recipes 🍯
+#### Subflows
+- [Getting Started With Subflows](https://discourse.prefect.io/t/migrating-to-prefect-2-0-from-flow-of-flows-to-subflows/1318)
+- [Run Multiple Subflows or Child Flows in Parallel](https://discourse.prefect.io/t/how-can-i-run-multiple-subflows-or-child-flows-in-parallel/96)
+- [Subflow with a Different Task Runner Than Parent Flow](https://discourse.prefect.io/t/can-my-subflow-use-a-different-task-runner-than-my-parent-flow/101)
+- [Create a Subflow and Block Until It's Completed](https://discourse.prefect.io/t/how-can-i-create-a-subflow-and-block-until-it-s-completed/94)
+
+#### Control Flow
+- [Conditionally Stop a Task Run](https://discourse.prefect.io/t/how-can-i-stop-the-task-run-based-on-a-custom-logic/83)
+- [Ensure Tasks Immediately Fail If Upstream Task Fails](https://discourse.prefect.io/t/how-to-ensure-that-my-tasks-immediately-fail-if-a-specific-upstream-task-failed/111)
+- [Define State Dependencies Between Tasks](https://discourse.prefect.io/t/how-can-i-define-state-dependencies-between-tasks/69/2)
+
+#### Caching
+- [Cache a Task Result To Prevent Recomputation](https://discourse.prefect.io/t/how-can-i-cache-a-task-result-for-two-hours-to-prevent-re-computation/67)
+
+#### Notifications
+- [Send Notifications with a Slack Webhook](https://discourse.prefect.io/t/sending-notifications-in-cloud-1-0-using-automations-cloud-2-0-slack-webhook-blocks-and-notifications/1315)
+
+#### Flow Run Observability
+- [Interact with REST API](https://discourse.prefect.io/t/how-can-i-interact-with-the-backend-api-using-a-python-client/80)
+- [Determine Whether a Flow Run Was Executed Ad Hoc or on a Schedule](https://discourse.prefect.io/t/how-can-i-determine-whether-a-flow-run-has-been-executed-ad-hoc-or-was-running-on-schedule/120)
+
+#### Parameters
+- [Use flow parameters](https://discourse.prefect.io/t/guide-to-implementing-parameters-between-prefect-1-0-and-2-0/1321)
+
+#### Testing
+- [Testing Flows, Subflows, and Tasks](https://discourse.prefect.io/t/unit-testing-best-practices-for-prefect-flows-subflows-and-tasks/1070/2)
+
+#### Triggering Flow Runs
+- [Triggering Flow Runs From a Deployment via API Call or From a Terminal Using Curl](https://discourse.prefect.io/t/how-to-trigger-a-flow-run-from-a-deployment-via-api-call-using-python-requests-library-or-from-a-terminal-using-curl/1396)
+
+#### Deployments
+- [Deploy Flows to Run as a Local Process, Docker Container or a Kubernetes Job](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-run-as-a-local-process-docker-container-or-a-kubernetes-job/1246)
+- [Deploy Flows to AWS](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-aws/1252)
+- [Deploy Flows to GCP](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-gcp/1251)
+- [Deploy Flows to Azure](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-azure/1312)
 
 #### Azure Infrastructure
 - [Setup Azure with Prefect](./video-demos/setup-azure-with-prefect/)
 - [Deploy Prefect Orion to an AKS Cluster with Azure Blob Storage](./devops/infrastructure-as-code/azure/prefect-agent-on-aks/)
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
 
-#### Prefect 1.0 Legacy
+#### Legacy (Prefect 1.0)
 - [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
 - [Run GraphQL Queries](./prefect-v1-legacy/graphql-queries/)
 - [Airbyte Orchestration](./prefect-v1-legacy/use-cases/airbyte-orchestration/)
@@ -43,8 +78,9 @@ We're always looking for new contributions! You can add your Prefect 2.0 recipe 
 >git checkout feat/recipe-name
 >```
 >5. Add your code under the appropriate category, making sure it is reproducible and easy to understand.
->6. Commit and push the code to your remote branch.
->7. Create a PR 🤌 
+>6. Add your recipe to README.
+>7. Commit and push the code to your remote branch.
+>8. Create a PR 🤌 
 
 ## Issues/Bugs 🐛
 To report issues, typos, or link fixes, please [open an issue.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+bug&template=bug_report.yaml&title=%5BBug%5D%3A+) We appreciate it!
