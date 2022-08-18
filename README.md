@@ -31,7 +31,7 @@ Here you'll find starter code and more advanced example use cases.
 - [Issues & Bugs](#issues--bugs-)
 - [Recipe Requests](#recipe-requests-)
 - [Join the Discussion](#join-our-discussions-%EF%B8%8F)
-- [Thank you](#thanks-)
+- [Thanks](#thanks-)
 
 ## Getting Started 🍯
 #### Subflows
