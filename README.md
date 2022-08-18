@@ -11,6 +11,27 @@ Here you'll find starter code and more advanced example use cases.
   </a>
 </div>
 
+## Table of Contents 📖
+- [Getting Started](#getting-started-)
+  - [Subflows](#subflows)
+  - [Control Flow](#control-flow)
+  - [Optimization](#optimization)
+  - [Notifications](#notifications)
+  - [Flow Run Observability](#flow-run-observability)
+  - [Parameters](#parameters)
+  - [Testing](#testing)
+  - [Triggering Flow Runs](#triggering-flow-runs)
+  - [Deployments](#deployments)
+
+- [Diving Deeper](#diving-deeper-)
+  - [Data Engineering / DataOps](#data-engineering--dataops)
+  - [Azure Infrastructure](#azure-infrastructure)
+  - [Legacy (Prefect 1.0)](#legacy-prefect-10)
+- [Contributing](#contributing--swag-)
+- [Issues & Bugs](#issues--bugs-)
+- [Recipe Requests](#recipe-requests-)
+- [Join the Discussion](#join-our-discussions-%EF%B8%8F)
+- [Thank you](#thanks-)
 
 ## Getting Started 🍯
 #### Subflows
