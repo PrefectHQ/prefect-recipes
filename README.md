@@ -86,7 +86,7 @@ We're always looking for new contributions! You can add your Prefect 2.0 recipe 
 >7. Commit and push the code to your remote branch.
 >8. Create a PR 🤌 
 
-## Issues/Bugs 🐛
+## Issues / Bugs 🐛
 To report issues, typos, or link fixes, please [open an issue.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+bug&template=bug_report.yaml&title=%5BBug%5D%3A+) We appreciate it!
 
 ## Recipe Requests 👩‍🍳
