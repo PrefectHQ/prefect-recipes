@@ -12,7 +12,7 @@ Here you'll find starter code and more advanced example use cases.
 </div>
 
 
-## Recipes: Getting Started 🍯
+## Getting Started 🍯
 #### Subflows
 - [Getting Started With Subflows](https://discourse.prefect.io/t/migrating-to-prefect-2-0-from-flow-of-flows-to-subflows/1318)
 - [Run Multiple Subflows or Child Flows in Parallel](https://discourse.prefect.io/t/how-can-i-run-multiple-subflows-or-child-flows-in-parallel/96)
