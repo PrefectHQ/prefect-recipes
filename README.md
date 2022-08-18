@@ -51,7 +51,7 @@ Here you'll find starter code and more advanced example use cases.
 
 ## Recipes: Advanced 🍱
 #### Data Engineering / DataOps
-[Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5#41d2)
+- [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5#41d2)
 
 #### Azure Infrastructure
 - [Setup Azure with Prefect](./video-demos/setup-azure-with-prefect/)
