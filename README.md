@@ -50,6 +50,9 @@ Here you'll find starter code and more advanced example use cases.
 - [Deploy Flows to Azure](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-azure/1312)
 
 ## Recipes: Advanced 🍱
+#### Data Engineering / DataOps
+[Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5#41d2)
+
 #### Azure Infrastructure
 - [Setup Azure with Prefect](./video-demos/setup-azure-with-prefect/)
 - [Deploy Prefect Orion to an AKS Cluster with Azure Blob Storage](./devops/infrastructure-as-code/azure/prefect-agent-on-aks/)
