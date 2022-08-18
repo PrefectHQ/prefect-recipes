@@ -68,8 +68,8 @@ Here you'll find starter code and more advanced example use cases.
 - [Handle DBT Model Failures](./prefect-v1-legacy/use-cases/rerun_dbt_models_from_failure/)
 - [S3 Flow Storage on EKS](./prefect-v1-legacy/use-cases/s3-flow-storage-on-eks/)
 
-## Contributing = Swag 
-We're always looking for new contributions! You can add your Prefect 2.0 recipe and earn some swag 🧢 in a few simple steps:
+## Contributing = Swag 🧢
+We're always looking for new contributions! You can add your Prefect 2.0 recipe and earn some swag in a few simple steps:
 
 >1. Look through the recipes to ensure your example is unique
 >2. Clone the prefect-recipes repo:
