@@ -1,5 +1,0 @@
-{
-    "yaml.schemas": {
-        "https://json.schemastore.org/github-action.json": "file:///Users/jluciano/Dev/prefect/prefect-recipes/devops/github-actions/s3-storage-cicd/.github/workflows/main.yml"
-    }
-}

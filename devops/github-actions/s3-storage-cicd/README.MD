@@ -2,7 +2,7 @@
 
 ## Description
 
-This recipe shows you how to set up a basic CI/CD pipeline for your prefect flows. It assumes that you are using S3 storage blocks for your flow. It consists of two github actions YAML files for two seperate enviroments.
+This recipe shows you how to set up a basic CI/CD pipeline for your prefect flows. Because Prefect stores your code data when you build a deployment, this recipe syncs your repo to your prefect storage. It assumes that you are using S3 storage blocks for your storage and consists of two github actions YAML files for two seperate enviroments.
 
 ## Usage
 

@@ -8,3 +8,4 @@
 terraform.*
 **.tgz
 Chart.lock
+.vscode
