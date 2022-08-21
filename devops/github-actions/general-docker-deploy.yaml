@@ -35,7 +35,7 @@ jobs:
       - name: Push to container registry
         run: docker push ${{ env.IMAGE }}
 
-      - name: Pip update and install prefect
+      - name: Update Pip, install prefect and required filesystem extras
         run: pip install -U wheel pip prefect s3fs
 
       - name: Prefect Cloud login
