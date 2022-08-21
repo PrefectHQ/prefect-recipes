@@ -20,7 +20,7 @@ Here you'll find starter code and more advanced example use cases.
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
 
 #### Github Actions
-- [Create Deployment with storage and infra Blocks on push to main](./devops/github-actions/general-docker-deploy.yaml)
+- [Create Deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
 
 #### Prefect 1.0 Legacy
 - [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
