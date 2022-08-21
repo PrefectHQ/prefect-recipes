@@ -1,0 +1,61 @@
+on:
+  push:
+    branches:
+      - "main"
+      - "dev"
+
+env:
+  FLOWNAME: marvin
+  IMAGE: ${{secrets.IMAGE_REGISTRY_SLASH_IMAGE_REPO}}:latest
+  DEPLOYMENTYAML: ./marvin.yaml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # Extract the current branch name to reference Blocks corresponding to this environment
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Build the image
+        run: |
+          docker build . --tag ${{ env.IMAGE }} -f ./Dockerfile
+
+      # Replace if needed with plugin in ECR, GCR, GHCR, etc 
+      - name: Login to registry
+        env:
+          CONTAINER_REGISTRY_USER: ${{secrets.CONTAINER_REGISTRY_USER}}
+          CONTAINER_REGISTRY_PASSWORD: ${{secrets.CONTAINER_REGISTRY_PASSWORD}}
+        run: |
+          docker login -u $CONTAINER_REGISTRY_USER -p $CONTAINER_REGISTRY_PASSWORD 
+
+      - name: Push to container registry
+        run: docker push ${{ env.IMAGE }}
+
+      - name: Pip update and install prefect
+        run: pip install -U wheel pip prefect s3fs
+
+      - name: Prefect Cloud login
+        run: |
+          prefect config set PREFECT_API_KEY=$API_KEY
+          prefect config set PREFECT_API_URL=$API_URL
+
+        env:
+          API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          API_URL: ${{ secrets.PREFECT_API_URL }}
+
+      # switch out your Block types and names as needed
+      - name: Build Prefect deployment
+        run: prefect deployment build ./marvin.py:$FLOWNAME -n $DEPLOYMENT_NAME -t $TAG -sb $STORAGE -o $DEPLOYMENTYAML -q $WORK_QUEUE
+        env:
+          DEPLOYMENT_NAME: hello-marvin
+          TAG: ${{ steps.extract_branch.outputs.branch }}
+          INFRA: kubernetes-job/default-k8s-job
+          STORAGE: s3/flow-script-storage-${{ steps.extract_branch.outputs.branch }}
+          WORK_QUEUE: ${{ steps.extract_branch.outputs.branch }}-queue
+        
+      - name: Apply Prefect deployment
+        run: prefect deployment apply $DEPLOYMENTYAML
