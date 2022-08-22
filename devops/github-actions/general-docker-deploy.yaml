@@ -40,12 +40,8 @@ jobs:
 
       - name: Prefect Cloud login
         run: |
-          prefect config set PREFECT_API_KEY=$API_KEY
-          prefect config set PREFECT_API_URL=$API_URL
-
-        env:
-          API_KEY: ${{ secrets.PREFECT_API_KEY }}
-          API_URL: ${{ secrets.PREFECT_API_URL }}
+          prefect config set PREFECT_API_KEY=${{ secrets.PREFECT_API_KEY }}
+          prefect config set PREFECT_API_URL=${{ secrets.PREFECT_API_URL }}
 
       # switch out your Block types and names as needed
       - name: Build Prefect deployment
