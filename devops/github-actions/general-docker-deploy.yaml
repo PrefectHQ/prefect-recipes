@@ -43,7 +43,7 @@ jobs:
 
       # switch out your Block types and names as needed
       - name: Build Prefect deployment
-        run: prefect deployment build ./marvin.py:$FLOWNAME -n $DEPLOYMENT_NAME -t $TAG -sb $STORAGE -o $DEPLOYMENTYAML -q $WORK_QUEUE
+        run: prefect deployment build ./marvin.py:$FLOWNAME -n $DEPLOYMENT_NAME -t $TAG -ib $INFRA -sb $STORAGE -o $DEPLOYMENTYAML -q $WORK_QUEUE
         env:
           DEPLOYMENT_NAME: hello-marvin
           TAG: ${{ steps.extract_branch.outputs.branch }}
