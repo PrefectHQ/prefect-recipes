@@ -8,7 +8,9 @@ env:
   FLOWNAME: marvin
   IMAGE: ${{secrets.IMAGE_REGISTRY_SLASH_IMAGE_REPO}}:latest
   DEPLOYMENTYAML: ./marvin.yaml
-
+  PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+  PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,11 +39,6 @@ jobs:
 
       - name: Update Pip, install prefect and required filesystem extras
         run: pip install -U wheel pip prefect s3fs
-
-      - name: Prefect Cloud login
-        run: |
-          prefect config set PREFECT_API_KEY=${{ secrets.PREFECT_API_KEY }}
-          prefect config set PREFECT_API_URL=${{ secrets.PREFECT_API_URL }}
 
       # switch out your Block types and names as needed
       - name: Build Prefect deployment
