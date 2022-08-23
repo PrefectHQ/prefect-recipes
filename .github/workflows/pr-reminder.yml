@@ -14,7 +14,7 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-            webhook-url: ''
+            webhook-url: 'https://hooks.slack.com/services/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'
             provider: 'slack'
-            channel": '#recipes'
+            channel": '#recipes-pr-notifications-sandbox'
       - run: echo Reminder sent!
