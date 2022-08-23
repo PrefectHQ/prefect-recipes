@@ -38,7 +38,6 @@ This work will be re-factored to support Prefect Orion (Prefect 2.0) which trans
 ## Source Repository
 
 The source location for this content is [PrefectHQ/prefect-recipes](https://github.com/prefecthq/prefect-recipes).
-At the time of writing this, it exists in the branch [prom-monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/prom-monitoring/monitoring).
 This is a base ‘recipe’ - the expectation is that the helm-chart and docker_setup are modified for each environment (detailed below).
 The directory contains the following:
 
@@ -202,7 +201,7 @@ kubectl port-forward services/prometheus-grafana 3000:3000 -n prometheus
 
 Then we can access Grafana on  [localhost:3000](http://localhost:3000). Alternatively, we can reach the endpoint directly through `ip:port`.
 
-Logins for Grafana should exist in 1Password. Once logged in, you’ll be presented with a list of recently viewed dashboards. If this is the first time logging in, verify Grafana is pulling in metrics from Prometheus:
+Once logged in, you’ll be presented with a list of recently viewed dashboards. If this is the first time logging in, verify Grafana is pulling in metrics from Prometheus:
 
 ![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/monitoring/imgs/grafana%20config.png)
 
