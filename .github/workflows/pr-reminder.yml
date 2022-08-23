@@ -16,5 +16,5 @@ jobs:
         with:
             webhook-url: ${{ secrets.SLACK_WEBHOOK_RECIPES_CHANNEL }}
             provider: 'slack'
-            channel": '#recipes-pr-notifications-sandbox'
+            channel": '#recipes'
       - run: echo Reminder sent!
