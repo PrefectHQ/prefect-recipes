@@ -79,7 +79,10 @@ Here you'll find starter code and more advanced example use cases.
 - [Deploy Prefect Orion to an AKS Cluster with Azure Blob Storage](./devops/infrastructure-as-code/azure/prefect-agent-on-aks/)
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
 
-#### Legacy (Prefect 1.0)
+#### Github Actions
+- [Create Deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
+
+#### Prefect 1.0 Legacy
 - [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
 - [Run GraphQL Queries](./prefect-v1-legacy/graphql-queries/)
 - [Airbyte Orchestration](./prefect-v1-legacy/use-cases/airbyte-orchestration/)
