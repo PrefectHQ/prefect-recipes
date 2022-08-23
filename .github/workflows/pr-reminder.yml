@@ -2,7 +2,7 @@ name: PR Review Reminder
 
 on:
   schedule:
-    - cron: "0 16 * * 1-5" # M-F @ 11pm CST
+    - cron: "0 16 * * 1-5" # M-F @ 11am CST
   workflow_dispatch:
 
 jobs:
