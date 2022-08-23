@@ -8,7 +8,7 @@ sudo apt-get update -y && sudo apt-get install -y python3-pip &> /tmp/apt_get_up
 
 #Install prefect
 echo "Running pip install prefect"
-python3 -m pip install -U "prefect>=2.0b" &> /tmp/install_prefect.out
+python3 -m pip install -U "prefect" &> /tmp/install_prefect.out
 
 #Create a default work-queue
 echo "Creating a default work-queue"
