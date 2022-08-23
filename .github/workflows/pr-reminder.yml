@@ -2,7 +2,7 @@ name: PR Review Reminder
 
 on:
   schedule:
-    - cron: "0 19 * * 1-5" # M-F @ 2pm CST
+    - cron: "0 20 * * 1-5" # M-F @ 3pm CST
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
       - run: echo Sending reminder to requested reviewers.
       - uses: davideviolante/pr-reviews-reminder-action@v1.5.1
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.MARVIN_GITHUB_TOKEN }}
         with:
             webhook-url: ${{ secrets.SLACK_WEBHOOK_RECIPES_CHANNEL }}
             provider: 'slack'
