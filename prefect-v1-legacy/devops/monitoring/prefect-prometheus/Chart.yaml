@@ -1,0 +1,24 @@
+apiVersion: v2
+name: prefect-prometheus
+description: A Helm chart for Kubernetes
+
+type: application
+
+version: 1.2.4
+appVersion: 1.2.4
+description: A Helm Chart to expose Prefect 1.0 Metrics using a Prometheus Exporter
+home: https://github.com/PrefectHQ/prefect-recipes
+keywords:
+- prometheus
+- prefect
+- graphql
+maintainers:
+- email: chris.b@prefect.io
+  name: prefectcboyd
+sources:
+- https://prefect.io
+dependencies:
+- name: prefect-server
+  condition: prefect-server.enabled
+  repository: https://prefecthq.github.io/server/
+  version: 2022.04.14
