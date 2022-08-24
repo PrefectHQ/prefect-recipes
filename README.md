@@ -1,7 +1,7 @@
 
 # Prefect Recipes 🧑‍🍳 🥐
 
-This repository contains common and extensible Prefect patterns to drive efficient workflows - we like to call these patterns our **recipes**!
+This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns our **recipes**!
 
 Here you'll find starter code and more advanced example use cases.
 
