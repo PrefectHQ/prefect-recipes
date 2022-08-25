@@ -23,7 +23,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/PrefectHQ/prefect-recipes">
-    <img src="https://github.com/PrefectHQ/prefect-recipes/blob/main/imgs/prefect_logo.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/PrefectHQ/prefect-recipes/blob/main/imgs/prefect_logo.png" alt="Logo" width="80">
   </a>
 
 <h3 align="center">Prefect on AKS</h3>
@@ -88,22 +88,26 @@
 ## Getting Started
 
 To begin using this project:
-   ```sh
-   git clone https://github.com/PrefectHQ/prefect-recipes.git
-   ```
+
+```sh
+git clone https://github.com/PrefectHQ/prefect-recipes.git
+```
 
 You will additionally need an Azure Service Principal that is configured with the "Contributor" role on your subscription.
-Steps will be outlined in below.
+Steps will be outlined below.
 
 ### Prerequisites
 
-List of pre-requisites and optional packages necessary. Steps are listed in "Setup"
+List of prerequisites and optional packages. Steps are listed in [Setup](#setup).
+
 * [azure-cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 * [terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 * [kubectl](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-install-cli)
+
 ### (Optional)  
+
 * [helm](https://helm.sh/docs/intro/install/)
-* expect - apt-get , brew , npm , yum
+* [expect](https://jestjs.io/docs/expect) via `apt-get`, `brew`, `npm`, or `yum`
 * [lens](https://k8slens.dev/)
 
 ### Setup
@@ -162,17 +166,24 @@ List of pre-requisites and optional packages necessary. Steps are listed in "Set
 
 With setup of your required binaries, and Authentication to Azure configured, Prefect AKS can be provisioned.
 
-Post-configuration steps are automated in "wrap-deploy.sh" for development purposes only, and is not intended for production use.
+Post-configuration steps are automated in `wrap-deploy.sh` for development purposes only, and is not intended for production use.
 
-wrap-deploy.sh requires the "expects" binary to be installed, and a valid service principal.
+`wrap-deploy.sh` requires the "expects" binary to be installed, and a valid service principal.
 
 ## Manual Steps
-1. Initialize the providers
-   `terraform init`
-2. Create the plan
-   `terraform plan -out=tfplan`
-3. Execute the plan
-   `terraform apply "tfplan"`
+
+1. Initialize the providers.
+   ```sh
+   terraform init
+   ```
+2. Create the plan.
+   ```sh
+   terraform plan -out=tfplan
+   ```
+3. Execute the plan.
+   ```sh
+   terraform apply "tfplan"
+   ```
 4. Once terraform completes, retrieve the Resource Group name, cluster name, storage name, and container name for later use.
    ```sh
    export AZ_RESOURCE_GROUP="$(terraform output -raw resource_group_name)"
@@ -181,29 +192,29 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
    export CONTAINER_NAME="$(terraform output -raw container_name)"
    export AZURE_STORAGE_CONNECTION_STRING=$(az storage account show-connection-string --resource-group "$AZ_RESOURCE_GROUP" --name "$STORAGE_NAME" --output tsv)
    ```
-5. Export your KUBECONFIG to not overwrite any existing kubeconfig you might already have, and retrieve credentials to the cluster.
+5. Export your `KUBECONFIG` to not overwrite any existing kubeconfig you might already have, and retrieve credentials to the cluster.
    ```sh
    export KUBECONFIG="$HOME/.kube/$AZ_AKS_CLUSTER_NAME.yaml"
    az aks get-credentials --resource-group $AZ_RESOURCE_GROUP --name $AZ_AKS_CLUSTER_NAME --file $KUBECONFIG
    ```
 6. If prefect is already installed locally in your environment, you can generate and deploy the pod-spec:
-
-   `prefect kubernetes manifest orion | kubectl apply -f -`
-
-   If prefect is not already installed, you can apply the provided prefect.yaml and stop at this step, as the following steps require prefect installed locally first.
-
-   `kubectl apply -f prefect.yaml`
-
-7. Open a separate terminal session and port forward kubectl traffic to the cluster
-
-   `kubectl port-forward deployment/orion 4200:4200`
-
-8. List / display your storage connection string (SENSITIVE), and container name. These are required to connect the Prefect Agent to your Blob storage. These were already set in step 4, and will be required for the following step.
+   ```sh
+   prefect kubernetes manifest orion | kubectl apply -f -
    ```
+   If prefect is not already installed, you can apply the provided `prefect.yaml` and stop at this step, as the following steps require prefect installed locally first.
+   ```sh
+   kubectl apply -f prefect.yaml
+   ```
+7. Open a separate terminal session and port forward kubectl traffic to the cluster.
+   ```sh
+   kubectl port-forward deployment/orion 4200:4200
+   ```
+8. List / display your storage connection string (SENSITIVE), and container name. These are required to connect the Prefect agent to your Blob storage. These were already set in step 4, and will be required for the following step.
+   ```sh
    echo $CONTAINER_NAME
    echo $AZURE_STORAGE_CONNECTION_STRING
    ```
-9. Run prefect config to set the cluster agent settings, API_URL, work-queue, storage, and create a default deployment.
+9. Run `prefect config` to set the cluster agent settings, API_URL, work-queue, storage, and create a default deployment.
    ```sh
    prefect config set PREFECT_API_URL="http://127.0.0.1:4200/api"
    prefect work-queue create kubernetes
@@ -211,20 +222,22 @@ wrap-deploy.sh requires the "expects" binary to be installed, and a valid servic
    prefect deployment create kubernetes-deployment.py
    ```
 10. You can launch a browser at `http://127.0.0.1:4200/api` to see your configuration, or execute the flow manually.
-
-   `prefect deployment run my-kubernetes-flow/k8s-example`
+   ```sh
+   prefect deployment run my-kubernetes-flow/k8s-example
+   ```
 
 ## Automated Steps
-Requires "expects" installed, and service principal values exported as env_vars already from "Setup".
 
-1. Run "wrap-deploy.sh" from the root terraform module directory (aks-prefect).
+Requires `expects` installed, and service principal values exported as `env_vars` already from [Setup](#setup).
+
+1. Run `wrap-deploy.sh` from the root Terraform module directory (`aks-prefect`).
    ```sh
    ./wrap-deploy.sh
    ```
 
 <img src="https://github.com/PrefectHQ/prefect-recipes/blob/aks-prefect/azure/prefect-agent-on-aks/imgs/automated.png" alt="automated" width="1080" height="330">
     
-_For more examples, please refer to the [Documentation](https://orion-docs.prefect.io/tutorials/kubernetes-flow-runner/)_
+<!-- For more examples, please refer to the [documentation](https://docs.prefect.io/tutorials/kubernetes-flow-runner/). -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -248,6 +261,7 @@ See the [open issues](https://github.com/PrefectHQ/prefect-recipes/issues) for a
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
