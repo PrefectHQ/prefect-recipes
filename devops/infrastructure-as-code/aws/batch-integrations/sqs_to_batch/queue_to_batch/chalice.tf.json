@@ -1,0 +1,71 @@
+{
+  "resource": {
+    "aws_iam_role": {
+      "default-role": {
+        "name": "queue_to_batch-dev",
+        "assume_role_policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Sid\": \"\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"lambda.amazonaws.com\"}, \"Action\": \"sts:AssumeRole\"}]}"
+      }
+    },
+    "aws_iam_role_policy": {
+      "default-role": {
+        "name": "default-rolePolicy",
+        "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"batch:SubmitJob\"], \"Resource\": [\"*\"], \"Sid\": \"ba006a72a66b4efca72133843bb33b58\"}, {\"Effect\": \"Allow\", \"Action\": [\"logs:CreateLogGroup\", \"logs:CreateLogStream\", \"logs:PutLogEvents\"], \"Resource\": \"arn:*:logs:*:*:*\"}, {\"Effect\": \"Allow\", \"Action\": [\"sqs:ReceiveMessage\", \"sqs:DeleteMessage\", \"sqs:GetQueueAttributes\"], \"Resource\": \"*\"}]}",
+        "role": "${aws_iam_role.default-role.id}"
+      }
+    },
+    "aws_lambda_function": {
+      "handler": {
+        "function_name": "queue_to_batch-dev-handler",
+        "runtime": "python3.9",
+        "handler": "app.handler",
+        "memory_size": 128,
+        "tags": {
+          "aws-chalice": "version=1.27.1:stage=dev:app=queue_to_batch"
+        },
+        "timeout": 60,
+        "source_code_hash": "${filebase64sha256(\"${path.module}/deployment.zip\")}",
+        "filename": "${path.module}/deployment.zip",
+        "role": "${aws_iam_role.default-role.arn}"
+      }
+    },
+    "aws_lambda_event_source_mapping": {
+      "handler-sqs-event-source": {
+        "event_source_arn": "arn:${data.aws_partition.chalice.partition}:sqs:${data.aws_region.chalice.name}:${data.aws_caller_identity.chalice.account_id}:east-boyd-q1",
+        "batch_size": 1,
+        "maximum_batching_window_in_seconds": 0,
+        "function_name": "${aws_lambda_function.handler.arn}"
+      }
+    }
+  },
+  "locals": {},
+  "terraform": {
+    "required_version": ">= 0.12.26, < 1.2.0",
+    "required_providers": {
+      "aws": {
+        "version": ">= 2, < 4"
+      },
+      "null": {
+        "version": ">= 2, < 4"
+      }
+    }
+  },
+  "data": {
+    "aws_caller_identity": {
+      "chalice": {}
+    },
+    "aws_partition": {
+      "chalice": {}
+    },
+    "aws_region": {
+      "chalice": {}
+    },
+    "null_data_source": {
+      "chalice": {
+        "inputs": {
+          "app": "queue_to_batch",
+          "stage": "dev"
+        }
+      }
+    }
+  }
+}
