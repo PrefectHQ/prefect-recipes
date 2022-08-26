@@ -41,8 +41,8 @@ variable "agent_subnets" {
 
 variable "agent_task_role_arn" {
   description = "Optional task role to pass to the agent"
-  default = ""
-  type = string
+  default     = ""
+  type        = string
 }
 
 variable "prefect_account_id" {
