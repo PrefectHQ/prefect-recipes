@@ -43,6 +43,7 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
       Statement = [
         {
           Action = [
+            // TODO: Which os these is necessary?
             "kms:Decrypt",
             "secretsmanager:GetSecretValue",
             "ssm:GetParameters"
@@ -55,7 +56,7 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
       ]
     })
   }
-
+  // AmazonECSTaskExecutionRolePolicy is an AWS managed role for creating ECS tasks and services
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
 }
 
@@ -110,8 +111,10 @@ resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
       }
     }
   ])
+  // Execution role allows ECS to create tasks and services
   execution_role_arn = aws_iam_role.prefect_agent_execution_role.arn
-  //   task_role_arn = ""
+  // Task role allows tasks and services to access other AWS resources
+  task_role_arn = var.agent_task_role_arn
 }
 
 resource "aws_ecs_service" "prefect_agent_service" {

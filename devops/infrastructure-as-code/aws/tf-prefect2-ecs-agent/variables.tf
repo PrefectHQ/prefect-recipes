@@ -28,15 +28,21 @@ variable "agent_memory" {
   type        = number
 }
 
+variable "agent_queue_name" {
+  description = "Queue that agent should listen to"
+  default     = "default"
+  type        = string
+}
+
 variable "agent_subnets" {
   description = "Subnets to place fargate tasks in"
   type        = list(string)
 }
 
-variable "agent_queue_name" {
-  description = "Queue that agent should listen to"
-  default     = "default"
-  type        = string
+variable "agent_task_role_arn" {
+  description = "Optional task role to pass to the agent"
+  default = ""
+  type = string
 }
 
 variable "prefect_account_id" {
