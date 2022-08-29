@@ -25,7 +25,7 @@ variable prefect_api_key {}
 ```hcl
 // terraform.tfvars
 // Don't panic! This isn't a real API key
-prefect_api_key = pnu_bcf655365883614d468990896264f6a30372
+prefect_api_key = "pnu_bcf655365883614d468990896264f6a30372"
 ```
 
 ```hcl
@@ -36,7 +36,7 @@ provider "aws" {
 }
 
 // Don't panic! These values are just random uuid.uuid4()s
-module "prefect-ecs-agent" {
+module "prefect_ecs_agent" {
   source = "github.com/PrefectHQ/prefect-recipes//devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent"
 
   agent_subnets        = [
