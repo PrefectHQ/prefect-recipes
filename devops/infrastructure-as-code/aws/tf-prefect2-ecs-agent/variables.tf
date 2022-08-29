@@ -45,6 +45,11 @@ variable "agent_task_role_arn" {
   type        = string
 }
 
+variable "name" {
+  description = "Unique name for this agent deployment"
+  type        = string
+}
+
 variable "prefect_account_id" {
   description = "Prefect cloud account ID"
   type        = string

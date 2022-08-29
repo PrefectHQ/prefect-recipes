@@ -11,7 +11,7 @@ terraform {
 data "aws_region" "current" {}
 
 resource "aws_secretsmanager_secret" "prefect_api_key" {
-  name = "prefect-api-key"
+  name = "prefect-api-key-${var.name}"
 }
 
 resource "aws_secretsmanager_secret_version" "prefect_api_key_version" {
@@ -20,7 +20,7 @@ resource "aws_secretsmanager_secret_version" "prefect_api_key_version" {
 }
 
 resource "aws_iam_role" "prefect_agent_execution_role" {
-  name = "prefect-agent-execution-role"
+  name = "prefect-agent-execution-role-${var.name}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -36,7 +36,7 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
   })
 
   inline_policy {
-    name = "ssm-allow-read-prefect-api-key"
+    name = "ssm-allow-read-prefect-api-key-${var.name}"
     policy = jsonencode({
       Version = "2012-10-17"
       Statement = [
@@ -59,12 +59,12 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
 }
 
 resource "aws_cloudwatch_log_group" "prefect_agent_log_group" {
-  name              = "prefect-agent-log-group"
+  name              = "prefect-agent-log-group-${var.name}"
   retention_in_days = var.agent_log_retention_in_days
 }
 
 resource "aws_ecs_cluster" "prefect_agent_cluster" {
-  name = "prefect-agent"
+  name = "prefect-agent-${var.name}"
 }
 
 resource "aws_ecs_cluster_capacity_providers" "prefect_agent_cluster_capacity_providers" {
@@ -73,7 +73,7 @@ resource "aws_ecs_cluster_capacity_providers" "prefect_agent_cluster_capacity_pr
 }
 
 resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
-  family = "prefect-agent"
+  family = "prefect-agent-${var.name}"
   cpu    = var.agent_cpu
   memory = var.agent_memory
 
@@ -82,7 +82,7 @@ resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
 
   container_definitions = jsonencode([
     {
-      name    = "prefect-agent"
+      name    = "prefect-agent-${var.name}"
       image   = var.agent_image
       command = ["prefect", "agent", "start", "-q", var.agent_queue_name]
       cpu     = var.agent_cpu
@@ -104,7 +104,7 @@ resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
         options = {
           awslogs-group         = aws_cloudwatch_log_group.prefect_agent_log_group.name
           awslogs-region        = data.aws_region.current.name
-          awslogs-stream-prefix = "prefect-agent"
+          awslogs-stream-prefix = "prefect-agent-${var.name}"
         }
       }
     }
@@ -116,7 +116,7 @@ resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
 }
 
 resource "aws_ecs_service" "prefect_agent_service" {
-  name          = "prefect-agent"
+  name          = "prefect-agent-${var.name}"
   cluster       = aws_ecs_cluster.prefect_agent_cluster.id
   desired_count = var.agent_desired_count
   launch_type   = "FARGATE"
