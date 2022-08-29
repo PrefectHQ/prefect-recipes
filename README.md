@@ -25,6 +25,7 @@ Here you'll find starter code and more advanced example use cases.
 
 - [Diving Deeper](#diving-deeper-)
   - [Data Engineering / DataOps](#data-engineering--dataops)
+  - [AWS Infrastructure](#aws-infrastructure)
   - [Azure Infrastructure](#azure-infrastructure)
   - [Legacy (Prefect 1.0)](#legacy-prefect-10)
 - [Contributing](#contributing--swag-)
@@ -73,6 +74,10 @@ Here you'll find starter code and more advanced example use cases.
 ## Diving Deeper 🍱
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
+
+#### AWS Infrastructure
+- [Deploy a Prefect agent to ECS using the AWS CLI](./devops/infrastructure-as-code/aws/cli-prefect2-ecs-agent/)
+- [Deploy a Prefect agent to ECS with Terraform](./devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/)
 
 #### Azure Infrastructure
 - [Setup Azure with Prefect](./video-demos/setup-azure-with-prefect/)
