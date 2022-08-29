@@ -4,8 +4,8 @@ from chalice import Chalice
 
 app = Chalice(app_name="sqs-to-batch-lambda")
 
-
-@app.on_sqs_message(queue="east-boyd-q1")
+#@app.on_sqs_message(queue="east-boyd-q1")
+@app.on_sqs_message(queue=queue)
 def handler(event):
     new_event = event.to_dict()
     for record in new_event["Records"]:

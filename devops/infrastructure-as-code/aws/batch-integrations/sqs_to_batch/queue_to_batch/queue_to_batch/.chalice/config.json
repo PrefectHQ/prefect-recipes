@@ -1,9 +1,0 @@
-{
-  "version": "2.0",
-  "app_name": "queue_to_batch",
-  "stages": {
-    "dev": {
-      "api_gateway_stage": "api"
-    }
-  }
-}

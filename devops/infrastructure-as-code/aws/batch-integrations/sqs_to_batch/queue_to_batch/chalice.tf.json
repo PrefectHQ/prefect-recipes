@@ -9,7 +9,7 @@
     "aws_iam_role_policy": {
       "default-role": {
         "name": "default-rolePolicy",
-        "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"batch:SubmitJob\"], \"Resource\": [\"*\"], \"Sid\": \"ba006a72a66b4efca72133843bb33b58\"}, {\"Effect\": \"Allow\", \"Action\": [\"logs:CreateLogGroup\", \"logs:CreateLogStream\", \"logs:PutLogEvents\"], \"Resource\": \"arn:*:logs:*:*:*\"}, {\"Effect\": \"Allow\", \"Action\": [\"sqs:ReceiveMessage\", \"sqs:DeleteMessage\", \"sqs:GetQueueAttributes\"], \"Resource\": \"*\"}]}",
+        "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"logs:CreateLogGroup\", \"logs:CreateLogStream\", \"logs:PutLogEvents\"], \"Resource\": \"arn:*:logs:*:*:*\"}, {\"Effect\": \"Allow\", \"Action\": [\"sqs:ReceiveMessage\", \"sqs:DeleteMessage\", \"sqs:GetQueueAttributes\"], \"Resource\": \"*\"}]}",
         "role": "${aws_iam_role.default-role.id}"
       }
     },
@@ -30,7 +30,7 @@
     },
     "aws_lambda_event_source_mapping": {
       "handler-sqs-event-source": {
-        "event_source_arn": "arn:${data.aws_partition.chalice.partition}:sqs:${data.aws_region.chalice.name}:${data.aws_caller_identity.chalice.account_id}:east-boyd-q1",
+        "event_source_arn": "arn:${data.aws_partition.chalice.partition}:sqs:${data.aws_region.chalice.name}:${data.aws_caller_identity.chalice.account_id}:sqs_to_batch",
         "batch_size": 1,
         "maximum_batching_window_in_seconds": 0,
         "function_name": "${aws_lambda_function.handler.arn}"
