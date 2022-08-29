@@ -7,9 +7,8 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.aws_region
-}
+// Region speficied in AWS provider
+data "aws_region" "current" {}
 
 resource "aws_secretsmanager_secret" "prefect_api_key" {
   name = "prefect-api-key"
@@ -43,7 +42,6 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
       Statement = [
         {
           Action = [
-            // TODO: Which os these is necessary?
             "kms:Decrypt",
             "secretsmanager:GetSecretValue",
             "ssm:GetParameters"
@@ -62,7 +60,7 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
 
 resource "aws_cloudwatch_log_group" "prefect_agent_log_group" {
   name              = "prefect-agent-log-group"
-  retention_in_days = 30
+  retention_in_days = var.agent_log_retention_in_days
 }
 
 resource "aws_ecs_cluster" "prefect_agent_cluster" {
@@ -105,7 +103,7 @@ resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
         logDriver = "awslogs"
         options = {
           awslogs-group         = aws_cloudwatch_log_group.prefect_agent_log_group.name
-          awslogs-region        = var.aws_region
+          awslogs-region        = data.aws_region.current.name
           awslogs-stream-prefix = "prefect-agent"
         }
       }
@@ -122,10 +120,12 @@ resource "aws_ecs_service" "prefect_agent_service" {
   cluster       = aws_ecs_cluster.prefect_agent_cluster.id
   desired_count = var.agent_desired_count
   launch_type   = "FARGATE"
+
+  // Public IP required for pulling secrets and images
+  // https://aws.amazon.com/premiumsupport/knowledge-center/ecs-unable-to-pull-secrets/
   network_configuration {
     assign_public_ip = true
     subnets          = var.agent_subnets
   }
   task_definition = aws_ecs_task_definition.prefect_agent_task_definition.arn
-
 }

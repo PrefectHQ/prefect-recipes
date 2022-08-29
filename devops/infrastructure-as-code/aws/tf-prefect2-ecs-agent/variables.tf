@@ -1,11 +1,5 @@
-variable "aws_region" {
-  description = "AWS region to place resources in"
-  default     = "us-east-1"
-  type        = string
-}
-
 variable "agent_cpu" {
-  description = "CPU units to allocate to agent"
+  description = "CPU units to allocate to the agent"
   default     = 1024
   type        = number
 }
@@ -17,30 +11,36 @@ variable "agent_desired_count" {
 }
 
 variable "agent_image" {
-  description = "Container image for the agent"
-  default     = "prefecthq/prefect:2.2.0-python3.10"
+  description = "Container image for the agent. This could be the name of an image in a public repo or an ECR ARN"
+  default     = "prefecthq/prefect:2-python3.10"
   type        = string
 }
 
+variable "agent_log_retention_in_days" {
+  description = "Number of days to retain agent logs for"
+  default     = 30
+  type        = number
+}
+
 variable "agent_memory" {
-  description = "Memory units to allocate to agent"
+  description = "Memory units to allocate to the agent"
   default     = 2048
   type        = number
 }
 
 variable "agent_queue_name" {
-  description = "Queue that agent should listen to"
+  description = "Prefect queue that the agent should listen to"
   default     = "default"
   type        = string
 }
 
 variable "agent_subnets" {
-  description = "Subnets to place fargate tasks in"
+  description = "Subnets to place the agent in"
   type        = list(string)
 }
 
 variable "agent_task_role_arn" {
-  description = "Optional task role to pass to the agent"
+  description = "Optional task role ARN to pass to the agent"
   default     = ""
   type        = string
 }
