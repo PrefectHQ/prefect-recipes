@@ -1,6 +1,6 @@
 # Prefect 2 Agent on ECS Fargate
 
-This recipe demonstrates how to deploy a Prefect 2 agent onto ECS Fargate. It can be used as a Terrafrom module as described below.
+This recipe demonstrates how to deploy a Prefect 2 agent onto ECS Fargate using [Terraform](https://www.terraform.io/). It can be used as a Terraform module as described below.
 
 ## Usage
 
