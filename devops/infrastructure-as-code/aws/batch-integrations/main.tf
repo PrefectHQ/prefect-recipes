@@ -1,17 +1,38 @@
 resource "aws_dynamodb_table" "dynamo_db_table" {
-    attribute {
-        name = "messageId"
-        type = "S"
-    }
+  attribute {
+    name = "batchState"
+    type = "S"
+  }
+  attribute {
+    name = "messageId"
+    type = "S"
+  }
+  attribute {
+    name = "timeOfState"
+    type = "S"
+  }
 
-    name = var.dbTableName
-    hash_key = var.dbHashKey
-    read_capacity = var.dbReadCapacity
-    write_capacity = var.dbWriteCapacity
+  ttl {
+    attribute_name = "ttl"
+    enabled        = true
+  }
+
+  name           = var.dbTableName
+  hash_key       = var.dbHashKey
+  read_capacity  = var.dbReadCapacity
+  write_capacity = var.dbWriteCapacity
+  global_secondary_index {
+    name            = "batchState-timeOfState-index"
+    hash_key        = "batchState"
+    range_key       = "timeOfState"
+    projection_type = "KEYS_ONLY"
+    read_capacity   = 1
+    write_capacity  = 1
+  }
 }
 
 data "aws_batch_compute_environment" "batch_compute_environment" {
-    compute_environment_name = "Boyd_fargate"
+  compute_environment_name = "Boyd_fargate"
 }
 
 module "sqs_to_batch" {

@@ -3,9 +3,9 @@ data "aws_iam_policy_document" "update_batch_table" {
   statement {
 
     actions = [
-         "logs:CreateLogGroup",
-         "logs:CreateLogStream",
-         "logs:PutLogEvents"
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
     ]
     resources = [
       "arn:*:logs:*:*:*",
@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "update_batch_table" {
   statement {
 
     actions = [
-         "dynamodb:PutItem",
+      "dynamodb:PutItem",
     ]
     resources = [
       "${var.dynamo_db_table_arn}",
@@ -24,9 +24,9 @@ data "aws_iam_policy_document" "update_batch_table" {
 }
 
 resource "aws_iam_role" "update_batch_table" {
-    name = "batch-table-update-dev"
+  name = "batch-table-update-dev"
 
-    assume_role_policy = <<EOF
+  assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -56,39 +56,39 @@ resource "aws_iam_policy_attachment" "update_batch_table" {
 
 
 resource "aws_lambda_function" "batch_table_update" {
-    description = ""
-    function_name = "batch-table-update-lambda_handler"
-    handler = "app.lambda_handler"
-    architectures = [
-        "x86_64"
-    ]
+  description   = ""
+  function_name = "batch-table-update-lambda_handler"
+  handler       = "app.lambda_handler"
+  architectures = [
+    "x86_64"
+  ]
 
-    filename = "./sqs_to_batch/update_batch_table/deployment.zip"
-    memory_size = 128
-    role = "${aws_iam_role.update_batch_table.arn}"
-    runtime = "python3.9"
-    timeout = 60
-    tracing_config {
-        mode = "PassThrough"
-    }
+  filename    = "./sqs_to_batch/update_batch_table/deployment.zip"
+  memory_size = 128
+  role        = aws_iam_role.update_batch_table.arn
+  runtime     = "python3.9"
+  timeout     = 60
+  tracing_config {
+    mode = "PassThrough"
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "EventsRule" {
-    name = "state-change-in-batch"
-    description = "Fires when a batch job has changed states, and updates the change in DynamoDB"
-    event_pattern = "{\"source\":[\"aws.batch\"],\"detail-type\":[\"Batch Job State Change\"]}"
+  name          = "state-change-in-batch"
+  description   = "Fires when a batch job has changed states, and updates the change in DynamoDB"
+  event_pattern = "{\"source\":[\"aws.batch\"],\"detail-type\":[\"Batch Job State Change\"]}"
 }
 
 resource "aws_cloudwatch_event_target" "CloudWatchEventTarget" {
-    rule = "${aws_cloudwatch_event_rule.EventsRule.name}"
-    arn = "${aws_lambda_function.batch_table_update.arn}"
+  rule = aws_cloudwatch_event_rule.EventsRule.name
+  arn  = aws_lambda_function.batch_table_update.arn
 }
 
 resource "aws_lambda_permission" "batch_table_update" {
-    action = "lambda:InvokeFunction"
-    function_name = "${aws_lambda_function.batch_table_update.name}"
-    principal = "events.amazonaws.com"
-    source_arn = "${aws_cloudwatch_event_rule.EventsRule.arn}"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.batch_table_update.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.EventsRule.arn
 }
 
 # resource "aws_lambda_permission" "batch_table_update" {

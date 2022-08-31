@@ -6,14 +6,18 @@ output "update_batch_table_arn" {
   value = aws_lambda_function.batch_table_update.arn
 }
 
-# output "retrieve_batch_state_arn" {
-#   value = aws_lambda_function.get_batchjob_state.arn
-# }
-
 output "sqs_queue_arn" {
-  value = "${aws_sqs_queue.SQSQueue.arn}"
+  value = aws_sqs_queue.SQSQueue.arn
 }
 
 output "sqs_batch_iam_role_arn" {
-  value = "${aws_iam_role.sqs_batch.arn}"
+  value = aws_iam_role.sqs_batch.arn
+}
+
+output "retrieve_batch_state_arn" {
+  value = aws_lambda_function.retrieve_batch_state.arn
+}
+
+output "retrieve_batch_state_url" {
+  value = aws_api_gateway_deployment.ApiGatewayDeployment.invoke_url
 }
