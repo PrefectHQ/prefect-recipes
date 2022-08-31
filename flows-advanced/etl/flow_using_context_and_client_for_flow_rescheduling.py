@@ -6,9 +6,10 @@ from prefect import flow, task, get_run_logger
 # -- Build a Subflow to Demonstrate get_run_context() and return_state Argument --
 @task
 def task_that_gives_context():
-    print("I am a task.")
+    print("I am a task, check out my task run context below:")
     task_run_context_dict = get_run_context().task_run.dict()
     # check out the availble keys
+
     print(task_run_context_dict.keys())
     return "Hello Result"
 
@@ -31,7 +32,7 @@ def flow_that_gives_context():
 # -- Build a Subflow to Add Scheduled Flow Runs to a Deployment --
 @task
 async def add_new_scheduled_run(depl_id, original_start_time, delta_hours=6): 
-    """This task adds a scheduled flow run delta_hours from the expected start time of the current flow."""
+    """This task adds a scheduled flow run x hours from the expected start time of the current flow."""
     scheduled_time=original_start_time.add(hours=delta_hours)
     async with get_client() as client:
         response = await client.create_flow_run_from_deployment(
