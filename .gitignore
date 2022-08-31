@@ -8,3 +8,5 @@
 terraform.*
 **.tgz
 Chart.lock
+.env
+**.env
