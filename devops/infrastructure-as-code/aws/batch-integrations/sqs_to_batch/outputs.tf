@@ -19,5 +19,5 @@ output "retrieve_batch_state_arn" {
 }
 
 output "retrieve_batch_state_url" {
-  value = aws_api_gateway_deployment.ApiGatewayDeployment.invoke_url
+  value = "${aws_api_gateway_deployment.retrieve_batch_state.invoke_url}${aws_api_gateway_stage.retrieve_batch_state.stage_name}/"
 }
