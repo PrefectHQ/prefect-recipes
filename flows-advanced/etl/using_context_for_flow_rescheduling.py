@@ -43,7 +43,7 @@ def flow_that_logs_context():
     raise Exception('Deliberate Failure for Example.')
 
 
-# -- Build a Subflow to add scheduled flow runs to a deployment --
+# -- Build a Task to add scheduled flow runs to a deployment --
 @task
 async def add_new_scheduled_run(depl_id, original_start_time, delta_hours=6):
     """This task adds a scheduled flow run x hours from the expected start time of the current flow."""
@@ -59,13 +59,6 @@ async def add_new_scheduled_run(depl_id, original_start_time, delta_hours=6):
     logger = get_run_logger()
     logger.info(f"INFO get client response: {response}")
     logger.info(f"INFO Scheduled a flow run for {scheduled_time}!")
-
-
-@flow
-def scheduling_flow(depl_id, original_start_time, delta_hours):
-    # Running the scheduling task in a subflow since
-    # it's use of get_client requires asychrous execution.
-    add_new_scheduled_run.submit(depl_id, original_start_time, delta_hours)
 
 # -- Build a Main Parent Flow that dynamically reschedules itself upon failure --
 @flow
@@ -87,7 +80,7 @@ def main_flow():
         original_start_time = get_run_context().flow_run.expected_start_time
 
         # Schedule Flow to run 6 Hours from Original Flow Scheduled Start Time
-        scheduling_flow(depl_id, original_start_time, delta_hours=6)
+        add_new_scheduled_run.submit(depl_id, original_start_time)
 
 
 if __name__ == "__main__":
