@@ -10,3 +10,8 @@ terraform.*
 Chart.lock
 .env
 **.env
+
+## prefect development files
+**deployment.yaml
+**/__pycache__
+**.prefectignore

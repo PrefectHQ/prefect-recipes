@@ -78,10 +78,10 @@ def main_flow():
     # Lets schedule this flow to run in a few hours from now if the subflow failed
     if not flow_state.is_completed():
         # Use Context to Get Deployment ID
-        depl_id = get_run_context().flow_run.dict()['deployment_id']
+        depl_id = get_run_context().flow_run.deployment_id
 
         # Also use Context to get original scheduled start time
-        original_start_time = get_run_context().flow_run.dict()['expected_start_time']
+        original_start_time = get_run_context().flow_run.expected_start_time
 
         # Schedule Flow to run 6 Hours from Original Flow Scheduled Start Time
         scheduling_flow(depl_id, original_start_time, delta_hours=6)
