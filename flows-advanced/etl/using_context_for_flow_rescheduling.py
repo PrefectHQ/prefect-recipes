@@ -3,9 +3,9 @@ from prefect.context import get_run_context
 from prefect.orion.schemas.states import Scheduled
 from prefect import flow, task, get_run_logger
 
-"""main_flow must be run as a deployment to ensure that get_run_context returns a valid deployment id and scheduled start time."""
+"""main_flow must be run as a deployment to ensure that get_run_context returns a valid deployment id and scheduled start time"""
 
-# -- Build a Subflow to Demonstrate get_run_context() and return_state Argument --
+# -- Build a Subflow to demonstrate get_run_context() and return_state argument --
 @task
 def task_that_logs_context():
 
@@ -43,7 +43,7 @@ def flow_that_logs_context():
     raise Exception('Deliberate Failure for Example.')
 
 
-# -- Build a Subflow to Add Scheduled Flow Runs to a Deployment --
+# -- Build a Subflow to add scheduled flow runs to a deployment --
 @task
 async def add_new_scheduled_run(depl_id, original_start_time, delta_hours=6):
     """This task adds a scheduled flow run x hours from the expected start time of the current flow."""
@@ -67,7 +67,7 @@ def scheduling_flow(depl_id, original_start_time, delta_hours):
     # it's use of get_client requires asychrous execution.
     add_new_scheduled_run.submit(depl_id, original_start_time, delta_hours)
 
-
+# -- Build a Main Parent Flow that dynamically reschedules itself upon failure --
 @flow
 def main_flow():
 
