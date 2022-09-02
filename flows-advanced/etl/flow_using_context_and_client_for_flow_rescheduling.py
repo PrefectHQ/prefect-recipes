@@ -3,6 +3,8 @@ from prefect.context import get_run_context
 from prefect.orion.schemas.states import Scheduled
 from prefect import flow, task, get_run_logger
 
+"""main_flow must be run as a deployment to ensure that get_run_context returns a valid deployment id and scheduled start time."""
+
 # -- Build a Subflow to Demonstrate get_run_context() and return_state Argument --
 @task
 def task_that_logs_context():
