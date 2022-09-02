@@ -57,6 +57,7 @@ async def add_new_scheduled_run(depl_id, original_start_time, delta_hours=6):
             state=Scheduled(scheduled_time=scheduled_time)
         )
     logger = get_run_logger()
+    logger.info(f"INFO get client response: {response}")
     logger.info(f"INFO Scheduled a flow run for {scheduled_time}!")
 
 
