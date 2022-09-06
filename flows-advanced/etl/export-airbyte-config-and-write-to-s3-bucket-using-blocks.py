@@ -76,8 +76,8 @@ async def write_export(export: bytearray, bucket_block: Block, filename: str) ->
 @flow
 def airbyte_export(
     env: str,
-    s3bucket_block_nm: str = "airbyte-config-s3bucket", 
-    filename: str = "airbyte-config-archive"
+    s3bucket_block_nm: str = "airbyte-config-s3bucket",
+    filename: str = "airbyte-config-archive",
 ) -> None:
 
     """
@@ -103,6 +103,7 @@ def airbyte_export(
     )
 
     write_export(export=airbyte_config, bucket_block=s3_bucket_block, filename=filename)
+
 
 # This is an alternative to the `prefect deployment build --apply` command
 deployment = Deployment.build_from_flow(
