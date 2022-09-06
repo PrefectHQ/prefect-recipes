@@ -35,6 +35,9 @@ Here you'll find starter code and more advanced example use cases.
 - [Thanks](#thanks-)
 
 ## Getting Started 🍯
+
+#### Jupyter Notebook
+-[A Gentle Intro to Running Prefect Locally in a Jupter Notebook](/flows-starter/prefect-in-jupyter-notebook/)
 #### Subflows
 - [Getting Started With Subflows](https://discourse.prefect.io/t/migrating-to-prefect-2-0-from-flow-of-flows-to-subflows/1318)
 - [Run Multiple Subflows or Child Flows in Parallel](https://discourse.prefect.io/t/how-can-i-run-multiple-subflows-or-child-flows-in-parallel/96)
