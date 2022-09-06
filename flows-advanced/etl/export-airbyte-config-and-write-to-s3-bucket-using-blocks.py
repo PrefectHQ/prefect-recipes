@@ -15,8 +15,9 @@ Assumes you have:
     "aws_credentials"=AwsCredentials block,
 }
 
-If you are unable to create these blocks in the UI because S3Bucket or AwsCredentials block types do not exist,
-run 
+If you are unable to create these blocks in the UI because S3Bucket or
+AwsCredentials block types do not exist,
+run
 `prefect block register -m prefect_aws.credentials`
 `prefect block register -m prefect_aws.s3`
 to register them in your workspace.
