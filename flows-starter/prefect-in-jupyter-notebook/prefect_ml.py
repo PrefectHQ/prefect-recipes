@@ -19,8 +19,8 @@ from sklearn.tree import DecisionTreeClassifier
 @task(name="create-data", description="This task reads in and wrangles Titanic data")
 def create_data():
     """
-    Task that reads in data from the CSV, then cleans it. Easily extensible to other methods of
-    data extraction, from an S3 bucket, API, etc.
+    Task that reads in data from the CSV, then cleans it. Easily extensible to other
+    methods of data extraction, from an S3 bucket, API, etc.
     """
     df = pd.read_csv("titanic.csv")
     df = df.drop(["Name"], axis=1)
