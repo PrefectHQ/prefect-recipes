@@ -70,6 +70,7 @@ Here you'll find starter code and more advanced example use cases.
 - [Deploy Flows to AWS](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-aws/1252)
 - [Deploy Flows to GCP](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-gcp/1251)
 - [Deploy Flows to Azure](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-azure/1312)
+- [Python-Based Deployments](/flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py#L109)
 
 ## Diving Deeper 🍱
 #### Data Engineering / DataOps
