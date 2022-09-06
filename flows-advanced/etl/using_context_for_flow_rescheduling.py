@@ -1,11 +1,16 @@
+from prefect import flow, get_run_logger, task
 from prefect.client import get_client
 from prefect.context import get_run_context
 from prefect.orion.schemas.states import Scheduled
-from prefect import flow, task, get_run_logger
 
-"""main_flow must be run as a deployment to ensure that get_run_context returns a valid deployment id and scheduled start time"""
+"""
+main_flow must be run as a deployment to ensure that get_run_context returns a
+valid deployment id and scheduled start time
+"""
 
 # -- Build a Subflow to demonstrate get_run_context() and return_state argument --
+
+
 @task
 def task_that_logs_context():
 
@@ -40,25 +45,28 @@ def flow_that_logs_context():
 
     # Now we will raise an artificial error that will prompt us to rescheudle
     # the parent flow x hours in the future
-    raise Exception('Deliberate Failure for Example.')
+    raise Exception("Deliberate Failure for Example.")
 
 
 # -- Build a Task to add scheduled flow runs to a deployment --
 @task
 async def add_new_scheduled_run(depl_id, original_start_time, delta_hours=6):
-    """This task adds a scheduled flow run x hours from the expected start time of the current flow."""
+    """
+    This task adds a scheduled flow run x hours from
+    the expected start time of the current flow.
+    """
     # Get the time x hours from now.
     scheduled_time = original_start_time.add(hours=delta_hours)
 
     # Use Prefect get_client() to schedule a new flow run x hours from now
     async with get_client() as client:
         response = await client.create_flow_run_from_deployment(
-            deployment_id=depl_id,
-            state=Scheduled(scheduled_time=scheduled_time)
+            deployment_id=depl_id, state=Scheduled(scheduled_time=scheduled_time)
         )
     logger = get_run_logger()
     logger.info(f"INFO get client response: {response}")
     logger.info(f"INFO Scheduled a flow run for {scheduled_time}!")
+
 
 # -- Build a Main Parent Flow that dynamically reschedules itself upon failure --
 @flow
