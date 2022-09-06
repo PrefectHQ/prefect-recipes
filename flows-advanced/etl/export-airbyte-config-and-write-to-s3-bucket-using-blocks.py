@@ -1,4 +1,6 @@
 """
+Uses Prefect 2.3.1
+
 Assumes you have:
 - a Secret block named `airbyte-hostname-dev` (this is just 'localhost')
 - a Secret block named `airbyte-hostname-prod`
