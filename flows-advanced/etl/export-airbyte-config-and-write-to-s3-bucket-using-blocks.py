@@ -25,7 +25,9 @@ Schedule:
 Set to run every 12 hours.
 """
 
+
 from datetime import datetime
+
 from prefect import flow, task
 from prefect.blocks.core import Block
 from prefect.blocks.system import Secret
@@ -33,16 +35,12 @@ from prefect.deployments import Deployment
 from prefect.filesystems import S3
 from prefect.infrastructure import KubernetesJob
 from prefect.logging import get_run_logger
-from prefect_aws import s3
 from prefect_airbyte.configuration import export_configuration
+from prefect_aws import s3
 
 
 @task
-async def write_export(
-    export: bytearray,
-    bucket_block: Block, 
-    filename: str 
-) -> None:
+async def write_export(export: bytearray, bucket_block: Block, filename: str) -> None:
 
     """
     Task that writes to an S3 bucket and asserts that the file was loaded.
@@ -63,9 +61,8 @@ async def write_export(
     try:
         # returns the key, e.g. "airbyte-config-archive_08-29-22.gz"
         key = await bucket_block.write_path(
-            path=f"{filename}_{today_str}.gz", 
-            content=export
-            )
+            path=f"{filename}_{today_str}.gz", content=export
+        )
 
         # use the key to ensure file was loaded
         await bucket_block.read_path(path=key)
@@ -81,7 +78,7 @@ def airbyte_export(
     env: str,
     s3bucket_block_nm: str = "airbyte-config-s3bucket", 
     filename: str = "airbyte-config-archive"
-    ) -> None:
+) -> None:
 
     """
     Flow that exports config for Airbyte instance, then write it to an S3 bucket.
@@ -102,15 +99,10 @@ def airbyte_export(
     s3_bucket_block = s3.S3Bucket.load(s3bucket_block_nm)
 
     airbyte_config = export_configuration(
-        airbyte_server_port="8000",
-        airbyte_server_host=hostname_secret.get()
+        airbyte_server_port="8000", airbyte_server_host=hostname_secret.get()
     )
 
-    write_export(
-        export=airbyte_config, 
-        bucket_block=s3_bucket_block, 
-        filename=filename
-    )
+    write_export(export=airbyte_config, bucket_block=s3_bucket_block, filename=filename)
 
 # This is an alternative to the `prefect deployment build --apply` command
 deployment = Deployment.build_from_flow(
@@ -120,8 +112,8 @@ deployment = Deployment.build_from_flow(
     work_queue_name="prod",
     infrastructure=KubernetesJob.load("sync-airbyte_config"),
     tags=["prod-east"],
-    storage=S3.load("airbyte-config-flow-storage")
-    )
+    storage=S3.load("airbyte-config-flow-storage"),
+)
 
 
 if __name__ == "__main__":
