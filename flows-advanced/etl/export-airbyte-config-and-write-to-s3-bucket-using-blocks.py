@@ -115,9 +115,9 @@ deployment = Deployment.build_from_flow(
     flow=airbyte_export,
     name="Airbyte Config Export",
     version="1",
-    work_queue_name="dev",
+    work_queue_name="prod",
     infrastructure=KubernetesJob.load("sync-airbyte_config"),
-    tags=["dev-east"],
+    tags=["prod-east"],
     storage=S3.load("airbyte-config-flow-storage")
     )
 
