@@ -19,7 +19,7 @@ git clone https://github.com/serinamarie/prefect-in-jupyter-notebook.git
 ```console
 cd prefect-in-jupyter-notebook
 ```
-3. Install Jupyter Notebook.
+3. Install Jupyter Notebook
 ```console
 pip install notebook
 ```
