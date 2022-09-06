@@ -15,11 +15,11 @@ Alternatively, clone the repo with HTTPS:
 git clone https://github.com/serinamarie/prefect-in-jupyter-notebook.git
 ```
 
-2. cd into the working directory
+2. cd into the working directory:
 ```console
 cd prefect-in-jupyter-notebook
 ```
-3. Install Jupyter Notebook
+3. Install Jupyter Notebook:
 ```console
 pip install notebook
 ```
