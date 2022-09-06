@@ -110,7 +110,7 @@ def airbyte_export(
         filename=filename
     )
 
-
+# This is an alternative to the `prefect deployment build --apply` command
 deployment = Deployment.build_from_flow(
     flow=airbyte_export,
     name="Airbyte Config Export",
