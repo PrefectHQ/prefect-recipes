@@ -29,7 +29,5 @@ pip install notebook
 jupyter notebook
 ```
 
-5. Look at `prefect_ml.py` and `titanic.csv`. We will be using these in the demo.
-
-6. Do not skip step 5. When you're ready, click `getting-started-with-prefect.ipynb`! 
+5. Click `getting-started-with-prefect.ipynb`! 
 
