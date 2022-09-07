@@ -1,7 +1,6 @@
 resource "aws_api_gateway_rest_api" "retrieve_batch_state" {
   name        = "get-batchjob-state"
   description = "Batch State Lambda API Gateway"
-  #exports execution_arn to be used by source_arn in lambda_permission
 }
 
 
@@ -49,13 +48,6 @@ resource "aws_api_gateway_method" "state" {
     }
 }
 
-# resource "aws_api_gateway_method" "message_id" {
-#     rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-#     resource_id = "${aws_api_gateway_resource.message_id.id}"
-#     http_method = "GET"
-#     authorization = "NONE"
-#     api_key_required = false
-# }
 
 resource "aws_api_gateway_method" "message_id_2" {
     rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
@@ -88,15 +80,6 @@ resource "aws_api_gateway_integration" "state" {
     uri = "${aws_lambda_function.retrieve_batch_state.invoke_arn}"
 }
 
-# resource "aws_api_gateway_integration" "message_id" {
-#     rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-#     resource_id = "${aws_api_gateway_resource.message_id.id}"
-#     http_method = "${aws_api_gateway_method.message_id.http_method}"
-
-#     integration_http_method = "POST"
-#     type = "AWS_PROXY"
-#     uri = "${aws_lambda_function.retrieve_batch_state.invoke_arn}"
-# }
 
 resource "aws_api_gateway_integration" "message_id_2" {
     rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
@@ -113,6 +96,18 @@ resource "aws_api_gateway_method_response" "describe_jobs" {
     resource_id = "${aws_api_gateway_resource.describe_jobs.id}"
     http_method = "${aws_api_gateway_method.describe_jobs.http_method}"
     status_code = "200"
+}
+
+resource "aws_api_gateway_stage" "retrieve_batch_state" {
+    stage_name = "api"
+    deployment_id = "${aws_api_gateway_deployment.retrieve_batch_state.id}"
+    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
+    cache_cluster_enabled = false
+    xray_tracing_enabled = false
+}
+
+resource "aws_api_gateway_deployment" "retrieve_batch_state" {
+  rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
 }
 
 resource "aws_iam_role" "retrieve_batch_state" {
@@ -153,8 +148,8 @@ resource "aws_iam_role_policy" "retrieve_batch_state" {
             ],
             "Resource": [
                 "arn:*:logs:*:*:*",
-                "arn:aws:dynamodb:*:330830921905:table/batch_state_table/index/*",
-                "arn:aws:dynamodb:us-east-1:330830921905:table/batch_state_table"
+                "arn:aws:dynamodb:*:*:table/batch_state_table/index/*",
+                "arn:aws:dynamodb:*:*:table/batch_state_table"
             ]
         }
     ]
@@ -169,7 +164,6 @@ resource "aws_lambda_permission" "retrieve_batch_state" {
   function_name = aws_lambda_function.retrieve_batch_state.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.retrieve_batch_state.execution_arn}/*/*"
-  #source_arn   = "arn:aws:execute-api:${var.myregion}:${var.accountId}"${aws_api_gateway_rest_api.api.id}/*/${aws_api_gateway_method.method.http_method}${aws_api_gateway_resource.path}""
 }
 
 resource "aws_lambda_function" "retrieve_batch_state" {
@@ -179,7 +173,7 @@ resource "aws_lambda_function" "retrieve_batch_state" {
   architectures = [
     "x86_64"
   ]
-  filename    = "./sqs_to_batch/retrieve_batch_state/deployment.zip"
+  filename    = "./retrieve_batch_state/deployment.zip"
   memory_size = 128
   role        = "${aws_iam_role.retrieve_batch_state.arn}"
   runtime     = "python3.9"
@@ -187,17 +181,5 @@ resource "aws_lambda_function" "retrieve_batch_state" {
   tracing_config {
     mode = "PassThrough"
   }
-}
-
-resource "aws_api_gateway_stage" "retrieve_batch_state" {
-    stage_name = "api"
-    deployment_id = "${aws_api_gateway_deployment.retrieve_batch_state.id}"
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    cache_cluster_enabled = false
-    xray_tracing_enabled = false
-}
-
-resource "aws_api_gateway_deployment" "retrieve_batch_state" {
-  rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
 }
 
