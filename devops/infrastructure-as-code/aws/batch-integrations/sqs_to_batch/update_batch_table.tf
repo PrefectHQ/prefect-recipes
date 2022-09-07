@@ -91,6 +91,11 @@ resource "aws_lambda_permission" "batch_table_update" {
   source_arn    = aws_cloudwatch_event_rule.EventsRule.arn
 }
 
+resource "aws_cloudwatch_log_group" "batch_table_update" {
+    name = "/aws/lambda/${aws_lambda_function.batch_table_update.function_name}"
+    retention_in_days = 5
+}
+
 # resource "aws_lambda_permission" "batch_table_update" {
 #     action = "lambda:InvokeFunction"
 #     function_name = "${aws_lambda_function.batch_table_update.arn}"

@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "sqs_batch" {
   statement {
-    sid = "1e5cbbfad0774e8fa6a6a0f9e572b310"
+    sid = ""
 
     actions = [
       "batch:SubmitJob",
@@ -85,3 +85,8 @@ resource "aws_lambda_function" "sqs_to_batch" {
   }
 }
 
+
+resource "aws_cloudwatch_log_group" "sqs_to_batch" {
+    name = "/aws/lambda/${aws_lambda_function.sqs_to_batch.function_name}"
+    retention_in_days = 5
+}

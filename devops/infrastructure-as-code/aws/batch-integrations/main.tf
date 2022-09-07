@@ -36,7 +36,6 @@ data "aws_batch_compute_environment" "batch_compute_environment" {
   compute_environment_name = "Boyd_fargate"
 }
 
-
 module "sqs_to_batch" {
   source = "./sqs_to_batch"
 

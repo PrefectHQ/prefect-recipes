@@ -183,3 +183,7 @@ resource "aws_lambda_function" "retrieve_batch_state" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "retrieve_batch_state" {
+    name = "/aws/lambda/${aws_lambda_function.retrieve_batch_state.function_name}"
+    retention_in_days = 5
+}
