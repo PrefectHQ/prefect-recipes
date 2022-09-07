@@ -26,6 +26,10 @@ output "batch_compute_environment" {
   value = data.aws_batch_compute_environment.batch_compute_environment.arn
 }
 
+output "retrieve_batch_state_arn" {
+  value = aws_lambda_function.retrieve_batch_state.arn
+}
+
 output "retrieve_batch_state_url" {
-  value = module.sqs_to_batch.retrieve_batch_state_url
+  value = "${aws_api_gateway_deployment.retrieve_batch_state.invoke_url}${aws_api_gateway_stage.retrieve_batch_state.stage_name}/"
 }

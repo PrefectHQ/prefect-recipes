@@ -32,6 +32,7 @@ resource "aws_dynamodb_table" "dynamo_db_table" {
 }
 
 data "aws_batch_compute_environment" "batch_compute_environment" {
+  # Name of the compute environment name - requires permissions from the user/service account running Terraform to view.
   compute_environment_name = "Boyd_fargate"
 }
 
@@ -43,13 +44,11 @@ module "sqs_to_batch" {
 }
 
 
-
-
 # resource "aws_batch_compute_environment" "BatchComputeEnvironment" {
 #     compute_environment_name = "Boyd_fargate"
 #     type = "MANAGED"
 #     state = "ENABLED"
-#     service_role = "arn:aws:iam::330830921905:role/aws-service-role/batch.amazonaws.com/AWSServiceRoleForBatch"
+#     service_role = "arn:aws:iam::*:role/aws-service-role/batch.amazonaws.com/AWSServiceRoleForBatch"
 #     compute_resources {
 #         type = "FARGATE"
 #         max_vcpus = 16

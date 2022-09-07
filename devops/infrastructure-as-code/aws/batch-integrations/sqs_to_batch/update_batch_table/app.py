@@ -30,11 +30,13 @@ def build_item(event):
     #432000 = 5 days = 5 * 24 hours * 60 minutes * 60 seconds
     ttl = 432000 + int(time())
     db_item = {
-        "flowId": event["detail"]["container"]["environment"][0]["value"],
-        "messageId": event["detail"]["container"]["environment"][1]["value"],
+        "flowId": event["detail"]["container"]["environment"][-2]["value"],
+        "messageId": event["detail"]["container"]["environment"][-1]["value"],
         "jobId": event["detail"]["jobId"],
         "batchState": event["detail"]["status"],
         "jobName": event["detail"]["jobName"],
+        "jobQueue": event["detail"]["jobQueue"],
+        "jobDefinition": event["detail"]["jobDefinition"],        
         "timeOfState": event["time"],
         "ttl": ttl
     }
