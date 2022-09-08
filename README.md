@@ -70,14 +70,14 @@ Here you'll find starter code and more advanced example use cases.
 - [Deploy Flows to AWS](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-aws/1252)
 - [Deploy Flows to GCP](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-gcp/1251)
 - [Deploy Flows to Azure](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-azure/1312)
-- [Python-Based Deployments](/flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py#L109)
+- [Python-Based Deployments](https://discourse.prefect.io/t/prefect-2-1-0-has-just-arrived-it-includes-python-based-deployments-improvements-to-work-queues-tons-of-new-integrations-and-features/1422)
 
 ## Diving Deeper 🍱
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
 
 #### ELT/ETL
-- [Export Airbyte Configuration and Load to S3 bucket using blocks](./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py)
+- [Export Airbyte Configuration and Load to S3 bucket using blocks, including Python-based deployment](./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py)
 
 #### AWS Infrastructure
 - [Deploy a Prefect agent to ECS using the AWS CLI](./devops/infrastructure-as-code/aws/cli-prefect2-ecs-agent/)
