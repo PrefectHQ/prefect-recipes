@@ -101,6 +101,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 
 #### ELT/ETL
 - [Export Airbyte Configuration and Load to S3 bucket using blocks, including Python-based deployment](./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py)
+- [ELT with Snowflake Using Blocks](./flows-advanced/etl/elt-with-snowflake.py)
 
 #### AWS Infrastructure
 - [Deploy a Prefect agent to ECS using the AWS CLI](./devops/infrastructure-as-code/aws/cli-prefect2-ecs-agent/)
