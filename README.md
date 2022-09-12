@@ -123,6 +123,8 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Read Secrets into Prefect Cloud tenant](./prefect-v1-legacy/use-cases/import-secrets-to-cloud/)
 - [Handle DBT Model Failures](./prefect-v1-legacy/use-cases/rerun_dbt_models_from_failure/)
 - [S3 Flow Storage on EKS](./prefect-v1-legacy/use-cases/s3-flow-storage-on-eks/)
+- [Use LocalExecutor to run Dask computations on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-localexecutor)
+- [Use DaskExecutor to run Prefect tasks in parallel on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-daskexecutor)
 
 ## Join our discussions 🗣️
 We use our [Slack Community](https://www.prefect.io/slack) and [Discourse](https://discourse.prefect.io/c/21) to discuss all things Prefect-- such as FAQ, use cases and integrations. Join in the conversation :smile:
