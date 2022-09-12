@@ -123,4 +123,54 @@ The following methods are available:
 | /describe-jobs/{STATE} | `GET` | `SCHEDULED`, `SUBMITTED`, `PENDING`, `RUNNABLE`, `STARTING`, `RUNNING`, `SUCCEEDED`, `FAILED` | `[{"messageId":"9d02224b-7a72-4715-91f2-0b2df0dead91","timeElapsed":"8 days, 20:38:27.270997","flowId":"t"},{"messageId":"2b98fa31-3a17-4b8c-b998-b038788cd04b","timeElapsed":"22:30:01.270997","flowId":""},{"messageId":"b994f4b0-e2ee-4116-bbbc-aaf9d7562298","timeElapsed":"2:00:03.270997","flowId":""}]` | Returns a list of rows in the requested `{STATE}`.
 | /describe-jobs/messageid/{messageid} | `GET` | `9d02224b-7a72-4715-91f2-0b2df0dead91` | `{"messageId":"9d02224b-7a72-4715-91f2-0b2df0dead91","flowId":"bcd-gh-5678","jobId":"b255bbef-372c-46d5-98e8-0637c95f5843","State":"SUCCEEDED"}` | Returns the row for the queried `messageid`.
 
+## 5 - Failure and Retries
 
+Possible failure cases include the following.
+1. Running Terraform and not having sufficient permissions on the configured account / role.
+2. IAM Policy Permissions - 
+  a. Submitting to SQS - Requires SQS Submit permissions for that account.
+  b. Reading off SQS and Submitting to Batch - Lambda requires permissions to read from SQS, and Submit to Compute Environment for that account.
+  c. Eventbridge Triggers on Batch State - When eventbridge triggers for batch state changes, the Lambda writing to DynamoDB executes. This Lambda exists in each account, but writes to a singular table in the master account. Permissions must be available on EACH Lambda instance (many accounts) to write to the master account.
+  d. Retrieve Batch State - Requires permissions to read (scan, query) from the DynamoDB table.
+3. Failure to Submit to SQS - this would be within `batch.py` and Prefect task logic. Failures to submit, should ideally be retried or failed in application code.
+4. Failure to Submit to Batch - If Lambda receives anything other than a '200' response from Batch, the message is re-queued into SQS for retry. Because the originating Task is already using an existing messageId, the original messageId must be preserved for later determination of success.
+
+
+# Requirements
+
+The core solution requires the following resources, packages, or configurations.
+- Terraform Service Account with appropriate roles and policy to provision in configured accounts
+- Terraform
+- (Optional) - Prometheus and Grafana
+
+# Usage
+Clone the repository: `git clone https://github.com/PrefectHQ/prefect-recipes.git`
+Change to the appropriate directory, relative to the root of the repository - `cd /devops/infrastructure-as-code/aws/batch-integrations`
+Authenticating Terraform to AWS. This is beyond scope as a requirement, but additional documentation can be found here - https://registry.terraform.io/providers/hashicorp/aws/latest/docs. 
+Notably, authentication should be configured for each provider, so that individual modules (each account provisioned sqs_to_batch) is successful, or a user / role that has access to and can configure across all accounts.
+
+0. Review variables in Terraform for inputs, e.g. compute_environment_names.
+1. `terraform init` - Register the appropriate providers
+2. `terraform plan -out "tf_batch.out"` - Create a terraform plan to review before making any changes
+3. `terraform apply "tf_batch.out"` - Execute the plan, prompting for 'Yes' when asked to apply.
+4. Terraform outputs "retrieve_batch_state_url" which can be used to either directly access the URI's listed in `4 - State Retrieval`, and optionally used as an input for Monitoring with Prometheus.
+5. Submit jobs normally to SQS as messages; the `jobQueue` and `jobDefinition` should be known in advance based on your Batch queue configuration. 
+```
+        queue_message = {
+            "jobName": job_name,
+            "jobQueue": execution_job_queue,
+            "jobDefinition": job_definition,
+            "sqsQueue": "sqs_to_batch",
+            "flowId": prefect.context.get("flow_id"),
+            **batch_kwargs, 
+        }
+```
+
+# Monitoring
+
+As listed in State Retrieval earlier, there are three methods to retrieve various details from DynamoDB. 
+If Prometheus is configured, optional code in `monitoring/app.py` can be included to retrieve metrics with the `retrieve_batch_state_url` and exported to Grafana for display.
+The code in `app.py` is standalone - it can be configured as a scheduled Lambda that pushes metrics on a pre-defined timer to the [Prometheus Gateway](https://prometheus.io/docs/practices/pushing/).
+Alternatively, the core can be added to an existing Prometheus Exporter (such as the one used in [Prefect Monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/aws-batch-integration/prefect-v1-legacy/devops/monitoring)).
+The main consideration for the second behavior if added, is an optional LAMBDA_URL that should be passed in or set as an environment variable.
+If the `LAMBDA_URL` environment variable is set (through Helm, locally, or however the container / application is executing), the functionality is enabled, and the values are exported.
