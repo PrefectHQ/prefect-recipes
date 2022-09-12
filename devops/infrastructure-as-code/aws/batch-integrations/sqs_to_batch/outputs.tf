@@ -13,11 +13,3 @@ output "sqs_queue_arn" {
 output "sqs_batch_iam_role_arn" {
   value = aws_iam_role.sqs_batch.arn
 }
-
-output "retrieve_batch_state_arn" {
-  value = aws_lambda_function.retrieve_batch_state.arn
-}
-
-output "retrieve_batch_state_url" {
-  value = "${aws_api_gateway_deployment.retrieve_batch_state.invoke_url}${aws_api_gateway_stage.retrieve_batch_state.stage_name}/"
-}
