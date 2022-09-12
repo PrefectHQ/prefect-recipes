@@ -145,8 +145,11 @@ The core solution requires the following resources, packages, or configurations.
 
 # Usage
 Clone the repository: `git clone https://github.com/PrefectHQ/prefect-recipes.git`
+
 Change to the appropriate directory, relative to the root of the repository - `cd /devops/infrastructure-as-code/aws/batch-integrations`
+
 Authenticating Terraform to AWS. This is beyond scope as a requirement, but additional documentation can be found here - https://registry.terraform.io/providers/hashicorp/aws/latest/docs. 
+
 Notably, authentication should be configured for each provider, so that individual modules (each account provisioned sqs_to_batch) is successful, or a user / role that has access to and can configure across all accounts.
 
 0. Review variables in Terraform for inputs, e.g. compute_environment_names.
