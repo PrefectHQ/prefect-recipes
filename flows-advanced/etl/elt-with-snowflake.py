@@ -10,7 +10,7 @@ Assumes you have the following blocks in your workspace:
 - a SnowflakeCredentials block named "abc-support-sysadmin"
 - a SnowflakeConnector block named "abc-raw"
 - a Secret block named "abc-credentials" containing the following:
-{  
+{
     "endpoint": "my-endpoint",
     "api-user": "my-api-user",
     "api-access-code": "my-api-access-code"
@@ -18,7 +18,7 @@ Assumes you have the following blocks in your workspace:
 
 If you are unable to create these blocks in the UI because SnowflakeCredentials or
 SnowflakeConnector block types do not exist,
-run 
+run
 `pip install prefect-snowflake`
 `prefect block register -m prefect_snowflake.credentials`
 `prefect block register -m prefect_snowflake.database`
