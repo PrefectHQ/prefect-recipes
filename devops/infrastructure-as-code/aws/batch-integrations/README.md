@@ -123,6 +123,28 @@ The following methods are available:
 | /describe-jobs/{STATE} | `GET` | `SCHEDULED`, `SUBMITTED`, `PENDING`, `RUNNABLE`, `STARTING`, `RUNNING`, `SUCCEEDED`, `FAILED` | `[{"messageId":"9d02224b-7a72-4715-91f2-0b2df0dead91","timeElapsed":"8 days, 20:38:27.270997","flowId":"t"},{"messageId":"2b98fa31-3a17-4b8c-b998-b038788cd04b","timeElapsed":"22:30:01.270997","flowId":""},{"messageId":"b994f4b0-e2ee-4116-bbbc-aaf9d7562298","timeElapsed":"2:00:03.270997","flowId":""}]` | Returns a list of rows in the requested `{STATE}`.
 | /describe-jobs/messageid/{messageid} | `GET` | `9d02224b-7a72-4715-91f2-0b2df0dead91` | `{"messageId":"9d02224b-7a72-4715-91f2-0b2df0dead91","flowId":"bcd-gh-5678","jobId":"b255bbef-372c-46d5-98e8-0637c95f5843","State":"SUCCEEDED"}` | Returns the row for the queried `messageid`.
 
+## DynamoDB Table Schema
+
+Row
+
+| messageId | batchState | flowId | jobDefinition | jobId | jobName | jobQueue | timeOfState | TTL |
+| ----------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | 
+| `902fe215-ee11-411a-a369-f5af52c1a2e8` |`SUCCEEDED` | `74742428-b43b-421f-9184-c4cf33a4c1c2` | `arn:aws:batch:us-east-1:12345678:job-definition/Boyd_job_fargate:1` | `d752fa65-f114-49ed-a1d5-c68d9b45e9b3` | `this_is_an_ml_job` | `arn:aws:batch:us-east-1:12345678:job-queue/Fargate_boyd` | `2022-09-07T21:15:06Z` | `1663017306` | 
+Column
+
+| name | Type | Example | Description | 
+| ----------- | ---------- | ---------- | ---------- |
+| messageId | String | `902fe215-ee11-411a-a369-f5af52c1a2e8` | (Primary Key) - The messageId returned to the calling task from SQS. Used to query batch_state_table |
+| batchState | String | `SUCCEEDED` | The AWS Batch State that the current rows task is in. | 
+| flowId | String | `74742428-b43b-421f-9184-c4cf33a4c1c2` | The flowId from the calling Prefect Task, for debugging purposes. |
+| jobDefinition | String | `arn:aws:batch:us-east-1:12345678:job-definition/Boyd_job_fargate:1` | The Batch Compute environment job definition for the submitted job. |
+| jobId | String | `d752fa65-f114-49ed-a1d5-c68d9b45e9b3` | The jobId for the submitted Batch Job. For debugging. |
+| jobName | String | `this_is_an_ml_job` | The name provided to the job submission by the calling Prefect Task. |
+| jobQueue | String | `arn:aws:batch:us-east-1:12345678:job-queue/Fargate_boyd` | The Batch Job Queue that the Prefect calling task submitted to. |
+| timeOfState | String | `2022-09-07T21:15:06Z` | The time stamp of the most recent batch state change. Converted to time elapsed by retrieve_batch_state. | 
+| TTL | Int | `1663017306` | Used by AWS DynamoDB to remove entries beyond the TTL. Default is 5 days. |
+
+
 ## 5 - Failure and Retries
 
 Possible failure cases include the following.
