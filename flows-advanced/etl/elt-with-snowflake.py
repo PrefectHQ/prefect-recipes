@@ -294,7 +294,7 @@ def load_data_into_snowflake(
     return success, num_rows
 
 
-@flow(name="ABC Summary Load", retries=2, retry_delay_seconds=900)
+@flow(name="Update ADB Snowflake Table", retries=2, retry_delay_seconds=900)
 def abc_elt_flow(batchSystemCode_list: List[int]) -> None:
 
     """Flow which
