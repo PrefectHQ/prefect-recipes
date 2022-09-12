@@ -25,8 +25,6 @@ import pytz
 from pandas import DataFrame, json_normalize
 from prefect import flow, task
 from prefect.blocks.system import Secret
-from prefect.deployments import Deployment
-from prefect.filesystems import S3
 from prefect.logging import get_run_logger
 from prefect_snowflake.database import SnowflakeConnector
 from snowflake.connector.errors import ProgrammingError
