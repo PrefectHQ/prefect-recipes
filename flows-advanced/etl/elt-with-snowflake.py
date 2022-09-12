@@ -82,7 +82,7 @@ def get_start_time(target_table: str) -> dt:
                 ]
                 logger.info(f"Max ELT_LOADED_ON tms: {max_elt_loaded_on_tms}")
 
-            # if we cannot, then do a historical load into the table
+            # if we cannot, then do a historical load (get all records) from ABC API
             except ProgrammingError as e:
                 if f"Object '{target_table}' does not exist or not authorized." in str(
                     e
