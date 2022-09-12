@@ -211,6 +211,8 @@ def extract_data_from_api(start_time: dt, batchSystemCode_list: List[int]) -> Da
     # create window of time where we are missing data in the table that
     # we need to retrieve from ABC API
     todays_date = date.today()
+
+    # start_time refers to the last date(time) loaded into the Snowflake ABC_TABLE
     next_day = (start_time + timedelta(days=1)).date()
 
     while next_day <= todays_date:
@@ -226,10 +228,11 @@ def extract_data_from_api(start_time: dt, batchSystemCode_list: List[int]) -> Da
         for date in start_time_list_formatted
     ]
 
-    # increment startDt by 1 second to get data since last load
+    # increment startDt by 1 second
     new_start_time = dt.strftime(
         start_time + timedelta(seconds=1), "%Y-%m-%dT%H:%M:%S.%fZ"
     )
+    # and add to the list to retrieve data since that time (for that day)
     start_time_list_formatted.append(new_start_time)
 
     logger.info(f"start_time list: {start_time_list_formatted}")
@@ -297,7 +300,7 @@ def load_data_into_snowflake(
     return success, num_rows
 
 
-@flow(name="Update ADB Snowflake Table", retries=2, retry_delay_seconds=900)
+@flow(name="Update ABC Snowflake Table", retries=2, retry_delay_seconds=900)
 def abc_elt_flow(batchSystemCode_list: List[int]) -> None:
 
     """Flow which
