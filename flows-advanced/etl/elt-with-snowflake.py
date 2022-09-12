@@ -295,7 +295,7 @@ def load_data_into_snowflake(
 
 
 @flow(name="ABC Summary Load", retries=2, retry_delay_seconds=900)
-def abc_load_summary_data_flow(batchSystemCode_list: List[int]) -> None:
+def abc_elt_flow(batchSystemCode_list: List[int]) -> None:
 
     """Flow which
     1. Calculates the last successful load of data into Snowflake in order
@@ -326,4 +326,4 @@ def abc_load_summary_data_flow(batchSystemCode_list: List[int]) -> None:
 
 
 if __name__ == "__main__":
-    abc_load_summary_data_flow(batchSystemCode_list=[1, 3, 4, 8, 12, 13, 15])
+    abc_elt_flow(batchSystemCode_list=[1, 3, 4, 8, 12, 13, 15])
