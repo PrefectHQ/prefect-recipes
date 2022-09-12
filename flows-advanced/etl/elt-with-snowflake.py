@@ -206,8 +206,11 @@ def extract_data_from_api(start_time: dt, batchSystemCode_list: List[int]) -> Da
         "api-access-code": ABC_CREDENTIALS["api-access-code"],
     }
 
+    start_time_list_formatted = [] # list of dates on which to get data
+
+    # create window of time where we are missing data in the table that
+    # we need to retrieve from ABC API
     todays_date = date.today()
-    start_time_list_formatted = []
     next_day = (start_time + timedelta(days=1)).date()
 
     while next_day <= todays_date:
