@@ -15,6 +15,13 @@ Assumes you have the following blocks in your workspace:
     "api-user": "my-api-user",
     "api-access-code": "my-api-access-code"
 }
+
+If you are unable to create these blocks in the UI because SnowflakeCredentials or
+SnowflakeConnector block types do not exist,
+run 
+`pip install prefect-snowflake`
+`prefect block register -m prefect_snowflake.credentials`
+`prefect block register -m prefect_snowflake.database`
 """
 
 
