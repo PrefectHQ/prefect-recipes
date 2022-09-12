@@ -300,8 +300,8 @@ def abc_load_summary_data_flow(batchSystemCode_list: List[int]) -> None:
     """Flow which
     1. Calculates the last successful load of data into Snowflake in order
     to set the correct start_time.
-    2. Extracts the data since the start_time from ABC.
-    3. If data, loads into Snowflake table.
+    2. Extracts the data since the start_time from ABC API into a df.
+    3. If new data from ABC API, loads df into Snowflake table.
 
     Args:
         - batchSystemCode_list: A list of dept IDs each referenced as a
