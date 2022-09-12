@@ -247,6 +247,7 @@ def extract_data_from_api(start_time: dt, batchSystemCode_list: List[int]) -> Da
 
     else:
         logger.info("No new records from any depts.")
+        return
 
 
 @task(name="Step 3 of 3: Load data into Snowflake")
