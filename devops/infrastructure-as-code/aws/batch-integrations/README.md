@@ -169,8 +169,12 @@ Notably, authentication should be configured for each provider, so that individu
 # Monitoring
 
 As listed in State Retrieval earlier, there are three methods to retrieve various details from DynamoDB. 
+
 If Prometheus is configured, optional code in `monitoring/app.py` can be included to retrieve metrics with the `retrieve_batch_state_url` and exported to Grafana for display.
 The code in `app.py` is standalone - it can be configured as a scheduled Lambda that pushes metrics on a pre-defined timer to the [Prometheus Gateway](https://prometheus.io/docs/practices/pushing/).
+
 Alternatively, the core can be added to an existing Prometheus Exporter (such as the one used in [Prefect Monitoring](https://github.com/PrefectHQ/prefect-recipes/tree/aws-batch-integration/prefect-v1-legacy/devops/monitoring)).
+
 The main consideration for the second behavior if added, is an optional LAMBDA_URL that should be passed in or set as an environment variable.
+
 If the `LAMBDA_URL` environment variable is set (through Helm, locally, or however the container / application is executing), the functionality is enabled, and the values are exported.
