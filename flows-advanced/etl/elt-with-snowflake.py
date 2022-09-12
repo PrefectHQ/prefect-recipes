@@ -326,4 +326,4 @@ def abc_load_summary_data_flow(batchSystemCode_list: List[int]) -> None:
 
 
 if __name__ == "__main__":
-    abc_load_summary_data_flow(batchSystemCode_list=[321, 331, 341, 361, 362, 382, 381])
+    abc_load_summary_data_flow(batchSystemCode_list=[1, 3, 4, 8, 12, 13, 15])
