@@ -25,7 +25,7 @@ Inputs and outputs for each component are detailed further down.
 | Eventbridge Rule Trigger | `state-change-in-batch` |
 
 # Architecture Diagram
-
+![batch_integration_diagram.png](https://github.com/PrefectHQ/prefect-recipes/blob/aws-batch-integration/devops/infrastructure-as-code/aws/batch-integrations/batch_integration_diagram.png)
 
 # Task Walkthrough
 
