@@ -18,7 +18,6 @@ stateFailed = Gauge("state_failed", "Current count of batch jobs in failed state
 allStates = ['SUBMITTED', 'PENDING', 'RUNNABLE', 'STARTING', 'RUNNING', 'SUCCEEDED', 'FAILED']
 
 def query_batch_table():
-
     try:
         r = httpx.get(LAMBDA_URL)
         response = r.json()
@@ -41,11 +40,10 @@ def query_batch_table():
 
 if __name__ == "__main__":
 
+    LAMBDA_URL = os.getenv('LAMBDA_URL', "")
     QUERY_BATCH_TABLE = os.getenv('QUERY_BATCH_TABLE', 'False').lower() in ('true', '1', 't')
     POLLING_INTERVAL = int(os.environ.get("POLLING_INTERVAL", 300))
     EXPORT_PORT = int(os.environ.get("EXPORT_PORT", 8000))
-    MAX_RETRY = 3
-    TIME_BETWEEN_RETRY = 60
     logFormat = "%(asctime)s - %(message)s"
     logging.basicConfig(format=logFormat, stream=sys.stderr, level=logging.INFO)
     logger = logging.getLogger("prefect")
@@ -56,10 +54,11 @@ if __name__ == "__main__":
     while True:
         tic_main = time.time()
         logger.info("Getting table metrics.")
-        if QUERY_BATCH_TABLE:
-            query_batch_table()
-        else:
-            print (f"{QUERY_BATCH_TABLE = }")
+        query_batch_table()
+        # if QUERY_BATCH_TABLE:
+            
+        # else:
+        #     print (f"{QUERY_BATCH_TABLE = }")
         toc_main = time.time()
         logger.info(f"Time Elapsed - {toc_main - tic_main}")
         logger.info(f"Sleeping for {POLLING_INTERVAL}.")
