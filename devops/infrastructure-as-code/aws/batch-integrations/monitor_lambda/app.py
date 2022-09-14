@@ -6,7 +6,6 @@ import sys
 import httpx
 
 
-LAMBDA_URL = "https://rnv3gm4i52.execute-api.us-east-1.amazonaws.com/api/describe-jobs/"
 # Project Variables
 stateSubmitted = Gauge("state_submitted", "Current count of batch jobs in submitted state")
 statePending = Gauge("state_pending", "Current count of batch jobs in pending state")
@@ -41,7 +40,6 @@ def query_batch_table():
 if __name__ == "__main__":
 
     LAMBDA_URL = os.getenv('LAMBDA_URL', "")
-    QUERY_BATCH_TABLE = os.getenv('QUERY_BATCH_TABLE', 'False').lower() in ('true', '1', 't')
     POLLING_INTERVAL = int(os.environ.get("POLLING_INTERVAL", 300))
     EXPORT_PORT = int(os.environ.get("EXPORT_PORT", 8000))
     logFormat = "%(asctime)s - %(message)s"
@@ -55,10 +53,10 @@ if __name__ == "__main__":
         tic_main = time.time()
         logger.info("Getting table metrics.")
         query_batch_table()
-        # if QUERY_BATCH_TABLE:
-            
-        # else:
-        #     print (f"{QUERY_BATCH_TABLE = }")
+        if LAMBDA_URL != "":
+            query_batch_table()
+        else:
+            print (f"{LAMBDA_URL = }")
         toc_main = time.time()
         logger.info(f"Time Elapsed - {toc_main - tic_main}")
         logger.info(f"Sleeping for {POLLING_INTERVAL}.")
