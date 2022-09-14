@@ -1,6 +1,8 @@
 .DS_Store
 **__pycache__/*
-
+**__pycache__**
+azure/*
+deploy-answers.sh
 ## terraform files
 .terraform 
 .terraform.*
@@ -8,3 +10,6 @@
 terraform.*
 **.tgz
 Chart.lock
+wrap_deploy.sh
+*.out
+**.out
