@@ -208,9 +208,7 @@ def extract_data_from_api(start_time: dt, deptCode_list: List[int]) -> DataFrame
     logger.info(f"start_time list: {start_time_list_formatted}")
 
     time_of_abc_request = asyncio.run(
-        _get_data_from_all_depts(
-            deptCode_list, endpoint, headers, new_start_time
-        )
+        _get_data_from_all_depts(deptCode_list, endpoint, headers, new_start_time)
     )
 
     if abc_data:
