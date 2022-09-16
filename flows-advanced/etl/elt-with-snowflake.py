@@ -102,7 +102,7 @@ def get_start_time(target_table: str) -> dt:
 
 @flow(name="Retrieve data from all depts since last successful run")
 async def _get_data_from_all_depts(
-    dept_code_list: List[int], endpoint_, headers_, startDt_list: List
+    dept_code_list: List[int], endpoint_, headers_, new_startDt: str
 ) -> None:
 
     """
@@ -112,10 +112,12 @@ async def _get_data_from_all_depts(
 
     Args:
         - dept_code_list: A list of dept IDs each referenced as a
-        batchSystemCode.
+        deptCode.
         - endpoint_: ABC endpoint for requests.
         - headers_: Pass in credentials.
-        - startDt_list: startDt params for ABC.
+        - new_startDt: If Snowflake table exists, will add one microsecond
+        to max(ETL_LOADED_ON) value to retrieve data since that point in time.
+        If not exists, new_startDt will 2022-07-01T00:00:01.000000Z
     """
 
     logger = get_run_logger()
@@ -131,15 +133,13 @@ async def _get_data_from_all_depts(
                         url=endpoint_,
                         headers=headers_,
                         params={
-                            "startDate": date,
-                            "units": "metric",
-                            "batchSystemCode": code,
+                            "startDate": new_startDt,
+                            "deptCode": code,
                         },
                     )
                 )
             )
             for code in dept_code_list
-            for date in startDt_list
         ]
 
         # this will be used as the value in ELT_LOADED_ON column for this load
@@ -161,36 +161,30 @@ async def _get_data_from_all_depts(
 @flow(
     name="Step 2 of 3: Extract load summary data from ABC API",
     retries=2,
-    retry_delay_seconds=300,
+    retry_delay_seconds=30,
 )
-def extract_data_from_api(start_time: dt, batchSystemCode_list: List[int]) -> DataFrame:
+def extract_data_from_api(start_time: dt, deptCode_list: List[int]) -> DataFrame:
 
     """
     Given a list of depts and a start time, will retrieve needed data from API.
 
     Examples:
-    - If there is no data in the table, and the time is
-    2022-08-25T10:30:01.000000Z, the list of startDts will look like so:
-    ["2022-07-01T00:00:01.000000Z", "2022-07-02T00:00:01.000000Z",
-     "2022-07-03T00:00:01.000000Z", ..., "2022-09-12T00:00:01.000000Z"]
-     That means we will load data from these dates, UP TO the current time.
-     We can only request one date and one dept at a time from ABC.
+    - If there is no data in the table, the startDate will be 2022-07-01T00:00:01.000000Z.
 
     - If there is data in the table, and the time is
     2022-08-25T10:30:01.000000Z, we would look at the latest ETL_LOADED_ON
     value in the Snowflake table to see the last time data was loaded. Let's
-    say MAX(ETL_LOADED_ON) = 2022-08-23T10:30:01.000000Z, we'll add one
-    second to that, and the list of startDts will look like so:
-    ["2022-08-23T10:30:02.000000Z", "2022-08-24T00:00:01.000000Z",
-    "2022-08-25T00:00:01.000000Z"]
+    say MAX(ETL_LOADED_ON) = 2022-08-23T10:30:01.000000Z, because there was some outage
+    for a few days. We'll add one microsecond to the most recent ETL_LOADED_ON value, 
+    and the startDate we will pull from will be 2022-08-23T10:30:01.000000Z
 
     This enables us to load the remaining data from 2022-08-23 (but no
     overlap), all data from 2022-08-24, and data up until now on 2022-08-25.
 
     Args:
         - start_time (dt): The time at which to start loading data
-        - batchSystemCode_list (list): Dept IDs, each referenced as a
-        batchSystemCode.
+        - deptCode_list (list): Dept IDs, each referenced as a
+        deptCode.
 
     Returns:
         - df (DataFrame): retrieved ABC API data.
@@ -206,40 +200,16 @@ def extract_data_from_api(start_time: dt, batchSystemCode_list: List[int]) -> Da
         "api-access-code": ABC_CREDENTIALS["api-access-code"],
     }
 
-    start_time_list_formatted = []  # list of dates on which to get data
-
-    # create window of time where we are missing data in the table that
-    # we need to retrieve from ABC API
-    todays_date = date.today()
-
-    # start_time refers to the last date(time) loaded into the Snowflake ABC_TABLE
-    next_day = (start_time + timedelta(days=1)).date()
-
-    while next_day <= todays_date:
-
-        # append it to list
-        start_time_list_formatted.append(next_day)
-        # increment day
-        next_day = next_day + timedelta(days=1)
-
-    # format list of startDt requests for ABC - must be in this format
-    start_time_list_formatted = [
-        date.strftime("%Y-%m-%d") + "T00:00:01.000000Z"
-        for date in start_time_list_formatted
-    ]
-
-    # increment startDt by 1 second
+    # increment startDt by 1 microsecond
     new_start_time = dt.strftime(
         start_time + timedelta(seconds=1), "%Y-%m-%dT%H:%M:%S.%fZ"
     )
-    # and add to the list to retrieve data since that time (for that day)
-    start_time_list_formatted.append(new_start_time)
 
     logger.info(f"start_time list: {start_time_list_formatted}")
 
     time_of_abc_request = asyncio.run(
         _get_data_from_all_depts(
-            batchSystemCode_list, endpoint, headers, start_time_list_formatted
+            deptCode_list, endpoint, headers, new_start_time
         )
     )
 
@@ -301,7 +271,7 @@ def load_data_into_snowflake(
 
 
 @flow(name="Update ABC Snowflake Table", retries=2, retry_delay_seconds=900)
-def abc_elt_flow(batchSystemCode_list: List[int]) -> None:
+def abc_elt_flow(deptCode_list: List[int]) -> None:
 
     """Flow which
     1. Calculates the last successful load of data into Snowflake in order
@@ -310,15 +280,15 @@ def abc_elt_flow(batchSystemCode_list: List[int]) -> None:
     3. If new data from ABC API, loads df into Snowflake table.
 
     Args:
-        - batchSystemCode_list: A list of dept IDs each referenced as a
-        batchSystemCode.
+        - deptCode_list: A list of dept IDs each referenced as a
+        deptCode.
     """
 
     target_table = "ABC_TABLE"
 
     start_tms = get_start_time(target_table)
 
-    df = extract_data_from_api(start_tms, batchSystemCode_list)
+    df = extract_data_from_api(start_tms, deptCode_list)
 
     if isinstance(df, DataFrame):
 
@@ -332,4 +302,4 @@ def abc_elt_flow(batchSystemCode_list: List[int]) -> None:
 
 
 if __name__ == "__main__":
-    abc_elt_flow(batchSystemCode_list=[1, 3, 4, 8, 12, 13, 15])
+    abc_elt_flow(deptCode_list=[1, 3, 4, 8, 12, 13, 15])
