@@ -27,7 +27,6 @@ run
 
 import asyncio
 import json
-from datetime import date
 from datetime import datetime as dt
 from datetime import timedelta
 from typing import List
@@ -169,7 +168,8 @@ def extract_data_from_api(start_time: dt, deptCode_list: List[int]) -> DataFrame
     Given a list of depts and a start time, will retrieve needed data from API.
 
     Examples:
-    - If there is no data in the table, the startDate will be 2022-07-01T00:00:01.000000Z.
+    - If there is no data in the table, the startDate will be
+    2022-07-01T00:00:01.000000Z.
 
     - If there is data in the table, and the time is
     2022-08-25T10:30:01.000000Z, we would look at the latest ETL_LOADED_ON
@@ -204,8 +204,6 @@ def extract_data_from_api(start_time: dt, deptCode_list: List[int]) -> DataFrame
     new_start_time = dt.strftime(
         start_time + timedelta(seconds=1), "%Y-%m-%dT%H:%M:%S.%fZ"
     )
-
-    logger.info(f"start_time list: {start_time_list_formatted}")
 
     time_of_abc_request = asyncio.run(
         _get_data_from_all_depts(deptCode_list, endpoint, headers, new_start_time)
