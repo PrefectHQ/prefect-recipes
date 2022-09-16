@@ -175,7 +175,7 @@ def extract_data_from_api(start_time: dt, deptCode_list: List[int]) -> DataFrame
     2022-08-25T10:30:01.000000Z, we would look at the latest ETL_LOADED_ON
     value in the Snowflake table to see the last time data was loaded. Let's
     say MAX(ETL_LOADED_ON) = 2022-08-23T10:30:01.000000Z, because there was some outage
-    for a few days. We'll add one microsecond to the most recent ETL_LOADED_ON value, 
+    for a few days. We'll add one microsecond to the most recent ETL_LOADED_ON value,
     and the startDate we will pull from will be 2022-08-23T10:30:01.000000Z
 
     This enables us to load the remaining data from 2022-08-23 (but no
