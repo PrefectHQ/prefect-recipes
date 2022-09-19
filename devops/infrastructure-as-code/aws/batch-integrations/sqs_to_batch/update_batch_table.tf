@@ -16,6 +16,9 @@ data "aws_iam_policy_document" "update_batch_table" {
 
     actions = [
       "dynamodb:PutItem",
+      "dynamodb:GetItem",
+      "dynamodb:Scan",
+      "dynamodb:Query"
     ]
     resources = [
       "${var.dynamo_db_table_arn}",
