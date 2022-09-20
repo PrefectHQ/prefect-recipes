@@ -10,6 +10,12 @@ variable "agent_desired_count" {
   type        = number
 }
 
+variable "agent_extra_pip_packages" {
+  description = "Packages to install on the agent assuming image is based on prefecthq/prefect"
+  default     = "prefect-aws s3fs"
+  type        = string
+}
+
 variable "agent_image" {
   description = "Container image for the agent. This could be the name of an image in a public repo or an ECR ARN"
   default     = "prefecthq/prefect:2-python3.10"
