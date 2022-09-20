@@ -62,7 +62,8 @@ def batch_lookup_job(messageId):
         "messageId": items["messageId"],
         "flowId": items["flowId"],
         "jobId": items["jobId"],
-        "State": items["batchState"],
+        "state": items["batchState"],
+        "logStreamName": items["logStreamName"]
     }
     return id_query
 
