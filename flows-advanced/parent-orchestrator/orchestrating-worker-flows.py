@@ -173,7 +173,7 @@ def orchestrator(worker_deployment_id_block_name: str, chunk_size: int = 2):
 
     # chunk data according to `chunk_size` to distribute across subflows
     chunked_subflow_data = [
-        data_to_distrbute_across_subflows[i : i + chunk_size]
+        data_to_distrbute_across_subflows[i : i + chunk_size]  # noqa
         for i in range(0, len(data_to_distrbute_across_subflows), chunk_size)
     ]
 
