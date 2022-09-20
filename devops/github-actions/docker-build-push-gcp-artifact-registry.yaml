@@ -26,7 +26,7 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v0.6.0'
         with:
-          # This service account must have the IAM permissions to read from
+          # This service account must have the IAM permissions to push to
           # Google Artifact Registry and generate an access token 
           credentials_json: '${{ secrets.PREFECT_GCP_SERVICE_ACCT_CREDENTIALS }}'
           token_format: 'access_token'
