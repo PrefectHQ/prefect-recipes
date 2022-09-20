@@ -6,7 +6,7 @@
 
 # Prefect Recipes 🧑‍🍳 🥐
 
-This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns our **recipes**!
+This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns [our **recipes**](#table-of-contents-📖)!
 
 Here you'll find starter code and more advanced example use cases.
 
@@ -35,6 +35,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
   - [Data Engineering / DataOps](#data-engineering--dataops)
   - [AWS Infrastructure](#aws-infrastructure)
   - [Azure Infrastructure](#azure-infrastructure)
+  - [GitHub Actions](#github-actions)
   - [Legacy (Prefect 1.0)](#prefect-10-legacy)
 - [Issues & Bugs](#issues--bugs-)
 - [Recipe Requests](#recipe-requests-)
