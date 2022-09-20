@@ -25,7 +25,7 @@ Inputs and outputs for each component are detailed further down.
 | Eventbridge Rule Trigger | `state-change-in-batch` |
 
 # Architecture Diagram
-![batch_integration_diagram.png](https://github.com/PrefectHQ/prefect-recipes/blob/aws-batch-integration/devops/infrastructure-as-code/aws/batch-integrations/batch_integration_diagram.png)
+![batch_integration_diagram.png](batch_integration_diagram.png)
 
 # Task Walkthrough
 
@@ -74,6 +74,7 @@ A successful submission to the SQS queue returns the following response. The `Me
 
 ## 2 - Queue to Batch
 Messages in the queue are read off as events by the `queue_to_batch` Lambda, and submitted to Batch. Any failed responses from AWS Batch are re-queued.
+The SQS <-> Lambda interaction is per region - a separate deployment would be required for each region this configuration is required in.
 This Lambda unpacks the message with the `submit-jobs` parameters in #1, in addition to embedding two values for lookup later in DynamoDB: `flowId` and `messageId`.
 The submission to batch looks as below. `jobDefinition`, `jobName`, and `jobQueue` are all required parameters passed in 1. `**job_details` unpacks any additional kwargs in the body of `job_details`, such as `containerOverrides`.
 ```
@@ -89,10 +90,12 @@ The submission to batch looks as below. `jobDefinition`, `jobName`, and `jobQueu
 Once the Batch Job has been submitted, an Eventbridge Rule is listening for Batch Job State changes.
 As a batch job transitions state (`PENDING`, `SCHEDULED`, `STARTING`, `RUNNING`, etc.), the `update_batch_table` Lambda is triggered.
 This Lambda adds the following columns for each entry as a `put_item` entry, meaning an existing item with the same key is overwrriten.
+Additionally, during certain transitions, a `logStream` is creating in CloudWatch. If a logStream is created, it is inserted into the table.
+Lastly, when a state transitions to `SUCCEEDED` or `FAILED` the previous time is captured and inserted to determine time spent in a `RUNNING` state.
 ```
     db_item = {
-        "flowId": event["detail"]["container"]["environment"][0]["value"],
-        "messageId": event["detail"]["container"]["environment"][1]["value"],
+        "flowId": event["detail"]["container"]["environment"][-2]["value"],
+        "messageId": event["detail"]["container"]["environment"][-1]["value"],
         "jobId": event["detail"]["jobId"],
         "batchState": event["detail"]["status"],
         "jobName": event["detail"]["jobName"],
@@ -127,9 +130,9 @@ The following methods are available:
 
 Row
 
-| messageId | batchState | flowId | jobDefinition | jobId | jobName | jobQueue | timeOfState | TTL |
-| ----------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | 
-| `902fe215-ee11-411a-a369-f5af52c1a2e8` |`SUCCEEDED` | `74742428-b43b-421f-9184-c4cf33a4c1c2` | `arn:aws:batch:us-east-1:12345678:job-definition/Boyd_job_fargate:1` | `d752fa65-f114-49ed-a1d5-c68d9b45e9b3` | `this_is_an_ml_job` | `arn:aws:batch:us-east-1:12345678:job-queue/Fargate_boyd` | `2022-09-07T21:15:06Z` | `1663017306` | 
+| messageId | batchState | flowId | jobDefinition | jobId | jobName | jobQueue | logStreamName | startTime | timeInRunnable | timeOfState | TTL |
+| ----------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | 
+| `902fe215-ee11-411a-a369-f5af52c1a2e8` |`SUCCEEDED` | `74742428-b43b-421f-9184-c4cf33a4c1c2` | `arn:aws:batch:us-east-1:12345678:job-definition/Boyd_job_fargate:1` | `d752fa65-f114-49ed-a1d5-c68d9b45e9b3` | `this_is_an_ml_job` | `arn:aws:batch:us-east-1:12345678:job-queue/Fargate_boyd` | `Boyd_job_fargate/default/26c84ad994c04f09aa8cc520a1b56117` | `2022-09-15T21:08:05Z` |  `0:00:22` |`2022-09-07T21:15:06Z` | `1663017306` | 
 Column
 
 | name | Type | Example | Description | 
@@ -141,9 +144,11 @@ Column
 | jobId | String | `d752fa65-f114-49ed-a1d5-c68d9b45e9b3` | The jobId for the submitted Batch Job. For debugging. |
 | jobName | String | `this_is_an_ml_job` | The name provided to the job submission by the calling Prefect Task. |
 | jobQueue | String | `arn:aws:batch:us-east-1:12345678:job-queue/Fargate_boyd` | The Batch Job Queue that the Prefect calling task submitted to. |
+| logStreamName | String | `Boyd_job_fargate/default/26c84ad994c04f09aa8cc520a1b56117` | The log stream in Cloudwatch for the Batch Job ID | 
+| startTime | String | `2022-09-15T21:08:05Z` | The `created` timestamp returned by batch when the jobId was successfully received by Batch. | 
+| timeInRunnable | String | `0:00:22` | The duration that the jobId was in a `RUNNING` status. The time returned is the `SUCCEEDED` or `FAILED` timestamp, minus timeOfState from `RUNNING`.  | 
 | timeOfState | String | `2022-09-07T21:15:06Z` | The time stamp of the most recent batch state change. Converted to time elapsed by retrieve_batch_state. | 
 | TTL | Int | `1663017306` | Used by AWS DynamoDB to remove entries beyond the TTL. Default is 5 days. |
-
 
 ## 5 - Failure and Retries
 
