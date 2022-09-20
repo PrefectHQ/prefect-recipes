@@ -23,6 +23,11 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
       - name: Build the image
         run: |
           docker build . --tag ${{ env.IMAGE }} -f ./Dockerfile
