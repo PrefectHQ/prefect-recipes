@@ -19,7 +19,6 @@ from prefect.orion.schemas.core import FlowRun
 from prefect.orion.schemas.filters import FlowFilterTags, FlowRunFilter
 
 
-# lets say we want to dynamically create many instances of this flow with different parameters # noqa
 @flow
 def worker_flow(
     worker_parameter_chunk: Union[str, int, float, Mapping, Iterable], **kwargs
@@ -27,7 +26,7 @@ def worker_flow(
     """A worker flow to be kicked off by the orchestrator flow
 
     just showing for reference, this flow could be deployed already and
-    then referenced by its deployment ID in the orchestrator flow as shown above
+    then referenced by its deployment ID in the orchestrator flow as shown below
 
     Args:
     - worker_parameter_chunk: some JSON serializable chunk of parameters
@@ -41,7 +40,14 @@ def worker_flow(
     logger.info("Goodbye!")
 
 
-"""Let's show we can create an orchestrator flow that will do just this!"""
+"""
+Lets say we want to dynamically create many instances
+    of this flow with different parameters
+
+
+Let's see how we can create an orchestrator flow that
+    will do just this!
+"""
 
 
 def summarize(status: Dict[str, List[FlowRun]]) -> str:
@@ -164,7 +170,7 @@ def orchestrator(worker_deployment_id_block_name: str, chunk_size: int = 2):
     TAGS = [flow_run_name]
 
     # replace with results of some SQL query or other data source fetch
-    n_input_records = randint(10, 100)  # doesn't matter how many records we have!
+    n_input_records = randint(10, 20)  # doesn't matter how many records we have!
 
     data_to_distrbute_across_subflows = [
         {"a": 1, "b": 2} for _ in range(n_input_records)
