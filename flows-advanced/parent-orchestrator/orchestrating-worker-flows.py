@@ -7,7 +7,6 @@ Ideal for distributing work at large scales across worker flows.
 """
 
 import asyncio
-from datetime import datetime
 from random import randint
 from typing import Dict, Iterable, List, Mapping, Union
 
@@ -22,25 +21,24 @@ from prefect.orion.schemas.filters import FlowFilterTags, FlowRunFilter
 
 # lets say we want to dynamically create many instances of this flow with different parameters # noqa
 @flow
-def worker_flow(worker_parameter: Union[str, int, float, Mapping, Iterable], **kwargs):
+def worker_flow(
+    worker_parameter_chunk: Union[str, int, float, Mapping, Iterable], **kwargs
+):
     """A worker flow to be kicked off by the orchestrator flow
 
     just showing for reference, this flow could be deployed already and
     then referenced by its deployment ID in the orchestrator flow as shown above
 
-    NOTE: flow input parameters must be JSON serializable
-
     Args:
-    - worker_parameter: a parameter to be passed to the worker flow
+    - worker_parameter_chunk: some JSON serializable chunk of parameters
+        passed from the orchestrator flow to process here in the worker
     """
-
+    params = locals()
     logger = get_run_logger()
 
-    logger.info(
-        f"Look at my parameters!: {worker_parameter: worker_parameter, **kwargs}"
-    )
+    logger.info(f"Look at these parameters I got from my parent!: {params}")
 
-    logger.info("I'm done!")
+    logger.info("Goodbye!")
 
 
 """Let's show we can create an orchestrator flow that will do just this!"""
@@ -67,7 +65,9 @@ def build_chunked_subflow_params(chunk: Dict, static_params: Dict) -> Dict:
     Returns:
         Dict: Everything an instance of `worker` flow needs to run
     """
-    return {"worker_parameter": chunk, **static_params}
+    # replace with your own logic to build the chunked parameters
+
+    return {"worker_parameter_chunk": chunk, **static_params}
 
 
 @task(name="Invoke a single `worker` flow")
@@ -82,7 +82,7 @@ async def submit_subflow(params: Dict, deployment_id: str, tags: Iterable[str]):
     try:
         with await get_client() as client:
             flow_run_model = await client.create_flow_run_from_deployment(
-                deployment_id=deployment_id, parameters=params, tags=tags
+                parameters=params, deployment_id=deployment_id, tags=tags
             )
             logger.info(f"Created flow run {flow_run_model.flow_run.name}!")
     except (PrefectHTTPStatusError, ObjectNotFound) as err:
@@ -146,10 +146,9 @@ def orchestrator(worker_deployment_id_block_name: str, chunk_size: int = 2):
     """Orchestrator flow to kick off instances of worker subflows
 
     You could also pass in:
-    - a SQL query to retrieve data to pass to the worker flows
-    - a str name of a file to read data from
-    - the name of a Slack Webhook block to surface errors in the worker flows
-    - additional filter criteria to poll worker flow run state
+    - a SQL query / filepath / http request info to fetch data to pass to worker flows
+    - the name of a Slack Webhook block to refer to surfacing errors in the worker flows
+    - additional filter criteria to use while polling worker flow run states
 
     Args:
         worker_deployment_id_block_name (str): name of a Prefect Deployment block
@@ -165,7 +164,7 @@ def orchestrator(worker_deployment_id_block_name: str, chunk_size: int = 2):
     TAGS = [flow_run_name]
 
     # replace with results of some SQL query or other data source fetch
-    n_input_records = randint(10, 100)  # simulate a random number of records
+    n_input_records = randint(10, 100)  # doesn't matter how many records we have!
 
     data_to_distrbute_across_subflows = [
         {"a": 1, "b": 2} for _ in range(n_input_records)
@@ -183,11 +182,13 @@ def orchestrator(worker_deployment_id_block_name: str, chunk_size: int = 2):
     )
 
     # assemble nice args for `submit_subflows` to map over
-    static_subflow_params = dict(
+    static_subflow_params = dict(  # static as in, each is passed to every subflow
         parent_flow_name=flow_run_name,
-        timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        whos_that_pokemon="Pikachu",
+        whos_that_blue_duck="Marvin",
+        answer_to_it_all=42,
     )
-    subflow_params = build_chunked_subflow_params.map(
+    subflow_param_chunks = build_chunked_subflow_params.map(
         chunk=chunked_subflow_data, static_params=unmapped(static_subflow_params)
     )
 
@@ -195,7 +196,7 @@ def orchestrator(worker_deployment_id_block_name: str, chunk_size: int = 2):
     WORKER_DEPLOYMENT_ID = String.load(worker_deployment_id_block_name).value
 
     submitted = submit_subflow.map(
-        params=subflow_params,
+        params=subflow_param_chunks,
         deployment_id=unmapped(WORKER_DEPLOYMENT_ID),
         tags=unmapped(TAGS),
     )
