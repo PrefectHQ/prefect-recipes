@@ -163,6 +163,28 @@ def queryUpcomingFlowRuns(project_id: str) -> list:
     return flowRunsUpcoming["data"]["flow_run"]
 
 
+def queryRunningFlowRuns(project_id: str) -> list:
+    variables = {"project_id": project_id}
+
+    query = """
+    query UpcomingFlowRuns($project_id: uuid) {
+        flow_run(
+        where: {flow: {project_id: {_eq: $project_id}}, state: {_eq: "Running"}}
+        order_by: {scheduled_start_time: asc})
+        {
+            id
+            name
+            state
+            scheduled_start_time
+        }
+    }
+    """
+
+    queryName = "queryRunningFlowRuns"
+    flowRunsUpcoming = callQuery(query, queryName, variables)
+    return flowRunsUpcoming["data"]["flow_run"]
+
+
 # Returns all active flows in the listed project_id
 def queryFlowsByProject(project_id: str) -> list:
     variables = {"project_id": project_id}
@@ -333,6 +355,12 @@ def exportflowRunUpcoming(allProjects):
     for project in allProjects:
         project_Flows = queryUpcomingFlowRuns(project["id"])
         flowRunUpcoming.labels(project["id"], project["name"]).set(len(project_Flows))
+
+
+def exportflowRunRunning(allProjects):
+    for project in allProjects:
+        project_Flows = queryRunningFlowRuns(project["id"])
+        flowRunRunning.labels(project["id"], project["name"]).set(len(project_Flows))
 
 
 if __name__ == "__main__":
