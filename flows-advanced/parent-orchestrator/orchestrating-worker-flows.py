@@ -152,7 +152,8 @@ def orchestrator(worker_deployment_id_block_name: str, chunk_size: int = 2):
     """Orchestrator flow to kick off instances of worker subflows
 
     You could also pass in:
-    - a SQL query / filepath / http request info to fetch data to pass to worker flows
+    - name of a `String` block holding a SQL query / filepath / http request info
+        to fetch data to pass to worker flows
     - the name of a Slack Webhook block to refer to surfacing errors in the worker flows
     - additional filter criteria to use while polling worker flow run states
 
