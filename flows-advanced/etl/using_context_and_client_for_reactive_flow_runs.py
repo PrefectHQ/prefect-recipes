@@ -43,20 +43,20 @@ def flow_that_logs_context():
     logger.info("INFO I am a flow, check out my flow run context below:")
     logger.info(f"INFO Flow Run Keys: {flow_run_context_dict.keys()}")
 
-    # Now we will raise an artificial error that will prompt us to rescheudle
-    # the parent flow x hours in the future
+    # Now we will raise an artificial error that will prompt us to schedule
+    # a different flow x minutes in the future
     raise Exception("Deliberate Failure for Example.")
 
 
-# -- Build a Task to add scheduled flow runs to a deployment --
+# -- Build a Task to add scheduled reactive flow runs --
 @task
-async def add_new_scheduled_run(depl_id, original_start_time, delta_hours=6):
+async def add_new_scheduled_run(depl_id, original_start_time, delta_minutes=0):
     """
-    This task adds a scheduled flow run x hours from
-    the expected start time of the current flow.
+    This task adds a scheduled flow run to the deployment of a reactive flow
+    x minutes from the start time of the currently executing flow.
     """
     # Get the time x hours from now.
-    scheduled_time = original_start_time.add(hours=delta_hours)
+    scheduled_time = original_start_time.add(minutes=delta_minutes)
 
     # Use Prefect get_client() to schedule a new flow run x hours from now
     async with get_client() as client:
@@ -79,16 +79,18 @@ def main_flow():
     logger = get_run_logger()
     logger.info(f"INFO In complete state? {flow_state.is_completed()}")
 
-    # Lets schedule this flow to run in a few hours from now if the subflow failed
+    # Lets schedule a different reactive flow to run in a few minutes
+    # from now if the subflow failed
     if not flow_state.is_completed():
-        # Use Context to Get Deployment ID
-        depl_id = get_run_context().flow_run.deployment_id
+        # Specify Deployment ID for Reactive Flow
+        depl_id = "b66386ca-7a26-40be-bc8f-f6a9a46306b7"
 
         # Also use Context to get original scheduled start time
         original_start_time = get_run_context().flow_run.expected_start_time
 
-        # Schedule Flow to run 6 Hours from Original Flow Scheduled Start Time
-        add_new_scheduled_run.submit(depl_id, original_start_time)
+        # Schedule Reactive Flow to run 5 Minutes from
+        # Current Flow's Scheduled Start Time
+        add_new_scheduled_run.submit(depl_id, original_start_time, delta_minutes=5)
 
 
 if __name__ == "__main__":
