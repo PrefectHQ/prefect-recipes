@@ -108,7 +108,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": " (prefect_flowruns_success{project_name!=\"\"} / (prefect_flowruns_success{project_name!=\"\"} + prefect_flowruns_failed{project_name!=\"\"})) * 100",
+          "expr": " (prefect_flowruns_success{project_name!=\"\"} / (prefect_flowruns_success{project_name!=\"\"} + prefect_flowruns_failed{project_name!=\"\"})) * 100 > 0",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{project_name}}",
