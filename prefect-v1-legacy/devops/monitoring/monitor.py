@@ -1,5 +1,6 @@
 from prometheus_client import start_http_server, Gauge, Counter
 import time
+from datetime import datetime
 import os
 import asyncio
 import logging
@@ -7,6 +8,9 @@ import sys
 from python_graphql_client import GraphqlClient
 
 
+
+#
+TIME_FORMAT_LATE = "%Y-%m-%dT%H:%M:%S.%f+00:00"
 # Project Variables
 projectNumber = Gauge("project_number", "Total count of all Prefect Projects")
 projectTotal = Gauge("prefect_projects", "Number of Projects by Name", ["name"])
@@ -31,6 +35,11 @@ flowRunTotalSuccess = Gauge(
 flowRunPending = Gauge(
     "prefect_flowruns_pending",
     "Number of pending flow runs by Project",
+    ["project_id", "project_name"],
+)
+flowRunLate = Gauge(
+    "prefect_flowruns_late",
+    "Number of late flow runs by Project",
     ["project_id", "project_name"],
 )
 flowRunFailed = Gauge(
@@ -67,13 +76,14 @@ queries_total = Counter(
 
 def getAllMetrics():
     allProjects = queryAllProjects()
-    exportAllProjects(allProjects)
-    exportAllFlows()
-    exportFlowsByProject(allProjects)
-    exportFlowRunTotal(allProjects)
-    exportFlowRunSuccess(allProjects)
-    exportFlowStatus(allProjects)
+    # exportAllProjects(allProjects)
+    # exportAllFlows()
+    # exportFlowsByProject(allProjects)
+    # exportFlowRunTotal(allProjects)
+    # exportFlowRunSuccess(allProjects)
+    # exportFlowStatus(allProjects)
     exportflowRunUpcoming(allProjects)
+    exportflowRunRunning(allProjects)
 
 
 def callQuery(query: str, queryName: str, variables: dict = None) -> object:
@@ -140,6 +150,7 @@ def queryAllFlows() -> int:
     r = callQuery(query, queryName)
     return len(r["data"]["flow"])
 
+#Late flows are derived from "Scheduled" flow runs that are at least 30 seconds old.
 
 def queryUpcomingFlowRuns(project_id: str) -> list:
     variables = {"project_id": project_id}
@@ -162,6 +173,23 @@ def queryUpcomingFlowRuns(project_id: str) -> list:
     flowRunsUpcoming = callQuery(query, queryName, variables)
     return flowRunsUpcoming["data"]["flow_run"]
 
+def lateFlowRuns(flow_runs: list) -> int:
+
+    #scheduled_start_time = "2022-03-26T18:57:28.933746+00:00"
+    time_now = datetime.now()
+    late_flows = 0
+    print (flow_runs)
+    try:
+        for run in flow_runs["data"]["flow_run"]:
+            run_time = run['scheduled_start_time']
+            time_dif = time_now - datetime.strptime(run_time, TIME_FORMAT_LATE)
+            if time_dif.total_seconds() > 30:
+                late_flows += 1
+                print (f"{run['name']} is late by {time_dif.total_seconds()} seconds")
+    except Exception as e:
+        print (repr(e))
+    return late_flows
+
 
 def queryRunningFlowRuns(project_id: str) -> list:
     variables = {"project_id": project_id}
@@ -181,8 +209,8 @@ def queryRunningFlowRuns(project_id: str) -> list:
     """
 
     queryName = "queryRunningFlowRuns"
-    flowRunsUpcoming = callQuery(query, queryName, variables)
-    return flowRunsUpcoming["data"]["flow_run"]
+    flowRunsRunning = callQuery(query, queryName, variables)
+    return len(flowRunsRunning["data"]["flow_run"])
 
 
 # Returns all active flows in the listed project_id
@@ -354,13 +382,19 @@ def exportFlowStatus(allProjects):
 def exportflowRunUpcoming(allProjects):
     for project in allProjects:
         project_Flows = queryUpcomingFlowRuns(project["id"])
+        if project_Flows:
+            late_flows = lateFlowRuns(project_Flows)
+        else:
+            print (f"No flows are scheduled or late for {project['name']}.")
+            late_flows = 0
         flowRunUpcoming.labels(project["id"], project["name"]).set(len(project_Flows))
+        flowRunLate.labels(project["id"], project["name"]).set(late_flows)
 
 
 def exportflowRunRunning(allProjects):
     for project in allProjects:
         project_Flows = queryRunningFlowRuns(project["id"])
-        flowRunRunning.labels(project["id"], project["name"]).set(len(project_Flows))
+        flowRunRunning.labels(project["id"], project["name"]).set(project_Flows)
 
 
 if __name__ == "__main__":
