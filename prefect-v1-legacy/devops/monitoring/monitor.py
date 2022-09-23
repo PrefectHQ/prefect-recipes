@@ -75,12 +75,12 @@ queries_total = Counter(
 
 def getAllMetrics():
     allProjects = queryAllProjects()
-    # exportAllProjects(allProjects)
-    # exportAllFlows()
-    # exportFlowsByProject(allProjects)
-    # exportFlowRunTotal(allProjects)
-    # exportFlowRunSuccess(allProjects)
-    # exportFlowStatus(allProjects)
+    exportAllProjects(allProjects)
+    exportAllFlows()
+    exportFlowsByProject(allProjects)
+    exportFlowRunTotal(allProjects)
+    exportFlowRunSuccess(allProjects)
+    exportFlowStatus(allProjects)
     exportflowRunUpcoming(allProjects)
     exportflowRunRunning(allProjects)
 
