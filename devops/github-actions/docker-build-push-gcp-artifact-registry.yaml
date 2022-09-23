@@ -1,4 +1,4 @@
-name: "Docker build / push a flow image Google Artifact Registry"
+name: "Docker build / push a flow image to Google Artifact Registry"
 on:
   workflow_dispatch: # build new image manually
   push: # or automatically build upon change to Dockerfile / dependencies
@@ -44,6 +44,6 @@ jobs:
       - name: Push to container registry
         run: |
           docker push ${{ env.FLOW_IMAGE }}
-          
+
       - name: Output Success
         run: echo "Successfully built and pushed ${{ env.FLOW_IMAGE }} :rocket:" >> $GITHUB_STEP_SUMMARY
