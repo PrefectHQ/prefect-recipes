@@ -1,6 +1,7 @@
 name: "Build and Apply a Prefect deployment from a flow"
 on:
-  push:
+workflow_dispatch: # manually
+  push: # or on changes to paths in branches
     branches:
       - "main"
     paths:

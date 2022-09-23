@@ -1,6 +1,7 @@
 name: "Build Prefect deployment and associated Docker image from a flow"
 on:
-  push:
+workflow_dispatch: # manually
+  push: # or on push to these branches
     branches:
       - "main"
       - "dev"
