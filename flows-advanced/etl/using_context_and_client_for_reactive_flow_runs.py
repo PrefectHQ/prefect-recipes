@@ -4,8 +4,7 @@ from prefect.context import get_run_context
 from prefect.orion.schemas.states import Scheduled
 
 """
-main_flow must be run as a deployment to ensure that get_run_context returns a
-valid deployment id and scheduled start time
+Line 85 needs to be updated with the relevant deployment ID
 """
 
 # -- Build a Subflow to demonstrate get_run_context() and return_state argument --
@@ -44,22 +43,24 @@ def flow_that_logs_context():
     logger.info(f"INFO Flow Run Keys: {flow_run_context_dict.keys()}")
 
     # Now we will raise an artificial error that will prompt us to schedule
-    # a different flow x minutes in the future
+    # a different 'reactive' flow x minutes in the future
     raise Exception("Deliberate Failure for Example.")
 
 
-# -- Build a Task to add scheduled reactive flow runs --
+# -- Build a Task that adds a schedule for a reactive flow to run --
 @task
 async def add_new_scheduled_run(depl_id, original_start_time, delta_minutes=0):
     """
     This task adds a scheduled flow run to the deployment of a reactive flow
     x minutes from the start time of the currently executing flow.
     """
-    # Get the time x hours from now.
+    # Get the time x minutes from now.
     scheduled_time = original_start_time.add(minutes=delta_minutes)
 
-    # Use Prefect get_client() to schedule a new flow run x hours from now
+    # Use Prefect get_client() to schedule a new flow run x minutes from now
     async with get_client() as client:
+        # Pro Tip: create_flow_run_from_deployment has MANY useful argument in addition
+        # to adding a schedule, you can also add specific flow parameter values, etc.
         response = await client.create_flow_run_from_deployment(
             deployment_id=depl_id, state=Scheduled(scheduled_time=scheduled_time)
         )
@@ -68,7 +69,7 @@ async def add_new_scheduled_run(depl_id, original_start_time, delta_minutes=0):
     logger.info(f"INFO Scheduled a flow run for {scheduled_time}!")
 
 
-# -- Build a Main Parent Flow that dynamically reschedules itself upon failure --
+# -- Build a flow that dynamically schedules a reactive flow upon subflow failure --
 @flow
 def main_flow():
 
@@ -83,9 +84,9 @@ def main_flow():
     # from now if the subflow failed
     if not flow_state.is_completed():
         # Specify Deployment ID for Reactive Flow
-        depl_id = "b66386ca-7a26-40be-bc8f-f6a9a46306b7"
+        depl_id = "flow-run-id-goes-here-4242"
 
-        # Also use Context to get original scheduled start time
+        # Use Context to get original scheduled start time of current flow.
         original_start_time = get_run_context().flow_run.expected_start_time
 
         # Schedule Reactive Flow to run 5 Minutes from
