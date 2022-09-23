@@ -1,3 +1,4 @@
+name: "Build and Apply a Prefect deployment from a flow"
 on:
   push:
     branches:
@@ -42,3 +43,6 @@ jobs:
             --storage-block $STORAGE \
             --work-queue $WORK_QUEUE \ 
             --apply
+
+      - name: Output Success
+        run: echo "Successfully built and applied ${{ env.DEPLOYMENT_NAME }} :rocket:" >> $GITHUB_STEP_SUMMARY
