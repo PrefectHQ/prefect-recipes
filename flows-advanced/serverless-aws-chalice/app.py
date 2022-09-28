@@ -41,7 +41,7 @@ def read_deployment(deployment_id: str):
 
 
 @app.route("/deployment/{deployment_id}/run", methods=["POST"])
-def read_deployment(deployment_id: str):
+def create_flow_run(deployment_id: str):
     """Chalice entrypoint for creating a flow run"""
     flow_run = asyncio.run(_create_flow_run(deployment_id))
     return flow_run
