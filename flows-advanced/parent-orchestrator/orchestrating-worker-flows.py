@@ -86,7 +86,7 @@ async def submit_subflow(params: Dict, deployment_id: str, tags: Iterable[str]):
     """
     logger = get_run_logger()
     try:
-        with await get_client() as client:
+        async with get_client() as client:
             flow_run_model = await client.create_flow_run_from_deployment(
                 parameters=params, deployment_id=deployment_id, tags=tags
             )
