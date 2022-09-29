@@ -1,7 +1,7 @@
 """ Prefect Recipes
 
 A orchestrator-worker pattern using the `OrionClient` to call create_flow_run_from_deployment. # noqa
-
+Assumes you have a `String` block named "my-worker-deployment-id".
 Ideal for distributing work at large scales across worker flows.
 
 """
