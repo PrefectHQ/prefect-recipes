@@ -90,7 +90,7 @@ async def submit_subflow(params: Dict, deployment_id: str, tags: Iterable[str]):
             flow_run_model = await client.create_flow_run_from_deployment(
                 parameters=params, deployment_id=deployment_id, tags=tags
             )
-            logger.info(f"Created flow run {flow_run_model.flow_run.name}!")
+            logger.info(f"Created flow run {flow_run_model.name}!")
     except (PrefectHTTPStatusError, ObjectNotFound) as err:
         logger.error(f"{err!r}")
         raise
