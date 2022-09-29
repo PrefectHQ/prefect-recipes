@@ -100,7 +100,12 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
 
 #### Github Actions
-- [Create Deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
+- [Build flow image and Prefect deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
+- [Build and Push flow docker image to Google Artifact Registry](./devops/github-actions/docker-build-push-gcp-artifact-registry.yaml)
+- [Build / Apply prefect deployment with blocks on change to python files](./devops/github-actions/minimal-prefect-deployment-build.yaml)
+
+#### Dockerfiles
+- [Build an image from the latest Python 3.9 base image and your `requirements.txt`](./devops/dockerfiles/Dockerfile.latest_python_3dot9)
 
 #### Prefect 1.0 Legacy
 - [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
