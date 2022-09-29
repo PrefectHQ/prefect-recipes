@@ -39,17 +39,13 @@ def describe_job_state(state):
     list_of_replies = []
 
     for item in response:
-        row = {
-            "messageId": "",
-            "timeElapsed": "",
-            "flowId":""
-        }
+        row = {"messageId": "", "timeElapsed": "", "flowId": ""}
         time_dif = toc - datetime.strptime(item["timeOfState"], TIME_FORMAT)
-        row['messageId'] = item['messageId']
-        row['timeElapsed'] = f"{time_dif}"
-        row['flowId'] = "Not there yet"
+        row["messageId"] = item["messageId"]
+        row["timeElapsed"] = f"{time_dif}"
+        row["flowId"] = "Not there yet"
         list_of_replies.append(row)
-    print (list_of_replies)
+    print(list_of_replies)
     return list_of_replies
 
 
@@ -63,7 +59,7 @@ def batch_lookup_job(messageId):
         "flowId": items["flowId"],
         "jobId": items["jobId"],
         "state": items["batchState"],
-        "logStreamName": items["logStreamName"]
+        "logStreamName": items["logStreamName"],
     }
     return id_query
 
@@ -80,22 +76,24 @@ def table_lookup():
 
     return data
 
+
 def query_by_state(state):
     table = dynamodb.Table("batch_state_table")
     response = table.query(
-        KeyConditionExpression=Key('batchState').eq(state),
-        IndexName="batchState-timeOfState-index"
+        KeyConditionExpression=Key("batchState").eq(state),
+        IndexName="batchState-timeOfState-index",
     )
     data = response["Items"]
     while "LastEvaluatedKey" in response:
         response = table.query(
             ExclusiveStartKey=response["LastEvaluatedKey"],
-            KeyConditionExpression=Key('batchState').eq(state),
-            IndexName="batchState-timeOfState-index"
+            KeyConditionExpression=Key("batchState").eq(state),
+            IndexName="batchState-timeOfState-index",
         )
         data.extend(response["Items"])
 
     return data
+
 
 def generate_return_body(status_code, message):
     return {"statusCode": status_code, "body": json.dumps({"message": message})}

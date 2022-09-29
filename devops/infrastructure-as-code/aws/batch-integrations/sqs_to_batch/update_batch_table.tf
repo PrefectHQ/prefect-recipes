@@ -95,8 +95,8 @@ resource "aws_lambda_permission" "batch_table_update" {
 }
 
 resource "aws_cloudwatch_log_group" "batch_table_update" {
-    name = "/aws/lambda/${aws_lambda_function.batch_table_update.function_name}"
-    retention_in_days = 5
+  name              = "/aws/lambda/${aws_lambda_function.batch_table_update.function_name}"
+  retention_in_days = 5
 }
 
 # resource "aws_lambda_permission" "batch_table_update" {

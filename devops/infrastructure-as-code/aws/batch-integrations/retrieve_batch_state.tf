@@ -5,109 +5,109 @@ resource "aws_api_gateway_rest_api" "retrieve_batch_state" {
 
 
 resource "aws_api_gateway_resource" "describe_jobs" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    parent_id   = "${aws_api_gateway_rest_api.retrieve_batch_state.root_resource_id}"
-    path_part   = "describe-jobs"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  parent_id   = aws_api_gateway_rest_api.retrieve_batch_state.root_resource_id
+  path_part   = "describe-jobs"
 }
 
 resource "aws_api_gateway_resource" "state" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    parent_id   = "${aws_api_gateway_resource.describe_jobs.id}"
-    path_part   = "{state}"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  parent_id   = aws_api_gateway_resource.describe_jobs.id
+  path_part   = "{state}"
 }
 
 resource "aws_api_gateway_resource" "message_id" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    parent_id   = "${aws_api_gateway_resource.describe_jobs.id}"
-    path_part   = "messageid"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  parent_id   = aws_api_gateway_resource.describe_jobs.id
+  path_part   = "messageid"
 
 }
 
 resource "aws_api_gateway_resource" "message_id_2" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    parent_id   = "${aws_api_gateway_resource.message_id.id}"
-    path_part   = "{messageId}"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  parent_id   = aws_api_gateway_resource.message_id.id
+  path_part   = "{messageId}"
 }
 
 resource "aws_api_gateway_method" "describe_jobs" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    resource_id = "${aws_api_gateway_resource.describe_jobs.id}"
-    http_method = "GET"
-    authorization = "NONE"
-    api_key_required = false
+  rest_api_id      = aws_api_gateway_rest_api.retrieve_batch_state.id
+  resource_id      = aws_api_gateway_resource.describe_jobs.id
+  http_method      = "GET"
+  authorization    = "NONE"
+  api_key_required = false
 }
 
 resource "aws_api_gateway_method" "state" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    resource_id = "${aws_api_gateway_resource.state.id}"
-    http_method = "GET"
-    authorization = "NONE"
-    api_key_required = false
-    request_parameters = {
-        "method.request.path.state" = true
-    }
+  rest_api_id      = aws_api_gateway_rest_api.retrieve_batch_state.id
+  resource_id      = aws_api_gateway_resource.state.id
+  http_method      = "GET"
+  authorization    = "NONE"
+  api_key_required = false
+  request_parameters = {
+    "method.request.path.state" = true
+  }
 }
 
 
 resource "aws_api_gateway_method" "message_id_2" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    resource_id = "${aws_api_gateway_resource.message_id_2.id}"
-    http_method = "GET"
-    authorization = "NONE"
-    api_key_required = false
-    request_parameters = {
-        "method.request.path.messageId" = true
-    }
+  rest_api_id      = aws_api_gateway_rest_api.retrieve_batch_state.id
+  resource_id      = aws_api_gateway_resource.message_id_2.id
+  http_method      = "GET"
+  authorization    = "NONE"
+  api_key_required = false
+  request_parameters = {
+    "method.request.path.messageId" = true
+  }
 }
 
 resource "aws_api_gateway_integration" "describe_jobs" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    resource_id = "${aws_api_gateway_resource.describe_jobs.id}"
-    http_method = "${aws_api_gateway_method.describe_jobs.http_method}"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  resource_id = aws_api_gateway_resource.describe_jobs.id
+  http_method = aws_api_gateway_method.describe_jobs.http_method
 
-    integration_http_method = "POST"
-    type = "AWS_PROXY"
-    uri = "${aws_lambda_function.retrieve_batch_state.invoke_arn}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.retrieve_batch_state.invoke_arn
 }
 
 resource "aws_api_gateway_integration" "state" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    resource_id = "${aws_api_gateway_resource.state.id}"
-    http_method = "${aws_api_gateway_method.state.http_method}"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  resource_id = aws_api_gateway_resource.state.id
+  http_method = aws_api_gateway_method.state.http_method
 
-    integration_http_method = "POST"
-    type = "AWS_PROXY"
-    uri = "${aws_lambda_function.retrieve_batch_state.invoke_arn}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.retrieve_batch_state.invoke_arn
 }
 
 
 resource "aws_api_gateway_integration" "message_id_2" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    resource_id = "${aws_api_gateway_resource.message_id_2.id}"
-    http_method = "${aws_api_gateway_method.message_id_2.http_method}"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  resource_id = aws_api_gateway_resource.message_id_2.id
+  http_method = aws_api_gateway_method.message_id_2.http_method
 
-    integration_http_method = "POST"
-    type = "AWS_PROXY"
-    uri = "${aws_lambda_function.retrieve_batch_state.invoke_arn}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.retrieve_batch_state.invoke_arn
 }
 
 resource "aws_api_gateway_method_response" "describe_jobs" {
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    resource_id = "${aws_api_gateway_resource.describe_jobs.id}"
-    http_method = "${aws_api_gateway_method.describe_jobs.http_method}"
-    status_code = "200"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
+  resource_id = aws_api_gateway_resource.describe_jobs.id
+  http_method = aws_api_gateway_method.describe_jobs.http_method
+  status_code = "200"
 }
 
 resource "aws_api_gateway_stage" "retrieve_batch_state" {
-    stage_name = "api"
-    deployment_id = "${aws_api_gateway_deployment.retrieve_batch_state.id}"
-    rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
-    cache_cluster_enabled = false
-    xray_tracing_enabled = false
+  stage_name            = "api"
+  deployment_id         = aws_api_gateway_deployment.retrieve_batch_state.id
+  rest_api_id           = aws_api_gateway_rest_api.retrieve_batch_state.id
+  cache_cluster_enabled = false
+  xray_tracing_enabled  = false
 }
 
 resource "aws_api_gateway_deployment" "retrieve_batch_state" {
-  rest_api_id = "${aws_api_gateway_rest_api.retrieve_batch_state.id}"
+  rest_api_id = aws_api_gateway_rest_api.retrieve_batch_state.id
 }
 
 resource "aws_iam_role" "retrieve_batch_state" {
@@ -155,7 +155,7 @@ resource "aws_iam_role_policy" "retrieve_batch_state" {
     ]
 }
 EOF
-  role   = "${aws_iam_role.retrieve_batch_state.name}"
+  role   = aws_iam_role.retrieve_batch_state.name
 }
 
 resource "aws_lambda_permission" "retrieve_batch_state" {
@@ -175,7 +175,7 @@ resource "aws_lambda_function" "retrieve_batch_state" {
   ]
   filename    = "./retrieve_batch_state/deployment.zip"
   memory_size = 128
-  role        = "${aws_iam_role.retrieve_batch_state.arn}"
+  role        = aws_iam_role.retrieve_batch_state.arn
   runtime     = "python3.9"
   timeout     = 60
   tracing_config {
@@ -184,6 +184,6 @@ resource "aws_lambda_function" "retrieve_batch_state" {
 }
 
 resource "aws_cloudwatch_log_group" "retrieve_batch_state" {
-    name = "/aws/lambda/${aws_lambda_function.retrieve_batch_state.function_name}"
-    retention_in_days = 5
+  name              = "/aws/lambda/${aws_lambda_function.retrieve_batch_state.function_name}"
+  retention_in_days = 5
 }

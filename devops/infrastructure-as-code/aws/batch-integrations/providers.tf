@@ -3,11 +3,11 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Owner   = "@Boyd"
+      Owner       = "@Boyd"
       Environment = "Dev"
-      Product = "prefect-aws"
-      Source = "https://bitbucket.org/prefect_utils/src/master/"
-      Controller = "terraform"
+      Product     = "prefect-aws"
+      Source      = "https://bitbucket.org/prefect_utils/src/master/"
+      Controller  = "terraform"
     }
   }
 }

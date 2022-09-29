@@ -87,6 +87,6 @@ resource "aws_lambda_function" "sqs_to_batch" {
 
 
 resource "aws_cloudwatch_log_group" "sqs_to_batch" {
-    name = "/aws/lambda/${aws_lambda_function.sqs_to_batch.function_name}"
-    retention_in_days = 5
+  name              = "/aws/lambda/${aws_lambda_function.sqs_to_batch.function_name}"
+  retention_in_days = 5
 }
