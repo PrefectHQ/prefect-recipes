@@ -19,7 +19,7 @@ def handler(event):
         jobQueue = job_details.pop("jobQueue")
         jobDefinition = job_details.pop("jobDefinition")
         flowId = job_details.pop("flowId")
-        #sqsQueue = job_details.pop("sqsQueue")
+        # sqsQueue = job_details.pop("sqsQueue")
         # Need to inject flowId and messageId to make it to DynamoDB
         container_overrides = {
             "environment": [
