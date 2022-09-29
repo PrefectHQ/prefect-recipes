@@ -49,7 +49,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Run Multiple Subflows or Child Flows in Parallel](https://discourse.prefect.io/t/how-can-i-run-multiple-subflows-or-child-flows-in-parallel/96)
 - [Subflow with a Different Task Runner Than Parent Flow](https://discourse.prefect.io/t/can-my-subflow-use-a-different-task-runner-than-my-parent-flow/101)
 - [Create a Subflow and Block Until It's Completed](https://discourse.prefect.io/t/how-can-i-create-a-subflow-and-block-until-it-s-completed/94)
-- [Running subflows on their own infrastructure using a separate deployment](./flows-advanced/parent-orchestrator/orchestrating-worker-flows.py)
+- [Running Subflows On Their Own Infrastructure Using a Separate Deployment](./flows-advanced/parent-orchestrator/orchestrating-worker-flows.py)
 
 #### Control Flow
 - [Conditionally Stop a Task Run](https://discourse.prefect.io/t/how-can-i-stop-the-task-run-based-on-a-custom-logic/83)
