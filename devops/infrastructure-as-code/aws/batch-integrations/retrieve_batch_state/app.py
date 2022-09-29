@@ -1,4 +1,4 @@
-from boto3.dynamodb.conditions import Attr, Key
+from boto3.dynamodb.conditions import Key
 from chalice import Chalice
 from collections import Counter
 from datetime import datetime

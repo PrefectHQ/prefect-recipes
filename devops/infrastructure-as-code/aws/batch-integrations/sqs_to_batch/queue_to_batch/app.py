@@ -19,7 +19,7 @@ def handler(event):
         jobQueue = job_details.pop("jobQueue")
         jobDefinition = job_details.pop("jobDefinition")
         flowId = job_details.pop("flowId")
-        sqsQueue = job_details.pop("sqsQueue")
+        #sqsQueue = job_details.pop("sqsQueue")
         # Need to inject flowId and messageId to make it to DynamoDB
         container_overrides = {
             "environment": [
@@ -27,14 +27,15 @@ def handler(event):
                 {"name": "messageId", "value": messageId},
             ]
         }
-        # If containerOverrides came in empty, set the required fields, otherwise update them.
+        # If containerOverrides is empty, set fields, otherwise update them.
         if "environment" not in job_details["containerOverrides"]:
             job_details["containerOverrides"].update(container_overrides)
         elif "messageId" not in job_details["containerOverrides"]["environment"]:
             job_details["containerOverrides"].update(container_overrides)
         else:
             print(
-                f"This is a re-submitted flow with existing environment: {job_details['containerOverrides']['environment'] = }"
+                f"This is a re-submitted flow with existing environment: \
+                    {job_details['containerOverrides']['environment'] = }"
             )
 
         print(

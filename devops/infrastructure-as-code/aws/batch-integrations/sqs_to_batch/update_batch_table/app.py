@@ -11,6 +11,7 @@ app = Chalice(app_name="batch-table-update")
 dynamodb = boto3.resource("dynamodb")
 TIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
+
 # Main handler to receive eventbridge events
 @app.lambda_function()
 def lambda_handler(event, context):
