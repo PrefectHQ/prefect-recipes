@@ -1,15 +1,23 @@
-
-# Prefect Recipes 🧑‍🍳 🥐
-
-This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns our **recipes**!
-
-Here you'll find starter code and more advanced example use cases.
-
 <div align="center">
   <a href="https://github.com/PrefectHQ/prefect-recipes">
     <img src="imgs/chef_marvin_by_dalle.png" alt="Logo" width="200">
   </a>
 </div>
+
+# Prefect Recipes 🧑‍🍳 🥐
+
+This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns [our **recipes**](#table-of-contents-)!
+
+Here you'll find starter code and more advanced example use cases.
+
+## Contributing = Swag 🧢
+We're always looking for new contributions! Check out [Contributions](#contributions) to learn how you can add your Prefect 2.0 recipe and earn some swag!
+
+## Issues / Bugs 🐛
+To report issues, typos, or link fixes, please [open an issue.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+bug&template=bug_report.yaml&title=%5BBug%5D%3A+) We appreciate it!
+
+## Recipe Requests 👩‍🍳
+What are you interested in seeing examples of? [Jot down your big idea here.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+enhancement&template=feature_request.yaml)
 
 ## Table of Contents 📖
 - [Getting Started](#getting-started-)
@@ -25,11 +33,13 @@ Here you'll find starter code and more advanced example use cases.
 
 - [Diving Deeper](#diving-deeper-)
   - [Data Engineering / DataOps](#data-engineering--dataops)
+  - [AWS Infrastructure](#aws-infrastructure)
   - [Azure Infrastructure](#azure-infrastructure)
-  - [Legacy (Prefect 1.0)](#legacy-prefect-10)
-- [Contributing](#contributing--swag-)
+  - [GitHub Actions](#github-actions)
+  - [Legacy (Prefect 1.0)](#prefect-10-legacy)
 - [Issues & Bugs](#issues--bugs-)
 - [Recipe Requests](#recipe-requests-)
+- [Contributions](#contributions)
 - [Join the Discussion](#join-our-discussions-%EF%B8%8F)
 - [Thanks](#thanks-)
 
@@ -69,10 +79,19 @@ Here you'll find starter code and more advanced example use cases.
 - [Deploy Flows to AWS](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-aws/1252)
 - [Deploy Flows to GCP](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-gcp/1251)
 - [Deploy Flows to Azure](https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-azure/1312)
+- [Python-Based Deployments](https://discourse.prefect.io/t/prefect-2-1-0-has-just-arrived-it-includes-python-based-deployments-improvements-to-work-queues-tons-of-new-integrations-and-features/1422)
 
 ## Diving Deeper 🍱
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
+
+#### ELT/ETL
+- [Export Airbyte Configuration and Load to S3 bucket using blocks, including Python-based deployment](./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py)
+- [ELT with Snowflake Using Async and Blocks](./flows-advanced/etl/elt-with-snowflake.py)
+
+#### AWS Infrastructure
+- [Deploy a Prefect agent to ECS using the AWS CLI](./devops/infrastructure-as-code/aws/cli-prefect2-ecs-agent/)
+- [Deploy a Prefect agent to ECS with Terraform](./devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/)
 
 #### Azure Infrastructure
 - [Setup Azure with Prefect](./video-demos/setup-azure-with-prefect/)
@@ -91,8 +110,13 @@ Here you'll find starter code and more advanced example use cases.
 - [Read Secrets into Prefect Cloud tenant](./prefect-v1-legacy/use-cases/import-secrets-to-cloud/)
 - [Handle DBT Model Failures](./prefect-v1-legacy/use-cases/rerun_dbt_models_from_failure/)
 - [S3 Flow Storage on EKS](./prefect-v1-legacy/use-cases/s3-flow-storage-on-eks/)
+- [Use LocalExecutor to run Dask computations on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-localexecutor)
+- [Use DaskExecutor to run Prefect tasks in parallel on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-daskexecutor)
 
-## Contributing = Swag 🧢
+## Join our discussions 🗣️
+We use our [Slack Community](https://www.prefect.io/slack) and [Discourse](https://discourse.prefect.io/c/21) to discuss all things Prefect-- such as FAQ, use cases and integrations. Join in the conversation :smile:
+
+## Contributions
 We're always looking for new contributions! You can add your Prefect 2.0 recipe and earn some swag in a few simple steps:
 
 1. Look through the recipes to ensure your example is unique
@@ -109,15 +133,6 @@ git checkout feat/recipe-name
 6. Add your recipe to README.
 7. Commit and push the code to your remote branch.
 8. Create a PR 🤌 
-
-## Issues / Bugs 🐛
-To report issues, typos, or link fixes, please [open an issue.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+bug&template=bug_report.yaml&title=%5BBug%5D%3A+) We appreciate it!
-
-## Recipe Requests 👩‍🍳
-What are you interested in seeing examples of? [Jot down your big idea here.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+enhancement&template=feature_request.yaml)
-
-## Join our discussions 🗣️
-We use our [Slack Community](https://www.prefect.io/slack) and [Discourse](https://discourse.prefect.io/c/21) to discuss all things Prefect-- such as FAQ, use cases and integrations. Join in the conversation :smile:
 
 ## Thanks 💙
 Thank you for your contributions and efforts to improve prefect-recipes. We're glad to have you in our community!
