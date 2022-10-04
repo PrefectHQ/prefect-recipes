@@ -1,11 +1,14 @@
+name: "Build Prefect deployment and associated Docker image from a flow"
 on:
-  push:
+workflow_dispatch: # manually
+  push: # or on push to these branches
     branches:
       - "main"
       - "dev"
 
 env:
   FLOWNAME: marvin
+  DEPLOYMENT_NAME: hello-marvin
   IMAGE: ${{secrets.IMAGE_REGISTRY_SLASH_IMAGE_REPO}}:latest
   DEPLOYMENTYAML: ./marvin.yaml
   PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
@@ -48,13 +51,12 @@ jobs:
 
       # switch out your Block types and names as needed
       - name: Build Prefect deployment
-        run: prefect deployment build ./marvin.py:$FLOWNAME -n $DEPLOYMENT_NAME -t $TAG -ib $INFRA -sb $STORAGE -o $DEPLOYMENTYAML -q $WORK_QUEUE
+        run: prefect deployment build ./marvin.py:$FLOWNAME -n $DEPLOYMENT_NAME -t $TAG -ib $INFRA -sb $STORAGE -o $DEPLOYMENTYAML -q $WORK_QUEUE --apply
         env:
-          DEPLOYMENT_NAME: hello-marvin
           TAG: ${{ steps.extract_branch.outputs.branch }}
           INFRA: kubernetes-job/default-k8s-job
           STORAGE: s3/flow-script-storage-${{ steps.extract_branch.outputs.branch }}
           WORK_QUEUE: ${{ steps.extract_branch.outputs.branch }}-queue
         
-      - name: Apply Prefect deployment
-        run: prefect deployment apply $DEPLOYMENTYAML
+      - name: Output Success
+        run: echo "Successfully built ${{ env.IMAGE }} and ${{ env.DEPLOYMENT_NAME }} :rocket:" >> $GITHUB_STEP_SUMMARY
