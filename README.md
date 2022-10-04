@@ -97,7 +97,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Deploy a Prefect agent to ECS with Terraform](./devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/)
 
 #### Azure Infrastructure
-- [Setup Azure with Prefect](./devops/infrastructure-as-code/aws/setup-azure-with-prefect/)
+- [Setup Azure with Prefect](./devops/infrastructure-as-code/azure/setup-azure-with-prefect/)
 - [Deploy Prefect Orion to an AKS Cluster with Azure Blob Storage](./devops/infrastructure-as-code/azure/prefect-agent-on-aks/)
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
 
