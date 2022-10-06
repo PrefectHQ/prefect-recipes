@@ -1,4 +1,4 @@
-# Serverless AWS Chalice
+# Serverless with AWS Chalice
 
 This recipe demonstrates how to use Prefect in an AWS lambda function managed by [Chalice](https://aws.github.io/chalice/). Prefect flows can be executed directly in the AWS Lambda or on a remote agent via an API call back to Prefect Cloud.
 
