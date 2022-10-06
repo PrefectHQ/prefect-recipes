@@ -95,6 +95,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 #### AWS Infrastructure
 - [Deploy a Prefect agent to ECS using the AWS CLI](./devops/infrastructure-as-code/aws/cli-prefect2-ecs-agent/)
 - [Deploy a Prefect agent to ECS with Terraform](./devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/)
+- [Deploy Flows Using ECSTask Infrastructure Blocks](https://towardsdatascience.com/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc)
 
 #### Azure Infrastructure
 - [Setup Azure with Prefect](./devops/infrastructure-as-code/azure/setup-azure-with-prefect/)
