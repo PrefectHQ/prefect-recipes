@@ -4,6 +4,8 @@ This recipe demonstrates how to use Prefect in an AWS lambda function managed by
 
 ## Getting Started
 
+These instructions were tested with Python 3.9, but should also work from Python 3.7 and up.
+
 First pip install the requirements,
 
 ```sh
