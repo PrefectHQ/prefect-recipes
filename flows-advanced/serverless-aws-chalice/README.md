@@ -10,7 +10,7 @@ First pip install the requirements,
 pip install -r requirements.txt
 ```
 
-Next, fill in `.chalice/config.json` from `.chalice/config.json.tpl` either manually or using the command below assuming you have `PREFECT_API_KEY` and `PREFECT_API_URL` set in your environment,
+Next, fill in `.chalice/config.json` from `.chalice/config.json.tpl` either manually or using the command below assuming you have `PREFECT_API_KEY` and `PREFECT_API_URL` set in your environment (on Mac you may need to `brew install gettext`),
 
 ```sh
 cat .chalice/config.json.tpl | envsubst > .chalice/config.json
