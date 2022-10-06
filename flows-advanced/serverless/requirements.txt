@@ -1,0 +1,2 @@
+chalice>=1.27.3
+prefect>=2.4.2
