@@ -91,6 +91,10 @@ resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
         {
           name  = "PREFECT_API_URL"
           value = "https://api.prefect.cloud/api/accounts/${var.prefect_account_id}/workspaces/${var.prefect_workspace_id}"
+        },
+        {
+          name  = "EXTRA_PIP_PACKAGES"
+          value = var.agent_extra_pip_packages
         }
       ]
       secrets = [

@@ -88,6 +88,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_agent_cpu"></a> [agent\_cpu](#input\_agent\_cpu) | CPU units to allocate to the agent | `number` | `1024` | no |
 | <a name="input_agent_desired_count"></a> [agent\_desired\_count](#input\_agent\_desired\_count) | Number of agents to run | `number` | `1` | no |
+| <a name="input_agent_extra_pip_packages"></a> [agent\_extra\_pip\_packages](#input\_agent\_extra\_pip\_packages) | Packages to install on the agent assuming image is based on prefecthq/prefect | `string` | `"prefect-aws s3fs"` | no |
 | <a name="input_agent_image"></a> [agent\_image](#input\_agent\_image) | Container image for the agent. This could be the name of an image in a public repo or an ECR ARN | `string` | `"prefecthq/prefect:2-python3.10"` | no |
 | <a name="input_agent_log_retention_in_days"></a> [agent\_log\_retention\_in\_days](#input\_agent\_log\_retention\_in\_days) | Number of days to retain agent logs for | `number` | `30` | no |
 | <a name="input_agent_memory"></a> [agent\_memory](#input\_agent\_memory) | Memory units to allocate to the agent | `number` | `2048` | no |
