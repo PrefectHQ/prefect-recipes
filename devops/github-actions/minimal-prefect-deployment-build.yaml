@@ -1,0 +1,49 @@
+name: "Build and Apply a Prefect deployment from a flow"
+on:
+workflow_dispatch: # manually
+  push: # or on changes to paths in branches
+    branches:
+      - "main"
+    paths:
+      - "flow.py"
+
+# change as needed
+env:
+  DEPLOYMENT_NAME: my-deployment
+  FLOW_FILE: flow.py
+  ENTRYPOINT: my_flow_decorated_function
+  FILESYSTEM_EXTRAS: gcsfs
+  INFRA: kubernetes-job/default-k8s-job
+  STORAGE: gcs/my-flow-storage-block/my-deployment
+  WORK_QUEUE: my-queue
+  PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+  PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+
+jobs:
+  prefect-deployment-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Update Pip and required filesystem extras
+        run: pip install -U wheel pip $FILESYSTEM_EXTRAS
+
+      - name: Add Flow Dependencies (including Prefect)
+        run: pip install -r requirements.txt
+
+      - name: Build / Apply deployment
+        run: |
+          prefect deployment build ./$FLOW_FILE:$ENTRYPOINT \
+            --name $DEPLOYMENT_NAME \
+            --infra-block $INFRA \
+            --storage-block $STORAGE \
+            --work-queue $WORK_QUEUE \ 
+            --apply
+
+      - name: Output Success
+        run: echo "Successfully built and applied ${{ env.DEPLOYMENT_NAME }} :rocket:" >> $GITHUB_STEP_SUMMARY
