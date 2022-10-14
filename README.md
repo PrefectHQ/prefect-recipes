@@ -110,6 +110,9 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 #### Dockerfiles
 - [Build an image from the latest Python 3.9 base image and your `requirements.txt`](./devops/dockerfiles/Dockerfile.latest_python_3dot9)
 
+#### Django
+- [Using Django with Prefect 2](https://github.com/abrookins/django-prefect-example)
+
 #### Prefect 1.0 Legacy
 - [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
 - [Run GraphQL Queries](./prefect-v1-legacy/graphql-queries/)
