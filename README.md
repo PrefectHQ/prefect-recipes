@@ -106,6 +106,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Build flow image and Prefect deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
 - [Build and Push flow docker image to Google Artifact Registry](./devops/github-actions/docker-build-push-gcp-artifact-registry.yaml)
 - [Build / Apply prefect deployment with blocks on change to python files](./devops/github-actions/minimal-prefect-deployment-build.yaml)
+- [Automate Prefect Deployments to AWS ECS Fargate Using GitHub Actions](https://github.com/anna-geller/dataflow-ops)
 
 #### Dockerfiles
 - [Build an image from the latest Python 3.9 base image and your `requirements.txt`](./devops/dockerfiles/Dockerfile.latest_python_3dot9)
