@@ -54,8 +54,9 @@ No modules.
 | <a name="input_prefect_cloud_account_id"></a> [prefect\_cloud\_account\_id](#input\_prefect\_cloud\_account\_id) | prefect cloud account ID | `string` | n/a | yes |
 | <a name="input_prefect_cloud_workspace_id"></a> [prefect\_cloud\_workspace\_id](#input\_prefect\_cloud\_workspace\_id) | prefect cloud workspace ID | `string` | n/a | yes |
 | <a name="input_api_key"></a> [api\_key](#input\_api\_key) | provide prefect cloud API key here to create a secret within k8s, otherwise provide the name of an existing secret | `string` | `null` | no |
-| <a name="input_api_key_secret"></a> [api\_key\_secret](#input\_api\_key\_secret) | name & key of k8s secret that contains the prefect cloud API key | <pre>object({<br>    secret_name = string<br>    secret_key = string<br>  })</pre> | <pre>{<br>  "secret_key": "key",<br>  "secret_name": "prefect-api-key"<br>}</pre> | no |
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | namespace to create & deploy the agent into | `string` | `"prefect"` | no |
+| <a name="input_api_key_secret"></a> [api\_key\_secret](#input\_api\_key\_secret) | name & key of k8s secret that contains the prefect cloud API key | <pre>object({<br>    secret_name = string<br>    secret_key  = string<br>  })</pre> | <pre>{<br>  "secret_key": "key",<br>  "secret_name": "prefect-api-key"<br>}</pre> | no |
+| <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | optionally create the namespace to deploy the chart & agent to | `bool` | `true` | no |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | namespace to deploy the agent into | `string` | `"prefect"` | no |
 
 ## Outputs
 

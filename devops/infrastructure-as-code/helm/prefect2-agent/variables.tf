@@ -7,9 +7,9 @@ variable "prefect_cloud_workspace_id" {
   description = "prefect cloud workspace ID"
 }
 variable "create_namespace" {
-  type = bool
+  type        = bool
   description = "optionally create the namespace to deploy the chart & agent to"
-  default = true
+  default     = true
 }
 variable "namespace" {
   type        = string
