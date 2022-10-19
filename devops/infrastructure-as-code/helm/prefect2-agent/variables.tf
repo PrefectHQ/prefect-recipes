@@ -13,7 +13,7 @@ variable "create_namespace" {
 }
 variable "namespace" {
   type        = string
-  description = "namespace to create & deploy the agent into"
+  description = "namespace to deploy the agent into"
   default     = "prefect"
 }
 variable "api_key" {
