@@ -11,12 +11,12 @@ This repository contains common and extensible Prefect patterns to drive efficie
 Here you'll find starter code and more advanced example use cases.
 
 ## Contributing = Swag 🧢
-We're always looking for new contributions! Check out [Contributions](#contributions) to learn how you can add your Prefect 2.0 recipe and earn some swag!
+We're always looking for new contributions! See our existing [Recipe Ideas/Issues](https://github.com/PrefectHQ/prefect-recipes/issues) for inspiration. And check out [Contributions](#contributions) to learn how you can add your Prefect 2.0 recipe and earn some swag!
 
 ## Issues / Bugs 🐛
 To report issues, typos, or link fixes, please [open an issue.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+bug&template=bug_report.yaml&title=%5BBug%5D%3A+) We appreciate it!
 
-## Recipe Requests 👩‍🍳
+## Recipe Ideas 👩‍🍳
 What are you interested in seeing examples of? [Jot down your big idea here.](https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&labels=i%3A+enhancement&template=feature_request.yaml)
 
 ## Table of Contents 📖
