@@ -12,19 +12,19 @@ variable "namespace" {
   default     = "prefect"
 }
 variable "api_key" {
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "provide prefect cloud API key here to create a secret within k8s, otherwise provide the name of an existing secret"
-  default = null
+  default     = null
 }
 variable "api_key_secret" {
   type = object({
     secret_name = string
-    secret_key = string
+    secret_key  = string
   })
   description = "name & key of k8s secret that contains the prefect cloud API key"
   default = {
     secret_name = "prefect-api-key"
-    secret_key = "key"
+    secret_key  = "key"
   }
 }
