@@ -6,6 +6,7 @@ resource "helm_release" "agent" {
   version    = "2022.10.18"
 
   # uncomment if you want to supply your own values file, otherwise - use the set blocks below
+  # https://github.com/PrefectHQ/prefect-helm/blob/main/charts/prefect-agent/values.yaml
   # values = [
   #   "${file("values.yaml")}"
   # ]

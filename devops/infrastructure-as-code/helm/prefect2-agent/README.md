@@ -8,7 +8,7 @@ A terraform module to deploy the prefect agent to any kubernetes cluster using t
 
 ## Usage
 
-Use the `set` blocks to pass configuration data to the helm chart or provide a `values.yaml` file.
+Use the `set` blocks to pass configuration data to the helm chart or provide a `values.yaml` file.  See Helm [readme](https://github.com/PrefectHQ/prefect-helm) & [values file](https://github.com/PrefectHQ/prefect-helm/blob/main/charts/prefect-agent/values.yaml) for more information.
 
 ```hcl
 module "prefect_agent" {
