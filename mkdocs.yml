@@ -48,4 +48,6 @@ watch:
 
 nav:
     - Home: index.md
+    - Getting Started: getting_started.md
+    - Diving Deeper: diving_deeper.md
 
