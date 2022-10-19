@@ -87,6 +87,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 ## Diving Deeper 🍱
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
+- [Build a Data Platform with Prefect, dbt, and Snowflake (using blocks)](https://github.com/anna-geller/prefect-dataplatform)
 
 #### ELT/ETL
 - [Export Airbyte Configuration and Load to S3 bucket using blocks, including Python-based deployment](./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py)
