@@ -1,13 +1,17 @@
 from setuptools import find_packages, setup
 
-import versioneer
+with open("requirements.txt") as install_requires_file:
+    install_requires = install_requires_file.read().strip().split("\n")
+
+with open("requirements-dev.txt") as dev_requires_file:
+    dev_requires = dev_requires_file.read().strip().split("\n")
 
 with open("README.md") as readme_file:
     readme = readme_file.read()
 
 setup(
     name="prefect-recipes",
-    description="This repository contains common and extensible Prefect patterns to drive efficient workflows",
+    description="Prefect Collection Template contains all the boilerplate that you need to create a Prefect collection.",
     license="Apache License 2.0",
     author="Prefect Technologies, Inc.",
     author_email="help@prefect.io",
@@ -15,12 +19,15 @@ setup(
     url="https://github.com/PrefectHQ/prefect-recipes",
     long_description=readme,
     long_description_content_type="text/markdown",
-    version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(exclude=("tests", "docs")),
     python_requires=">=3.7",
     install_requires=install_requires,
     extras_require={"dev": dev_requires},
+    entry_points={
+        "prefect.collections": [
+            "prefect_recipes = prefect_recipes",
+        ]
+    },
     classifiers=[
         "Natural Language :: English",
         "Intended Audience :: Developers",
