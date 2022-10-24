@@ -1,3 +1,11 @@
+## terraform files
+.terraform 
+.terraform.*
+.terraform.lock.hcl
+terraform.*
+**.tgz
+Chart.lock
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
