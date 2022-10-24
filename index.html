@@ -1,0 +1,952 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://PrefectHQ.github.io/prefect-recipes/">
+      
+      <link rel="icon" href="img/favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-8.5.7">
+    
+    
+      
+        <title>prefect-recipes</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#prefect-recipes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="prefect-recipes" class="md-header__button md-logo" aria-label="prefect-recipes" data-md-component="logo">
+      
+  <img src="img/prefect-logo-mark-solid-white-500.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            prefect-recipes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/PrefectHQ/prefect-recipes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="prefect-recipes" class="md-nav__button md-logo" aria-label="prefect-recipes" data-md-component="logo">
+      
+  <img src="img/prefect-logo-mark-solid-white-500.png" alt="logo">
+
+    </a>
+    prefect-recipes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/PrefectHQ/prefect-recipes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Home
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#contributing-swag" class="md-nav__link">
+    Contributing = Swag 🧢
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issues-bugs" class="md-nav__link">
+    Issues / Bugs 🐛
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recipe-ideas" class="md-nav__link">
+    Recipe Ideas 👩‍🍳
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    Table of Contents 📖
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started 🍯
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started 🍯">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subflows" class="md-nav__link">
+    Subflows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow" class="md-nav__link">
+    Control Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization" class="md-nav__link">
+    Optimization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    Notifications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-run-observability" class="md-nav__link">
+    Flow Run Observability
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    Testing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggering-flow-runs" class="md-nav__link">
+    Triggering Flow Runs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-deployment" class="md-nav__link">
+    Flow Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diving-deeper" class="md-nav__link">
+    Diving Deeper 🍱
+  </a>
+  
+    <nav class="md-nav" aria-label="Diving Deeper 🍱">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-engineering-dataops" class="md-nav__link">
+    Data Engineering / DataOps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eltetl" class="md-nav__link">
+    ELT/ETL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-infrastructure" class="md-nav__link">
+    AWS Infrastructure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-infrastructure" class="md-nav__link">
+    Azure Infrastructure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    Github Actions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfiles" class="md-nav__link">
+    Dockerfiles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    Django
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prefect-10-legacy" class="md-nav__link">
+    Prefect 1.0 Legacy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#join-our-discussions" class="md-nav__link">
+    Join our discussions 🗣️
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributions" class="md-nav__link">
+    Contributions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thanks" class="md-nav__link">
+    Thanks 💙
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting_started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="diving_deeper/" class="md-nav__link">
+        Diving Deeper
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#contributing-swag" class="md-nav__link">
+    Contributing = Swag 🧢
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issues-bugs" class="md-nav__link">
+    Issues / Bugs 🐛
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recipe-ideas" class="md-nav__link">
+    Recipe Ideas 👩‍🍳
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    Table of Contents 📖
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started 🍯
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started 🍯">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subflows" class="md-nav__link">
+    Subflows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow" class="md-nav__link">
+    Control Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization" class="md-nav__link">
+    Optimization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notifications" class="md-nav__link">
+    Notifications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-run-observability" class="md-nav__link">
+    Flow Run Observability
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    Testing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggering-flow-runs" class="md-nav__link">
+    Triggering Flow Runs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-deployment" class="md-nav__link">
+    Flow Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diving-deeper" class="md-nav__link">
+    Diving Deeper 🍱
+  </a>
+  
+    <nav class="md-nav" aria-label="Diving Deeper 🍱">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-engineering-dataops" class="md-nav__link">
+    Data Engineering / DataOps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eltetl" class="md-nav__link">
+    ELT/ETL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-infrastructure" class="md-nav__link">
+    AWS Infrastructure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-infrastructure" class="md-nav__link">
+    Azure Infrastructure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    Github Actions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfiles" class="md-nav__link">
+    Dockerfiles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    Django
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prefect-10-legacy" class="md-nav__link">
+    Prefect 1.0 Legacy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#join-our-discussions" class="md-nav__link">
+    Join our discussions 🗣️
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributions" class="md-nav__link">
+    Contributions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thanks" class="md-nav__link">
+    Thanks 💙
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/PrefectHQ/prefect-recipes/edit/main/docs/README.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<div align="center">
+  <a href="https://github.com/PrefectHQ/prefect-recipes">
+    <img src="docs/imgs/chef_marvin_by_dalle.png" alt="Logo" width="200">
+  </a>
+</div>
+
+<h1 id="prefect-recipes">Prefect Recipes 🧑‍🍳 🥐</h1>
+<p>This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns our <strong>recipes</strong></p>
+<p>Here you'll find starter code and more advanced example use cases.</p>
+<h2 id="contributing-swag">Contributing = Swag 🧢</h2>
+<p>We're always looking for new contributions! See our existing <a href="https://github.com/PrefectHQ/prefect-recipes/issues">Recipe Ideas/Issues</a> for inspiration. And check out <a href="#contributions">Contributions</a> to learn how you can add your Prefect 2.0 recipe and earn some swag!</p>
+<h2 id="issues-bugs">Issues / Bugs 🐛</h2>
+<p>To report issues, typos, or link fixes, please <a href="https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&amp;labels=i%3A+bug&amp;template=bug_report.yaml&amp;title=%5BBug%5D%3A+">open an issue.</a> We appreciate it!</p>
+<h2 id="recipe-ideas">Recipe Ideas 👩‍🍳</h2>
+<p>What are you interested in seeing examples of? <a href="https://github.com/PrefectHQ/prefect-recipes/issues/new?assignees=&amp;labels=i%3A+enhancement&amp;template=feature_request.yaml">Jot down your big idea here.</a></p>
+<h2 id="table-of-contents">Table of Contents 📖</h2>
+<ul>
+<li><a href="#getting-started-">Getting Started</a></li>
+<li><a href="#subflows">Subflows</a></li>
+<li><a href="#control-flow">Control Flow</a></li>
+<li><a href="#optimization">Optimization</a></li>
+<li><a href="#notifications">Notifications</a></li>
+<li><a href="#flow-run-observability">Flow Run Observability</a></li>
+<li><a href="#parameters">Parameters</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#triggering-flow-runs">Triggering Flow Runs</a></li>
+<li>
+<p><a href="#deployments">Deployments</a></p>
+</li>
+<li>
+<p><a href="#diving-deeper-">Diving Deeper</a></p>
+</li>
+<li><a href="#data-engineering--dataops">Data Engineering / DataOps</a></li>
+<li><a href="#aws-infrastructure">AWS Infrastructure</a></li>
+<li><a href="#azure-infrastructure">Azure Infrastructure</a></li>
+<li><a href="#github-actions">GitHub Actions</a></li>
+<li><a href="#prefect-10-legacy">Legacy (Prefect 1.0)</a></li>
+<li><a href="#issues--bugs-">Issues &amp; Bugs</a></li>
+<li><a href="#recipe-requests-">Recipe Requests</a></li>
+<li><a href="#contributions">Contributions</a></li>
+<li><a href="#join-our-discussions-%EF%B8%8F">Join the Discussion</a></li>
+<li><a href="#thanks-">Thanks</a></li>
+</ul>
+<h2 id="getting-started">Getting Started 🍯</h2>
+<h4 id="subflows">Subflows</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/migrating-to-prefect-2-0-from-flow-of-flows-to-subflows/1318">Getting Started With Subflows</a></li>
+<li><a href="https://discourse.prefect.io/t/how-can-i-run-multiple-subflows-or-child-flows-in-parallel/96">Run Multiple Subflows or Child Flows in Parallel</a></li>
+<li><a href="https://discourse.prefect.io/t/can-my-subflow-use-a-different-task-runner-than-my-parent-flow/101">Subflow with a Different Task Runner Than Parent Flow</a></li>
+<li><a href="https://discourse.prefect.io/t/how-can-i-create-a-subflow-and-block-until-it-s-completed/94">Create a Subflow and Block Until It's Completed</a></li>
+<li><a href="./flows-advanced/parent-orchestrator/orchestrating-worker-flows.py">Running Subflows On Their Own Infrastructure Using a Separate Deployment</a></li>
+</ul>
+<h4 id="control-flow">Control Flow</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/how-can-i-stop-the-task-run-based-on-a-custom-logic/83">Conditionally Stop a Task Run</a></li>
+<li><a href="https://discourse.prefect.io/t/how-to-ensure-that-my-tasks-immediately-fail-if-a-specific-upstream-task-failed/111">Ensure Tasks Immediately Fail If Upstream Task Fails</a></li>
+<li><a href="https://discourse.prefect.io/t/how-can-i-define-state-dependencies-between-tasks/69/2">Define State Dependencies Between Tasks</a></li>
+</ul>
+<h4 id="optimization">Optimization</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/how-can-i-cache-a-task-result-for-two-hours-to-prevent-re-computation/67">Cache a Task Result To Prevent Recomputation</a></li>
+</ul>
+<h4 id="notifications">Notifications</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/sending-notifications-in-cloud-1-0-using-automations-cloud-2-0-slack-webhook-blocks-and-notifications/1315">Send Notifications with a Slack Webhook</a></li>
+</ul>
+<h4 id="flow-run-observability">Flow Run Observability</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/how-can-i-interact-with-the-backend-api-using-a-python-client/80">Interact with REST API</a></li>
+<li><a href="https://discourse.prefect.io/t/how-can-i-determine-whether-a-flow-run-has-been-executed-ad-hoc-or-was-running-on-schedule/120">Determine Whether a Flow Run Was Executed Ad Hoc or on a Schedule</a></li>
+</ul>
+<h4 id="parameters">Parameters</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/guide-to-implementing-parameters-between-prefect-1-0-and-2-0/1321">Use flow parameters</a></li>
+</ul>
+<h4 id="testing">Testing</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/unit-testing-best-practices-for-prefect-flows-subflows-and-tasks/1070/2">Testing Flows, Subflows, and Tasks</a></li>
+</ul>
+<h4 id="triggering-flow-runs">Triggering Flow Runs</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/how-to-trigger-a-flow-run-from-a-deployment-via-api-call-using-python-requests-library-or-from-a-terminal-using-curl/1396">Triggering Flow Runs From a Deployment via API Call or From a Terminal Using Curl</a></li>
+<li><a href="https://medium.com/the-prefect-blog/event-driven-data-pipelines-with-aws-lambda-prefect-and-github-actions-b3d9f84b1309">Event-Driven Data Pipelines with AWS Lambda and GitHub Actions</a></li>
+</ul>
+<h4 id="flow-deployment">Flow Deployment</h4>
+<ul>
+<li><a href="https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-run-as-a-local-process-docker-container-or-a-kubernetes-job/1246">Deploy Flows to Run as a Local Process, Docker Container or a Kubernetes Job</a></li>
+<li><a href="https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-aws/1252">Deploy Flows to AWS</a></li>
+<li><a href="https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-gcp/1251">Deploy Flows to GCP</a></li>
+<li><a href="https://discourse.prefect.io/t/how-to-deploy-prefect-2-0-flows-to-azure/1312">Deploy Flows to Azure</a></li>
+<li><a href="https://towardsdatascience.com/create-robust-data-pipelines-with-prefect-docker-and-github-12b231ca6ed2">Store Flows in GitHub and Execute in a Docker Container</a></li>
+<li><a href="https://discourse.prefect.io/t/prefect-2-1-0-has-just-arrived-it-includes-python-based-deployments-improvements-to-work-queues-tons-of-new-integrations-and-features/1422">Python-Based Deployments</a></li>
+</ul>
+<h2 id="diving-deeper">Diving Deeper 🍱</h2>
+<h4 id="data-engineering-dataops">Data Engineering / DataOps</h4>
+<ul>
+<li><a href="https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5">Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions</a></li>
+<li><a href="https://github.com/anna-geller/prefect-dataplatform">Build a Data Platform with Prefect, dbt, and Snowflake (using blocks)</a></li>
+</ul>
+<h4 id="eltetl">ELT/ETL</h4>
+<ul>
+<li><a href="./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py">Export Airbyte Configuration and Load to S3 bucket using blocks, including Python-based deployment</a></li>
+<li><a href="./flows-advanced/etl/elt-with-snowflake.py">ELT with Snowflake Using Async and Blocks</a></li>
+</ul>
+<h4 id="aws-infrastructure">AWS Infrastructure</h4>
+<ul>
+<li><a href="./devops/infrastructure-as-code/aws/cli-prefect2-ecs-agent/">Deploy a Prefect agent to ECS using the AWS CLI</a></li>
+<li><a href="./devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/">Deploy a Prefect agent to ECS with Terraform</a></li>
+<li><a href="https://towardsdatascience.com/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc">Deploy Flows Using ECSTask Infrastructure Blocks</a></li>
+<li><a href="https://youtu.be/Eemq2X9XrlE">Deploy a Prefect agent to ECS Fargate using CloudFormation and GitHub Actions</a></li>
+</ul>
+<h4 id="azure-infrastructure">Azure Infrastructure</h4>
+<ul>
+<li><a href="./devops/infrastructure-as-code/azure/setup-azure-with-prefect/">Setup Azure with Prefect</a></li>
+<li><a href="./devops/infrastructure-as-code/azure/prefect-agent-on-aks/">Deploy Prefect Orion to an AKS Cluster with Azure Blob Storage</a></li>
+<li><a href="./devops/infrastructure-as-code/azure/prefect-agent-on-avm/">Setup an Azure VM and Run the Prefect Agent</a></li>
+</ul>
+<h4 id="github-actions">Github Actions</h4>
+<ul>
+<li><a href="./devops/github-actions/general-docker-deploy.yaml">Build flow image and Prefect deployment with storage and infra Blocks on push to branch</a></li>
+<li><a href="./devops/github-actions/docker-build-push-gcp-artifact-registry.yaml">Build and Push flow docker image to Google Artifact Registry</a></li>
+<li><a href="./devops/github-actions/minimal-prefect-deployment-build.yaml">Build / Apply prefect deployment with blocks on change to python files</a></li>
+<li><a href="https://github.com/anna-geller/dataflow-ops">Automate Prefect Deployments to AWS ECS Fargate Using GitHub Actions</a></li>
+<li><a href="https://github.com/radbrt/orion_flows">Automate Python-Based Deployments with GitHub Actions</a></li>
+</ul>
+<h4 id="dockerfiles">Dockerfiles</h4>
+<ul>
+<li><a href="./devops/dockerfiles/Dockerfile.latest_python_3dot9">Build an image from the latest Python 3.9 base image and your <code>requirements.txt</code></a></li>
+</ul>
+<h4 id="django">Django</h4>
+<ul>
+<li><a href="https://github.com/abrookins/django-prefect-example">Using Django with Prefect 2</a></li>
+</ul>
+<h4 id="prefect-10-legacy">Prefect 1.0 Legacy</h4>
+<ul>
+<li><a href="./prefect-v1-legacy/devops/github-actions/">Register a Prefect Flow</a></li>
+<li><a href="./prefect-v1-legacy/graphql-queries/">Run GraphQL Queries</a></li>
+<li><a href="./prefect-v1-legacy/use-cases/airbyte-orchestration/">Airbyte Orchestration</a></li>
+<li><a href="./prefect-v1-legacy/use-cases/etl-s3-to-snowflake/">ETL with AWS S3 and Snowflake</a></li>
+<li><a href="./prefect-v1-legacy/use-cases/event-driven-triggers/">Use AWS Lambda for Event-Driven Flows</a></li>
+<li><a href="./prefect-v1-legacy/use-cases/import-secrets-to-cloud/">Read Secrets into Prefect Cloud tenant</a></li>
+<li><a href="./prefect-v1-legacy/use-cases/rerun_dbt_models_from_failure/">Handle DBT Model Failures</a></li>
+<li><a href="./prefect-v1-legacy/use-cases/s3-flow-storage-on-eks/">S3 Flow Storage on EKS</a></li>
+<li><a href="https://docs.coiled.io/user_guide/examples/prefect.html#using-the-localexecutor">Use LocalExecutor to run Dask computations on a Coiled cluster</a></li>
+<li><a href="https://docs.coiled.io/user_guide/examples/prefect.html#using-the-daskexecutor">Use DaskExecutor to run Prefect tasks in parallel on a Coiled cluster</a></li>
+</ul>
+<h2 id="join-our-discussions">Join our discussions 🗣️</h2>
+<p>We use our <a href="https://www.prefect.io/slack">Slack Community</a> and <a href="https://discourse.prefect.io/c/21">Discourse</a> to discuss all things Prefect-- such as FAQ, use cases and integrations. Join in the conversation :smile:</p>
+<h2 id="contributions">Contributions</h2>
+<p>We're always looking for new contributions! You can add your Prefect 2.0 recipe and earn some swag in a few simple steps:</p>
+<ol>
+<li>Look through the recipes to ensure your example is unique</li>
+<li>Clone the prefect-recipes repo:
+<div class="highlight"><pre><span></span><code><span class="go">git clone git@github.com:PrefectHQ/prefect-recipes.git</span>
+</code></pre></div></li>
+<li>Create and checkout a new branch:
+<div class="highlight"><pre><span></span><code><span class="go">git branch feat/recipe-name</span>
+<span class="go">git checkout feat/recipe-name</span>
+</code></pre></div></li>
+<li>Add your code under the appropriate category, making sure it is reproducible and easy to understand.</li>
+<li>Add your recipe to README.</li>
+<li>Commit and push the code to your remote branch.</li>
+<li>Create a PR 🤌 </li>
+</ol>
+<h2 id="thanks">Thanks 💙</h2>
+<p>Thank you for your contributions and efforts to improve prefect-recipes. We're glad to have you in our community!</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+      
+        
+        <a href="getting_started/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Started" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Getting Started
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.8492ddcf.min.js"></script>
+      
+    
+  </body>
+</html>
