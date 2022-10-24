@@ -1,0 +1,23 @@
+name: Publish docs
+
+on:
+  workflow_dispatch
+
+jobs:
+  build-and-publish-docs:
+    name: Build and publish docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build docs
+        run: |
+          python -m pip install --upgrade pip pyOpenSSL
+          python -m pip install --upgrade --upgrade-strategy eager -e .[dev]
+          mkdocs build
+      - name: Publish docs
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: docs
+          folder: site
