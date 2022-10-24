@@ -11,7 +11,7 @@ with open("README.md") as readme_file:
 
 setup(
     name="prefect-recipes",
-    description="Prefect Collection Template contains all the boilerplate that you need to create a Prefect collection.",
+    description="Contains common and extensible Prefect patterns to drive efficient workflows.",  # noqa
     license="Apache License 2.0",
     author="Prefect Technologies, Inc.",
     author_email="help@prefect.io",
