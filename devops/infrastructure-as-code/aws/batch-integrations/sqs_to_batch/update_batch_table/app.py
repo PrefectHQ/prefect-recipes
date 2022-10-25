@@ -11,7 +11,6 @@ app = Chalice(app_name="batch-table-update")
 dynamodb = boto3.resource("dynamodb")
 TIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
-
 # Main handler to receive eventbridge events
 @app.lambda_function()
 def lambda_handler(event, context):
@@ -25,17 +24,16 @@ def lambda_handler(event, context):
     print(f"{db_item}")
     try:
         # write the flowId, jobId, jobState, timestamp, and jobName to dynamo
-
+        
         write_to_dynamo(db_item)
         return generate_return_body("200", "Successfully updated DynamoDB")
     except ClientError as e:
         print("ClientError", e)
         return generate_return_body("500", str(e))
 
-
 # Builds and returns the table row
 def build_item(event, timeRunning=None):
-    # 432000 = 5 days = 5 * 24 hours * 60 minutes * 60 seconds
+    #432000 = 5 days = 5 * 24 hours * 60 minutes * 60 seconds
     ttl = 432000 + int(time())
     db_item = {
         "flowId": event["detail"]["container"]["environment"][-2]["value"],
@@ -44,9 +42,9 @@ def build_item(event, timeRunning=None):
         "batchState": event["detail"]["status"],
         "jobName": event["detail"]["jobName"],
         "jobQueue": event["detail"]["jobQueue"],
-        "jobDefinition": event["detail"]["jobDefinition"],
+        "jobDefinition": event["detail"]["jobDefinition"],        
         "timeOfState": event["time"],
-        "ttl": ttl,
+        "ttl": ttl
     }
     if timeRunning:
         created = int(event["detail"]["createdAt"]) // 1000
@@ -54,11 +52,10 @@ def build_item(event, timeRunning=None):
 
         db_item.update({"timeInRunnable": timeRunning})
         db_item.update({"startTime": start_time})
-    if "logStreamName" in event["detail"]["container"]:
+    if "logStreamName" in  event["detail"]["container"]:
         db_item.update({"logStreamName": event["detail"]["container"]["logStreamName"]})
-
+        
     return db_item
-
 
 def get_runnable_time(messageId, eventTime):
     table = dynamodb.Table("batch_state_table")

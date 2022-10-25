@@ -1,3 +1,5 @@
+# Data policy for updating batch table.
+# Needs to be cross account ; explicit permissions for get/put/scan/query are added to the ARN of the table
 data "aws_iam_policy_document" "update_batch_table" {
 
   statement {
@@ -26,6 +28,7 @@ data "aws_iam_policy_document" "update_batch_table" {
   }
 }
 
+#Iam role to invoke lambda 
 resource "aws_iam_role" "update_batch_table" {
   name = "batch-table-update-dev"
 
@@ -46,18 +49,20 @@ resource "aws_iam_role" "update_batch_table" {
 EOF
 }
 
+#Assigns the policy name
 resource "aws_iam_policy" "update_batch_table" {
   name   = "update_batch_table-dev"
   policy = data.aws_iam_policy_document.update_batch_table.json
 }
 
+#Maps policy + role
 resource "aws_iam_policy_attachment" "update_batch_table" {
   name       = "update_batch_table-dev"
   roles      = [aws_iam_role.update_batch_table.name]
   policy_arn = aws_iam_policy.update_batch_table.arn
 }
 
-
+#Batch table update lambda definition
 resource "aws_lambda_function" "batch_table_update" {
   description   = ""
   function_name = "batch-table-update-lambda_handler"
@@ -76,17 +81,30 @@ resource "aws_lambda_function" "batch_table_update" {
   }
 }
 
+# Event bridge trigger; the "detail:jobName:prefix:prefect" IS working in eventBridge, but not tested via IaC rule deploy below
 resource "aws_cloudwatch_event_rule" "EventsRule" {
   name          = "state-change-in-batch"
   description   = "Fires when a batch job has changed states, and updates the change in DynamoDB"
-  event_pattern = "{\"source\":[\"aws.batch\"],\"detail-type\":[\"Batch Job State Change\"]}"
+  event_pattern = "{\"source\":[\"aws.batch\"],\"detail-type\":[\"Batch Job State Change\"],\"detail\":{\"jobName\":[{\"prefix\":\"prefect\"}]}}"
+  # Full (working) rule in eventBridge appears like:
+  #   {
+  #   "source": ["aws.batch"],
+  #   "detail-type": ["Batch Job State Change"],
+  #   "detail": {
+  #     "jobName": [{
+  #       "prefix": "prefect"
+  #     }]
+  #   }
+  # }
 }
 
+# Lambda to invoke on eventBridge trigger
 resource "aws_cloudwatch_event_target" "CloudWatchEventTarget" {
   rule = aws_cloudwatch_event_rule.EventsRule.name
   arn  = aws_lambda_function.batch_table_update.arn
 }
 
+# Permission assignment for eventbridge to trigger lambda
 resource "aws_lambda_permission" "batch_table_update" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.batch_table_update.function_name
@@ -94,6 +112,7 @@ resource "aws_lambda_permission" "batch_table_update" {
   source_arn    = aws_cloudwatch_event_rule.EventsRule.arn
 }
 
+#Setup log group for 5 day retention
 resource "aws_cloudwatch_log_group" "batch_table_update" {
   name              = "/aws/lambda/${aws_lambda_function.batch_table_update.function_name}"
   retention_in_days = 5

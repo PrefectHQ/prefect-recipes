@@ -1,3 +1,5 @@
+# Policy to allow SQS to submit a batch job and write log streams.
+# Additionally, needs to be able to read / receive / delete messages on the queue.
 data "aws_iam_policy_document" "sqs_batch" {
   statement {
     sid = ""
@@ -35,6 +37,7 @@ data "aws_iam_policy_document" "sqs_batch" {
   }
 }
 
+#Assigns assume role policy for SQS to invoke lambda
 resource "aws_iam_role" "sqs_batch" {
   name = "sqs-to-batch-dev"
 
@@ -55,11 +58,13 @@ resource "aws_iam_role" "sqs_batch" {
 EOF
 }
 
+# Assigns policy 
 resource "aws_iam_policy" "sqs_batch" {
   name   = "sqs-to-batch-dev"
   policy = data.aws_iam_policy_document.sqs_batch.json
 }
 
+#Maps role + policy 
 resource "aws_iam_policy_attachment" "sqs_batch" {
   name       = "sqs-to-batch-dev"
   roles      = [aws_iam_role.sqs_batch.name]
@@ -67,6 +72,7 @@ resource "aws_iam_policy_attachment" "sqs_batch" {
 }
 
 
+#Lambda definition for sqs_to_batch
 resource "aws_lambda_function" "sqs_to_batch" {
   description   = ""
   function_name = "sqs-to-batch-dev-handler"
@@ -85,7 +91,7 @@ resource "aws_lambda_function" "sqs_to_batch" {
   }
 }
 
-
+# Creates the cloud_watch_log_group explicitly with 5 day retention
 resource "aws_cloudwatch_log_group" "sqs_to_batch" {
   name              = "/aws/lambda/${aws_lambda_function.sqs_to_batch.function_name}"
   retention_in_days = 5
