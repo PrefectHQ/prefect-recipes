@@ -118,6 +118,9 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 #### Django
 - [Using Django with Prefect 2](https://github.com/abrookins/django-prefect-example)
 
+#### Pydantic
+- [Using Pydantic BaseModel with Prefect 2](https://discourse.prefect.io/t/use-pydantic-to-ensure-data-consistency/1815)
+
 #### Prefect 1.0 Legacy
 - [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
 - [Run GraphQL Queries](./prefect-v1-legacy/graphql-queries/)
