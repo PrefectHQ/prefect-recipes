@@ -1,12 +1,12 @@
 <div align="center">
   <a href="https://github.com/PrefectHQ/prefect-recipes">
-    <img src="imgs/chef_marvin_by_dalle.png" alt="Logo" width="200">
+    <img src="docs/imgs/chef-marvin-by-dalle.png" alt="Logo" width="200">
   </a>
 </div>
 
 # Prefect Recipes 🧑‍🍳 🥐
 
-This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns [our **recipes**](#table-of-contents-)!
+This repository contains common and extensible Prefect patterns to drive efficient workflows &mdash; we like to call these patterns our **recipes**
 
 Here you'll find starter code and more advanced example use cases.
 
