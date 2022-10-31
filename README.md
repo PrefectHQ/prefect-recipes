@@ -35,6 +35,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
   - [Data Engineering / DataOps](#data-engineering--dataops)
   - [AWS Infrastructure](#aws-infrastructure)
   - [Azure Infrastructure](#azure-infrastructure)
+  - [Helm](#helm)
   - [GitHub Actions](#github-actions)
   - [Legacy (Prefect 1.0)](#prefect-10-legacy)
 - [Issues & Bugs](#issues--bugs-)
@@ -103,6 +104,9 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Setup Azure with Prefect](./devops/infrastructure-as-code/azure/setup-azure-with-prefect/)
 - [Deploy Prefect Orion to an AKS Cluster with Azure Blob Storage](./devops/infrastructure-as-code/azure/prefect-agent-on-aks/)
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
+
+#### Helm
+- [Deploy Prefect Agent using Helm and Terraform](./devops/infrastructure-as-code/helm/prefect2-agent/)
 
 #### Github Actions
 - [Build flow image and Prefect deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
