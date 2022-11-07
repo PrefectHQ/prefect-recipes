@@ -104,6 +104,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Setup Azure with Prefect](./devops/infrastructure-as-code/azure/setup-azure-with-prefect/)
 - [Deploy Prefect Orion to an AKS Cluster with Azure Blob Storage](./devops/infrastructure-as-code/azure/prefect-agent-on-aks/)
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
+- [Deploy Flows Using Azure Container Instances Infrastructure Blocks](https://medium.com/the-prefect-blog/serverless-prefect-flows-with-azure-container-instances-f2442ebc9343)
 
 #### Helm
 - [Deploy Prefect Agent using Helm and Terraform](./devops/infrastructure-as-code/helm/prefect2-agent/)
