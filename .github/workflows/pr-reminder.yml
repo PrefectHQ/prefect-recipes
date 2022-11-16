@@ -5,6 +5,9 @@ on:
     - cron: "0 16 * * 5" # F @ 11am CST
   workflow_dispatch:
 
+permissions:
+  pull-requests: read
+
 jobs:
   remind-reviewer:
     runs-on: ubuntu-latest
@@ -12,7 +15,7 @@ jobs:
       - run: echo Sending reminder to requested reviewers.
       - uses: davideviolante/pr-reviews-reminder-action@v1.5.1
         env:
-            GITHUB_TOKEN: ${{ secrets.MARVIN_TOKEN }}
+            GITHUB_TOKEN: ${{ github.token }}
         with:
             webhook-url: ${{ secrets.SLACK_WEBHOOK_RECIPES_CHANNEL }}
             provider: 'slack'
