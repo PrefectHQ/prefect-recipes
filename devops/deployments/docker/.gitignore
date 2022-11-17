@@ -1,0 +1,3 @@
+.prefectignore
+**/__pycache__/
+*deployment.yaml
