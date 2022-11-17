@@ -1,18 +1,13 @@
-from prefect import flow, get_run_logger, task
+from prefect import flow, get_run_logger
 
-
-@task
-def cowsay_hello(name: str):
-    # The import happens inside the function so that it's not needed at deploy time
-    import cowsay
-
-    cowsay.tux(f"Hello {name}!")
+from utilities.tasks import cowsay_hello, log_current_path
 
 
 @flow
 def hello(name: str = "Marvin"):
     get_run_logger().info(f"Hello {name}!")
     cowsay_hello(name)
+    log_current_path()
 
 
 # This is here so that we can invoke the script directly for testing
