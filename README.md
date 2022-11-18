@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/PrefectHQ/prefect-recipes">
-    <img src="docs/imgs/chef-marvin-by-dalle.png" alt="Logo" width="200">
+    <img src="./docs/imgs/chef-marvin-by-dalle.png" alt="Logo" width="200">
   </a>
 </div>
 
