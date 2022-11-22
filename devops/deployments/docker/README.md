@@ -2,7 +2,7 @@
 
 This recipe demonstrates how to run Prefect flows in Docker containers. Although this example uses your local Docker engine, the concepts extend to any infrastructure block that uses images, such as `KubernetesJob`s and `ECSTask`s.
 
-In order for a Prefect agent to run your flow, it needs a copy of your flow code. Prefect doesn't ever store your code, so there has to be some intermediary storage location. This intermediary is called the storage block, and there are a few options available,
+In order for a Prefect agent to run your flow, it needs a copy of your flow code. Prefect doesn't ever store your code, so there has to be some intermediary storage location. This intermediary is called the storage block, and there are a few options available:
 
 1. Local file system (i.e. files on your computer or another "local" location)
 2. Remote file system (i.e. S3 or similar)
@@ -12,13 +12,13 @@ The key thing to keep in mind with image-based infrastructure blocks is that the
 
 ## Getting Started
 
-Assuming you have `make` installed - most systems do - then simply run the following command,
+Assuming you have `make` installed - most systems do - then simply run the following command:
 
 ```sh
 make all
 ```
 
-This will,
+This will:
 1. Build an image with our code and dependencies.
 2. Create the infrastructure block that our deployment will use.
 3. Create a deployment of our hello flow.
@@ -30,7 +30,7 @@ Notably, we don't specify a storage block anywhere since our code is built into 
 
 This example works well locally, but if we want to extend the concepts to other infrastructures, there are a few considerations:
 
-First, we need to hand off our image to a registry. There are many options here (DockerHub, AWS ECR, and GitHub Container Registry to name a few), but they all do more or less the same thing. After we build our image, we'll want to login to our registry and push our image there. Note that the name of our image will change to include some information about our registry. As an example, here's what this might look like with AWS ECR,
+First, we need to hand off our image to a registry. There are many options here (DockerHub, AWS ECR, and GitHub Container Registry to name a few), but they all do more or less the same thing. After we build our image, we'll want to login to our registry and push our image there. Note that the name of our image will change to include some information about our registry. As an example, here's what this might look like with AWS ECR:
 
 ```sh
 export REGION=us-east-1
