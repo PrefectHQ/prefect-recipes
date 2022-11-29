@@ -1,20 +1,16 @@
 # Prefect 2.0
-flows-advanced/ @gabcoyne @robfreedy @serinamarie @zzstoatzz
-flows-starter/ @gabcoyne @robfreedy @serinamarie  @zzstoatzz
-devops/ @gabcoyne @jamiedick @prefectcboyd  # default
+flows-advanced/ @rpeden @serinamarie @zzstoatzz
+flows-starter/ @rpeden @robfreedy @serinamarie  @zzstoatzz
+devops/ @gabcoyne @jamiezieziula @prefectcboyd @rpeden # default
 devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
-devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd
+devops/infrastructure-as-code/ @gabcoyne @jamiezieziula @prefectcboyd
 
 # General
-.github/ @gabcoyne @robfreedy @zzstoatzz  # default
-.github/workflows/codeql.yml @robfreedy @zzstoatzz
-.github/workflows/python.yml @gabcoyne @serinamarie @zzstoatzz
-.github/workflows/terraform-action.yml @gabcoyne @jamiedick @prefectcboyd
-video-demos/ @gabcoyne @prefectcboyd @robfreedy @serinamarie
+.github/ @gabcoyne @robfreedy @jamiezieziula @zzstoatzz  # default
 
 # Legacy: Prefect < 2.0 folders are unlikely to see additions/mods
-prefect-v1-legacy/devops/ @gabcoyne @jamiedick @prefectcboyd  # default 
+prefect-v1-legacy/devops/ @gabcoyne @jamiezieziula @prefectcboyd  # default 
 prefect-v1-legacy/devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
-prefect-v1-legacy/devops/infrastructure-as-code/ @gabcoyne @jamiedick @prefectcboyd @robfreedy
+prefect-v1-legacy/devops/infrastructure-as-code/ @gabcoyne @jamiezieziula @prefectcboyd @robfreedy
 prefect-v1-legacy/graphql-queries/ @prefectcboyd @robfreedy
 prefect-v1-legacy/use-cases/ @gabcoyne @serinamarie @zzstoatzz
