@@ -9,6 +9,9 @@ To create a deployment:
 prefect deployment build merge_dependabot_pull_requests.py:merge_dependabot_pull_requests --name for_prefect_collections
 prefect deployment apply merge_dependabot_pull_requests-deployment.yaml
 ```
+
+Pre-requisites:
+`pip install prefect prefect-github`
 """  # noqa
 
 
