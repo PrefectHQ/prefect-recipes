@@ -1,7 +1,7 @@
 # Prefect 2.0
-flows-advanced/ @rpeden @serinamarie @zzstoatzz
-flows-starter/ @rpeden @robfreedy @serinamarie  @zzstoatzz
-devops/ @gabcoyne @jamiezieziula @prefectcboyd @rpeden # default
+flows-advanced/ @rpeden @serinamarie @zzstoatzz @EmilRex
+flows-starter/ @rpeden @robfreedy @serinamarie @zzstoatzz
+devops/ @gabcoyne @jamiezieziula @prefectcboyd @rpeden @EmilRex # default
 devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
 devops/infrastructure-as-code/ @gabcoyne @jamiezieziula @prefectcboyd
 
