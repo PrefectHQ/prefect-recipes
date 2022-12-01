@@ -24,7 +24,6 @@ import httpx
 import yaml
 from prefect import flow, get_run_logger, task
 from prefect.tasks import task_input_hash
-
 from prefect_github import GitHubCredentials
 from prefect_github.mutations import add_comment_subject, add_pull_request_review
 from prefect_github.repository import (
@@ -50,11 +49,13 @@ def get_repository_names(
     Get a list of repository names, maintained by Prefect, by scraping
     https://github.com/PrefectHQ/prefect/tree/main/docs/collections/catalog.
 
-    Note, this whole task can be rewritten as needed to collect the desired repository names,
-    or completely disregard this task and manually specify a list of repositories below.
+    Note, this whole task can be rewritten as needed to collect
+    the desired repository names, or completely disregard this task
+    and manually specify a list of repositories below.
 
     Args:
-        github_credentials: GitHubCredentials block from prefect-github that stores a PAT.
+        github_credentials: GitHubCredentials block
+            from prefect-github that stores a PAT.
 
     Returns:
         List of repository names, e.g. ["prefect-aws", "prefect-gcp"].
@@ -97,7 +98,8 @@ def merge_dependabot_pull_request(
     4. Leave "@dependabot merge" which will merge the PR if all tests pass.
 
     Args:
-        github_credentials: GitHubCredentials block from prefect-github that stores a PAT.
+        github_credentials: GitHubCredentials block from prefect-github
+            that stores a PAT.
         repository_name: The name of the repository.
         repository_owner: The owner / organization of the repository.
         pull_request_title: The name of the pull request to merge.
