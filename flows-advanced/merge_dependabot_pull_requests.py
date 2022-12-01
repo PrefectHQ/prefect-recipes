@@ -11,7 +11,7 @@ prefect deployment apply merge_dependabot_pull_requests-deployment.yaml
 ```
 
 Pre-requisites:
-`pip install prefect prefect-github` and an existing `GitHubCredentials` block created and noted
+`pip install prefect prefect-github` and an existing `GitHubCredentials` block created in a Prefect workspace
 """  # noqa
 
 
