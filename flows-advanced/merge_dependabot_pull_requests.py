@@ -11,7 +11,7 @@ prefect deployment apply merge_dependabot_pull_requests-deployment.yaml
 ```
 
 Pre-requisites:
-`pip install prefect prefect-github`
+`pip install prefect prefect-github` and an existing `GitHubCredentials` block created and noted
 """  # noqa
 
 
@@ -34,7 +34,6 @@ from prefect_github.repository import (
 
 BLOCK_NAME = "merge-dependabot-token"
 REPOSITORY_OWNER = "PrefectHQ"
-COLLECTION_AUTHOR = "Prefect"
 DEPENDABOT_PULL_REQUEST_TITLE = "Bump actions/add-to-project from 0.3.0 to 0.4.0"
 
 
@@ -44,12 +43,21 @@ DEPENDABOT_PULL_REQUEST_TITLE = "Bump actions/add-to-project from 0.3.0 to 0.4.0
     retries=3,
     retry_delay_seconds=10,
 )
-def get_collection_names(
-    github_credentials: GitHubCredentials, collection_author: str
+def get_repository_names(
+    github_credentials: GitHubCredentials,
 ) -> List[str]:
     """
-    Get a list of collection names, maintained by Prefect, by scraping
+    Get a list of repository names, maintained by Prefect, by scraping
     https://github.com/PrefectHQ/prefect/tree/main/docs/collections/catalog.
+
+    Note, this whole task can be rewritten as needed to collect the desired repository names,
+    or completely disregard this task and manually specify a list of repositories below.
+
+    Args:
+        github_credentials: GitHubCredentials block from prefect-github that stores a PAT.
+    
+    Returns:
+        List of repository names, e.g. ["prefect-aws", "prefect-gcp"].
     """
     token = github_credentials.token.get_secret_value()
     tree_url = (
@@ -58,32 +66,44 @@ def get_collection_names(
     headers = {"Authorization": f"Bearer {token}"}
     tree_contents = httpx.get(tree_url, headers=headers).json()["tree"]
 
-    collections = []
+    repositories = []
     for tree in tree_contents:
         path = tree["path"]
+        # here, since we're scraping docs/collections/catalog
+        # we subset and pin down the results with prefect-
+        # if not, it picks up TEMPLATE.yaml
         if path.startswith("docs/collections") and "prefect-" in path:
             url_contents = httpx.get(tree["url"], headers=headers).json()
             path_contents = base64.b64decode(url_contents["content"]).decode()
             author = yaml.safe_load(path_contents)["author"]
-            if author == collection_author:
-                collection = Path(path).stem.split("/")[-1]
-                collections.append(collection)
+            if author == "Prefect":
+                repository = Path(path).stem.split("/")[-1]
+                repositories.append(repository)
 
-    return collections
+    return repositories
 
 
 @flow
 def merge_dependabot_pull_request(
-    github_credentials: GitHubCredentials,
-    pull_request_title: str,
+    github_credentials: GitHubCredentials,  # block type
     repository_name: str,
     repository_owner: str,
+    pull_request_title: str,
 ) -> Dict[str, Any]:
     """
-    1. Queries ten pull requests (PR) in the repository
-    2. For each PR, check if the title matches with the provided title
-    3. Automatically approve the PR if there's a matching PR
-    4. Leave "@dependabot merge" which will merge the PR if all tests pass
+    1. Queries ten pull requests (PR) in the repository.
+    2. For each PR, check if the title matches with the provided title.
+    3. Automatically approve the PR if there's a matching PR.
+    4. Leave "@dependabot merge" which will merge the PR if all tests pass.
+
+    Args:
+        github_credentials: GitHubCredentials block from prefect-github that stores a PAT.
+        repository_name: The name of the repository.
+        repository_owner: The owner / organization of the repository.
+        pull_request_title: The name of the pull request to merge.
+
+    Returns:
+        The metadata about the pull request.
     """
     logger = get_run_logger()
     logger.info(f"Locating {pull_request_title} PR for {repository_name}...")
@@ -100,7 +120,7 @@ def merge_dependabot_pull_request(
         return_fields=["number"],
         first=10,
         **repository_kwargs,
-    )["nodes"]
+    )["nodes"]  # returned GraphQL nodes
 
     # find the pull request that matches the provided title
     for number_node in number_nodes:
@@ -139,35 +159,41 @@ def merge_dependabot_pull_request(
 def merge_dependabot_pull_requests(
     block_name: str = BLOCK_NAME,
     repository_owner: str = REPOSITORY_OWNER,
-    collection_author: str = COLLECTION_AUTHOR,
     pull_request_title: str = DEPENDABOT_PULL_REQUEST_TITLE,
 ) -> Dict:
     """
     Merge multiple dependabot pull requests across multiple repositories.
+
+    Args:
+        block_name: The name of the GitHubCredentials block to load.
+        repository_owner: The owner / organization of the repository.
+        pull_request_title: The name of the pull request to merge.
+    
+    Returns:
+        A mapping of repository names to the pull request state, e.g. success.
     """
     github_credentials = GitHubCredentials.load(block_name)
-    collection_names = get_collection_names(
-        github_credentials=github_credentials, collection_author=collection_author
+    repository_names = get_repository_names(
+        github_credentials=github_credentials
     )
 
-    collection_pull_request_states = {}
-    for collection_name in collection_names:
-        flow_name = f"merge_dependabot_pull_request_in_{collection_name}"
+    repository_pull_request_states = {}
+    for repository_name in repository_names:
+        flow_name = f"merge_dependabot_pull_request_in_{repository_name}"
         pull_request_state = merge_dependabot_pull_request.with_options(name=flow_name)(
             github_credentials=github_credentials,
-            repository_name=collection_name,
+            repository_name=repository_name,
             repository_owner=repository_owner,
             pull_request_title=pull_request_title,
             return_state=True,
         )
-        collection_pull_request_states[collection_name] = pull_request_state
-    return collection_pull_request_states
+        repository_pull_request_states[repository_name] = pull_request_state
+    return repository_pull_request_states
 
 
 if __name__ == "__main__":
     merge_dependabot_pull_requests(
         block_name=BLOCK_NAME,
         repository_owner=REPOSITORY_OWNER,
-        collection_author=COLLECTION_AUTHOR,
         pull_request_title=DEPENDABOT_PULL_REQUEST_TITLE,
     )
