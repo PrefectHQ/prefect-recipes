@@ -55,7 +55,7 @@ def get_repository_names(
 
     Args:
         github_credentials: GitHubCredentials block from prefect-github that stores a PAT.
-    
+
     Returns:
         List of repository names, e.g. ["prefect-aws", "prefect-gcp"].
     """
@@ -120,7 +120,9 @@ def merge_dependabot_pull_request(
         return_fields=["number"],
         first=10,
         **repository_kwargs,
-    )["nodes"]  # returned GraphQL nodes
+    )[
+        "nodes"
+    ]  # returned GraphQL nodes
 
     # find the pull request that matches the provided title
     for number_node in number_nodes:
@@ -168,14 +170,12 @@ def merge_dependabot_pull_requests(
         block_name: The name of the GitHubCredentials block to load.
         repository_owner: The owner / organization of the repository.
         pull_request_title: The name of the pull request to merge.
-    
+
     Returns:
         A mapping of repository names to the pull request state, e.g. success.
     """
     github_credentials = GitHubCredentials.load(block_name)
-    repository_names = get_repository_names(
-        github_credentials=github_credentials
-    )
+    repository_names = get_repository_names(github_credentials=github_credentials)
 
     repository_pull_request_states = {}
     for repository_name in repository_names:
