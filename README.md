@@ -127,7 +127,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Using Pydantic BaseModel with Prefect 2](https://discourse.prefect.io/t/use-pydantic-to-ensure-data-consistency/1815)
 
 #### Miscellaneous
-- [Merge Dependabot Pull Requests](./flows-advanced/merge_dependabot_pull_requests.py)
+- [Merge Dependabot Pull Requests with Prefect 2 & a GitHubCredentials block](./flows-advanced/merge_dependabot_pull_requests.py)
 
 #### Prefect 1.0 Legacy
 - [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
