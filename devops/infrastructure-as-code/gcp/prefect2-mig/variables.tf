@@ -19,20 +19,44 @@ variable "num_vm" {
   description = "Number of deployed VMs in the managed instance group"
   default     = 1
 }
+variable "name_prefix" {
+  type        = string
+  description = "Prefix for the instance name"
+  default     = "prefect-agent"
+}
+variable "machine_type" {
+  type        = string
+  description = "GCP Machine type to be used for the Prefect Agent VM"
+  default     = "n2d-highcpu-2"
+}
+variable "disk_type" {
+  type        = string
+  description = "Disk type to be used by the Prefect Agent VM"
+  default     = "pd-standard"
+}
+variable "disk_size" {
+  type        = string
+  description = "Size of the Prefect Agent VM disk"
+  default     = "20"
+}
+variable "preemptible" {
+  description = "prefect cloud account ID"
+  default     = false
+}
 variable "prefect_account_id" {
   type        = string
-  description = "Prefect cloud account ID"
+  description = "prefect cloud account ID"
 }
 variable "prefect_workspace_id" {
   type        = string
-  description = "Prefect cloud account ID"
+  description = "prefect cloud workspace ID"
 }
 variable "prefect_api_key" {
   type        = string
-  description = "Prefect cloud api key"
-  # sensitive = true
+  description = "prefect cloud api key"
+  sensitive   = true
 }
 variable "work_queue" {
   type        = string
-  description = "Prefect cloud work queue name"
+  description = "prefect cloud work queue name"
 }

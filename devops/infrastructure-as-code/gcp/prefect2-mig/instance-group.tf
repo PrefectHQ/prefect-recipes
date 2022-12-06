@@ -9,7 +9,7 @@ module "instance_group" {
 
   autoscaling_enabled = false
   target_size         = var.num_vm
-  wait_for_instances = true
+  wait_for_instances  = true
 
   update_policy = [{
     type                           = "PROACTIVE"

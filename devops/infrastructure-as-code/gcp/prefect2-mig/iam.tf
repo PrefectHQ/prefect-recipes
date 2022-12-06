@@ -26,8 +26,8 @@ resource "google_project_iam_custom_role" "prefect_agent_gcs" {
   ]
 }
 resource "google_project_iam_binding" "prefect_agent_gcs" {
-  project  = var.project_id
-  role     = google_project_iam_custom_role.prefect_agent_gcs.name
+  project = var.project_id
+  role    = google_project_iam_custom_role.prefect_agent_gcs.name
   members = [
     "serviceAccount:${google_service_account.prefect_agent.email}",
   ]
