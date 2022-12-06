@@ -2,17 +2,19 @@ module "instance_template" {
   source  = "terraform-google-modules/vm/google//modules/instance_template"
   version = "7.9.0"
 
-  project_id = var.project_id
+  project_id = var.project_id # Project ID to store the Instance Template
 
-  name_prefix  = var.name_prefix
-  machine_type = var.machine_type
-  preemptible  = var.preemptible
+  name_prefix  = var.name_prefix # Prefix of the names of instances deployed
+  machine_type = var.machine_type # GCP machine type used (Default is n2d-highcpu-2)
+  preemptible  = var.preemptible # Sets the image to be preemtible (Default is false)
 
   enable_confidential_vm       = true
   enable_nested_virtualization = false
   enable_shielded_vm           = true
 
-  on_host_maintenance = "MIGRATE"
+  on_host_maintenance = "MIGRATE" # Instance availability policy
+
+  # Template out and run the agent shell script to deploy the agent
   startup_script = templatefile("${path.module}/prefect-agent.sh.tpl",
     {
       prefect_api_key     = var.prefect_api_key
@@ -20,9 +22,12 @@ module "instance_template" {
       work_queue          = var.work_queue
     }
   )
+
+# Set subnet values for instance deployment
   subnetwork         = var.subnet
   subnetwork_project = var.project_id
-  auto_delete        = true
+
+  auto_delete        = true # Delete boot disk on destruction
   can_ip_forward     = false
 
   # Use latest stable Ubuntu Image for base

@@ -12,7 +12,7 @@ This recipe will walk you through the process to deploy a Prefect Agent using a 
 2. Create a Work Queue in Prefect Cloud that the agent will be associated with
 3. Run `terraform apply` from your local machine
     1. Pass in requested variables
-4. Wait for the Work Queue to become `Healthy` in the Prefect Cloud UI
+4. Wait for the Work Queue to become `Healthy` in the Prefect Cloud UI (Typically within 5 minutes)
 5. You should now be able to run Deployments against your new Prefect Agent
     1. Note that the VM has only Docker and Prefect installed by default.  Other possible python modules may need to be added by updating the [`prefect-agent.sh.tpl`](./prefect-agent.sh.tpl) file to include the installation of other python modules.
 
@@ -41,9 +41,7 @@ This recipe will walk you through the process to deploy a Prefect Agent using a 
 
 | Name | Type |
 |------|------|
-| [google_project_iam_binding.prefect_agent_gcs](https://registry.terraform.io/providers/hashicorp/google/4.44.1/docs/resources/project_iam_binding) | resource |
 | [google_project_iam_binding.prefect_agent_instance_group](https://registry.terraform.io/providers/hashicorp/google/4.44.1/docs/resources/project_iam_binding) | resource |
-| [google_project_iam_custom_role.prefect_agent_gcs](https://registry.terraform.io/providers/hashicorp/google/4.44.1/docs/resources/project_iam_custom_role) | resource |
 | [google_service_account.prefect_agent](https://registry.terraform.io/providers/hashicorp/google/4.44.1/docs/resources/service_account) | resource |
 
 ## Inputs

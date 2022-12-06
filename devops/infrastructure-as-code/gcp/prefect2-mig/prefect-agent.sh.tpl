@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-# Update PATH for Prefect Install
-export PATH="$HOME/.local/bin:$PATH"
-
-# update image & setup docker
+# update ubuntu image & setup docker + pip
 apt-get update -y
 apt upgrade -y
 apt-get install -y \
