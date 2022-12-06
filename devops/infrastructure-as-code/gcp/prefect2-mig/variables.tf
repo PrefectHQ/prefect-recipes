@@ -6,10 +6,6 @@ variable "region" {
   type        = string
   description = "region to deploy the resources to"
 }
-variable "env" {
-  type        = string
-  description = "environment stage to apply to the agent"
-}
 variable "subnet" {
   type        = string
   description = "subnet to deploy the managed instance group"

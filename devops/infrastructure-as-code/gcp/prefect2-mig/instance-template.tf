@@ -49,7 +49,6 @@ module "instance_template" {
 
   disk_labels = {
     app = "prefect_agent"
-    env = "${var.env}"
   }
 
   labels = {

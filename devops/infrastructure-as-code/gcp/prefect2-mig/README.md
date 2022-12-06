@@ -50,7 +50,6 @@ This recipe will walk you through the process to deploy a Prefect Agent using a 
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_env"></a> [env](#input\_env) | environment stage to apply to the agent | `string` | n/a | yes |
 | <a name="input_prefect_account_id"></a> [prefect\_account\_id](#input\_prefect\_account\_id) | prefect cloud account ID | `string` | n/a | yes |
 | <a name="input_prefect_api_key"></a> [prefect\_api\_key](#input\_prefect\_api\_key) | prefect cloud api key | `string` | n/a | yes |
 | <a name="input_prefect_workspace_id"></a> [prefect\_workspace\_id](#input\_prefect\_workspace\_id) | prefect cloud workspace ID | `string` | n/a | yes |
