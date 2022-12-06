@@ -5,7 +5,7 @@ This recipe will walk you through the process to deploy a Prefect Agent using a 
 
 ## Prerequisites
 1. Privileges to create service accounts & instances in GCP
-2. Terraform (CLI Locally)[https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli]
+2. Terraform [CLI Locally](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
 ## Steps
 1. Create a VPC and Subnet that have external internet access
@@ -14,7 +14,7 @@ This recipe will walk you through the process to deploy a Prefect Agent using a 
     1. Pass in requested variables
 4. Wait for the Work Queue to become `Healthy` in the Prefect Cloud UI
 5. You should now be able to run Deployments against your new Prefect Agent
-    1. Note that the VM has only Docker and Prefect installed by default.  Other possible python modules may need to be added by updating the (`prefect-agent.sh.tpl`)[https://github.com/PrefectHQ/prefect-recipes/blob/main/devops/infrastructure-as-code/gcp/prefect2-mig/prefect-agent.sh.tpl] file to include the installation of other python modules.
+    1. Note that the VM has only Docker and Prefect installed by default.  Other possible python modules may need to be added by updating the [`prefect-agent.sh.tpl`](./prefect-agent.sh.tpl) file to include the installation of other python modules.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
