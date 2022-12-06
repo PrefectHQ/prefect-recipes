@@ -13,7 +13,13 @@ module "instance_template" {
   enable_shielded_vm           = true
 
   on_host_maintenance = "MIGRATE"
-  # startup_script = "/home/start_agent_service.sh -u https://api.prefect.cloud/api/accounts/${var.prefect_account_id}/workspaces/${var.prefect_workspace_id} -k ${var.prefect_api_key} -q ${var.work_queue} && sudo systemctl daemon-reload"
+  startup_script = templatefile("${path.module}/prefect-agent.sh.tpl",
+    {
+      prefect_api_key = var.prefect_api_key
+      prefect_api_address = "https://api.prefect.cloud/api/accounts/${var.prefect_account_id}/workspaces/${var.prefect_workspace_id}"
+      work_queue = var.work_queue    
+    }
+  )
   subnetwork         = var.subnet
   subnetwork_project = var.project_id
   auto_delete = true
@@ -22,6 +28,7 @@ module "instance_template" {
   # Use latest stable Ubuntu Image for base
   source_image = "ubuntu-2204-jammy-v20221206"
   source_image_family = "ubuntu-2204-lts"
+  source_image_project = "ubuntu-os-cloud"
   disk_type    = "pd-ssd" #var?
   disk_size_gb = "20"
   service_account = {

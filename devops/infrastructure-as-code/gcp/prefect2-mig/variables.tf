@@ -30,6 +30,7 @@ variable "prefect_workspace_id" {
 variable "prefect_api_key" {
   type        = string
   description = "Prefect cloud api key"
+  # sensitive = true
 }
 variable "work_queue" {
   type        = string
