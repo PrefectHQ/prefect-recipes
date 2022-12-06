@@ -4,9 +4,9 @@ module "instance_template" {
 
   project_id = var.project_id # Project ID to store the Instance Template
 
-  name_prefix  = var.name_prefix # Prefix of the names of instances deployed
+  name_prefix  = var.name_prefix  # Prefix of the names of instances deployed
   machine_type = var.machine_type # GCP machine type used (Default is n2d-highcpu-2)
-  preemptible  = var.preemptible # Sets the image to be preemtible (Default is false)
+  preemptible  = var.preemptible  # Sets the image to be preemtible (Default is false)
 
   enable_confidential_vm       = true
   enable_nested_virtualization = false
@@ -23,12 +23,12 @@ module "instance_template" {
     }
   )
 
-# Set subnet values for instance deployment
+  # Set subnet values for instance deployment
   subnetwork         = var.subnet
   subnetwork_project = var.project_id
 
-  auto_delete        = true # Delete boot disk on destruction
-  can_ip_forward     = false
+  auto_delete    = true # Delete boot disk on destruction
+  can_ip_forward = false
 
   # Use latest stable Ubuntu Image for base
   source_image         = "ubuntu-2204-jammy-v20221206"
