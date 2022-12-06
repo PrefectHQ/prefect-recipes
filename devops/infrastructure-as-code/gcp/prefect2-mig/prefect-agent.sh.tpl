@@ -28,15 +28,9 @@ chown $USER /var/run/docker.sock
 # prefect agent install
 pip3 install prefect
 
-# get API key
-PREFECT_API_KEY=${prefect_api_key}
-
-# create prefect config file
-# mkdir ~/.prefect
-# touch ~/.prefect/config.toml
-# echo "
-# [cloud.agent]
-# " > ~/.prefect/config.toml
+# Set Prefect Params
+prefect config set PREFECT_API_KEY="${prefect_api_key}"
+prefect config set PREFECT_API_URL="${prefect_api_address}"
 
 # create systemd config
 touch /etc/systemd/system/prefect-agent.service
@@ -49,7 +43,7 @@ Type=simple
 Restart=on-failure
 RestartSec=5
 User=root
-ExecStart=/usr/local/bin/prefect agent start -q ${work_queue} --api ${prefect_api_address}
+ExecStart=/usr/local/bin/prefect agent start -q ${work_queue}
 [Install]
 WantedBy=multi-user.target " >> /etc/systemd/system/prefect-agent.service
 
