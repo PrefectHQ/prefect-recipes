@@ -108,6 +108,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 
 #### GCP Infrastructure
 - [Setup GCP Managed Instance Group with Prefect](./devops/infrastructure-as-code/gcp/prefect2-mig/)
+
 #### Helm
 - [Deploy Prefect Agent using Helm and Terraform](./devops/infrastructure-as-code/helm/prefect2-agent/)
 
