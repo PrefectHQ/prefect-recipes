@@ -8,7 +8,7 @@ module "instance_template" {
   machine_type = var.machine_type # GCP machine type used (Default is n2d-highcpu-2)
   preemptible  = var.preemptible  # Sets the image to be preemtible (Default is false)
 
-  enable_confidential_vm       = true
+  enable_confidential_vm       = var.enable_confidential_vm
   enable_nested_virtualization = false
   enable_shielded_vm           = true
 

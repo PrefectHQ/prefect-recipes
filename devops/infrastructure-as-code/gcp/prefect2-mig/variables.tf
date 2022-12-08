@@ -56,3 +56,7 @@ variable "work_queue" {
   type        = string
   description = "prefect cloud work queue name"
 }
+variable "enable_confidential_vm" {
+  description = "enable confidential virtual machine at build time (non-shared core VMs support)"
+  default = true
+}
