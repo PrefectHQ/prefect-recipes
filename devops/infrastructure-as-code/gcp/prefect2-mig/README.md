@@ -6,14 +6,16 @@ This recipe will walk you through the process to deploy a Prefect Agent using a 
 ## Prerequisites
 1. Privileges to create service accounts & instances in GCP
 2. Terraform [CLI Locally](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+3. A Public Subnet with allowed ingress and egress Firewall rules to deploy the instances to or a Private Subnet connected to the internet via a [NAT Gateway](https://cloud.google.com/nat/docs/overview)
 
 ## Steps
-1. Create a VPC and Subnet that have external internet access
-2. Create a Work Queue in Prefect Cloud that the agent will be associated with
-3. Run `terraform apply` from your local machine
+1. Set your default GCP Project to the Project in which the instance will be deployed to via `gcloud auth application-default login`
+2. Create a VPC and Subnet that have external internet access
+3. Create a Work Queue in Prefect Cloud that the agent will be associated with
+4. Run `terraform apply` from your local machine
     1. Pass in requested variables
-4. Wait for the Work Queue to become `Healthy` in the Prefect Cloud UI (Typically within 5 minutes)
-5. You should now be able to run Deployments against your new Prefect Agent
+5. Wait for the Work Queue to become `Healthy` in the Prefect Cloud UI (Typically within 5 minutes)
+6. You should now be able to run Deployments against your new Prefect Agent
     1. Note that the VM has only Docker and Prefect installed by default.  Other possible python modules may need to be added by updating the [`prefect-agent.sh.tpl`](./prefect-agent.sh.tpl) file to include the installation of other python modules.
 
 <!-- BEGIN_TF_DOCS -->

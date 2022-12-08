@@ -58,5 +58,5 @@ variable "work_queue" {
 }
 variable "enable_confidential_vm" {
   description = "enable confidential virtual machine at build time (non-shared core VMs support)"
-  default = true
+  default     = true
 }
