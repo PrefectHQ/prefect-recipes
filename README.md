@@ -106,6 +106,9 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Setup an Azure VM and Run the Prefect Agent](./devops/infrastructure-as-code/azure/prefect-agent-on-avm/)
 - [Deploy Flows Using Azure Container Instances Infrastructure Blocks](https://medium.com/the-prefect-blog/serverless-prefect-flows-with-azure-container-instances-f2442ebc9343)
 
+#### GCP Infrastructure
+- [Setup GCP Managed Instance Group with Prefect](./devops/infrastructure-as-code/gcp/prefect2-mig/)
+
 #### Helm
 - [Deploy Prefect Agent using Helm and Terraform](./devops/infrastructure-as-code/helm/prefect2-agent/)
 
