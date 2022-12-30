@@ -148,6 +148,7 @@ No modules.
 | <a name="input_prefect_account_id"></a> [prefect\_account\_id](#input\_prefect\_account\_id) | Prefect cloud account ID | `string` | n/a | yes |
 | <a name="input_prefect_api_key"></a> [prefect\_api\_key](#input\_prefect\_api\_key) | Prefect cloud API key | `string` | n/a | yes |
 | <a name="input_prefect_workspace_id"></a> [prefect\_workspace\_id](#input\_prefect\_workspace\_id) | Prefect cloud workspace ID | `string` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID in which to create all resources | `string` | n/a | yes |
 | <a name="input_agent_cpu"></a> [agent\_cpu](#input\_agent\_cpu) | CPU units to allocate to the agent | `number` | `1024` | no |
 | <a name="input_agent_desired_count"></a> [agent\_desired\_count](#input\_agent\_desired\_count) | Number of agents to run | `number` | `1` | no |
 | <a name="input_agent_extra_pip_packages"></a> [agent\_extra\_pip\_packages](#input\_agent\_extra\_pip\_packages) | Packages to install on the agent assuming image is based on prefecthq/prefect | `string` | `"prefect-aws s3fs"` | no |

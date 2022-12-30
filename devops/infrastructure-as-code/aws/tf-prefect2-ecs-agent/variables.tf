@@ -71,3 +71,9 @@ variable "prefect_api_key" {
   type        = string
   sensitive   = true
 }
+
+
+variable "vpc_id" {
+  description = "VPC ID in which to create all resources"
+  type        = string
+}
