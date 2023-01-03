@@ -6,7 +6,7 @@
     "networkMode": "awsvpc",
     "cpu": "512",
     "memory": "1024",
-    "taskRoleArn": "arn:aws:iam::<>:role/prefectECSRole",
+    "taskRoleArn": "arn:aws:iam::<>:role/prefectTaskRole",
     "executionRoleArn": "arn:aws:iam::<>:role/ecsTaskExecutionRole",
     "containerDefinitions": [
         {
@@ -17,16 +17,16 @@
                 "prefect",
                 "agent",
                 "start",
-                "ecs-queue"
+                "<WORK_QUUE_ID>"
             ],
             "environment": [
                 {
                     "name": "PREFECT_API_KEY",
-                    "value": "pnb_nCcbC3D8PShMIMYv2SfvGQeqCvcqqq2p9LfD"
+                    "value": "<your-key>"
                 },
                 {
                     "name": "PREFECT_API_URL",
-                    "value": "https://api.prefect.cloud/api/accounts/0ff44498-d380-4d7b-bd68-9b52da03823f/workspaces/f579e720-7969-4ab8-93b7-2dfa784903e6"
+                    "value": "https://api.prefect.cloud/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]"
                 },
                 {
                     "name": "PREFECT_LOGGING_LEVEL",
