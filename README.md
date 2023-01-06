@@ -130,7 +130,8 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Using Pydantic BaseModel with Prefect 2](https://discourse.prefect.io/t/use-pydantic-to-ensure-data-consistency/1815)
 
 #### Hex
-- Create Observable and Reproducible Notebooks with Hex
+- [Create Observable and Reproducible Notebooks with Hex - Article](https://towardsdatascience.com/create-observable-and-reproducible-notebooks-with-hex-460e75818a09)
+- [Create Observable and Reproducible Notebooks with Hex - Video](https://youtu.be/_BjqCrun4nE)
   - [Article](https://towardsdatascience.com/create-observable-and-reproducible-notebooks-with-hex-460e75818a09)
   - [Video](https://youtu.be/_BjqCrun4nE)
   - [Code](https://github.com/khuyentran1401/customer_segmentation/tree/prefect2)
