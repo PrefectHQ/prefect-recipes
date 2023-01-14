@@ -130,6 +130,10 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Using Pydantic BaseModel with Prefect 2](https://discourse.prefect.io/t/use-pydantic-to-ensure-data-consistency/1815)
 - [Build a Full-Stack ML Application With Pydantic And Prefect](https://towardsdatascience.com/build-a-full-stack-ml-application-with-pydantic-and-prefect-915f00fe0c62?sk=b1f8c5cb53a6a9d7f48d66fa778e9cf0)
 
+#### Hex
+- [Create Observable and Reproducible Notebooks with Hex - Article](https://towardsdatascience.com/create-observable-and-reproducible-notebooks-with-hex-460e75818a09)
+- [Create Observable and Reproducible Notebooks with Hex - Video](https://youtu.be/_BjqCrun4nE)
+
 #### Miscellaneous
 - [Merge Dependabot Pull Requests with Prefect 2 & a GitHubCredentials block](./flows-advanced/merge_dependabot_pull_requests.py)
 
