@@ -45,12 +45,6 @@ variable "agent_subnets" {
   type        = list(string)
 }
 
-variable "agent_task_role_arn" {
-  description = "Optional task role ARN to pass to the agent"
-  default     = ""
-  type        = string
-}
-
 variable "name" {
   description = "Unique name for this agent deployment"
   type        = string
@@ -71,7 +65,6 @@ variable "prefect_api_key" {
   type        = string
   sensitive   = true
 }
-
 
 variable "vpc_id" {
   description = "VPC ID in which to create all resources"
