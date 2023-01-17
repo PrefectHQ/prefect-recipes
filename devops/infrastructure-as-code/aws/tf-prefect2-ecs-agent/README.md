@@ -109,5 +109,9 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_prefect_agent_cluster"></a> [prefect\_agent\_cluster](#output\_prefect\_agent\_cluster) | n/a |
+| <a name="output_prefect_agent_execution_role_arn"></a> [prefect\_agent\_execution\_role\_arn](#output\_prefect\_agent\_execution\_role\_arn) | n/a |
+| <a name="output_prefect_agent_security_group"></a> [prefect\_agent\_security\_group](#output\_prefect\_agent\_security\_group) | n/a |
 | <a name="output_prefect_agent_service_id"></a> [prefect\_agent\_service\_id](#output\_prefect\_agent\_service\_id) | n/a |
+| <a name="output_prefect_agent_task_role_arn"></a> [prefect\_agent\_task\_role\_arn](#output\_prefect\_agent\_task\_role\_arn) | n/a |
 <!-- END_TF_DOCS -->
