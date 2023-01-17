@@ -29,7 +29,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
   - [Parameters](#parameters)
   - [Testing](#testing)
   - [Triggering Flow Runs](#triggering-flow-runs)
-  - [Deployments](#deployments)
+  - [Flow Deployment](#flow-deployment)
 
 - [Diving Deeper](#diving-deeper-)
   - [Data Engineering / DataOps](#data-engineering--dataops)
@@ -89,6 +89,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
 - [Build a Data Platform with Prefect, dbt, and Snowflake (using blocks)](https://github.com/anna-geller/prefect-dataplatform)
+- [Real World Python for Data Engineering - Supercharge Your Data Orchestration with Prefect 2.0](https://medium.com/@danilo.drobac/6-supercharge-your-data-orchestration-with-prefect-2-0-b6827618b340)
 
 #### ELT/ETL
 - [Export Airbyte Configuration and Load to S3 bucket using blocks, including Python-based deployment](./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py)
@@ -128,6 +129,11 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 
 #### Pydantic
 - [Using Pydantic BaseModel with Prefect 2](https://discourse.prefect.io/t/use-pydantic-to-ensure-data-consistency/1815)
+- [Build a Full-Stack ML Application With Pydantic And Prefect](https://towardsdatascience.com/build-a-full-stack-ml-application-with-pydantic-and-prefect-915f00fe0c62?sk=b1f8c5cb53a6a9d7f48d66fa778e9cf0)
+
+#### Hex
+- [Create Observable and Reproducible Notebooks with Hex - Article](https://towardsdatascience.com/create-observable-and-reproducible-notebooks-with-hex-460e75818a09)
+- [Create Observable and Reproducible Notebooks with Hex - Video](https://youtu.be/_BjqCrun4nE)
 
 #### Miscellaneous
 - [Merge Dependabot Pull Requests with Prefect 2 & a GitHubCredentials block](./flows-advanced/merge_dependabot_pull_requests.py)
