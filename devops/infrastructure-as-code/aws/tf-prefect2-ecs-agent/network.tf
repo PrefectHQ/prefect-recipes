@@ -1,5 +1,5 @@
 resource "aws_security_group" "prefect_agent" {
-  name        = "ECSPrefectAgent"
+  name        = "prefect-agent-sg-${var.name}"
   description = "ECS Prefect Agent"
   vpc_id      = var.vpc_id
 }
