@@ -81,10 +81,6 @@ resource "aws_iam_role" "prefect_agent_task_role" {
       Statement = [
         {
           Action = [
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:GetLogEvents",
-            "logs:PutLogEvents",
             "ec2:DescribeSubnets",
             "ec2:DescribeVpcs",
             "ecr:BatchCheckLayerAvailability",
@@ -94,7 +90,12 @@ resource "aws_iam_role" "prefect_agent_task_role" {
             "ecs:DeregisterTaskDefinition",
             "ecs:DescribeTasks",
             "ecs:RegisterTaskDefinition",
-            "ecs:RunTask"
+            "ecs:RunTask",
+            "iam:PassRole",
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:GetLogEvents",
+            "logs:PutLogEvents"
           ]
           Effect   = "Allow"
           Resource = "*"
