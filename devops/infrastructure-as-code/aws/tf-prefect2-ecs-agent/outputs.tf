@@ -7,7 +7,7 @@ output "prefect_agent_execution_role_arn" {
 }
 
 output "prefect_agent_task_role_arn" {
-  value = coalesce(var.agent_task_role_arn, aws_iam_role.prefect_agent_task_role[0].arn)
+  value = var.agent_task_role_arn == null ? aws_iam_role.prefect_agent_task_role[0].arn : var.agent_task_role_arn
 }
 
 output "prefect_agent_security_group" {
