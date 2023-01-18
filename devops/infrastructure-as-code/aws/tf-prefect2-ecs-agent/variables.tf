@@ -46,8 +46,8 @@ variable "agent_subnets" {
 }
 
 variable "agent_task_role_arn" {
-  description = "Optional task role ARN to pass to the agent"
-  default     = ""
+  description = "Optional task role ARN to pass to the agent. If not defined, a task role will be created"
+  default     = null
   type        = string
 }
 
@@ -71,7 +71,6 @@ variable "prefect_api_key" {
   type        = string
   sensitive   = true
 }
-
 
 variable "vpc_id" {
   description = "VPC ID in which to create all resources"
