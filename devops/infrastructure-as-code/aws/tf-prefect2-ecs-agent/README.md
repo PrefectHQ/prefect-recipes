@@ -53,6 +53,14 @@ module "prefect_ecs_agent" {
 
 Assuming the file structure above, you can run `terraform init` followed by `terraform apply` to create the resources. Check out the [Inputs](#inputs) section below for more options.
 
+## Reference
+
+The [terraform docs](https://terraform-docs.io/) below can be generated with the following command:
+
+```sh
+terraform-docs markdown table . --output-file README.md
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -99,6 +107,7 @@ No modules.
 | <a name="input_agent_memory"></a> [agent\_memory](#input\_agent\_memory) | Memory units to allocate to the agent | `number` | `2048` | no |
 | <a name="input_agent_queue_name"></a> [agent\_queue\_name](#input\_agent\_queue\_name) | Prefect queue that the agent should listen to | `string` | `"default"` | no |
 | <a name="input_agent_subnets"></a> [agent\_subnets](#input\_agent\_subnets) | Subnets to place the agent in | `list(string)` | n/a | yes |
+| <a name="input_agent_task_role_arn"></a> [agent\_task\_role\_arn](#input\_agent\_task\_role\_arn) | Optional task role ARN to pass to the agent. If not defined, a task role will be created | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Unique name for this agent deployment | `string` | n/a | yes |
 | <a name="input_prefect_account_id"></a> [prefect\_account\_id](#input\_prefect\_account\_id) | Prefect cloud account ID | `string` | n/a | yes |
 | <a name="input_prefect_api_key"></a> [prefect\_api\_key](#input\_prefect\_api\_key) | Prefect cloud API key | `string` | n/a | yes |
@@ -109,7 +118,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_prefect_agent_cluster"></a> [prefect\_agent\_cluster](#output\_prefect\_agent\_cluster) | n/a |
+| <a name="output_prefect_agent_cluster_name"></a> [prefect\_agent\_cluster\_name](#output\_prefect\_agent\_cluster\_name) | n/a |
 | <a name="output_prefect_agent_execution_role_arn"></a> [prefect\_agent\_execution\_role\_arn](#output\_prefect\_agent\_execution\_role\_arn) | n/a |
 | <a name="output_prefect_agent_security_group"></a> [prefect\_agent\_security\_group](#output\_prefect\_agent\_security\_group) | n/a |
 | <a name="output_prefect_agent_service_id"></a> [prefect\_agent\_service\_id](#output\_prefect\_agent\_service\_id) | n/a |

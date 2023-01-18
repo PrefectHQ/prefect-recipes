@@ -46,7 +46,7 @@ variable "agent_subnets" {
 }
 
 variable "agent_task_role_arn" {
-  description = "Optional task role ARN to pass to the agent"
+  description = "Optional task role ARN to pass to the agent. If not defined, a task role will be created"
   default     = null
   type        = string
 }
