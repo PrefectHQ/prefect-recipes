@@ -59,7 +59,8 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
 }
 
 resource "aws_iam_role" "prefect_agent_task_role" {
-  name = "prefect-agent-task-role-${var.name}"
+  name  = "prefect-agent-task-role-${var.name}"
+  count = var.agent_task_role_arn ? 1 : 0
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

@@ -52,7 +52,8 @@ resource "aws_ecs_task_definition" "prefect_agent_task_definition" {
   // Execution role allows ECS to create tasks and services
   execution_role_arn = aws_iam_role.prefect_agent_execution_role.arn
   // Task role allows tasks and services to access other AWS resources
-  task_role_arn = aws_iam_role.prefect_agent_task_role.arn
+  // Use agent_task_role_arn if provided, otherwise populate with default
+  task_role_arn = coalesce(var.agent_task_role_arn, aws_iam_role.prefect_agent_task_role[0].arn)
 }
 
 resource "aws_ecs_service" "prefect_agent_service" {

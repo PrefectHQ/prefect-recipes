@@ -45,6 +45,12 @@ variable "agent_subnets" {
   type        = list(string)
 }
 
+variable "agent_task_role_arn" {
+  description = "Optional task role ARN to pass to the agent"
+  default     = null
+  type        = string
+}
+
 variable "name" {
   description = "Unique name for this agent deployment"
   type        = string
