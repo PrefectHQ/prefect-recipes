@@ -73,6 +73,9 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 #### Testing
 - [Testing Flows, Subflows, and Tasks](https://discourse.prefect.io/t/unit-testing-best-practices-for-prefect-flows-subflows-and-tasks/1070/2)
 
+#### Logging
+- [Explain Your Python Exceptions with OpenAI](https://medium.com/the-prefect-blog/explain-your-python-exceptions-with-openai-b41a69b3d436)
+
 #### Triggering Flow Runs
 - [Triggering Flow Runs From a Deployment via API Call or From a Terminal Using Curl](https://discourse.prefect.io/t/how-to-trigger-a-flow-run-from-a-deployment-via-api-call-using-python-requests-library-or-from-a-terminal-using-curl/1396)
 - [Event-Driven Data Pipelines with AWS Lambda and GitHub Actions](https://medium.com/the-prefect-blog/event-driven-data-pipelines-with-aws-lambda-prefect-and-github-actions-b3d9f84b1309)
