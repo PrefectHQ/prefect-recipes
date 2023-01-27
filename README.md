@@ -156,20 +156,19 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 ## Contributions
 We're always looking for new contributions! You can add your Prefect 2.0 recipe and earn some swag in a few simple steps:
 
-1. Look through the recipes to ensure your example is unique
-2. Clone the prefect-recipes repo:
+1. Clone the prefect-recipes repo:
 ```console
 git clone git@github.com:PrefectHQ/prefect-recipes.git
 ```
-3. Create and checkout a new branch:
+2. Create and checkout a new branch:
 ```console
 git branch feat/recipe-name
 git checkout feat/recipe-name
 ```
-5. Add your code under the appropriate category, making sure it is reproducible and easy to understand.
-6. Add your recipe to README.
-7. Commit and push the code to your remote branch.
-8. Create a PR 🤌 
+3. Add your code under the appropriate category. Unsure? Add it under `flows-advanced/`.
+4. Add your recipe to the README.
+5. Commit and push the code to your remote branch.
+6. Create a PR 🤌 
 
 ## Join our discussions 🗣️
 We use our [Slack Community](https://www.prefect.io/slack) and [Discourse](https://discourse.prefect.io/c/21) to discuss all things Prefect-- such as FAQ, use cases and integrations. Join in the conversation :smile:
