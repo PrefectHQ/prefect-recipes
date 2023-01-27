@@ -162,11 +162,10 @@ git clone git@github.com:PrefectHQ/prefect-recipes.git
 ```
 2. Create and checkout a new branch:
 ```console
-git branch feat/recipe-name
-git checkout feat/recipe-name
+git checkout -b feat/new-recipe-name
 ```
 3. Add your code under the appropriate category. Unsure? Add it under `flows-advanced/`.
-4. Add your recipe to the README.
+4. Add your recipe to this README.
 5. Commit and push the code to your remote branch.
 6. Create a PR 🤌 
 
