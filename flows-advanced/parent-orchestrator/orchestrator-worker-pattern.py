@@ -2,25 +2,29 @@
 This recipe demonstrates how to asynchronously distribute work across multiple,
 infrastructure-independent workers using `run_deployment` and `asyncio.gather`.
 
-The results of the worker flows are persisted and retrieved within the orchestrator
-using `FlowRun.state.result()`.
+The results of the worker flows are persisted and then gathered within the
+orchestrator flow by awaiting `(FlowRun.state.result()).get()`.
+
+The deployment commands below don't specify an infrastructure (and therefore
+default to the `Process` infrastructure), since the code in this recipe is infrastructure
+agnostic and wouldn't need to change if the deployments used a different infra block.
 """
 
+import asyncio, httpx
+from typing import Any, Dict, List
 
-import asyncio
-
-import httpx
 from prefect import flow
 from prefect.deployments import run_deployment
 
 
-async def get_pokemon_names(limit=100):
+async def get_pokemon_names(limit: int = 100) -> List[str]:
+    """Get a list of pokemon names from the pokeapi"""
     async with httpx.AsyncClient() as client:
         response = await client.get(f"https://pokeapi.co/api/v2/pokemon?limit={limit}")
         return [pokemon["name"] for pokemon in response.json()["results"]]
 
 
-async def get_pokemon_info(pokemon_name):
+async def get_pokemon_info(pokemon_name: str) -> Dict[str, Any]:
     async with httpx.AsyncClient() as client:
         response = await client.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}")
         pokemon_info = response.json()
@@ -39,11 +43,13 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
 
     pokemon_names = await get_pokemon_names(limit=num_pokemon)
 
+    # split pokemon name list into a list of lists, each containing `chunk_size` pokemon
     pokemon_name_chunks = [
         pokemon_names[i : i + chunk_size]
         for i in range(0, len(pokemon_names), chunk_size)
     ]
 
+    # since 100 pokemon / 10 workers, my agent will spawn 10 worker sub-flows
     worker_flow_runs = await asyncio.gather(
         *[
             run_deployment(  # returns a FlowRun object
@@ -54,12 +60,9 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
         ]
     )
 
-    resolved_worker_results = [
-        worker_flow_run.state.result() for worker_flow_run in worker_flow_runs
-    ]
-
+    # get the results of each worker flow run
     total_pokemon_weight = sum(
-        [await result.get() for result in resolved_worker_results]
+        [await run.state.result().get() for run in worker_flow_runs]
     )
 
     print(f"Total weight of {num_pokemon} pokemon: {total_pokemon_weight} units")
@@ -68,7 +71,7 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
 # deploy this flow with:
 # prefect deployment build orchestrator-worker-pattern.py:process_pokemon_batch --name worker -a
 @flow(persist_result=True)
-async def process_pokemon_batch(pokemon_names: list[str]) -> int:
+async def process_pokemon_batch(pokemon_names: List[str]) -> int:
     pokemon_info = [
         await get_pokemon_info(pokemon_name) for pokemon_name in pokemon_names
     ]
