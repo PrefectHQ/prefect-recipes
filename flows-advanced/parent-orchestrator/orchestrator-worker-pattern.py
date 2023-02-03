@@ -13,10 +13,11 @@ agnostic and wouldn't need to change if the deployments used a different infra b
 import asyncio, httpx
 from typing import Any, Dict, List
 
-from prefect import flow
+from prefect import flow, task
 from prefect.deployments import run_deployment
 
 
+@task(name="Get Pokemon Names")
 async def get_pokemon_names(limit: int = 100) -> List[str]:
     """Get a list of pokemon names from the pokeapi"""
     async with httpx.AsyncClient() as client:
@@ -24,6 +25,7 @@ async def get_pokemon_names(limit: int = 100) -> List[str]:
         return [pokemon["name"] for pokemon in response.json()["results"]]
 
 
+@task(name="Get Pokemon Info")
 async def get_pokemon_info(pokemon_name: str) -> Dict[str, Any]:
     async with httpx.AsyncClient() as client:
         response = await client.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}")
@@ -50,6 +52,7 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
     ]
 
     # since 100 pokemon / 10 workers, my agent will spawn 10 worker sub-flows
+    print(f"Spawning {len(pokemon_name_chunks)} worker flows...")
     worker_flow_runs = await asyncio.gather(
         *[
             run_deployment(  # returns a FlowRun object
