@@ -24,5 +24,7 @@ jobs:
 
       - name: flake8 lint
         uses: py-actions/flake8@v2
+        if: steps.changed-files.outputs.files != ''
         with:
+          files: ${{ steps.changed-files.outputs.files }}
           ignore: "E731,W503"
