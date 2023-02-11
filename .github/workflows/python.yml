@@ -14,17 +14,18 @@ jobs:
       - name: Get list of changed Python files
         id: changed-files
         run: |
-          echo ::set-output name=files::$(git diff --name-only HEAD $(git merge-base HEAD main) | grep ".py$")
+          echo ::set-output name=files::$(git diff --name-only HEAD origin/${{ github.base_ref }} | grep ".py$")
+          echo "Changed Python files: ${{ steps.changed-files.outputs.files }}"
 
       - name: black
-        uses: rickstaa/action-black@v1
+        uses: rickstaa/action-black@v2
         if: steps.changed-files.outputs.files != ''
         with:
           args: --check --diff --target=$(echo ${{ steps.changed-files.outputs.files }} | tr '\n' ' ')
           fail_on_error: true
 
       - name: setup python environment
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: "3.8"
 
