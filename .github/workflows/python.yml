@@ -16,7 +16,7 @@ jobs:
       - name: 🔍 Finding Changed Python Files 📝
         id: changed-files
         run: |
-          echo ::set-output name=files::$(git diff --name-only origin/main origin/${{ github.head_ref }} | grep ".py$")
+          echo ::set-output name=files::$(git diff --name-only origin/${{ github.base_ref }}  origin/${{ github.head_ref }} | grep ".py$")
           echo "💻 Changed Python Files: ${{ steps.changed-files.outputs.files }}"
 
       - name: 🖋️ Black Code Formatter 💻
