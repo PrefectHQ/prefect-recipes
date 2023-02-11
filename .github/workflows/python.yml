@@ -11,6 +11,7 @@ jobs:
       - name: 🛎️ Checking Out Code 📂
         uses: actions/checkout@v3.3.0
         with:
+          fetch-depth: 0
           ref: ${{ github.head_ref }}
 
       - name: 🔍 Finding Changed Python Files 📝
