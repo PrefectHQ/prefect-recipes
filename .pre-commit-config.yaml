@@ -15,6 +15,13 @@ repos:
         exclude: ^helm
       - id: detect-aws-credentials
       - id: detect-private-key
+      
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black"]
         
   - repo: https://github.com/ambv/black
     rev: 22.3.0
