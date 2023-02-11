@@ -11,10 +11,16 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3.3.0
 
+      - name: Get list of changed Python files
+        id: changed-files
+        run: |
+          echo ::set-output name=files::$(git diff --name-only HEAD $(git merge-base HEAD main) | grep ".py$")
+
       - name: black
         uses: rickstaa/action-black@v1
+        if: steps.changed-files.outputs.files != ''
         with:
-          black_args: ". --check --diff"
+          args: --check --diff --target=$(echo ${{ steps.changed-files.outputs.files }} | tr '\n' ' ')
           fail_on_error: true
 
       - name: setup python environment
