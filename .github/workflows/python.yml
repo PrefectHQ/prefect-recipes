@@ -11,11 +11,21 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: Get changed files
+        id: get_changed_files
+        run: |
+          echo "::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r HEAD)"
+
       - name: black
         uses: rickstaa/action-black@v1
         with:
           black_args: ". --check --diff"
           fail_on_error: true
+        env:
+          CHANGED_FILES: "${{ steps.get_changed_files.outputs.changed_files }}"
+        if: env.CHANGED_FILES != ''
+        args: |
+          $(echo "$CHANGED_FILES" | xargs echo | sed 's/ / --exclude /g')
 
       - name: setup python environment
         uses: actions/setup-python@v1
@@ -26,3 +36,8 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           ignore: "E731,W503"
+        env:
+          CHANGED_FILES: "${{ steps.get_changed_files.outputs.changed_files }}"
+        if: env.CHANGED_FILES != ''
+        args: |
+          $(echo "$CHANGED_FILES" | xargs echo | sed 's/ / --exclude /g')
