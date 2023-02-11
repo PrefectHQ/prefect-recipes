@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3.3.0
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Get list of changed Python files
         id: changed-files
