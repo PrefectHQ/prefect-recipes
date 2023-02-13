@@ -18,7 +18,7 @@ jobs:
         uses: tj-actions/changed-files@v24
         with:
           files: |
-            *.py
+            **.py
       - name: List All Changed Python Files
         run: |
           for file in ${{ steps.changed-python-files.outputs.all_changed_files }}; do
