@@ -1,28 +1,40 @@
-name: python
+name: 🐍 Python Checks 🧹
 
 on:
   pull_request
 
 jobs:
   python-checks:
-    name: python checks
+    name: 💻 Python Checks 🧹
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: black
-        uses: rickstaa/action-black@v1
+      - name: 🛎️ Checking Out Code 📂
+        uses: actions/checkout@v3.3.0
         with:
-          black_args: ". --check --diff"
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: 🔍 Finding Changed Python Files 📝
+        id: changed-files
+        run: |
+          echo ::set-output name=files::$(git diff --name-only origin/${{ github.base_ref }}  origin/${{ github.head_ref }} | grep ".py$")
+          echo "💻 Changed Python Files: ${{ steps.changed-files.outputs.files }}"
+
+      - name: 🖋️ Black Code Formatter 💻
+        uses: rickstaa/action-black@v1.3.0
+        if: steps.changed-files.outputs.files != ''
+        with:
+          args: --check --diff --target=$(echo ${{ steps.changed-files.outputs.files }} | tr '\n' ' ')
           fail_on_error: true
 
-      - name: setup python environment
-        uses: actions/setup-python@v1
+      - name: 🐍 Setting Up Python Environment 💻
+        uses: actions/setup-python@v4
         with:
           python-version: "3.8"
 
-      - name: flake8 lint
+      - name: 🔍 Flake8 Linting 💻
         uses: py-actions/flake8@v2
+        if: steps.changed-files.outputs.files != ''
         with:
+          files: ${{ steps.changed-files.outputs.files }}
           ignore: "E731,W503"
