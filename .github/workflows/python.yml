@@ -34,7 +34,7 @@ jobs:
 
       - name: 🔍 Flake8 Linting 💻
         uses: py-actions/flake8@v2
-        if: steps.changed-files.outputs.any_changed != ''
+        if: steps.changed-python-files.outputs.any_changed == 'true'
         with:
           files: ${{ steps.changed-python-files.outputs.all_changed_files }}
           ignore: "E731,W503"
