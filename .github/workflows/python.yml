@@ -26,11 +26,11 @@ jobs:
           python-version: "3.8"
       
       - name: Install black
-        run: pip install black and reorder-python-imports
+        run: pip install black
 
       - name: 🖋️ Run Black Code Formatter on Changed Python Files 💻
         run: |
-          black --check reorder-python-imports ${{ steps.changed-python-files.outputs.all_changed_files }}
+          black --check ${{ steps.changed-python-files.outputs.all_changed_files }}
 
       - name: 🔍 Flake8 Linting 💻
         uses: py-actions/flake8@v2
