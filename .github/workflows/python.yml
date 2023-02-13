@@ -19,15 +19,9 @@ jobs:
         with:
           files: |
             **.py
-      - name: List All Changed Python Files
-        run: |
-          for file in ${{ steps.changed-python-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
 
       - name: 🖋️ Run Black Code Formatter on Changed Python Files 💻
         uses: rickstaa/action-black@v1.3.0
-        if: steps.changed-python-files.outputs.any_changed == 'true'
         with:
           args: ${{ steps.changed-python-files.outputs.all_changed_files }}
           check: true
