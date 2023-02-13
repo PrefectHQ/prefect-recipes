@@ -6,13 +6,14 @@ The results of the worker flows are persisted and then gathered within the
 orchestrator flow by awaiting `(FlowRun.state.result()).get()`.
 
 The deployment commands below don't specify an infrastructure (and therefore
-default to the `Process` infrastructure), since the code in this recipe is infrastructure
+default to the `Process` infrastructure), since the code here is infrastructure
 agnostic and wouldn't need to change if the deployments used a different infra block.
 """
 
-import asyncio, httpx
+import asyncio
 from typing import Any, Dict, List
 
+import httpx
 from prefect import flow, task
 from prefect.deployments import run_deployment
 
@@ -38,7 +39,7 @@ async def get_pokemon_info(pokemon_name: str) -> Dict[str, Any]:
 
 
 # deploy this flow with:
-# prefect deployment build orchestrator-worker-pattern.py:get_total_pokemon_weight --name orchestrator -a
+# prefect deployment build pokemon_weight.py:get_total_pokemon_weight -n orchestrator -a
 @flow(log_prints=True)
 async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10):
     print(f"Processing {num_pokemon} pokemon in batches of {chunk_size}...")
@@ -47,7 +48,7 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
 
     # split pokemon name list into a list of lists, each containing `chunk_size` pokemon
     pokemon_name_chunks = [
-        pokemon_names[i : i + chunk_size]
+        pokemon_names[i : i + chunk_size]  # noqa
         for i in range(0, len(pokemon_names), chunk_size)
     ]
 
@@ -72,7 +73,7 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
 
 
 # deploy this flow with:
-# prefect deployment build orchestrator-worker-pattern.py:process_pokemon_batch --name worker -a
+# prefect deployment build pokemon_weight.py:process_pokemon_batch -n worker -a
 @flow(persist_result=True)
 async def process_pokemon_batch(pokemon_names: List[str]) -> int:
     pokemon_info = [
