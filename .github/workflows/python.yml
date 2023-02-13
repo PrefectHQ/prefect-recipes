@@ -24,7 +24,7 @@ jobs:
         uses: rickstaa/action-black@v1.3.0
         with:
           args: ${{ steps.changed-python-files.outputs.all_changed_files }}
-          check: true
+          fail_on_error: true
 
       - name: 🐍 Setting Up Python Environment 💻
         uses: actions/setup-python@v4
@@ -35,5 +35,5 @@ jobs:
         uses: py-actions/flake8@v2
         if: steps.changed-files.outputs.files != ''
         with:
-          files: ${{ steps.changed-files.outputs.files }}
+          files: ${{ steps.changed-python-files.outputs.all_changed_files }}
           ignore: "E731,W503"
