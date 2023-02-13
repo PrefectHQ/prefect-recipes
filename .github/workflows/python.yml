@@ -9,23 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🛎️ Checking Out Code 📂
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref }}
 
       - name: 🔍 Finding Changed Python Files 📝
-        id: changed-files
-        run: |
-          echo ::set-output name=files::$(git diff --name-only origin/${{ github.base_ref }}  origin/${{ github.head_ref }} | grep ".py$")
-          echo "💻 Changed Python Files: ${{ steps.changed-files.outputs.files }}"
-
-      - name: 🖋️ Black Code Formatter 💻
-        uses: rickstaa/action-black@v1.3.0
-        if: steps.changed-files.outputs.files != ''
+        id: changed-python-files
+        uses: tj-actions/changed-files@v24
         with:
-          args: --check --diff --target=$(echo ${{ steps.changed-files.outputs.files }} | tr '\n' ' ')
-          fail_on_error: true
+          files: |
+            *.py
+      - name: List All Changed Python Files
+        run: |
+          for file in ${{ steps.changed-python-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
+      - name: 🖋️ Run Black Code Formatter on Changed Python Files 💻
+        uses: rickstaa/action-black@v1.3.0
+        if: steps.changed-python-files.outputs.any_changed == 'true'
+        with:
+          args: ${{ steps.changed-python-files.outputs.all_changed_files }}
+          check: true
 
       - name: 🐍 Setting Up Python Environment 💻
         uses: actions/setup-python@v4
