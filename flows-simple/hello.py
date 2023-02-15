@@ -26,3 +26,6 @@ def hello(block_name: str = "name"):
         print(
             "Check out some Prefect recipes: https://docs.prefect.io/recipes/recipes/"
         )
+        
+if __name__ == "__main__":
+   hello(block_name="name")
