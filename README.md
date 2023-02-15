@@ -67,6 +67,10 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Interact with REST API](https://discourse.prefect.io/t/how-can-i-interact-with-the-backend-api-using-a-python-client/80)
 - [Determine Whether a Flow Run Was Executed Ad Hoc or on a Schedule](https://discourse.prefect.io/t/how-can-i-determine-whether-a-flow-run-has-been-executed-ad-hoc-or-was-running-on-schedule/120)
 
+#### Configuration (using Blocks)
+- [Supercharge your Python Code with Blocks - Blog](https://medium.com/the-prefect-blog/supercharge-your-python-code-with-blocks-ca8a58128c55)
+- [Supercharge your Python Code with Blocks - Video](https://www.youtube.com/watch?v=sR9fNHfOETw)
+
 #### Parameters
 - [Use flow parameters](https://discourse.prefect.io/t/guide-to-implementing-parameters-between-prefect-1-0-and-2-0/1321)
 
@@ -116,6 +120,11 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 #### Helm
 - [Deploy Prefect Agent using Helm and Terraform](./devops/infrastructure-as-code/helm/prefect2-agent/)
 
+#### Kubernetes
+- [How to use Kubernetes with Prefect](https://medium.com/the-prefect-blog/how-to-use-kubernetes-with-prefect-419b2e8b8cb2)
+- [How to use Kubernetes with Prefect: Part 2](https://medium.com/the-prefect-blog/how-to-use-kubernetes-with-prefect-part-2-2e98cdb91c7e)
+- [How to use Kubernetes with Prefect: Part 3](https://medium.com/the-prefect-blog/how-to-use-kubernetes-with-prefect-part-3-e2223ce34ba7)
+
 #### Github Actions
 - [Build flow image and Prefect deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
 - [Build and Push flow docker image to Google Artifact Registry](./devops/github-actions/docker-build-push-gcp-artifact-registry.yaml)
@@ -137,6 +146,13 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 #### Hex
 - [Create Observable and Reproducible Notebooks with Hex - Article](https://towardsdatascience.com/create-observable-and-reproducible-notebooks-with-hex-460e75818a09)
 - [Create Observable and Reproducible Notebooks with Hex - Video](https://youtu.be/_BjqCrun4nE)
+
+#### Product
+- [(Re)Introducing Prefect: The Global Coordination Plane](https://www.prefect.io/guide/blog/the-global-coordination-plane/)
+- [The Dataflow Coordination Spectrum](https://www.prefect.io/guide/blog/the-dataflow-coordination-spectrum/)
+- [Why Prefect?](https://www.prefect.io/guide/blog/why-prefect/)
+- [Workflow Orchestration vs. Data Orchestration — Are Those Different?](https://towardsdatascience.com/workflow-orchestration-vs-data-orchestration-are-those-different-a661c46d2e88)
+- [Dataflow Design Patterns](https://www.prefect.io/guide/blog/dataflow-design-patterns/)
 
 #### Miscellaneous
 - [Merge Dependabot Pull Requests with Prefect 2 & a GitHubCredentials block](./flows-advanced/merge_dependabot_pull_requests.py)
