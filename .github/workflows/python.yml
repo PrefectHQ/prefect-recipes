@@ -19,22 +19,27 @@ jobs:
         with:
           files: |
             **/*.py
-            
+
+      - name: 🕵️‍♀️ Output changed Python files
+        id: check-python-changes
+        run: echo "::set-output name=changed::$(test -n '${{ steps.changed-python-files.outputs.all_changed_files }}')"
+
       - name: 🐍 Setting Up Python Environment 💻
         uses: actions/setup-python@v4
         with:
           python-version: "3.8"
-      
+
       - name: Install black
         run: pip install black
 
       - name: 🖋️ Run Black Code Formatter on Changed Python Files 💻
+        if: steps.check-python-changes.outputs.changed == 'true'
         run: |
           black --check ${{ steps.changed-python-files.outputs.all_changed_files }}
 
       - name: 🔍 Flake8 Linting 💻
+        if: steps.check-python-changes.outputs.changed == 'true'
         uses: py-actions/flake8@v2
-        if: steps.changed-python-files.outputs.any_changed == 'true'
         with:
           files: ${{ steps.changed-python-files.outputs.all_changed_files }}
           ignore: "E731,W503"
