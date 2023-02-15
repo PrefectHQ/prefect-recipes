@@ -45,6 +45,11 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Thanks](#thanks-)
 
 ## Getting Started 🍯
+#### Introductory Videos
+- [What is Prefect?](https://www.youtube.com/watch?v=ZK1s8OfVSpY)
+- [Prefect Demo](https://www.youtube.com/watch?v=-MC-TLDbJ1U)
+- [Getting Started with Prefect Cloud](https://www.youtube.com/watch?v=vOpmE5w0XuU&t=1s)
+
 #### Subflows
 - [Getting Started With Subflows](https://discourse.prefect.io/t/migrating-to-prefect-2-0-from-flow-of-flows-to-subflows/1318)
 - [Run Multiple Subflows or Child Flows in Parallel](https://discourse.prefect.io/t/how-can-i-run-multiple-subflows-or-child-flows-in-parallel/96)
@@ -62,6 +67,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 
 #### Notifications
 - [Send Notifications with a Slack Webhook](https://discourse.prefect.io/t/sending-notifications-in-cloud-1-0-using-automations-cloud-2-0-slack-webhook-blocks-and-notifications/1315)
+- [Sending Slack Notifications in Python with Prefect](https://medium.com/the-prefect-blog/sending-slack-notifications-in-python-with-prefect-840a895f81c)
 
 #### Flow Run Observability
 - [Interact with REST API](https://discourse.prefect.io/t/how-can-i-interact-with-the-backend-api-using-a-python-client/80)
@@ -93,14 +99,21 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Python-Based Deployments](https://discourse.prefect.io/t/prefect-2-1-0-has-just-arrived-it-includes-python-based-deployments-improvements-to-work-queues-tons-of-new-integrations-and-features/1422)
 
 #### Deployments & CICD
-- [Scheduled Data Pipelines in 5 Minutes with Prefect and GitHub Actions](https://medium.com/the-prefect-blog/scheduled-data-pipelines-in-5-minutes-with-prefect-and-github-actions-39a5e4ab03f4)
+- [Scheduled Data Pipelines in 5 Minutes with Prefect and GitHub Actions - Blog](https://medium.com/the-prefect-blog/scheduled-data-pipelines-in-5-minutes-with-prefect-and-github-actions-39a5e4ab03f4)
+    - [Scheduling: Get started with Prefect by scheduling your Prefect flows with GitHub Actions - GitHub Repo](https://github.com/anna-geller/prefect-getting-started)
 - [Declarative Dataflow Deployments with Prefect Make CI/CD a Breeze](https://medium.com/the-prefect-blog/declarative-dataflow-deployments-with-prefect-make-ci-cd-a-breeze-fe77bdbb58d4)
-- Deploy Prefect Pipelines with Python: Perfect!](https://medium.com/the-prefect-blog/deploy-prefect-pipelines-with-python-perfect-68c944a3a89f)
-- Prefect Deployments FAQ (PDF) - DataflowOps for Prefect 2.0](https://discourse.prefect.io/t/prefect-deployments-faq-pdf/1467)
-- GCP and Prefect Cloud — from Docker Container to Cloud VM on Google Compute Engine](https://medium.com/the-prefect-blog/gcp-and-prefect-cloud-from-docker-container-to-cloud-vm-on-google-compute-engine-2dffa026d16b)
+- [Deploy Prefect Pipelines with Python: Perfect!](https://medium.com/the-prefect-blog/deploy-prefect-pipelines-with-python-perfect-68c944a3a89f)
+- [Prefect Deployments FAQ (PDF) - DataflowOps for Prefect 2.0](https://discourse.prefect.io/t/prefect-deployments-faq-pdf/1467)
+- [GCP and Prefect Cloud — from Docker Container to Cloud VM on Google Compute Engine](https://medium.com/the-prefect-blog/gcp-and-prefect-cloud-from-docker-container-to-cloud-vm-on-google-compute-engine-2dffa026d16b)
+    - [GCP: Repository template to get started with Prefect Cloud & Google Cloud - GitHub Repo](https://github.com/anna-geller/prefect-cloud-gcp)
+- [Deployment patterns & examples: Code examples showing flow deployment to various types of infrastructure - GitHub Repo](https://github.com/anna-geller/prefect-deployment-patterns)
+- [Docker: How to use Prefect Deployments with flow code baked into a Docker image - GitHub Repo](https://github.com/anna-geller/prefect-docker-deployment)
+- [AWS Fargate: Project demonstrating how to automate Prefect 2.0 deployments to AWS ECS Fargate - GitHub Repo](https://github.com/anna-geller/dataflow-ops)
+- [AWS EKS: Project demonstrating how to automate Prefect 2.0 deployments to AWS EKS - GitHub Repo](https://github.com/anna-geller/dataflow-ops-aws-eks)
 
 #### Streaming & Event-Driven Workflows
 - [Event-driven Data Pipelines with AWS Lambda, Prefect and GitHub Actions](https://medium.com/the-prefect-blog/event-driven-data-pipelines-with-aws-lambda-prefect-and-github-actions-b3d9f84b1309)
+    - [Streaming: Example project demonstrating deployment patterns for real-time streaming workflows with Prefect 2.0 - GitHub Repo](https://github.com/anna-geller/prefect-streaming)
 - [Scheduled vs. Event-driven Data Pipelines — Orchestrate Anything with Prefect](https://medium.com/the-prefect-blog/scheduled-vs-event-driven-data-pipelines-orchestrate-anything-with-prefect-b915e6adc3ba)
 - [You No Longer Need Two Separate Systems for Batch Processing and Streaming](https://www.prefect.io/guide/blog/you-no-longer-need-two-separate-systems-for-batch-processing-and-streaming/)
 
@@ -108,14 +121,20 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [GCP: Serverless Prefect Flows with Google Cloud Run Jobs](https://medium.com/the-prefect-blog/serverless-prefect-flows-with-google-cloud-run-jobs-23edbf371175)
 - [Azure: Serverless Prefect Flows with Azure Container Instances](https://medium.com/the-prefect-blog/serverless-prefect-flows-with-azure-container-instances-f2442ebc9343)
 - [AWS: Prefect + AWS ECS Fargate + GitHub Actions Make Serverless Dataflows As Easy as .py](https://medium.com/towards-data-science/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc)
+- [AWS Lambda: Deploy a Prefect flow to serverless AWS Lambda function - GitHub Repo](https://github.com/anna-geller/prefect-aws-lambda)
 
 ## Diving Deeper 🍱
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
 - [Build a Data Platform with Prefect, dbt, and Snowflake (using blocks)](https://github.com/anna-geller/prefect-dataplatform)
 - [Real World Python for Data Engineering - Supercharge Your Data Orchestration with Prefect 2.0](https://medium.com/@danilo.drobac/6-supercharge-your-data-orchestration-with-prefect-2-0-b6827618b340)
+- [Create a Maintainable Data Pipeline with Prefect and DVC](https://towardsdatascience.com/create-a-maintainable-data-pipeline-with-prefect-and-dvc-1d691ea5bcea)
 
 #### ELT/ETL
+- [Orchestrating Airbyte with Prefect 2](https://medium.com/the-prefect-blog/orchestrating-airbyte-with-prefect-2-0-35501997a974)
+- [Coordinate ELT in 2023 with Airbyte, dbt and Prefect](https://medium.com/the-prefect-blog/coordinate-elt-in-2023-with-airbyte-dbt-and-prefect-ecd7547e6c1a)
+- [Schedule & orchestrate dbt Cloud jobs with Prefect](https://medium.com/the-prefect-blog/schedule-orchestrate-dbt-cloud-jobs-with-prefect-b64c3b7f2a02)
+- [Prefect & Fivetran: integrate all the tools & orchestrate them in Python](https://medium.com/the-prefect-blog/prefect-fivetran-integrate-all-the-tools-orchestrate-them-in-python-4195099487ae)
 - [Export Airbyte Configuration and Load to S3 bucket using blocks, including Python-based deployment](./flows-advanced/etl/export-airbyte-config-and-write-to-s3-bucket-using-blocks.py)
 - [ELT with Snowflake Using Async and Blocks](./flows-advanced/etl/elt-with-snowflake.py)
 
@@ -169,6 +188,15 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Why Prefect?](https://www.prefect.io/guide/blog/why-prefect/)
 - [Workflow Orchestration vs. Data Orchestration — Are Those Different?](https://towardsdatascience.com/workflow-orchestration-vs-data-orchestration-are-those-different-a661c46d2e88)
 - [Dataflow Design Patterns](https://www.prefect.io/guide/blog/dataflow-design-patterns/)
+
+#### Data Science
+- [How to Structure an ML Project for Reproducibility and Maintainability](https://towardsdatascience.com/how-to-structure-an-ml-project-for-reproducibility-and-maintainability-54d5e53b4c82)
+- [Orchestrate Your Data Science Project with Prefect 2.0](https://medium.com/the-prefect-blog/orchestrate-your-data-science-project-with-prefect-2-0-4118418fd7ce)
+- [Build a Full-Stack ML Application With Pydantic And Prefect](https://towardsdatascience.com/build-a-full-stack-ml-application-with-pydantic-and-prefect-915f00fe0c62)
+
+#### Modular Data Stack
+- [How to Build a Modular Data Stack — Data Platform with Prefect, dbt and Snowflake](https://medium.com/the-prefect-blog/how-to-build-a-modular-data-stack-data-platform-with-prefect-dbt-and-snowflake-89f928974e85)
+- [How to Build Modular Dataflows with Tasks, Flows and Subflows in Prefect](https://medium.com/the-prefect-blog/how-to-build-modular-dataflows-with-tasks-flows-and-subflows-in-prefect-5eaabdfbb70e)
 
 #### Miscellaneous
 - [Merge Dependabot Pull Requests with Prefect 2 & a GitHubCredentials block](./flows-advanced/merge_dependabot_pull_requests.py)
