@@ -1,11 +1,18 @@
 from prefect import flow
 from prefect.blocks.system import String
 
-# assumes the existence of a `String` block named "name"
-
 
 @flow(log_prints=True)
 def hello(block_name: str = "name"):
+    """A simple flow that says hello.
+
+    Assumes a `String` block named "name" exists in the active
+    Prefect Cloud workspace.
+
+    Args:
+        block_name: The name of the block to load. Defaults to "name".
+
+    """
     name = String.load(block_name)
     print(f"Hello {name.value}!")
 
