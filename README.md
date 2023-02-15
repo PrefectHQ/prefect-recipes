@@ -92,6 +92,23 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Store Flows in GitHub and Execute in a Docker Container](https://towardsdatascience.com/create-robust-data-pipelines-with-prefect-docker-and-github-12b231ca6ed2)
 - [Python-Based Deployments](https://discourse.prefect.io/t/prefect-2-1-0-has-just-arrived-it-includes-python-based-deployments-improvements-to-work-queues-tons-of-new-integrations-and-features/1422)
 
+#### Deployments & CICD
+- [Scheduled Data Pipelines in 5 Minutes with Prefect and GitHub Actions](https://medium.com/the-prefect-blog/scheduled-data-pipelines-in-5-minutes-with-prefect-and-github-actions-39a5e4ab03f4)
+- [Declarative Dataflow Deployments with Prefect Make CI/CD a Breeze](https://medium.com/the-prefect-blog/declarative-dataflow-deployments-with-prefect-make-ci-cd-a-breeze-fe77bdbb58d4)
+- Deploy Prefect Pipelines with Python: Perfect!](https://medium.com/the-prefect-blog/deploy-prefect-pipelines-with-python-perfect-68c944a3a89f)
+- Prefect Deployments FAQ (PDF) - DataflowOps for Prefect 2.0](https://discourse.prefect.io/t/prefect-deployments-faq-pdf/1467)
+- GCP and Prefect Cloud — from Docker Container to Cloud VM on Google Compute Engine](https://medium.com/the-prefect-blog/gcp-and-prefect-cloud-from-docker-container-to-cloud-vm-on-google-compute-engine-2dffa026d16b)
+
+#### Streaming & Event-Driven Workflows
+- [Event-driven Data Pipelines with AWS Lambda, Prefect and GitHub Actions](https://medium.com/the-prefect-blog/event-driven-data-pipelines-with-aws-lambda-prefect-and-github-actions-b3d9f84b1309)
+- [Scheduled vs. Event-driven Data Pipelines — Orchestrate Anything with Prefect](https://medium.com/the-prefect-blog/scheduled-vs-event-driven-data-pipelines-orchestrate-anything-with-prefect-b915e6adc3ba)
+- [You No Longer Need Two Separate Systems for Batch Processing and Streaming](https://www.prefect.io/guide/blog/you-no-longer-need-two-separate-systems-for-batch-processing-and-streaming/)
+
+#### Serverless
+- [GCP: Serverless Prefect Flows with Google Cloud Run Jobs](https://medium.com/the-prefect-blog/serverless-prefect-flows-with-google-cloud-run-jobs-23edbf371175)
+- [Azure: Serverless Prefect Flows with Azure Container Instances](https://medium.com/the-prefect-blog/serverless-prefect-flows-with-azure-container-instances-f2442ebc9343)
+- [AWS: Prefect + AWS ECS Fargate + GitHub Actions Make Serverless Dataflows As Easy as .py](https://medium.com/towards-data-science/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc)
+
 ## Diving Deeper 🍱
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
@@ -131,7 +148,6 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Build / Apply prefect deployment with blocks on change to python files](./devops/github-actions/minimal-prefect-deployment-build.yaml)
 - [Automate Prefect Deployments to AWS ECS Fargate Using GitHub Actions](https://github.com/anna-geller/dataflow-ops)
 - [Automate Python-Based Deployments with GitHub Actions](https://github.com/radbrt/orion_flows)
-
 
 #### Dockerfiles
 - [Build an image from the latest Python 3.9 base image and your `requirements.txt`](./devops/dockerfiles/Dockerfile.latest_python_3dot9)
