@@ -21,25 +21,39 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 
 ## Table of Contents 📖
 - [Getting Started](#getting-started-)
+  - [Introductory Videos](#introductory-videos)
   - [Subflows](#subflows)
   - [Control Flow](#control-flow)
   - [Optimization](#optimization)
   - [Notifications](#notifications)
   - [Flow Run Observability](#flow-run-observability)
+  - [Configuration (Using Blocks](#configuration-using-blocks)
   - [Parameters](#parameters)
   - [Testing](#testing)
   - [Triggering Flow Runs](#triggering-flow-runs)
   - [Flow Deployment](#flow-deployment)
 
 - [Diving Deeper](#diving-deeper-)
+  - [Deployments & CICD](#deployments--cicd)
+  - [Streaming & Event-Driven Workflows](#streaming--event-driven-workflows)
+  - [Serverless](#serverless)
   - [Data Engineering / DataOps](#data-engineering--dataops)
+  - [ELT/ETL](#eltetl)
   - [AWS Infrastructure](#aws-infrastructure)
   - [Azure Infrastructure](#azure-infrastructure)
   - [Helm](#helm)
+  - [Kubernetes](#kubernetes)
   - [GitHub Actions](#github-actions)
+  - [Dockerfiles](#dockerfiles)
+  - [Django](#django)
+  - [Pydantic](#pydantic)
+  - [Hex](#hex)
+  - [Product](#product)
+  - [Data Science](#data-science)
+  - [Modular Data Stack](#modular-data-stack)
+  - [Miscellaneous](#miscellaneous)
   - [Legacy (Prefect 1.0)](#prefect-10-legacy)
 - [Issues & Bugs](#issues--bugs-)
-- [Recipe Requests](#recipe-requests-)
 - [Contributions](#contributions)
 - [Join the Discussion](#join-our-discussions-%EF%B8%8F)
 - [Thanks](#thanks-)
@@ -98,6 +112,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Store Flows in GitHub and Execute in a Docker Container](https://towardsdatascience.com/create-robust-data-pipelines-with-prefect-docker-and-github-12b231ca6ed2)
 - [Python-Based Deployments](https://discourse.prefect.io/t/prefect-2-1-0-has-just-arrived-it-includes-python-based-deployments-improvements-to-work-queues-tons-of-new-integrations-and-features/1422)
 
+## Diving Deeper 🍱
 #### Deployments & CICD
 - [Scheduled Data Pipelines in 5 Minutes with Prefect and GitHub Actions - Blog](https://medium.com/the-prefect-blog/scheduled-data-pipelines-in-5-minutes-with-prefect-and-github-actions-39a5e4ab03f4)
     - [Scheduling: Get started with Prefect by scheduling your Prefect flows with GitHub Actions - GitHub Repo](https://github.com/anna-geller/prefect-getting-started)
@@ -123,7 +138,6 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [AWS: Prefect + AWS ECS Fargate + GitHub Actions Make Serverless Dataflows As Easy as .py](https://medium.com/towards-data-science/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc)
 - [AWS Lambda: Deploy a Prefect flow to serverless AWS Lambda function - GitHub Repo](https://github.com/anna-geller/prefect-aws-lambda)
 
-## Diving Deeper 🍱
 #### Data Engineering / DataOps
 - [Serverless Real-Time Data Pipelines on AWS with Prefect, ECS and GitHub Actions](https://medium.com/the-prefect-blog/serverless-real-time-data-pipelines-on-aws-with-prefect-ecs-and-github-actions-1737c80da3f5)
 - [Build a Data Platform with Prefect, dbt, and Snowflake (using blocks)](https://github.com/anna-geller/prefect-dataplatform)
