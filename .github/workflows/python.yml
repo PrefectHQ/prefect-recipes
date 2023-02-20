@@ -1,28 +1,45 @@
-name: python
+name: 🐍 Python Checks 🧹
 
 on:
   pull_request
 
 jobs:
   python-checks:
-    name: python checks
+    name: 💻 Python Checks 🧹
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: black
-        uses: rickstaa/action-black@v1
+      - name: 🛎️ Checking Out Code 📂
+        uses: actions/checkout@v3
         with:
-          black_args: ". --check --diff"
-          fail_on_error: true
+          fetch-depth: 0
 
-      - name: setup python environment
-        uses: actions/setup-python@v1
+      - name: 🔍 Finding Changed Python Files 📝
+        id: changed-python-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            **/*.py
+
+      - name: 🕵️‍♀️ Output changed Python files
+        id: check-python-changes
+        run: echo "::set-output name=changed::$(test -n '${{ steps.changed-python-files.outputs.all_changed_files }}')"
+
+      - name: 🐍 Setting Up Python Environment 💻
+        uses: actions/setup-python@v4
         with:
           python-version: "3.8"
 
-      - name: flake8 lint
+      - name: Install black
+        run: pip install black
+
+      - name: 🖋️ Run Black Code Formatter on Changed Python Files 💻
+        if: steps.check-python-changes.outputs.changed == 'true'
+        run: |
+          black --check ${{ steps.changed-python-files.outputs.all_changed_files }}
+
+      - name: 🔍 Flake8 Linting 💻
+        if: steps.check-python-changes.outputs.changed == 'true'
         uses: py-actions/flake8@v2
         with:
+          files: ${{ steps.changed-python-files.outputs.all_changed_files }}
           ignore: "E731,W503"
