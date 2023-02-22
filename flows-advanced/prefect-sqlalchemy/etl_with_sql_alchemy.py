@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 from prefect import flow, task
 from prefect.tasks import task_input_hash
@@ -12,8 +11,6 @@ def extract_data(url: str):
     # the backup files are gzipped, and it's important to keep the correct extension
     # for pandas to be able to open the file
     df = pd.read_csv(url, compression="gzip")
-
-    df = next(df_iter)
 
     df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
     df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
