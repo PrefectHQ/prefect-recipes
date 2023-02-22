@@ -54,6 +54,21 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
       ]
     })
   }
+  inline_policy {
+    name = "logs-allow-create-log-group-${var.name}"
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = [
+            "logs:CreateLogGroup",
+          ]
+          Effect = "Allow"
+          Resource = "*"
+        }
+      ]
+    })
+  }
   // AmazonECSTaskExecutionRolePolicy is an AWS managed role for creating ECS tasks and services
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
 }
