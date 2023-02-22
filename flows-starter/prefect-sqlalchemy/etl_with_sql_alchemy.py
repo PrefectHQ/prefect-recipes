@@ -6,7 +6,7 @@ from prefect_sqlalchemy import SqlAlchemyConnector
 
 CSV_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
 
-@task(log_prints=True, tags=["extract"], cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+@task(tags=["extract"], cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def extract_data(url: str):
     # the backup files are gzipped, and it's important to keep the correct extension
     # for pandas to be able to open the file
@@ -18,14 +18,14 @@ def extract_data(url: str):
 
     return df
 
-@task(log_prints=True)
+@task()
 def transform_data(df):
     print(f"pre: missing passenger count: {df['passenger_count'].isin([0]).sum()}")
     df = df[df['passenger_count'] != 0]
     print(f"post: missing passenger count: {df['passenger_count'].isin([0]).sum()}")
     return df
 
-@task(log_prints=True, retries=3)
+@task(retries=3)
 def load_data(table_name, df):
     
     connection_block = SqlAlchemyConnector.load("postgres-connector") # Loading Our SQL-Alchemy Connector Block
