@@ -12,6 +12,7 @@ def extract_data(url: str):
     # for pandas to be able to open the file
     df = pd.read_csv(url, compression="gzip")
 
+
     df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
     df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
 
