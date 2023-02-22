@@ -63,7 +63,7 @@ resource "aws_iam_role" "prefect_agent_execution_role" {
           Action = [
             "logs:CreateLogGroup",
           ]
-          Effect = "Allow"
+          Effect   = "Allow"
           Resource = "*"
         }
       ]
