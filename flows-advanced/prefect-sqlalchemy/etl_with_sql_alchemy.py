@@ -38,8 +38,7 @@ def load_data(table_name, df):
     
     connection_block = SqlAlchemyConnector.load("postgres-connector") # Loading Our SQL-Alchemy Connector Block
     with connection_block.get_connection(begin=False) as engine:
-        df.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
-        df.to_sql(name=table_name, con=engine, if_exists='append')
+        df.to_sql(name=table_name, con=engine, if_exists='replace')
 
 @flow(name="Subflow", log_prints=True)
 def log_subflow(table_name: str):
