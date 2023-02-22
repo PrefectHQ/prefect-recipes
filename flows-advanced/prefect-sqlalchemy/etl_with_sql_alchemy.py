@@ -50,7 +50,9 @@ def main_flow(table_name: str = "yellow_taxi_trips"):
 
     csv_url = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
     log_subflow(table_name)
+    # Extracting CSV Data from above URL
     raw_data = extract_data(csv_url)
+    # Transforming the Data
     data = transform_data(raw_data)
     # Loading data using SQL alchemy
     load_data(table_name, data)
