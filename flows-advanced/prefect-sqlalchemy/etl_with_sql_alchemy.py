@@ -11,14 +11,7 @@ CSV_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yello
 def extract_data(url: str):
     # the backup files are gzipped, and it's important to keep the correct extension
     # for pandas to be able to open the file
-    if url.endswith('.csv.gz'):
-        csv_name = 'yellow_tripdata_2021-01.csv.gz'
-    else:
-        csv_name = 'output.csv'
-    
-    os.system(f"wget {url} -O {csv_name}")
-
-    df_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000)
+    df = pd.read_csv(url, compression="gzip")
 
     df = next(df_iter)
 
@@ -39,8 +32,7 @@ def load_data(table_name, df):
     
     connection_block = SqlAlchemyConnector.load("postgres-connector") # Loading Our SQL-Alchemy Connector Block
     with connection_block.get_connection(begin=False) as engine:
-        df.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
-        df.to_sql(name=table_name, con=engine, if_exists='append')
+        df.to_sql(name=table_name, con=engine, if_exists='replace')
 
 
 @flow(name="Ingest Data", log_prints=True)

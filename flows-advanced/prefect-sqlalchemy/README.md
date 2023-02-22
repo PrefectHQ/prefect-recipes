@@ -1,6 +1,6 @@
 # Prefect-SQLAlchemy
 
-This recipe demonstrates how to integrate prefect with SQL Alchemy.The prefect-sqlalchemy collection makes it easy to connect to a database in your Prefect flows.
+This recipe demonstrates how to integrate Prefect with SQLAlchemy. The prefect-sqlalchemy collection makes it easy to connect to a database in your Prefect flows.
 
 ## Getting Started
 
