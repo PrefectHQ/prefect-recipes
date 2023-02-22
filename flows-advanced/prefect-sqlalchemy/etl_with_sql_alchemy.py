@@ -5,6 +5,7 @@ from prefect.tasks import task_input_hash
 from datetime import timedelta
 from prefect_sqlalchemy import SqlAlchemyConnector
 
+CSV_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
 
 @task(log_prints=True, tags=["extract"], cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def extract_data(url: str):
@@ -41,17 +42,13 @@ def load_data(table_name, df):
         df.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
         df.to_sql(name=table_name, con=engine, if_exists='append')
 
-@flow(name="Subflow", log_prints=True)
-def log_subflow(table_name: str):
-    print(f"Logging Subflow for: {table_name}")
 
-@flow(name="Ingest Data")
+@flow(name="Ingest Data", log_prints=True)
 def main_flow(table_name: str = "yellow_taxi_trips"):
 
-    csv_url = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
-    log_subflow(table_name)
+    
     # Extracting CSV Data from above URL
-    raw_data = extract_data(csv_url)
+    raw_data = extract_data(CSV_URL)
     # Transforming the Data
     data = transform_data(raw_data)
     # Loading data using SQL alchemy
