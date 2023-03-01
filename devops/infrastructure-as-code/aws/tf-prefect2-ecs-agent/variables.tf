@@ -76,3 +76,9 @@ variable "vpc_id" {
   description = "VPC ID in which to create all resources"
   type        = string
 }
+
+variable "secrets_manager_recovery_in_days" {
+  type        = number
+  default     = 30
+  description = "Deletion delay for AWS Secrets Manager upon resource destruction"
+}
