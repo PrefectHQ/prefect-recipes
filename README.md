@@ -182,9 +182,6 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Automate Prefect Deployments to AWS ECS Fargate Using GitHub Actions](https://github.com/anna-geller/dataflow-ops)
 - [Automate Python-Based Deployments with GitHub Actions](https://github.com/radbrt/orion_flows)
 
-#### Dockerfiles
-- [Build an image from the latest Python 3.9 base image and your `requirements.txt`](./devops/dockerfiles/Dockerfile.latest_python_3dot9)
-
 #### Django
 - [Using Django with Prefect 2](https://github.com/abrookins/django-prefect-example)
 
