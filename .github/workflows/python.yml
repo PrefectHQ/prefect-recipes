@@ -29,17 +29,6 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Install black
-        run: pip install black
-
-      - name: 🖋️ Run Black Code Formatter on Changed Python Files 💻
-        if: steps.check-python-changes.outputs.changed == 'true'
+      - name: 🧹 Run pre-commit 🧹
         run: |
-          black --check ${{ steps.changed-python-files.outputs.all_changed_files }}
-
-      - name: 🔍 Flake8 Linting 💻
-        if: steps.check-python-changes.outputs.changed == 'true'
-        uses: py-actions/flake8@v2
-        with:
-          files: ${{ steps.changed-python-files.outputs.all_changed_files }}
-          ignore: "E731,W503"
+          pre-commit run --show-diff-on-failure --color=always --all-files
