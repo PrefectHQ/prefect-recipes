@@ -15,12 +15,6 @@ repos:
         exclude: ^helm
       - id: detect-aws-credentials
       - id: detect-private-key
-      
-  - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
-        name: isort (python)
         
   - repo: https://github.com/ambv/black
     rev: 22.3.0
@@ -28,11 +22,10 @@ repos:
       - id: black
         language_version: python3
 
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.254'
     hooks:
-      - id: flake8
-        args: ['--ignore=E731,W503']
+      - id: ruff
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.62.3
@@ -42,12 +35,7 @@ repos:
       - id: terraform_docs
         args:
           - "--args=--config=.terraform-docs.yaml"
-      # - id: terraform_tflint
-      #   args:
-      #     - "--args=--config=.tflint.hcl"
-      # - id: terraform_tfsec
-      #   args:
-      #     - "--args=--exclude-downloaded-modules --custom-check-dir=.tfsec"
+
 
 
 
