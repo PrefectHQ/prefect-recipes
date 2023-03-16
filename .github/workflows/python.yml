@@ -22,7 +22,7 @@ jobs:
 
       - name: 🕵️‍♀️ Output changed Python files
         id: check-python-changes
-        run: echo "::set-output name=changed::$(test -n '${{ steps.changed-python-files.outputs.all_changed_files }}')"
+        run: echo "changed=$(test -n '${{ steps.changed-python-files.outputs.all_changed_files }}')" >> $GITHUB_OUTPUT
 
       - name: 🐍 Setting Up Python Environment 💻
         uses: actions/setup-python@v4
