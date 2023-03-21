@@ -143,6 +143,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Build a Data Platform with Prefect, dbt, and Snowflake (using blocks)](https://github.com/anna-geller/prefect-dataplatform)
 - [Real World Python for Data Engineering - Supercharge Your Data Orchestration with Prefect 2.0](https://medium.com/@danilo.drobac/6-supercharge-your-data-orchestration-with-prefect-2-0-b6827618b340)
 - [Create a Maintainable Data Pipeline with Prefect and DVC](https://towardsdatascience.com/create-a-maintainable-data-pipeline-with-prefect-and-dvc-1d691ea5bcea)
+- [Data engineering & orchestration with Prefect, Docker, Terraform, Google CloudRun, BigQuery and Streamlit](https://medium.com/@ryanelamb/a-data-engineering-project-with-prefect-docker-terraform-google-cloudrun-bigquery-and-streamlit-3fc6e08b9398)
 
 #### ELT/ETL
 - [Orchestrating Airbyte with Prefect 2](https://medium.com/the-prefect-blog/orchestrating-airbyte-with-prefect-2-0-35501997a974)
