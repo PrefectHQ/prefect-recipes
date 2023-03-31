@@ -23,13 +23,13 @@ jobs:
         uses: actions/add-to-project@v0.4.1
         with:
           project-url: https://github.com/orgs/PrefectHQ/projects/44
-          github-token: ${{ secrets.GLOBAL_PROJECTS_CI }}
+          github-token: ${{ secrets.GHA_ADD_TO_PROJECT_PROJECTS_RO_REPOS_RW }}
           labeled: platform
 
       - name: Add issue to security project
         uses: actions/add-to-project@v0.4.1
         with:
           project-url: https://github.com/orgs/PrefectHQ/projects/53
-          github-token: ${{ secrets.GLOBAL_PROJECTS_CI }}
+          github-token: ${{ secrets.GHA_ADD_TO_PROJECT_PROJECTS_RO_REPOS_RW }}
           labeled: security
 
