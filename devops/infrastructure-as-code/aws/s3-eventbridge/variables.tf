@@ -1,7 +1,18 @@
 // Variables and Locals
+variable "name" {
+  description = "Unique name for this EventBridge rule and target"
+  type        = string
+}
+
 variable "bucket_name" {
   description = "Name of S3 Bucket for event source"
   type        = string
+}
+
+variable "object_prefix" {
+  description = "Prefix of S3 Object for event source"
+  type        = string
+  default     = ""
 }
 
 variable "invocation_rate_limit_per_second" {

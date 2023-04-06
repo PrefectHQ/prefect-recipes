@@ -1,5 +1,5 @@
 resource "aws_iam_role" "cloudwatch_event_role" {
-  name = "cloudwatch-event-role"
+  name = "cloudwatch-event-role-${var.name}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -15,7 +15,7 @@ resource "aws_iam_role" "cloudwatch_event_role" {
   })
 
   inline_policy {
-    name = "cloudwatch-event-policy"
+    name = "cloudwatch-event-policy-${var.name}"
 
     policy = jsonencode({
       Version = "2012-10-17"

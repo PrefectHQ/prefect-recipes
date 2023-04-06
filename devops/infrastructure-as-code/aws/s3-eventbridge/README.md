@@ -2,6 +2,23 @@
 
 This recipe demonstrates how to make calls to the Prefect API when new files land in S3. To start with, you can create an event in Prefect, and you can run a deployment, passing the event details as a parameter.
 
+## Example
+
+```hcl
+module "s3_eventbridge_to_prefect" {
+  source = "github.com/PrefectHQ/prefect-recipes//devops/infrastructure-as-code/aws/s3-eventbridge"
+
+  name                       = "inbox-flow"
+  prefect_cloud_account_id   = "6e02a1db-07de-4760-a15d-60d8fe0b04e1"
+  prefect_cloud_workspace_id = "54cdfc71-9f13-41ba-9492-e1cf24eed185"
+  prefect_cloud_api_key      = var.prefect_api_key
+
+  bucket_name   = "my-bucket"
+  object_prefix = "inbox/"
+  deployment_id = "d9b5b9e0-1b1a-4b1e-9b1b-1b1a4b1e9b1b"
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
