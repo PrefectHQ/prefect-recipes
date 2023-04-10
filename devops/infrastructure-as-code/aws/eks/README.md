@@ -41,7 +41,7 @@ variable prefect_api_key {}
 prefect_api_key = "pnu_bcf655365883614d468990896264f6a30372"
 ```
 
-For a usage example, see [`main.tf](./example/main.tf):
+For a usage example, see [`main.tf`](./example/main.tf):
 
 ```hcl
 module "prefect" {
