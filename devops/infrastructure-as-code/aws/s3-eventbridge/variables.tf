@@ -10,7 +10,7 @@ variable "bucket_name" {
 }
 
 variable "object_prefix" {
-  description = "Prefix of S3 Object for event source"
+  description = "Prefix of S3 Object for event source. Leave blank to match all objects."
   type        = string
   default     = ""
 }
