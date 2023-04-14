@@ -89,4 +89,5 @@ async def run_orchestrator_flow(filter_tags: DeploymentFilterTags) -> None:
 async def example_flow():
     await run_orchestrator_flow(DeploymentFilterTags(all_=["group:ml"]))
 
-asyncio.run(example_flow())
+if __name__ == "__main__":
+    asyncio.run(example_flow())
