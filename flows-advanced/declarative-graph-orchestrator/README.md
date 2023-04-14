@@ -15,5 +15,7 @@ async def example_flow():
     await run_orchestrator_flow(DeploymentFilterTags(all_=["group:ml"]))
 ```
 
+Since the orchestrator flow creates flow runs via deployments, you'll also need to start an agent to consume them: `prefect agent start -q default`
+
 And this is the result:
 <img width="1097" alt="Screenshot 2023-04-13 at 9 37 48 AM" src="https://user-images.githubusercontent.com/4908576/231779682-a64fc9eb-a202-4216-b0cd-acbb2ea44a1e.png">
