@@ -7,17 +7,17 @@ async def dbt_flow():
     get_run_logger().info("Running DBT job...")
 
 
-@flow(name="train")
+@flow(name="train model 1")
 async def model1_flow():
     get_run_logger().info("Running Model 1 training job...")
 
 
-@flow(name="train")
+@flow(name="train model 2")
 async def model2_flow():
     get_run_logger().info("Running Model 2 training job...")
 
 
-@flow(name="train")
+@flow(name="train model 3")
 async def model3_flow():
     get_run_logger().info("Running Model 3 training job...")
 
