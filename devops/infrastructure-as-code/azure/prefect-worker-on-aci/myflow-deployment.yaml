@@ -1,0 +1,43 @@
+###
+### A complete description of a Prefect Deployment for flow 'myflow'
+###
+name: azure-test
+description: null
+version: 203ff04af56e596bb36073926f52c4d9
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: aks-test
+tags: []
+parameters: {}
+schedule:
+  cron: '*/15 * * * 1-5'
+  timezone: null
+  day_or: true
+is_schedule_active: true
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: myflow
+manifest_path: null
+storage: null
+path: /Users/jsopkin/src/projects/azure/local
+entrypoint: flow.py:myflow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null
+timestamp: '2023-05-04T16:01:10.838857+00:00'

@@ -1,0 +1,9 @@
+worker:
+  config:
+    workPool: aks-test
+  cloudApiConfig:
+    accountId: "7a9eace3-e007-4a4e-a609-880835234645"
+    workspaceId: "835013e9-59aa-453b-a0e6-19c03f6dbf35"
+    apiKeySecret:
+      name: api-key
+      key: api-key

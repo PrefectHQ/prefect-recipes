@@ -1,0 +1,73 @@
+###
+### A complete description of a Prefect Deployment for flow 'myflow'
+###
+name: aci-test
+description: null
+version: 203ff04af56e596bb36073926f52c4d9
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: null
+tags: []
+parameters: {}
+schedule: null
+is_schedule_active: null
+infra_overrides: {}
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: myflow
+manifest_path: null
+infrastructure:
+  type: container-instance-job
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  aci_credentials:
+    client_id: ce364b58-05f4-4cfc-98fa-45facc4dbd55
+    tenant_id: 08541b6e-646d-43de-a0eb-834e6713d6d5
+    client_secret: '**********'
+    credential_kwargs: {}
+    _block_document_id: fafe8276-7066-4acd-a301-2e998e560e87
+    _block_document_name: azure-test-creds
+    _is_anonymous: false
+    block_type_slug: azure-container-instance-credentials
+  resource_group_name: SopkinACIPrefectAgent
+  subscription_id: '**********'
+  identities: null
+  image: jbsopkin/test:latest
+  entrypoint: /opt/prefect/entrypoint.sh
+  image_registry:
+    username: jbsopkin
+    password: '**********'
+    registry_url: index.docker.io
+    reauth: true
+    _block_document_id: 154f35d1-613a-4f5c-9bc1-e13d341837ef
+    _block_document_name: azure-docker-test
+    _is_anonymous: false
+    block_type_slug: docker-registry
+  cpu: 1.0
+  gpu_count: null
+  gpu_sku: null
+  memory: 1.0
+  subnet_ids: null
+  dns_servers: null
+  stream_output: null
+  task_start_timeout_seconds: 240
+  task_watch_poll_interval: 5.0
+  _block_document_id: 9babbe48-d2e3-4e64-94ed-8c6a9496aba0
+  _block_document_name: azure-aci-job
+  _is_anonymous: false
+  block_type_slug: azure-container-instance-job
+  _block_type_slug: azure-container-instance-job
+storage: null
+path: /opt/prefect/flows
+entrypoint: flow.py:myflow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null
+timestamp: '2023-04-24T18:13:42.402430+00:00'

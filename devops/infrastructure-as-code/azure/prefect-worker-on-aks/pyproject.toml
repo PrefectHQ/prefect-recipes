@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "azure"
+version = "0.1.0"
+description = ""
+authors = ["James Bada Sopkin <69161193+Bada-S@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+prefect-azure = {version = "^0.2.4", extras = ["blob_storage"]}
+prefect = "^2.8.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
