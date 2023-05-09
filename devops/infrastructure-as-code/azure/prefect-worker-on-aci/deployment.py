@@ -17,8 +17,8 @@ deployment = Deployment(
     version="latest",
     flow_name="myflow",
     infrastructure=azure_container_instance_job_block,
-    work_queue_name="aci-test",
+    work_pool_name="aci-test",
     path="/opt/prefect/flows",
-    entrypoint="flow.py:myflow",
+    entrypoint="transform_flow.py:transform_flow",
 )
 deployment.apply()
