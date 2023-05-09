@@ -8,8 +8,19 @@ from prefect_azure import AzureBlobStorageCredentials
 from prefect_azure.blob_storage import blob_storage_download, blob_storage_upload
 
 def azure_creds():
-    connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-    return AzureBlobStorageCredentials(connection_string=connection_string)
+
+    try:
+        azure_credentials_block = AzureBlobStorageCredentials.load("boydoblobbo")
+        return azure_credentials_block
+    except ValueError as e:
+        get_run_logger().info(f"No azure_credentials_block found :{e}")
+        try:
+            connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+            return AzureBlobStorageCredentials(connection_string=connection_string)
+        except Exception as f:
+            get_run_logger().info("No connection string found")
+            connection_string = None
+            raise
     
 
 def load_from_azure():
@@ -36,7 +47,7 @@ def write_df(data):
         container="prefect-logs",
         blob="csv_data",
         blob_storage_credentials=azure_creds(),
-        overwrite=False
+        overwrite=True
     )
     return blob
 
