@@ -1,0 +1,6 @@
+prefect
+adlfs
+prefect-azure
+prefect-azure[blob-storage]
+pandas
+aiohttp
