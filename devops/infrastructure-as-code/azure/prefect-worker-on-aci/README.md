@@ -71,5 +71,34 @@ A sample deployment is provided for this tutorial.
 python deployment.py
 ```
 
+### Run the Deployment from UI
 
 
+### (Option B: Pulling Code into an Image)
+
+# From the code repository, init a Prefect project:
+```bash
+cd ~/test_aci_dev/azure-deployments/prefect-worker-on-aci
+prefect project init --recipe git
+```
+
+# Edit prefect.yaml Pull section for your Bitbucket repository:
+```bash
+pull:
+- prefect.projects.steps.git_clone_project:
+    repository: https://x-token-authx-token-auth:a_really_long_access_token@bitbucket.org/sopkin/azure-deployments.git
+    branch: master
+    access_token:
+```
+
+### Deploy the changes
+```bash
+# --name is the deployment name
+# --pool is the workpool we created for the container group in the --command-line section
+# ./transform_flow.py:transform_flow is the entrypoint of the container. 
+    # This is the path in the repository AND locally - this is why we do prefect project init from the root.
+    #./transform_flow.py is the module, and transform_flow is the flow definition
+prefect deploy --name transform_aci_deploy --pool aci-test ./transform_flow.py:transform_flow
+```
+
+### Run the Flow from UI
