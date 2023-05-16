@@ -39,7 +39,7 @@ provider "aws" {
 
 // Don't panic! These values are just random uuid.uuid4()s
 module "prefect_ecs_worker" {
-  source = "github.com/PrefectHQ/prefect-recipes//devops/infrastructure-as-code/aws/tf-prefect2-ecs-worker"
+  source = "github.com/PrefectHQ/prefect-recipes/devops/infrastructure-as-code/aws/tf-prefect2-ecs-worker"
 
   worker_subnets        = [
     "subnet-014aa5f348034e45b",
