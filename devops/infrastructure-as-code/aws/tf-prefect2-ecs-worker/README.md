@@ -1,6 +1,6 @@
 # Prefect 2 worker on ECS Fargate
 
-This recipe demonstrates how to deploy a Prefect 2 worker onto ECS Fargate using [Terraform](https://www.terraform.io/). It is intended to be used as a Terraform module as described in [Usage](#usage) below. It assumes you have Terraform installed, and was tested with Terraform `v1.2.7`.
+This recipe demonstrates how to deploy a Prefect 2 worker onto ECS Fargate using [Terraform](https://www.terraform.io/). It is intended to be used as a Terraform module as described in [Usage](#usage) below. It assumes you have Terraform installed, and was tested with Terraform `v1.4.6`.
 
 Note that flows will run inside the worker ECS task, as opposed to becoming their own ECS tasks.
 
