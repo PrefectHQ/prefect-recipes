@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,20 +15,30 @@ spec:
         app: orion
     spec:
       containers:
-      - name: api
-        image: prefecthq/prefect:2.0b9-python3.9
-        command: ["prefect", "orion", "start", "--host", "0.0.0.0", "--log-level", "WARNING"]
-        imagePullPolicy: "IfNotPresent"
-        ports:
-        - containerPort: 4200
-      - name: agent
-        image: prefecthq/prefect:2.0b9-python3.9
-        command: ["prefect", "agent", "start", "kubernetes"]
-        imagePullPolicy: "IfNotPresent"
-        env:
-          - name: PREFECT_API_URL
-            value: http://orion:4200/api
-
+        - name: api
+          image: prefecthq/prefect:2.0b9-python3.9
+          command:
+            - prefect
+            - orion
+            - start
+            - -host
+            - 0.0.0.0
+            - --log-level
+            - WARNING
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4200
+        - name: agent
+          image: prefecthq/prefect:2.0b9-python3.9
+          command:
+            - prefect
+            - agent
+            - start
+            - kubernetes
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PREFECT_API_URL
+              value: http://orion:4200/api
 ---
 apiVersion: v1
 kind: Service
@@ -49,12 +60,12 @@ metadata:
   namespace: default
   name: flow-runner
 rules:
-- apiGroups: [""]
-  resources: ["pods", "pods/log", "pods/status"]
-  verbs: ["get", "watch", "list"]
-- apiGroups: ["batch"]
-  resources: ["jobs"]
-  verbs: [ "get", "list", "watch", "create", "update", "patch", "delete" ]
+  - apiGroups: [""]
+    resources: [pods, pods/log, pods/status]
+    verbs: [get, watch, list]
+  - apiGroups: [batch]
+    resources: [jobs]
+    verbs: [get, list, watch, create, update, patch, delete]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -62,11 +73,10 @@ metadata:
   name: flow-runner-role-binding
   namespace: default
 subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: default
+  - kind: ServiceAccount
+    name: default
+    namespace: default
 roleRef:
   kind: Role
   name: flow-runner
   apiGroup: rbac.authorization.k8s.io
-

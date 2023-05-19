@@ -1,3 +1,4 @@
+---
 app: flow-starter-lambda
 service: flow-starter-lambda
 
@@ -38,7 +39,7 @@ functions:
   flow-starter:
     handler: handler.run
     layers:
-      - { Ref: PythonRequirementsLambdaLayer }
+      - {Ref: PythonRequirementsLambdaLayer}
     events:
       - s3:
           bucket: my-random-s3-bucket

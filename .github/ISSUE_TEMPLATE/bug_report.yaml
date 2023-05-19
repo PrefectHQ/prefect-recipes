@@ -1,5 +1,6 @@
-name: "🐛 Bug Report"
-description: "If something in this repo isn't working as expected 🤔."
+---
+name: 🐛 Bug Report
+description: If something in this repo isn't working as expected 🤔.
 title: "[Bug]: "
 labels: ["i: bug"]
 body:
@@ -10,17 +11,17 @@ body:
   - type: checkboxes
     id: input1
     attributes:
-      label: "💻"
+      label: 💻
       options:
         - label: Would you like to work on a fix?
-      
+
   - type: textarea
     attributes:
       label: Current behavior
       description: A clear and concise description of the current behavior.
     validations:
       required: true
-      
+
   - type: textarea
     attributes:
       label: Expected behavior
@@ -31,9 +32,9 @@ body:
   - type: textarea
     attributes:
       label: Possible solution
-      description: "If you have suggestions on a fix for the bug."
+      description: If you have suggestions on a fix for the bug.
 
   - type: textarea
     attributes:
       label: Additional context
-      description: "Add any other context about the problem here. Or a screenshot if applicable."
+      description: Add any other context about the problem here. Or a screenshot if applicable.

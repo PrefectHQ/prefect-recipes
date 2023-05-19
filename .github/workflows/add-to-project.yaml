@@ -1,7 +1,7 @@
 ---
 name: Add issues to project boards
 
-on:
+"on":
   issues:
     types:
       - labeled
@@ -32,4 +32,3 @@ jobs:
           project-url: https://github.com/orgs/PrefectHQ/projects/53
           github-token: ${{ secrets.GHA_ADD_TO_PROJECT_PROJECTS_RO_REPOS_RW }}
           labeled: security
-

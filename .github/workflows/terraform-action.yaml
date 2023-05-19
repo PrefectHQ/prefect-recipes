@@ -1,6 +1,7 @@
+---
 name: terraform
 
-on:
+"on":
   pull_request
 
 jobs:
@@ -13,7 +14,7 @@ jobs:
 
       - name: setup terraform
         uses: hashicorp/setup-terraform@v2
-      
+
       - name: terraform format
         run: terraform fmt -recursive -check
         continue-on-error: false

@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -7,12 +8,12 @@ metadata:
   namespace: prometheus
 spec:
   endpoints:
-  - interval: 30s
-    targetPort: {{ .Values.service.targetPort }}
-    path: /metrics
+    - interval: 30s
+      targetPort: 8090
+      path: /metrics
   namespaceSelector:
     matchNames:
-    - prometheus
+      - prometheus
   selector:
     matchLabels:
       operated-prometheus: "true"

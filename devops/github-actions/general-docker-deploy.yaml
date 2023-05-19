@@ -1,10 +1,11 @@
-name: "Build Prefect deployment and associated Docker image from a flow"
-on:
+---
+name: Build Prefect deployment and associated Docker image from a flow
+"on":
 workflow_dispatch: # manually
   push: # or on push to these branches
     branches:
-      - "main"
-      - "dev"
+      - main
+      - dev
 
 env:
   FLOWNAME: marvin
@@ -35,13 +36,13 @@ jobs:
         run: |
           docker build . --tag ${{ env.IMAGE }} -f ./Dockerfile
 
-      # Replace if needed with plugin in ECR, GCR, GHCR, etc 
+      # Replace if needed with plugin in ECR, GCR, GHCR, etc
       - name: Login to registry
         env:
           CONTAINER_REGISTRY_USER: ${{secrets.CONTAINER_REGISTRY_USER}}
           CONTAINER_REGISTRY_PASSWORD: ${{secrets.CONTAINER_REGISTRY_PASSWORD}}
         run: |
-          docker login -u $CONTAINER_REGISTRY_USER -p $CONTAINER_REGISTRY_PASSWORD 
+          docker login -u $CONTAINER_REGISTRY_USER -p $CONTAINER_REGISTRY_PASSWORD
 
       - name: Push to container registry
         run: docker push ${{ env.IMAGE }}
@@ -57,6 +58,6 @@ jobs:
           INFRA: kubernetes-job/default-k8s-job
           STORAGE: s3/flow-script-storage-${{ steps.extract_branch.outputs.branch }}
           WORK_QUEUE: ${{ steps.extract_branch.outputs.branch }}-queue
-        
+
       - name: Output Success
         run: echo "Successfully built ${{ env.IMAGE }} and ${{ env.DEPLOYMENT_NAME }} :rocket:" >> $GITHUB_STEP_SUMMARY

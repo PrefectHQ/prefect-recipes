@@ -1,11 +1,12 @@
-name: "Build and Apply a Prefect deployment from a flow"
-on:
+---
+name: Build and Apply a Prefect deployment from a flow
+"on":
 workflow_dispatch: # manually
   push: # or on changes to paths in branches
     branches:
-      - "main"
+      - main
     paths:
-      - "flow.py"
+      - flow.py
 
 # change as needed
 env:
@@ -42,7 +43,7 @@ jobs:
             --name $DEPLOYMENT_NAME \
             --infra-block $INFRA \
             --storage-block $STORAGE \
-            --work-queue $WORK_QUEUE \ 
+            --work-queue $WORK_QUEUE \
             --apply
 
       - name: Output Success

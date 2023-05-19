@@ -1,6 +1,7 @@
+---
 name: 🐍 Python Checks 🧹
 
-on:
+"on":
   pull_request
 
 jobs:

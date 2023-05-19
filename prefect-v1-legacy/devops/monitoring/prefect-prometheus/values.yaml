@@ -1,3 +1,4 @@
+---
 # Default values for prefect-prometheus.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -54,7 +55,7 @@ serviceMonitor:
   enabled: true
   interval: 60s
   scrapeTimeout: 10s
-  additionalLabels: 
+  additionalLabels:
     release: prometheus
   targetLabels: []
 
@@ -105,4 +106,3 @@ affinity: {}
 
 prefect-server:
   enabled: false
-

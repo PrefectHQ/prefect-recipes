@@ -1,9 +1,10 @@
+---
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: base_node
-          operator: In
-          values:
-          - "yes"
+        - matchExpressions:
+            - key: base_node
+              operator: In
+              values:
+                - "yes"

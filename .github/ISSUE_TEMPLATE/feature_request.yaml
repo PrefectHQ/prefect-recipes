@@ -1,5 +1,6 @@
-name: "🚀 Recipe Request"
-description: "I have a specific suggestion for prefect-recipes!"
+---
+name: 🚀 Recipe Request
+description: I have a specific suggestion for prefect-recipes!
 labels: ["i: enhancement"]
 body:
   - type: markdown

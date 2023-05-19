@@ -1,12 +1,13 @@
-name: "Docker build / push a flow image to Google Artifact Registry"
-on:
+---
+name: Docker build / push a flow image to Google Artifact Registry
+"on":
   workflow_dispatch: # build new image manually
   push: # or automatically build upon change to Dockerfile / dependencies
     branches:
-      - "main"
+      - main
     paths:
-      - "Dockerfile"
-      - "requirements.txt"
+      - Dockerfile
+      - requirements.txt
 
 env:
   FLOW_IMAGE: us-docker.pkg.dev/my_gcp_project/my_repo_name/my_image_name:latest
@@ -17,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       # Change the path `./Dockerfile` as needed!
       - name: Build the Docker image
         run: |
@@ -29,7 +30,7 @@ jobs:
         uses: 'google-github-actions/auth@v0.6.0'
         with:
           # This service account must have the IAM permissions to push to
-          # Google Artifact Registry and generate an access token 
+          # Google Artifact Registry and generate an access token
           credentials_json: '${{ secrets.PREFECT_GCP_SERVICE_ACCT_CREDENTIALS }}'
           token_format: 'access_token'
 
