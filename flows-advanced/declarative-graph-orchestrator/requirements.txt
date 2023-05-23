@@ -1,0 +1,2 @@
+networkx==3.1
+prefect==2.9.0

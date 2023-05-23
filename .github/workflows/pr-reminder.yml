@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo Sending reminder to requested reviewers.
-      - uses: davideviolante/pr-reviews-reminder-action@v2.6.0
+      - uses: davideviolante/pr-reviews-reminder-action@v2.7.0
         env:
             GITHUB_TOKEN: ${{ github.token }}
         with:
