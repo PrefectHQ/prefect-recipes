@@ -19,7 +19,7 @@ spec:
           image: prefecthq/prefect:2-python3.9
           command:
             - prefect
-            - orion
+            - server
             - start
             - -host
             - 0.0.0.0
