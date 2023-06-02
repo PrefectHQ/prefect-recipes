@@ -29,7 +29,7 @@ spec:
           ports:
             - containerPort: 4200
         - name: agent
-          image: prefecthq/prefect:2.0b9-python3.9
+          image: prefecthq/prefect:2-python3.9
           command:
             - prefect
             - agent
