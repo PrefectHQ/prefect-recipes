@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: orion
+        app: server
     spec:
       containers:
         - name: api
