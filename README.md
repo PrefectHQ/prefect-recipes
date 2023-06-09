@@ -52,7 +52,6 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
   - [Data Science](#data-science)
   - [Modular Data Stack](#modular-data-stack)
   - [Miscellaneous](#miscellaneous)
-  - [Legacy (Prefect 1.0)](#prefect-10-legacy)
 - [Issues & Bugs](#issues--bugs-)
 - [Contributions](#contributions)
 - [Join the Discussion](#join-our-discussions-%EF%B8%8F)
@@ -216,18 +215,6 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 
 #### Discourse
 [Prefect Agents and Work-Queues FAQ](https://discourse.prefect.io/t/agents-and-work-queues-faq/1468)
-
-#### Prefect 1.0 Legacy
-- [Register a Prefect 1 Flow](./prefect-v1-legacy/devops/github-actions/)
-- [Run GraphQL Queries](./prefect-v1-legacy/graphql-queries/)
-- [Airbyte Orchestration](./prefect-v1-legacy/use-cases/airbyte-orchestration/)
-- [ETL with AWS S3 and Snowflake](./prefect-v1-legacy/use-cases/etl-s3-to-snowflake/)
-- [Use AWS Lambda for Event-Driven Flows](./prefect-v1-legacy/use-cases/event-driven-triggers/)
-- [Read Secrets into Prefect 1 Cloud tenant](./prefect-v1-legacy/use-cases/import-secrets-to-cloud/)
-- [Handle DBT Model Failures](./prefect-v1-legacy/use-cases/rerun_dbt_models_from_failure/)
-- [S3 Prefect 1 Flow Storage on EKS](./prefect-v1-legacy/use-cases/s3-flow-storage-on-eks/)
-- [Use LocalExecutor to run Dask computations on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-localexecutor)
-- [Use DaskExecutor to run Prefect 1 tasks in parallel on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-daskexecutor)
 
 ## Contributions
 We're always looking for new contributions! You can add your Prefect 2.0 recipe and earn some swag in a few simple steps:
