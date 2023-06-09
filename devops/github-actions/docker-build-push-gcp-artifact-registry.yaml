@@ -1,5 +1,5 @@
 name: Docker build / push a flow image to Google Artifact Registry
-on:
+"on":
   workflow_dispatch: {} # build new image manually
   push: # or automatically build upon change to Dockerfile / dependencies
     branches:
