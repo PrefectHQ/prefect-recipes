@@ -50,4 +50,4 @@ jobs:
           docker push ${{ env.FLOW_IMAGE }}
 
       - name: Output Success
-        run: "echo Successfully built and pushed ${{ env.FLOW_IMAGE }} :rocket: >> $GITHUB_STEP_SUMMARY"
+        run: echo "Successfully built and pushed ${{ env.FLOW_IMAGE }} :rocket:" >> $GITHUB_STEP_SUMMARY
