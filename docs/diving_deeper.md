@@ -28,15 +28,3 @@
 
 ## Django
 - [Using Django with Prefect 2](https://github.com/abrookins/django-prefect-example)
-
-## Prefect 1.0 Legacy
-- [Register a Prefect Flow](./prefect-v1-legacy/devops/github-actions/)
-- [Run GraphQL Queries](./prefect-v1-legacy/graphql-queries/)
-- [Airbyte Orchestration](./prefect-v1-legacy/use-cases/airbyte-orchestration/)
-- [ETL with AWS S3 and Snowflake](./prefect-v1-legacy/use-cases/etl-s3-to-snowflake/)
-- [Use AWS Lambda for Event-Driven Flows](./prefect-v1-legacy/use-cases/event-driven-triggers/)
-- [Read Secrets into Prefect Cloud tenant](./prefect-v1-legacy/use-cases/import-secrets-to-cloud/)
-- [Handle DBT Model Failures](./prefect-v1-legacy/use-cases/rerun_dbt_models_from_failure/)
-- [S3 Flow Storage on EKS](./prefect-v1-legacy/use-cases/s3-flow-storage-on-eks/)
-- [Use LocalExecutor to run Dask computations on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-localexecutor)
-- [Use DaskExecutor to run Prefect tasks in parallel on a Coiled cluster](https://docs.coiled.io/user_guide/examples/prefect.html#using-the-daskexecutor)

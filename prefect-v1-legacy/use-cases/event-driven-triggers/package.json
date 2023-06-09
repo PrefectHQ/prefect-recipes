@@ -1,8 +1,0 @@
-{
-  "name": "flow-starter-lambda",
-  "description": "",
-  "version": "0.1.0",
-  "devDependencies": {
-    "serverless-python-requirements": "^5.1.1"
-  }
-}

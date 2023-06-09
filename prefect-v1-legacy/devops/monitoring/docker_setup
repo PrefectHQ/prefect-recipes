@@ -1,7 +1,0 @@
-export IMAGE_REGISTRY="chaboy"
-export PROJECT_NAME="prefect-prometheus-exporter"
-export PROJECT_VERSION="1.3.2-amd64"
-
-echo "$IMAGE_REGISTRY/$PROJECT_NAME:$PROJECT_VERSION"
-docker build --platform=linux/amd64 -t "$IMAGE_REGISTRY/$PROJECT_NAME:$PROJECT_VERSION" -f ./Dockerfile .
-docker push "$IMAGE_REGISTRY/$PROJECT_NAME:$PROJECT_VERSION"

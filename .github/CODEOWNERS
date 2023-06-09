@@ -7,10 +7,3 @@ devops/infrastructure-as-code/ @gabcoyne @jamiezieziula @prefectcboyd @EmilRex
 
 # General
 .github/ @gabcoyne @robfreedy @jamiezieziula @zzstoatzz @EmilRex # default
-
-# Legacy: Prefect < 2.0 folders are unlikely to see additions/mods
-prefect-v1-legacy/devops/ @gabcoyne @jamiezieziula @prefectcboyd @EmilRex  # default 
-prefect-v1-legacy/devops/github-actions/ @prefectcboyd @robfreedy @serinamarie @zzstoatzz
-prefect-v1-legacy/devops/infrastructure-as-code/ @gabcoyne @jamiezieziula @prefectcboyd @robfreedy @EmilRex
-prefect-v1-legacy/graphql-queries/ @prefectcboyd @robfreedy
-prefect-v1-legacy/use-cases/ @gabcoyne @serinamarie @zzstoatzz @EmilRex
