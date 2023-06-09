@@ -1,49 +1,53 @@
-name: "Docker build / push a flow image to Google Artifact Registry"
+name: Docker build / push a flow image to Google Artifact Registry
 on:
-  workflow_dispatch: # build new image manually
+  workflow_dispatch: {} # build new image manually
   push: # or automatically build upon change to Dockerfile / dependencies
     branches:
-      - "main"
+      - main
     paths:
-      - "Dockerfile"
-      - "requirements.txt"
+      - Dockerfile
+      - requirements.txt
+
+# Do not grant jobs any permissions by default
+permissions: {}
 
 env:
   FLOW_IMAGE: us-docker.pkg.dev/my_gcp_project/my_repo_name/my_image_name:latest
 
-
 jobs:
-  build-docker-images:
+  build_docker_images:
     runs-on: ubuntu-latest
+    permissions:
+      # required to read from the repo
+      contents: read
+      # required to obtain Google Cloud service account credentials
+      id-token: write
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
       
       # Change the path `./Dockerfile` as needed!
       - name: Build the Docker image
         run: |
           docker build . --tag ${{ env.FLOW_IMAGE }} -f ./Dockerfile
 
-      # Generate a temporary access token from your service account's credentials
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0.6.0'
+      # Generate a temporary access token from your service accounts credentials
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0.6.0
         with:
           # This service account must have the IAM permissions to push to
-          # Google Artifact Registry and generate an access token 
-          credentials_json: '${{ secrets.PREFECT_GCP_SERVICE_ACCT_CREDENTIALS }}'
-          token_format: 'access_token'
+          # Google Artifact Registry
+          workload_identity_provider: GCP_WORKLOAD_IDENTITY
+          service_account: GCP_SERVICE_ACCOUNT
 
       # log into Google Artifact Registry with the temporary access token
-      - uses: 'docker/login-action@v1'
-        name: 'Docker login'
-        with:
-          registry: 'us-docker.pkg.dev'
-          username: 'oauth2accesstoken'
-          password: '${{ steps.auth.outputs.access_token }}'
+      - name: Configure Google Cloud credential helper
+        run: gcloud auth configure-docker --quiet us-docker.pkg.dev
 
       - name: Push to container registry
         run: |
           docker push ${{ env.FLOW_IMAGE }}
 
       - name: Output Success
-        run: echo "Successfully built and pushed ${{ env.FLOW_IMAGE }} :rocket:" >> $GITHUB_STEP_SUMMARY
+        run: "echo Successfully built and pushed ${{ env.FLOW_IMAGE }} :rocket: >> $GITHUB_STEP_SUMMARY"

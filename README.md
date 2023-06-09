@@ -178,11 +178,13 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [How to use Kubernetes with Prefect: Part 3](https://medium.com/the-prefect-blog/how-to-use-kubernetes-with-prefect-part-3-e2223ce34ba7)
 
 #### Github Actions
-- [Build flow image and Prefect deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
-- [Build and Push flow docker image to Google Artifact Registry](./devops/github-actions/docker-build-push-gcp-artifact-registry.yaml)
-- [Build / Apply prefect deployment with blocks on change to python files](./devops/github-actions/minimal-prefect-deployment-build.yaml)
 - [Automate Prefect Deployments to AWS ECS Fargate Using GitHub Actions](https://github.com/anna-geller/dataflow-ops)
 - [Automate Python-Based Deployments with GitHub Actions](https://github.com/radbrt/orion_flows)
+- [Build / Apply prefect deployment with blocks on change to python files](./devops/github-actions/minimal-prefect-deployment-build.yaml)
+- [Build and Push flow docker image to Google Artifact Registry](./devops/github-actions/docker-build-push-gcp-artifact-registry.yaml)
+- [Build flow image and Prefect deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
+- [Conditionally deploy Prefect flow(s) only when flow-related files have changed](./devops/github-actions/prefect-deploy-only-when-files-change-no-docker-build.yaml)
+- [Conditionally build a docker image & deploy Prefect flow(s) only when flow-related files have changed](./devops/github-actions/prefect-deploy-only-when-files-change-including-docker-build.yaml)
 
 #### Django
 - [Using Django with Prefect 2](https://github.com/abrookins/django-prefect-example)
