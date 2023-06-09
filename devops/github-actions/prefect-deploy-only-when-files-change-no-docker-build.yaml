@@ -1,0 +1,59 @@
+---
+name: Build and publish Prefect Deployments
+
+"on":
+  push:
+    branches:
+      - main
+
+# Do not grant jobs any permissions by default
+permissions: {}
+
+jobs:
+  deploy_flows:
+    name: Build Prefect deployment images
+    runs-on: ubuntu-latest
+    permissions:
+      # required to read from the repo
+      contents: read
+      # required to obtain Google Cloud service account credentials
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Filter paths
+        uses: dorny/paths-filter@v2
+        id: prefect_filter
+        with:
+          filters: |
+            flow_1:
+              - deployments/flow-1/**
+            flow_2:
+              - deployments/flow-2/**
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Auth to Prefect Cloud
+        uses: PrefectHQ/actions-prefect-auth@v1
+        with:
+          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
+          prefect-workspace: PREFECT_ACCOUNT/PREFECT_WORKSPACE
+
+      - name: Deploy flow 1
+        if: steps.prefect_filter.outputs.flow_2 == 'true'
+        uses: PrefectHQ/actions-prefect-deploy@v3
+        with:
+          deployment-names: Flow 1
+
+      - name: Deploy flow 2
+        if: steps.prefect_filter.outputs.flow_1 == 'true'
+        uses: PrefectHQ/actions-prefect-deploy@v3
+        with:
+          deployment-names: Flow 2
+
+
