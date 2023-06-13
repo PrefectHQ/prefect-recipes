@@ -116,6 +116,7 @@ No modules.
 | <a name="input_worker_memory"></a> [worker\_memory](#input\_worker\_memory) | Memory units to allocate to the worker | `number` | `2048` | no |
 | <a name="input_worker_subnets"></a> [worker\_subnets](#input\_worker\_subnets) | Subnets to place the worker in | `list(string)` | n/a | yes |
 | <a name="input_worker_task_role_arn"></a> [worker\_task\_role\_arn](#input\_worker\_task\_role\_arn) | Optional task role ARN to pass to the worker. If not defined, a task role will be created | `string` | `null` | no |
+| <a name="input_worker_type"></a> [worker\_type](#input\_worker\_type) | Prefect Worker type that gets passed into the prefect worker start command | `string` | `"ecs"` | no |
 | <a name="input_worker_work_pool_name"></a> [worker\_work\_pool\_name](#input\_worker\_work\_pool\_name) | Work pool that the worker should listen to | `string` | n/a | yes |
 
 ## Outputs

@@ -81,3 +81,9 @@ variable "secrets_manager_recovery_in_days" {
   default     = 30
   description = "Deletion delay for AWS Secrets Manager upon resource destruction"
 }
+
+variable "worker_type" {
+  type = string
+  default = "ecs"
+  description = "Prefect Worker type that gets passed into the prefect worker start command"
+}
