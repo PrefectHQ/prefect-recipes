@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "prefect_worker_task_definition" {
     {
       name    = "prefect-worker-${var.name}"
       image   = var.worker_image
-      command = ["prefect", "worker", "start", "-p", var.worker_work_pool_name]
+      command = ["prefect", "worker", "start", "-p", var.worker_work_pool_name, "--type", "ecs"]
       cpu     = var.worker_cpu
       memory  = var.worker_memory
       environment = [
