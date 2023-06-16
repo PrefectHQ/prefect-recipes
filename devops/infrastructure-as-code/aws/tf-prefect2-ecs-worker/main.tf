@@ -105,6 +105,7 @@ resource "aws_iam_role" "prefect_worker_task_role" {
             "ecr:GetAuthorizationToken",
             "ecr:GetDownloadUrlForLayer",
             "ecs:DeregisterTaskDefinition",
+            "ecs:DescribeTaskDefinition",
             "ecs:DescribeTasks",
             "ecs:RegisterTaskDefinition",
             "ecs:RunTask",
