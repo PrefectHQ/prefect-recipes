@@ -23,7 +23,7 @@ jobs:
         run: |
           docker build . --tag ${{ env.FLOW_IMAGE }} -f ./Dockerfile
 
-      # Generate a temporary access token from your service accounts credentials
+      # Generate a temporary access token from your service account's credentials
       - id: auth
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0.6.0
