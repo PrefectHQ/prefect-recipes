@@ -7,6 +7,8 @@ The end goal of this configuration is to have a Prefect Worker running as an Azu
 Prefect flows will be created as new container groups, and upon creation, have an assigned identity attached to the container group.   
 This assigned identity has the minimal permissions required to retrieve secrets from a created Azure Keyvault - for this purpose, it is to obtain a BitBucket Access token in a secure manner. 
 
+> :warning: The purpose of this tutorial is for a private repository, while prefect-recipes is public. If you wish to follow along with the tutorial as it is written, fork the repo to a private repository. This example is written with BitBucket in mind, although all SCM tools can be used, with the only distinction being the private token format.
+
 Once a new container group is running, and the token has been successfully retrieved, the configured SCM repository will be cloned into the container with the deployed Prefect flow. 
 
 ## Overview  
@@ -26,6 +28,7 @@ Steps that will be covered:
     - Creating an ACI Container Group for the Prefect ACI Worker
     - Configuring an ACI Work-Pool 
     - Deploying a Prefect Flow
+
 
 
 ### Start from a clean directory
@@ -222,7 +225,7 @@ https://github.com/PrefectHQ/prefect/issues/9683
 
 ```bash
 pull:
-- prefect.projects.steps.git_clone_project:
+- prefect.deployments.steps.git_clone_project:
     repository: https://bitbucket.org/sopkin/azure-deployments.git
     branch: master
     access_token: '"{{ prefect.blocks.secret.secret-bitbucket-boyd }}"'
@@ -231,7 +234,7 @@ pull:
 
 ```bash
 pull:
-- prefect.projects.steps.git_clone_project:
+- prefect.deployments.steps.git_clone_project:
     repository: https://bitbucket.org/sopkin/azure-deployments.git
     branch: master
     access_token: '"x-auth-token:<PAT Token here>"'
@@ -239,7 +242,7 @@ pull:
 
 ```bash
 pull:
-- prefect.projects.steps.git_clone_project:
+- prefect.deployments.steps.git_clone_project:
     repository: https://x-auth-token:<PAT Token here>@bitbucket.org/sopkin/azure-deployments.git
     branch: master
     access_token: null
