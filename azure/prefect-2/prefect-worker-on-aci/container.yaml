@@ -1,0 +1,28 @@
+apiVersion: '2018-10-01'
+location: eastus
+name: mycontainergroup
+properties:
+  containers:
+  - name: prefect-worker
+    properties:
+      image: index.docker.io/chaboy/prefect-aci-worker:0.2.10
+      command: ['/bin/bash', '-c', 'prefect worker start --pool aci-test --type azure-container-instance']
+      environmentVariables:
+        - name: 'PREFECT_API_URL'
+          secureValue: <REAL API KEY HERE>
+        - name: 'PREFECT_API_URL'
+          secureValue: <REAL API URL HERE>
+        - name: 'PREFECT_API_ENABLE_HTTP2'
+          value: False
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGb: 1.5
+    imageRegistryCredentials:
+    - server: index.docker.io
+        username: <imageRegistryUsername>
+        password: <imageRegistryPassword>
+    subnetIds:
+      - id: /subscriptions/<subscription-ID>/resourceGroups/ACIResourceGroup/providers/Microsoft.Network/virtualNetworks/aci-vnet/subnets/aci-subnet
+  osType: Linux
+  restartPolicy: OnFailure

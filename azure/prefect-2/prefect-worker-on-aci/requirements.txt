@@ -1,0 +1,6 @@
+adlfs
+prefect-azure
+prefect-azure[blob-storage]
+azure-identity
+azure-storage-blob
+azure-keyvault-secrets

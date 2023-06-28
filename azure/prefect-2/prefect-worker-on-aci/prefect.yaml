@@ -1,0 +1,49 @@
+# Welcome to your prefect.yaml file! You can you this file for storing and managing
+# configuration for deploying your flows. We recommend committing this file to source
+# control along with your flow code.
+
+# Generic metadata about this project
+name: test
+prefect-version: 2.10.16
+
+# build section allows you to manage and build docker images
+build:
+
+# push section allows you to manage if and how this project is uploaded to remote locations
+push:
+
+# pull section allows you to provide instructions for cloning this project in remote locations
+pull:
+- retrieve_secrets.main:
+   id: get-access-token
+- prefect.deployments.steps.git_clone:
+    repository: https://bitbucket.org/sopkin/azure-deployments.git
+    branch: master
+    access_token: '{{ get-access-token.access_token }}'
+    
+# the deployments section allows you to provide configuration for deploying flows
+deployments:
+- name:
+  version:
+  tags: []
+  description:
+  schedule: {}
+  flow_name:
+  entrypoint:
+  parameters: {}
+  work_pool:
+    name:
+    work_queue_name:
+    job_variables: {}
+- name: aci-deploy
+  version:
+  tags: []
+  description:
+  schedule:
+  entrypoint: ./part_2/aci/transform_flow.py:transform_flow
+  parameters: {}
+  work_pool:
+    name: aci-test
+    work_queue_name:
+    job_variables: {}
+  pull:
