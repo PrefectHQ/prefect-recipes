@@ -66,6 +66,8 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
     )
 
     # get the results of each worker flow run
+    print(worker_flow_runs[0].state_name)
+
     total_pokemon_weight = sum(
         [await run.state.result().get() for run in worker_flow_runs]
     )
