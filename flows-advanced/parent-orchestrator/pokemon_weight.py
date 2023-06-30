@@ -15,11 +15,12 @@ from typing import Any, Dict, List
 
 import httpx
 from prefect import flow, task
+from prefect.client.schemas.objects import FlowRun
 from prefect.deployments import run_deployment
 
 
 @task(name="Get Pokemon Names")
-async def get_pokemon_names(limit: int = 100) -> List[str]:
+async def get_pokemon_names(limit: int = 30) -> List[str]:
     """Get a list of pokemon names from the pokeapi"""
     async with httpx.AsyncClient() as client:
         response = await client.get(f"https://pokeapi.co/api/v2/pokemon?limit={limit}")
@@ -54,7 +55,7 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
 
     # since 100 pokemon / 10 workers, my agent will spawn 10 worker sub-flows
     print(f"Spawning {len(pokemon_name_chunks)} worker flows...")
-    worker_flow_runs = await asyncio.gather(
+    worker_flow_runs: list[FlowRun] = await asyncio.gather(
         *[
             run_deployment(  # returns a FlowRun object
                 name="process-pokemon-batch/worker",
@@ -74,7 +75,7 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
 
 # deploy this flow with:
 # prefect deployment build pokemon_weight.py:process_pokemon_batch -n worker -a
-@flow(persist_result=True)
+@flow
 async def process_pokemon_batch(pokemon_names: List[str]) -> int:
     pokemon_info = [
         await get_pokemon_info(pokemon_name) for pokemon_name in pokemon_names

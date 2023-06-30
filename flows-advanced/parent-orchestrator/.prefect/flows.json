@@ -1,0 +1,4 @@
+{
+  "get-total-pokemon-weight": "pokemon_weight.py:get_total_pokemon_weight",
+  "process-pokemon-batch": "pokemon_weight.py:process_pokemon_batch"
+}
