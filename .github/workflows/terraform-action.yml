@@ -1,7 +1,9 @@
 name: terraform
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'devops/**/*.tf'
 
 jobs:
   terraform-checks:
