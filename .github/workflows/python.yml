@@ -18,7 +18,7 @@ jobs:
 
       - name: 🔍 Finding Changed Python Files 📝
         id: changed-python-files
-        uses: tj-actions/changed-files@v36
+        uses: tj-actions/changed-files@v37
         with:
           files: |
             **/*.py
