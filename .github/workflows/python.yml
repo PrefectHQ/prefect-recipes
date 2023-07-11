@@ -5,7 +5,6 @@ on:
     paths:
       - '**/*.py'
 
-      
 jobs:
   python-checks:
     name: 💻 Python Checks 🧹
