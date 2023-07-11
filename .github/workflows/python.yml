@@ -1,7 +1,9 @@
 name: 🐍 Python Checks 🧹
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - '**/*.py'
 
 jobs:
   python-checks:
