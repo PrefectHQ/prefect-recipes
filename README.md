@@ -185,6 +185,7 @@ What are you interested in seeing examples of? [Jot down your big idea here.](ht
 - [Build flow image and Prefect deployment with storage and infra Blocks on push to branch](./devops/github-actions/general-docker-deploy.yaml)
 - [Conditionally deploy Prefect flow(s) only when flow-related files have changed](./devops/github-actions/prefect-deploy-only-when-files-change-no-docker-build.yaml)
 - [Conditionally build a docker image & deploy Prefect flow(s) only when flow-related files have changed](./devops/github-actions/prefect-deploy-only-when-files-change-including-docker-build.yaml)
+- [Deploy Prefect flows as containers stored in AWS ECR](./devops/github-actions/prefect-deploy-aws-ecr.yaml)
 
 #### Django
 - [Using Django with Prefect 2](https://github.com/abrookins/django-prefect-example)
