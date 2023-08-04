@@ -45,9 +45,11 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Authenticate with Prefect
-        run: |
-          prefect cloud login --key ${{ secrets.PREFECT_API_KEY }} --workspace ${{ env.PREFECT_WORKSPACE }}
+      - name: Auth to Prefect Cloud
+        uses: PrefectHQ/actions-prefect-auth@v1
+        with:
+          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
+          prefect-workspace: ${{env.PREFECT_WORKSPACE}}
 
       # Deploy all flows
       # Assumes you are using a push_docker_image step in your prefect.yaml file where the
