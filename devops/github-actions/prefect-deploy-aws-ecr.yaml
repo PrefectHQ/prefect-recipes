@@ -50,6 +50,8 @@ jobs:
           prefect cloud login --key ${{ secrets.PREFECT_API_KEY }} --workspace ${{ env.PREFECT_WORKSPACE }}
 
       # Deploy all flows
+      # Assumes you are using a push_docker_image step in your prefect.yaml file where the
+      # image name is of the form: <AWS_ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/<IMAGE>
       - name: Deploy flows
         run: |
           prefect --no-prompt deploy --all
