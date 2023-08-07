@@ -16,7 +16,7 @@ def add_42(x) -> int:
 
 @flow(log_prints=True)
 def my_flow() -> tuple[list[int], list[int]]:
-    # `map` calls `Task.submit` for each list item and returns a `list[PrefectFuture]`
+    # `map` calls `Task.submit` for each list item, returns `list[PrefectFuture]`
     some_futures = add_42.map([1, 2, 3])
     some_states = add_42.map([4, None, 6], return_state=True)
 

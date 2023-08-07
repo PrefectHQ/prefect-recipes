@@ -1,4 +1,7 @@
-"""This example demonstrates how to run asynchronous subflows concurrently."""
+"""This example demonstrates how to run asynchronous subflows concurrently
+    using `asyncio.gather`.
+"""
+
 import asyncio
 from prefect import flow
 

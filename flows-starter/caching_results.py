@@ -1,3 +1,7 @@
+"""This example demonstrates how to use the `cache_key_fn` and `cache_expiration`
+    to cache the result of a task for a given input for a certain amount of time.
+"""
+
 from datetime import timedelta
 from prefect import flow, task
 from prefect.tasks import task_input_hash

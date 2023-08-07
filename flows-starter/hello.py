@@ -1,5 +1,6 @@
 """This example shows how to use the String block and the `log_prints` setting
-to send the value of the block to the Prefect logger."""
+    to send the value of the block to the Prefect logger.
+"""
 
 from prefect import flow
 from prefect.blocks.system import String
