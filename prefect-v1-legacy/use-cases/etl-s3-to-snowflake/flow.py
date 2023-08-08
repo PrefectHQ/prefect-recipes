@@ -63,11 +63,16 @@ STEPS = tuple(q for c in (CADENCES[m] for m in METHOD) for q in c)
 
 def generateSQL(steps: Tuple[str], table: str) -> List[str]:
     try:
-        sql = lambda s, *i: SQL[s](*i)
+
+        def sql(s, *i):
+            return SQL[s](*i)
+
     except Exception as e:
         raise signals.FAIL(e)
 
-    lazy = lambda s: sql(s, table)
+    def lazy(s):
+        return sql(s, table)
+
     return list(map(lazy, steps))
 
 
