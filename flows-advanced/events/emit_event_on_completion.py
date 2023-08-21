@@ -1,3 +1,8 @@
+"""This example uses `emit_event` to trigger a deployment when a flow run completes.
+
+See the `prefect.yaml` for the corresponding trigger definition.
+"""
+
 from prefect import flow
 from prefect.client.schemas.objects import Flow, FlowRun
 from prefect.events import emit_event
