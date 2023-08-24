@@ -7,43 +7,29 @@ async def dbt_flow():
     get_run_logger().info("Running DBT job...")
 
 
-@flow(name="train model 1")
+@flow(name="train-model-1")
 async def model1_flow():
     get_run_logger().info("Running Model 1 training job...")
 
 
-@flow(name="train model 2")
+@flow(name="train-model-2")
 async def model2_flow():
     get_run_logger().info("Running Model 2 training job...")
 
 
-@flow(name="train model 3")
+@flow(name="train-model-3")
 async def model3_flow():
     get_run_logger().info("Running Model 3 training job...")
 
 
-dbt_1 = Deployment.build_from_flow(
-    name="dbt",
-    flow=dbt_flow,
-    tags=[]
-).apply()
+dbt_1 = Deployment.build_from_flow(name="dbt", flow=dbt_flow, tags=[]).apply()
 
 model_1 = Deployment.build_from_flow(
-    name="model-1",
-    flow=model1_flow,
-    tags=[
-        "group:ml",
-        "depends_on:run/dbt"
-    ]
+    name="model-1", flow=model1_flow, tags=["group:ml", "depends_on:run/dbt"]
 ).apply()
 
 model_2 = Deployment.build_from_flow(
-    name="model-2",
-    flow=model2_flow,
-    tags=[
-        "group:ml",
-        "depends_on:run/dbt"
-    ]
+    name="model-2", flow=model2_flow, tags=["group:ml", "depends_on:run/dbt"]
 ).apply()
 
 
@@ -52,7 +38,7 @@ model_3 = Deployment.build_from_flow(
     flow=model3_flow,
     tags=[
         "group:ml",
-        "depends_on:train/model-1",
-        "depends_on:train/model-2",
-    ]
+        "depends_on:train-model-1/model-1",
+        "depends_on:train-model-2/model-2",
+    ],
 ).apply()
