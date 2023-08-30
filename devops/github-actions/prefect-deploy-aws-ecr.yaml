@@ -1,0 +1,59 @@
+name: Deploy Prefect flows as containers stored in AWS ECR
+
+on:
+  push: # Only run on main branch
+    branches:
+      - main
+    paths: # Only run when requirements or flows change
+      - Dockerfile
+      - requirements.txt
+      - flows/
+
+env:
+  AWS_REGION: us-east-1 # Change to your region
+  PYTHON_VERSION: 3.9 # Prefect requires Python 3.9 or higher
+  PREFECT_WORKSPACE: "your-organization/you-workspace"
+
+jobs:
+  deploy_flow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Authenticate with AWS for ECR access
+      # Assumes you have AWS credentials stored as GitHub secrets
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # Configure Python and authenticate with Prefect
+      # Assumes you have a Prefect API key stored as a GitHub secret
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Auth to Prefect Cloud
+        uses: PrefectHQ/actions-prefect-auth@v1
+        with:
+          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
+          prefect-workspace: ${{ env.PREFECT_WORKSPACE }}
+
+      # Deploy all flows
+      # Assumes you are using a push_docker_image step in your prefect.yaml file where the
+      # image name is of the form: <AWS_ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/<IMAGE>
+      - name: Deploy flows
+        run: |
+          prefect --no-prompt deploy --all
