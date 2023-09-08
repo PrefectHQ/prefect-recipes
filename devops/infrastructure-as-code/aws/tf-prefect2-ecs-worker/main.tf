@@ -109,6 +109,7 @@ resource "aws_iam_role" "prefect_worker_task_role" {
             "ecs:DescribeTasks",
             "ecs:RegisterTaskDefinition",
             "ecs:RunTask",
+            "ecs:StopTask",
             "iam:PassRole",
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
