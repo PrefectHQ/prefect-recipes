@@ -6,13 +6,14 @@ This recipe demonstrates two different ways to trigger a deployment when a Prefe
 
 #### Method 1: `run_deployment` in a state hook
 
-- **Direct Invocation**: Directly calls `run_deployment` to trigger the downstream deployment.
-- **Parameter Passing**: Passes the result of the upstream flow run as a parameter to the downstream deployment.
+- Directly calls `run_deployment` to trigger the downstream deployment.
+- Passes the result of the upstream flow run as a parameter to the downstream deployment.
 
 #### Method 2: `emit_event` in a state hook
 
-- **Event-based Invocation**: Emits a custom event using `emit_event` that is meant to trigger the downstream deployment.
-- **Configuration**: Allows for more flexible triggering logic, as defined in `prefect.yaml`.
+- Emits a custom event using `emit_event` that is meant to trigger the downstream deployment.
+- Again, passes the result of the upstream flow run as a parameter to the downstream deployment, but via the event payload.
+- Allows for more flexible triggering logic / downstream actions, defined in a trigger attached the deployment in `prefect.yaml`.
 
 ---
 
