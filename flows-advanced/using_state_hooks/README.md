@@ -1,4 +1,4 @@
-### Using State Hooks to trigger Deployments
+### Using State Hooks to Trigger Deployments
 
 This recipe demonstrates two different ways to trigger a deployment when a Prefect flow run completes: one using `run_deployment` within a state hook, and the other using `emit_event` within a state hook.
 
