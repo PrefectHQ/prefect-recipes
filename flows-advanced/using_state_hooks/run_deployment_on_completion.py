@@ -1,4 +1,4 @@
-"""This examples uses a State Hook to trigger a deployment when a flow run completes.
+"""This examples uses a state change hook to trigger a deployment when a flow run completes.
 
 In this case, the downstream deployment accepts the upstream flow run's result as a
 parameter, therefore we need result persistence to be enabled on the upstream flow.
