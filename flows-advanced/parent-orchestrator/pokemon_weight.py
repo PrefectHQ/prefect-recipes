@@ -6,7 +6,7 @@ The results of the worker flows are persisted and then gathered within the
 orchestrator flow by awaiting `(FlowRun.state.result()).get()`.
 
 The deployment commands below don't specify an infrastructure (and therefore
-default to the `Process` infrastructure), since the code here is infrastructure
+would automatically create a Process work pool), since the code here is infrastructure
 agnostic and wouldn't need to change if the deployments used a different infra block.
 """
 
@@ -39,7 +39,7 @@ async def get_pokemon_info(pokemon_name: str) -> Dict[str, Any]:
 
 
 # deploy this flow with:
-# prefect deployment build pokemon_weight.py:get_total_pokemon_weight -n orchestrator -a
+# prefect deploy pokemon_weight.py:get_total_pokemon_weight -n orchestrator
 @flow(log_prints=True)
 async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10):
     print(f"Processing {num_pokemon} pokemon in batches of {chunk_size}...")
@@ -73,7 +73,7 @@ async def get_total_pokemon_weight(num_pokemon: int = 100, chunk_size: int = 10)
 
 
 # deploy this flow with:
-# prefect deployment build pokemon_weight.py:process_pokemon_batch -n worker -a
+# prefect deploy pokemon_weight.py:process_pokemon_batch -n worker
 @flow(persist_result=True)
 async def process_pokemon_batch(pokemon_names: List[str]) -> int:
     pokemon_info = [
