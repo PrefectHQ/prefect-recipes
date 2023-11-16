@@ -1,7 +1,9 @@
 name: terraform
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'devops/**/*.tf'
 
 jobs:
   terraform-checks:
@@ -9,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: setup terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
       
       - name: terraform format
         run: terraform fmt -recursive -check

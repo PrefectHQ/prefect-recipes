@@ -1,7 +1,9 @@
 name: 🐍 Python Checks 🧹
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - '**/*.py'
 
 jobs:
   python-checks:
@@ -9,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🛎️ Checking Out Code 📂
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: 🔍 Finding Changed Python Files 📝
         id: changed-python-files
-        uses: tj-actions/changed-files@v36
+        uses: tj-actions/changed-files@v40
         with:
           files: |
             **/*.py

@@ -1,0 +1,54 @@
+# Welcome to your prefect.yaml file! You can you this file for storing and managing
+# configuration for deploying your flows. We recommend committing this file to source
+# control along with your flow code.
+
+# Generic metadata about this project
+name: events
+prefect-version: 2.11.4
+
+# build section allows you to manage and build docker images
+build: null
+
+# push section allows you to manage if and how this project is uploaded to remote locations
+push: null
+
+# pull section allows you to provide instructions for cloning this project in remote locations
+pull:
+- prefect.deployments.steps.git_clone:
+    repository: https://github.com/PrefectHQ/prefect-recipes.git
+    branch: events
+    access_token: null
+
+# the deployments section allows you to provide configuration for deploying flows
+deployments:
+- name: foobar
+  entrypoint: run_deployment_on_completion.py:foobar
+  work_pool:
+    name: local
+
+- name: triggered
+  entrypoint: run_deployment_on_completion.py:triggered_flow
+  parameters: {}
+  work_pool:
+    name: local
+
+- name: foobar-event
+  entrypoint: triggered_event.py:foobar_event
+  work_pool:
+    name: local
+
+- name: triggered-event
+  entrypoint: triggered_event.py:event_triggered_flow
+  work_pool:
+    name: local
+  triggers:
+    - enabled: true
+      match:
+        # i.e any result produced by flow runs from this deployment
+        # 5d73850e-18e3-47af-a7f6-6dfd13fc4525 is the deployment id,
+        # you'd be free to use a different event grammar here if desired
+        prefect.resource.id: prefect.result.5d73850e-18e3-47af-a7f6-6dfd13fc4525.*
+      expect:
+        - prefect.result.produced
+      parameters:
+        prev_result: "{{ event.payload.result }}"

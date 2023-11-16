@@ -8,7 +8,7 @@ The Prefect Prometheus Exporter is a containerized Python application. It querie
 
 The implementation looks like this:
 
-![Document systems (2).png](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/prefect-v1-legacy/devops/monitoring/imgs/Diagram.png)
+![Document systems (2).png](https://github.com/PrefectHQ/prefect-recipes/blob/main/prefect-v1-legacy/devops/monitoring/imgs/Diagram.png)
 
 ## Requirements
 
@@ -41,7 +41,7 @@ The source location for this content is [PrefectHQ/prefect-recipes](https://gith
 This is a base ‘recipe’ - the expectation is that the helm-chart and docker_setup are modified for each environment (detailed below).
 The directory contains the following:
 
-![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/prefect-v1-legacy/devops/monitoring/imgs/Tree.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/main/prefect-v1-legacy/devops/monitoring/imgs/Tree.png)
 
 - `Dockerfile` is used to build the image.
 - `dashboard.json` is the current Prefect Dashboard as Code - this can be imported to Grafana.
@@ -186,9 +186,9 @@ Alternatively, if the service has an IP address and is exposed (either internall
 
 Once in the Prometheus configuration, you can validate that the exporter is visible by navigating to “Status → Targets”. We can see in the image under “Targets” that prefect-prometheus is **(1/1 up)**, indicating Prometheus is aware and pulling metrics from this configuration.
 
-![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/prefect-v1-legacy/devops/monitoring/imgs/prometheus.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/main/prefect-v1-legacy/devops/monitoring/imgs/prometheus.png)
 
-![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/prefect-v1-legacy/devops/monitoring/imgs/prom%20target.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/main/prefect-v1-legacy/devops/monitoring/imgs/prom%20target.png)
 
 ## 5 - Accessing the Grafana Dashboard
 
@@ -203,7 +203,7 @@ Then we can access Grafana on  [localhost:3000](http://localhost:3000). Alternat
 
 Once logged in, you’ll be presented with a list of recently viewed dashboards. If this is the first time logging in, verify Grafana is pulling in metrics from Prometheus:
 
-![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/prefect-v1-legacy/devops/monitoring/imgs/grafana%20config.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/main/prefect-v1-legacy/devops/monitoring/imgs/grafana%20config.png)
 
 ## 6 - Installing Grafana Dashboards
 
@@ -212,7 +212,7 @@ We can install these by selecting the “+” symbol on the page, and selecting 
 
 Imports can be done either by “ID” or by a URL.
 
-![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/prefect-v1-legacy/devops/monitoring/imgs/grafana%20import.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/main/prefect-v1-legacy/devops/monitoring/imgs/grafana%20import.png)
 
 A few that I have found useful and find relevant and beneficial are (with their import ID):
 
@@ -231,7 +231,7 @@ The `dashboard.json` included in the Github repository is the json representatio
 
 At the time of writing, the dashboard appears as follows. Note that both the metrics and dashboard can be customized to your preference, so this is only a current representation for documentation purposes.
 
-![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/prom-monitoring/prefect-v1-legacy/devops/monitoring/imgs/grafana_dashboard.png)
+![Untitled](https://github.com/PrefectHQ/prefect-recipes/blob/main/prefect-v1-legacy/devops/monitoring/imgs/grafana_dashboard.png)
 
 ## 8 - Interpreting the Prefect Dashboard
 
