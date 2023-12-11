@@ -85,9 +85,17 @@ async def run_orchestrator_flow(filter_tags: DeploymentFilterTags) -> None:
             wait_for=upstream_deployment_futures,
         )
 
+
 @flow(name="orchestration-test-flow")
 async def example_flow():
     await run_orchestrator_flow(DeploymentFilterTags(all_=["group:ml"]))
+
+
+@flow
+async def orchestrator_flow(tags: List[str]):
+    """Generic entrypoint flow for the orchestrator for remote reference"""
+    await run_orchestrator_flow(DeploymentFilterTags(all_=tags))
+
 
 if __name__ == "__main__":
     asyncio.run(example_flow())
