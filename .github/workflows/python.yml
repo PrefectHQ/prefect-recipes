@@ -27,7 +27,7 @@ jobs:
         run: echo "changed=$(test -n '${{ steps.changed-python-files.outputs.all_changed_files }}')" >> $GITHUB_OUTPUT
 
       - name: 🐍 Setting Up Python Environment 💻
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.8"
 
