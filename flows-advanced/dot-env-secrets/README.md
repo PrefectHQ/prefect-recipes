@@ -5,7 +5,7 @@ Prefect's [Secret block](https://docs.prefect.io/latest/api-ref/prefect/blocks/s
 
 ## Reasoning
 
-Often times, I would find myself adapting existing Python script into Prefect.
+Oftentimes, I find myself adapting existing Python scripts into Prefect.
 Storing secret environment variables in a `.env` file is a common solution and
 the [dotenv](https://pypi.org/project/python-dotenv/) package can seamlessly load those
 variables into the runtime environment.
