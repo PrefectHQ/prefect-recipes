@@ -1,7 +1,6 @@
 from typing import Any
 
 from dotenv import dotenv_values
-from prefect import flow
 from prefect.blocks.system import Secret
 
 
@@ -22,7 +21,6 @@ def rename_keys(d: dict[str, Any]) -> dict[str, Any]:
     return n
 
 
-@flow(log_prints=True)
 def load_secrets(fp: str, overwrite: bool = False):
     original_values = dotenv_values(fp, verbose=True)
 
@@ -37,5 +35,5 @@ def load_secrets(fp: str, overwrite: bool = False):
 
 
 if __name__ == "__main__":
-    env_file = "flows-advanced/dot-env-secrets/sample-dot-env"
+    env_file = "flows-advanced/configuration/dot-env-secrets/sample-dot-env"
     load_secrets(env_file)
