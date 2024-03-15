@@ -35,20 +35,23 @@ this_is_my_docker_username
 
 ### Clone down the repository :
 ```bash
-git clone https://<>@bitbucket.org/sopkin/azure-deployments.git
+git clone https://github.com/PrefectHQ/prefect-recipes/tree/azure-deployments/devops/infrastructure-as-code/azure/prefect-worker-on-aci
 ```
 
 ### Change to the right directory:
 ```bash
-cd azure-deployments/prefect-worker-on-aci
+cd ./prefect-worker-on-aci
 ```
 
 ### Create a Resource group:
 ```bash
-az group create --name "rg_name_here" --location eastus
+az group create --name "<rg_name_here>" --location eastus
 ```
 
-### Edit create_container.sh and update the necessary values to deploy:
+### Edit create_container.sh
+
+Update with appropriate values for your environment, such as what resource group you created, the image you wish to use, the name of the container to create, and the container registry to pull the image from.
+
 ```bash
 rg=BoydACIPrefectAgent
 container_name="prefect-aci-worker"
@@ -56,7 +59,9 @@ image='index.docker.io/chaboy/private_test:latest'
 registry_server='index.docker.io'
 ```
 
-### Execute create_container.sh:
+### Execute create_container.sh 
+
+This is a wrapper for azure-cli that just exports and executes all the commands to provision. 
 ```bash
 ./create_container.sh
 ```
