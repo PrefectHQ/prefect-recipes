@@ -1,4 +1,18 @@
-# Running Local Development Flows in Docker
+# Setting up an ACI Worker
+
+
+### The easy button to deploy an ACI worker via azure-cli command; requires proper user permissions to provision container groups.
+
+```bash
+az container create \
+    --name "aci-test" \
+    --image "prefecthq/prefect:2-python3.9" \
+    --secure-environment-variables PREFECT_API_URL="<PREFECT_API_URL_HERE>" PREFECT_API_KEY="<PREFECT_API_KEY_HERE>" \
+    --command-line "/bin/bash -c 'pip install prefect-azure && prefect worker start --pool aci-test --type azure-container-instance'"
+```
+
+
+## Alternative solution:
 
 ### Start from a clean directory
 ```bash
