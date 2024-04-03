@@ -6,7 +6,8 @@ Note that flows will run inside the worker ECS task, as opposed to becoming thei
 
 ## Usage
 
-![image](https://user-images.githubusercontent.com/68969861/215828678-99f395b4-6ae0-4c8a-8c59-af8e85c7dce4.png)
+![image](https://github.com/PrefectHQ/prefect-recipes/assets/68969861/d148af90-58dd-4ce2-a160-e23fada6c895)
+
 
 To start with you will need your Prefect account ID, workspace ID, and API key. You will also need to pick one or more subnets that Fargate will launch into, as well as give your deployment a name.
 
