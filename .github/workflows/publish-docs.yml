@@ -17,7 +17,7 @@ jobs:
           python -m pip install --upgrade --upgrade-strategy eager -e .[dev]
           mkdocs build
       - name: Publish docs
-        uses: JamesIves/github-pages-deploy-action@v4.6.0
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:
           branch: docs
           folder: site
