@@ -22,9 +22,9 @@ agnostic and wouldn't need to change if the deployments used a different infra b
 The only thing required in order to run this example is to have Prefect installed and these deployments created:
 
 ```bash
-prefect deployment build pokemon_weight.py:get_total_pokemon_weight --name orchestrator -a
+prefect deploy pokemon_weight.py:get_total_pokemon_weight -n orchestrator
 ```
 
 ```bash
-prefect deployment build pokemon_weight.py:process_pokemon_batch --name worker -a
+prefect deploy pokemon_weight.py:get_total_pokemon_weight -n worker
 ```
